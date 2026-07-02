@@ -12,6 +12,6 @@ struct ComposeView: UIViewControllerRepresentable {
 struct ContentView: View {
     var body: some View {
         ComposeView()
-            .ignoresSafeArea(.all) // Compose has its own safe-area handling
+            .ignoresSafeArea(.all)
     }
 }

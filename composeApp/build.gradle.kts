@@ -49,9 +49,7 @@ compose.resources {
 
 android {
   namespace = "com.compose.trackit"
-  compileSdk {
-    version = release(37)
-  }
+  compileSdk = 37
 
   defaultConfig {
     applicationId = "com.compose.trackit"

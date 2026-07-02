@@ -19,17 +19,12 @@ private val LightColorScheme = lightColorScheme(
   tertiary = Pink40
 )
 
-/**
- * Returns a platform-provided dynamic color scheme, or null when the platform
- * has none. Android 12+ supplies a Material You scheme; iOS always returns null.
- */
 @Composable
 expect fun dynamicColorSchemeOrNull(darkTheme: Boolean): ColorScheme?
 
 @Composable
 fun TrackItTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
-  // Dynamic color is available on Android 12+; ignored on platforms without it.
   dynamicColor: Boolean = true,
   content: @Composable () -> Unit
 ) {
