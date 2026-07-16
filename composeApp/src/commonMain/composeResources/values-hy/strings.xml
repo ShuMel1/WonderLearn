@@ -4,4 +4,14 @@
     <string name="action_back">Հետ</string>
     <string name="action_pronounce">Արտասանել</string>
     <string name="pronunciation_unavailable">Այս լեզվի արտասանությունը շուտով կլինի 🔊</string>
+    <string name="home_tagline">Ի՞նչ ես ուզում անել</string>
+    <string name="home_learn">Սովորել</string>
+    <string name="home_review">Կրկնել</string>
+    <string name="home_progress">Առաջընթաց</string>
+    <string name="home_stories">Հեքիաթներ</string>
+    <string name="coming_soon">Շուտով ✨</string>
+    <string name="quiz_prompt">Ո՞րն է սա</string>
+    <string name="action_listen">Լսել</string>
+    <string name="quiz_correct">Ապրե՛ս 🎉</string>
+    <string name="quiz_score">Միավոր</string>
 </resources>
