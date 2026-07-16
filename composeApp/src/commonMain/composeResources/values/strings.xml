@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WonderLearn</string>
+    <string name="title_words">Words</string>
+    <string name="action_back">Back</string>
+    <string name="action_pronounce">Pronounce</string>
+    <string name="pronunciation_unavailable">Pronunciation for this language is coming soon 🔊</string>
+</resources>
