@@ -4,4 +4,14 @@
     <string name="action_back">Назад</string>
     <string name="action_pronounce">Произнести</string>
     <string name="pronunciation_unavailable">Произношение для этого языка скоро появится 🔊</string>
+    <string name="home_tagline">Что хочешь сделать?</string>
+    <string name="home_learn">Учить</string>
+    <string name="home_review">Повторить</string>
+    <string name="home_progress">Прогресс</string>
+    <string name="home_stories">Сказки</string>
+    <string name="coming_soon">Скоро ✨</string>
+    <string name="quiz_prompt">Что это?</string>
+    <string name="action_listen">Слушать</string>
+    <string name="quiz_correct">Молодец! 🎉</string>
+    <string name="quiz_score">Счёт</string>
 </resources>

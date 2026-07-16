@@ -6,6 +6,9 @@ import kotlinx.serialization.Serializable
 sealed interface Destination {
 
   @Serializable
+  data object Home : Destination
+
+  @Serializable
   data object Categories : Destination
 
   @Serializable
@@ -13,4 +16,7 @@ sealed interface Destination {
 
   @Serializable
   data class Detail(val itemId: String) : Destination
+
+  @Serializable
+  data object Quiz : Destination
 }

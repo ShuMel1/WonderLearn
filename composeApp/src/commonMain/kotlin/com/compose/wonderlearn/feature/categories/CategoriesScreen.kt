@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,6 +40,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CategoriesScreen(
   onCategoryClick: (Category) -> Unit,
+  onBack: () -> Unit,
   viewModel: CategoriesViewModel = koinViewModel(),
 ) {
   val categories by viewModel.categories.collectAsStateWithLifecycle()
@@ -49,13 +51,21 @@ fun CategoriesScreen(
     verticalArrangement = Arrangement.spacedBy(18.dp),
   ) {
     item {
-      Text(
-        text = "${stringResource(Res.string.app_name)} ✨",
-        fontSize = 34.sp,
-        fontWeight = FontWeight.ExtraBold,
-        color = MaterialTheme.colorScheme.onBackground,
-        modifier = Modifier.padding(top = 32.dp, bottom = 8.dp),
-      )
+      Row(
+        modifier = Modifier.fillMaxWidth().padding(top = 24.dp, bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+      ) {
+        IconButton(onClick = onBack) {
+          Text("←", fontSize = 26.sp, color = MaterialTheme.colorScheme.onBackground)
+        }
+        Text(
+          text = "${stringResource(Res.string.app_name)} ✨",
+          fontSize = 32.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = MaterialTheme.colorScheme.onBackground,
+        )
+      }
     }
     itemsIndexed(categories, key = { _, c -> c.id }) { _, category ->
       CategoryCard(category, onClick = { onCategoryClick(category) })
