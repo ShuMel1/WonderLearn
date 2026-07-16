@@ -1,4 +1,4 @@
-package com.compose.trackit.ui.theme
+package com.compose.wonderlearn.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

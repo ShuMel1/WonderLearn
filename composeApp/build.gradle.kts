@@ -44,15 +44,15 @@ kotlin {
 
 compose.resources {
   publicResClass = true
-  packageOfResClass = "com.compose.trackit.resources"
+  packageOfResClass = "com.compose.wonderlearn.resources"
 }
 
 android {
-  namespace = "com.compose.trackit"
+  namespace = "com.compose.wonderlearn"
   compileSdk = 37
 
   defaultConfig {
-    applicationId = "com.compose.trackit"
+    applicationId = "com.compose.wonderlearn"
     minSdk = 29
     targetSdk = 36
     versionCode = 1
