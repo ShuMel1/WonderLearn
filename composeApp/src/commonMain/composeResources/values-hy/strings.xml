@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WonderLearn</string>
+    <string name="title_words">Բառեր</string>
+    <string name="action_back">Հետ</string>
+    <string name="action_pronounce">Արտասանել</string>
+    <string name="pronunciation_unavailable">Այս լեզվի արտասանությունը շուտով կլինի 🔊</string>
+</resources>

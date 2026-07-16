@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WonderLearn</string>
+    <string name="title_words">Слова</string>
+    <string name="action_back">Назад</string>
+    <string name="action_pronounce">Произнести</string>
+    <string name="pronunciation_unavailable">Произношение для этого языка скоро появится 🔊</string>
+</resources>

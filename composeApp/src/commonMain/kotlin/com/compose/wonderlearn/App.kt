@@ -1,79 +1,44 @@
 package com.compose.wonderlearn
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.compose.wonderlearn.feature.categories.CategoriesScreen
+import com.compose.wonderlearn.feature.detail.WordDetailScreen
+import com.compose.wonderlearn.feature.words.WordListScreen
+import com.compose.wonderlearn.navigation.Destination
 import com.compose.wonderlearn.ui.theme.WonderLearnTheme
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.ic_account_box
-import com.compose.wonderlearn.resources.ic_favorite
-import com.compose.wonderlearn.resources.ic_home
 
 @Composable
 fun App() {
   WonderLearnTheme {
-    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
-
-    Scaffold(
-      modifier = Modifier.fillMaxSize(),
-      bottomBar = {
-        NavigationBar {
-          AppDestinations.entries.forEach { destination ->
-            NavigationBarItem(
-              selected = destination == currentDestination,
-              onClick = { currentDestination = destination },
-              icon = {
-                Icon(
-                  painter = painterResource(destination.icon),
-                  contentDescription = destination.label
-                )
-              },
-              label = { Text(destination.label) }
-            )
-          }
-        }
+    val navController = rememberNavController()
+    NavHost(
+      navController = navController,
+      startDestination = Destination.Categories,
+    ) {
+      composable<Destination.Categories> {
+        CategoriesScreen(
+          onCategoryClick = { navController.navigate(Destination.Words(it.id)) },
+        )
       }
-    ) { innerPadding ->
-      Greeting(
-        name = "Android",
-        modifier = Modifier.padding(innerPadding)
-      )
+      composable<Destination.Words> { entry ->
+        val route = entry.toRoute<Destination.Words>()
+        WordListScreen(
+          categoryId = route.categoryId,
+          onItemClick = { navController.navigate(Destination.Detail(it.id)) },
+          onBack = { navController.popBackStack() },
+        )
+      }
+      composable<Destination.Detail> { entry ->
+        val route = entry.toRoute<Destination.Detail>()
+        WordDetailScreen(
+          itemId = route.itemId,
+          onBack = { navController.popBackStack() },
+        )
+      }
     }
   }
-}
-
-enum class AppDestinations(
-  val label: String,
-  val icon: DrawableResource,
-) {
-  HOME("Home", Res.drawable.ic_home),
-  FAVORITES("Favorites", Res.drawable.ic_favorite),
-  PROFILE("Profile", Res.drawable.ic_account_box),
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-  Text(
-    text = "Hello $name!",
-    modifier = modifier
-  )
-}
-
-@Preview
-@Composable
-fun AppPreview() {
-  App()
 }
