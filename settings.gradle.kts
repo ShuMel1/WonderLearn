@@ -22,6 +22,6 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "TrackIt"
+rootProject.name = "WonderLearn"
 include(":composeApp")
  

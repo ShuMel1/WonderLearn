@@ -1,4 +1,4 @@
-package com.compose.trackit.ui.theme
+package com.compose.wonderlearn.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
@@ -23,7 +23,7 @@ private val LightColorScheme = lightColorScheme(
 expect fun dynamicColorSchemeOrNull(darkTheme: Boolean): ColorScheme?
 
 @Composable
-fun TrackItTheme(
+fun WonderLearnTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
   dynamicColor: Boolean = true,
   content: @Composable () -> Unit

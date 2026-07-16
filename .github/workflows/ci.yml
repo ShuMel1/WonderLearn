@@ -45,7 +45,7 @@ jobs:
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: trackit-debug-apk
+          name: wonderlearn-debug-apk
           path: composeApp/build/outputs/apk/debug/*.apk
           if-no-files-found: warn
 
