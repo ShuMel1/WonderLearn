@@ -5,12 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.LearningRepository
+import com.compose.wonderlearn.domain.Pronouncer
 import com.compose.wonderlearn.domain.VocabularyItem
-import com.compose.wonderlearn.speech.TextToSpeaker
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 data class QuizState(
@@ -26,12 +28,15 @@ data class QuizState(
 
 class QuizViewModel(
   private val learning: LearningRepository,
-  private val speaker: TextToSpeaker,
+  private val pronouncer: Pronouncer,
   preferences: LanguagePreferences,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(QuizState())
   val state: StateFlow<QuizState> = _state.asStateFlow()
+
+  private val _unavailable = Channel<Unit>(Channel.BUFFERED)
+  val unavailable = _unavailable.receiveAsFlow()
 
   private var language: Language = Language.ENGLISH
 
@@ -58,7 +63,7 @@ class QuizViewModel(
         allLearned = false,
         loading = false,
       )
-      speaker.speak(round.target.text(language), language.bcp47)
+      pronouncer.pronounce(round.target, language)
     }
   }
 
@@ -84,8 +89,10 @@ class QuizViewModel(
     }
   }
 
-  fun replay(): Boolean {
-    val target = _state.value.target ?: return false
-    return speaker.speak(target.text(language), language.bcp47)
+  fun replay() {
+    val target = _state.value.target ?: return
+    viewModelScope.launch {
+      if (!pronouncer.pronounce(target, language)) _unavailable.send(Unit)
+    }
   }
 }

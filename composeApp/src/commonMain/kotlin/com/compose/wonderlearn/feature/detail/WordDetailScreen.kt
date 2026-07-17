@@ -23,9 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,7 +40,6 @@ import com.compose.wonderlearn.resources.pronunciation_unavailable
 import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -57,8 +56,10 @@ fun WordDetailScreen(
   val language = LocalLanguage.current
 
   val snackbarHostState = remember { SnackbarHostState() }
-  val scope = rememberCoroutineScope()
   val unavailableMessage = stringResource(Res.string.pronunciation_unavailable)
+  LaunchedEffect(viewModel) {
+    viewModel.unavailable.collect { snackbarHostState.showSnackbar(unavailableMessage) }
+  }
 
   val accent = colorForCategory(item?.categoryId ?: "")
   val onAccent = onColorFor(accent)
@@ -104,9 +105,7 @@ fun WordDetailScreen(
 
       Button(
         onClick = {
-          if (!viewModel.speak(language)) {
-            scope.launch { snackbarHostState.showSnackbar(unavailableMessage) }
-          }
+          viewModel.pronounce(language)
         },
         shape = RoundedCornerShape(50),
         colors = ButtonDefaults.buttonColors(containerColor = accent, contentColor = onAccent),
