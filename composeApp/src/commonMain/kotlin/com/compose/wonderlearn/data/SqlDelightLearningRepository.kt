@@ -7,6 +7,7 @@ import com.compose.wonderlearn.domain.LEARNED_THRESHOLD
 import com.compose.wonderlearn.domain.LearningRepository
 import com.compose.wonderlearn.domain.QuizRound
 import com.compose.wonderlearn.domain.VocabularyItem
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,11 +15,12 @@ import kotlinx.coroutines.withContext
 
 class SqlDelightLearningRepository(
   database: WonderLearnDatabase,
+  private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : LearningRepository {
 
   private val queries = database.wonderLearnQueries
 
-  override suspend fun nextRound(): QuizRound? = withContext(Dispatchers.Default) {
+  override suspend fun nextRound(): QuizRound? = withContext(dispatcher) {
     val unlearned = queries.selectUnlearnedWordsWithTranslations(::TranslationRow)
       .executeAsList().toItems()
     if (unlearned.isEmpty()) return@withContext null
@@ -32,7 +34,7 @@ class SqlDelightLearningRepository(
     QuizRound(options = (distractors + target).shuffled(), target = target)
   }
 
-  override suspend fun recordCorrect(wordId: String): Boolean = withContext(Dispatchers.Default) {
+  override suspend fun recordCorrect(wordId: String): Boolean = withContext(dispatcher) {
     queries.transactionWithResult {
       queries.ensureProgress(wordId)
       queries.incrementStreak(wordId)
@@ -40,7 +42,7 @@ class SqlDelightLearningRepository(
     }
   }
 
-  override suspend fun recordWrong(wordId: String) = withContext(Dispatchers.Default) {
+  override suspend fun recordWrong(wordId: String) = withContext(dispatcher) {
     queries.transaction {
       queries.ensureProgress(wordId)
       queries.resetStreak(wordId)
@@ -49,6 +51,6 @@ class SqlDelightLearningRepository(
 
   override fun learnedItems(): Flow<List<VocabularyItem>> =
     queries.selectLearnedWordsWithTranslations(::TranslationRow)
-      .asFlow().mapToList(Dispatchers.Default)
+      .asFlow().mapToList(dispatcher)
       .map { rows -> rows.toItems() }
 }

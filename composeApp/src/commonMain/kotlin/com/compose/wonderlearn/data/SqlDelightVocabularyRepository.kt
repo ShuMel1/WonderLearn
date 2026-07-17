@@ -7,6 +7,7 @@ import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.Category
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.domain.VocabularyRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,21 +15,22 @@ import kotlinx.coroutines.withContext
 
 class SqlDelightVocabularyRepository(
   database: WonderLearnDatabase,
+  private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : VocabularyRepository {
 
   private val queries = database.wonderLearnQueries
 
   override fun categories(): Flow<List<Category>> =
-    queries.selectAllCategories().asFlow().mapToList(Dispatchers.Default)
+    queries.selectAllCategories().asFlow().mapToList(dispatcher)
       .map { rows -> rows.map { it.toDomain() } }
 
   override fun itemsForCategory(categoryId: String): Flow<List<VocabularyItem>> =
     queries.selectWordsWithTranslationsByCategory(categoryId, ::TranslationRow)
-      .asFlow().mapToList(Dispatchers.Default)
+      .asFlow().mapToList(dispatcher)
       .map { rows -> rows.toItems() }
 
   override suspend fun item(id: String): VocabularyItem? =
-    withContext(Dispatchers.Default) {
+    withContext(dispatcher) {
       queries.selectWordWithTranslationsById(id, ::TranslationRow)
         .executeAsList()
         .toItems()
