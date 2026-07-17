@@ -3,6 +3,7 @@ package com.compose.wonderlearn.feature.quiz
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.domain.Language
+import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.LearningRepository
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.speech.TextToSpeaker
@@ -26,12 +27,18 @@ data class QuizState(
 class QuizViewModel(
   private val learning: LearningRepository,
   private val speaker: TextToSpeaker,
+  preferences: LanguagePreferences,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(QuizState())
   val state: StateFlow<QuizState> = _state.asStateFlow()
 
+  private var language: Language = Language.ENGLISH
+
   init {
+    viewModelScope.launch {
+      preferences.selectedLanguage().collect { language = it ?: Language.ENGLISH }
+    }
     nextRound()
   }
 
@@ -51,7 +58,7 @@ class QuizViewModel(
         allLearned = false,
         loading = false,
       )
-      speaker.speak(round.target.text(Language.ENGLISH), Language.ENGLISH.bcp47)
+      speaker.speak(round.target.text(language), language.bcp47)
     }
   }
 
@@ -77,7 +84,7 @@ class QuizViewModel(
     }
   }
 
-  fun replay(language: Language): Boolean {
+  fun replay(): Boolean {
     val target = _state.value.target ?: return false
     return speaker.speak(target.text(language), language.bcp47)
   }

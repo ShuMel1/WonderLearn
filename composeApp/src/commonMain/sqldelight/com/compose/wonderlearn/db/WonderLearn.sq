@@ -23,6 +23,11 @@ CREATE TABLE WordProgress (
   streak INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE AppSetting (
+  key TEXT NOT NULL PRIMARY KEY,
+  value TEXT NOT NULL
+);
+
 countCategories:
 SELECT count(*) FROM CategoryEntity;
 
@@ -83,3 +88,9 @@ JOIN Translation t ON t.wordId = w.id
 JOIN WordProgress p ON p.wordId = w.id
 WHERE p.streak >= 3
 ORDER BY w.id;
+
+selectSetting:
+SELECT value FROM AppSetting WHERE key = ?;
+
+upsertSetting:
+INSERT OR REPLACE INTO AppSetting(key, value) VALUES (?, ?);

@@ -36,6 +36,7 @@ import com.compose.wonderlearn.resources.home_learned
 import com.compose.wonderlearn.resources.home_review
 import com.compose.wonderlearn.resources.home_stories
 import com.compose.wonderlearn.resources.home_tagline
+import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
@@ -49,6 +50,7 @@ fun HomeScreen(
   onLearn: () -> Unit,
   onReview: () -> Unit,
   onLearned: () -> Unit,
+  onChangeLanguage: () -> Unit,
 ) {
   val snackbarHostState = remember { SnackbarHostState() }
   val scope = rememberCoroutineScope()
@@ -60,6 +62,25 @@ fun HomeScreen(
     snackbarHost = { SnackbarHost(snackbarHostState) },
   ) { padding ->
     Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+      Row(
+        modifier = Modifier.fillMaxWidth().padding(top = 12.dp, end = 16.dp),
+        horizontalArrangement = Arrangement.End,
+      ) {
+        Card(
+          onClick = onChangeLanguage,
+          shape = RoundedCornerShape(50),
+          colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+          elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        ) {
+          Text(
+            "${LocalLanguage.current.flag}  ${LocalLanguage.current.displayName}",
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+          )
+        }
+      }
       Column(
         modifier = Modifier.fillMaxWidth().weight(1f).padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

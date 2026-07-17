@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,8 +33,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.VocabularyItem
+import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.title_words
 import com.compose.wonderlearn.ui.colorForCategory
@@ -104,19 +103,12 @@ private fun WordCard(item: VocabularyItem, accent: Color, onClick: () -> Unit) {
       ) {
         Text(item.emoji, fontSize = 34.sp)
       }
-      Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-        Text(
-          item.text(Language.ENGLISH),
-          fontSize = 22.sp,
-          fontWeight = FontWeight.Bold,
-          color = MaterialTheme.colorScheme.onSurface,
-        )
-        Text(
-          "${item.text(Language.ARMENIAN)}  •  ${item.text(Language.RUSSIAN)}",
-          fontSize = 14.sp,
-          color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-      }
+      Text(
+        item.text(LocalLanguage.current),
+        fontSize = 22.sp,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onSurface,
+      )
     }
   }
 }

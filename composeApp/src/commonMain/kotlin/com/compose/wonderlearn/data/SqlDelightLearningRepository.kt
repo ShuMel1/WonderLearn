@@ -8,14 +8,13 @@ import com.compose.wonderlearn.domain.LearningRepository
 import com.compose.wonderlearn.domain.QuizRound
 import com.compose.wonderlearn.domain.VocabularyItem
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class SqlDelightLearningRepository(
   database: WonderLearnDatabase,
-  private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
+  private val dispatcher: CoroutineDispatcher = ioDispatcher,
 ) : LearningRepository {
 
   private val queries = database.wonderLearnQueries
