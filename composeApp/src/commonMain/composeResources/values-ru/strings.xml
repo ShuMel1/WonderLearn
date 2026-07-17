@@ -13,5 +13,10 @@
     <string name="quiz_prompt">Что это?</string>
     <string name="action_listen">Слушать</string>
     <string name="quiz_correct">Молодец! 🎉</string>
+    <string name="quiz_learned">Слово выучено! 🎓</string>
+    <string name="quiz_all_learned">Ты выучил все слова! 🎉</string>
     <string name="quiz_score">Счёт</string>
+    <string name="home_learned">Изучено</string>
+    <string name="learned_title">Изученные слова</string>
+    <string name="learned_empty">Пока нет изученных слов. Играй в «Повторить» и ответь правильно 3 раза подряд, чтобы выучить слово!</string>
 </resources>

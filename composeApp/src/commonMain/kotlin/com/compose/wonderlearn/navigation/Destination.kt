@@ -19,4 +19,7 @@ sealed interface Destination {
 
   @Serializable
   data object Quiz : Destination
+
+  @Serializable
+  data object Learned : Destination
 }

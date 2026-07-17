@@ -13,5 +13,10 @@
     <string name="quiz_prompt">Ո՞րն է սա</string>
     <string name="action_listen">Լսել</string>
     <string name="quiz_correct">Ապրե՛ս 🎉</string>
+    <string name="quiz_learned">Բառը սովորեցիր! 🎓</string>
+    <string name="quiz_all_learned">Դու սովորեցիր բոլոր բառերը! 🎉</string>
     <string name="quiz_score">Միավոր</string>
+    <string name="home_learned">Սովորած</string>
+    <string name="learned_title">Սովորած բառեր</string>
+    <string name="learned_empty">Դեռ սովորած բառեր չկան։ Խաղա «Կրկնել» և ճիշտ պատասխանիր բառին 3 անգամ անընդմեջ։</string>
 </resources>

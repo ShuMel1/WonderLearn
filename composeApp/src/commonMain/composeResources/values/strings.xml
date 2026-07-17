@@ -13,5 +13,10 @@
     <string name="quiz_prompt">Which one is this?</string>
     <string name="action_listen">Listen</string>
     <string name="quiz_correct">Great job! 🎉</string>
+    <string name="quiz_learned">Word learned! 🎓</string>
+    <string name="quiz_all_learned">You have learned every word! 🎉</string>
     <string name="quiz_score">Score</string>
+    <string name="home_learned">Learned</string>
+    <string name="learned_title">Learned Words</string>
+    <string name="learned_empty">No learned words yet. Play Review and answer a word right 3 times in a row to master it!</string>
 </resources>

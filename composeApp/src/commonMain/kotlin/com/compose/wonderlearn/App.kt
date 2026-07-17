@@ -8,6 +8,7 @@ import androidx.navigation.toRoute
 import com.compose.wonderlearn.feature.categories.CategoriesScreen
 import com.compose.wonderlearn.feature.detail.WordDetailScreen
 import com.compose.wonderlearn.feature.home.HomeScreen
+import com.compose.wonderlearn.feature.learned.LearnedScreen
 import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
 import com.compose.wonderlearn.navigation.Destination
@@ -25,6 +26,7 @@ fun App() {
         HomeScreen(
           onLearn = { navController.navigate(Destination.Categories) },
           onReview = { navController.navigate(Destination.Quiz) },
+          onLearned = { navController.navigate(Destination.Learned) },
         )
       }
       composable<Destination.Categories> {
@@ -50,6 +52,9 @@ fun App() {
       }
       composable<Destination.Quiz> {
         QuizScreen(onBack = { navController.popBackStack() })
+      }
+      composable<Destination.Learned> {
+        LearnedScreen(onBack = { navController.popBackStack() })
       }
     }
   }
