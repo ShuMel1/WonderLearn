@@ -6,7 +6,6 @@ import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -15,7 +14,7 @@ private const val KEY_LANGUAGE = "language"
 
 class SqlDelightLanguagePreferences(
   database: WonderLearnDatabase,
-  private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
+  private val dispatcher: CoroutineDispatcher = ioDispatcher,
 ) : LanguagePreferences {
 
   private val queries = database.wonderLearnQueries
