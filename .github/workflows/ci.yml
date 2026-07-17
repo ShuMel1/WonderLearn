@@ -57,3 +57,52 @@ jobs:
           path: |
             composeApp/build/reports/
           if-no-files-found: ignore
+
+  ios:
+    name: iOS build & smoke test
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build iOS app (simulator)
+        run: |
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/ios \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Smoke test on simulator
+        run: |
+          set -euo pipefail
+          DEVICE=$(xcrun simctl list devices available | grep 'iPhone' | head -1 | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/')
+          echo "Using simulator: $DEVICE"
+          xcrun simctl boot "$DEVICE" || true
+          APP=$(find build/ios/Build/Products -maxdepth 3 -name 'WonderLearn.app' | head -1)
+          echo "App bundle: $APP"
+          xcrun simctl install "$DEVICE" "$APP"
+          xcrun simctl launch "$DEVICE" com.compose.wonderlearn
+          sleep 8
+          if xcrun simctl spawn "$DEVICE" launchctl list | grep -qi wonderlearn; then
+            echo "iOS app launched and is running."
+          else
+            echo "iOS app crashed on launch."
+            exit 1
+          fi
