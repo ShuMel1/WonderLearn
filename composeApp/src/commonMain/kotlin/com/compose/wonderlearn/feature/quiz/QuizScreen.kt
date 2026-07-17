@@ -35,15 +35,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.action_listen
 import com.compose.wonderlearn.resources.pronunciation_unavailable
+import com.compose.wonderlearn.resources.quiz_all_learned
 import com.compose.wonderlearn.resources.quiz_correct
+import com.compose.wonderlearn.resources.quiz_learned
 import com.compose.wonderlearn.resources.quiz_prompt
 import com.compose.wonderlearn.resources.quiz_score
 import kotlinx.coroutines.launch
@@ -86,13 +88,35 @@ fun QuizScreen(
     },
     snackbarHost = { SnackbarHost(snackbarHostState) },
   ) { padding ->
+    if (state.allLearned) {
+      Column(
+        modifier = Modifier.fillMaxSize().padding(padding).padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically),
+      ) {
+        Text("🏆", fontSize = 96.sp)
+        Text(
+          stringResource(Res.string.quiz_all_learned),
+          fontSize = 26.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = CorrectGreen,
+          textAlign = TextAlign.Center,
+        )
+      }
+      return@Scaffold
+    }
     Column(
       modifier = Modifier.fillMaxSize().padding(padding).padding(20.dp),
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+      val prompt = when {
+        state.solved && state.justLearned -> stringResource(Res.string.quiz_learned)
+        state.solved -> stringResource(Res.string.quiz_correct)
+        else -> stringResource(Res.string.quiz_prompt)
+      }
       Text(
-        if (state.solved) stringResource(Res.string.quiz_correct) else stringResource(Res.string.quiz_prompt),
+        prompt,
         fontSize = 24.sp,
         fontWeight = FontWeight.ExtraBold,
         color = if (state.solved) CorrectGreen else MaterialTheme.colorScheme.onBackground,

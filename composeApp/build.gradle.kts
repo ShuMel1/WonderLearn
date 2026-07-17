@@ -58,6 +58,11 @@ kotlin {
     iosMain.dependencies {
       implementation(libs.sqldelight.native.driver)
     }
+    androidUnitTest.dependencies {
+      implementation(kotlin("test"))
+      implementation(libs.kotlinx.coroutines.test)
+      implementation(libs.sqldelight.sqlite.driver)
+    }
   }
 }
 

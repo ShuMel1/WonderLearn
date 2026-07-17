@@ -32,7 +32,7 @@ import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.app_name
 import com.compose.wonderlearn.resources.coming_soon
 import com.compose.wonderlearn.resources.home_learn
-import com.compose.wonderlearn.resources.home_progress
+import com.compose.wonderlearn.resources.home_learned
 import com.compose.wonderlearn.resources.home_review
 import com.compose.wonderlearn.resources.home_stories
 import com.compose.wonderlearn.resources.home_tagline
@@ -48,6 +48,7 @@ import org.jetbrains.compose.resources.stringResource
 fun HomeScreen(
   onLearn: () -> Unit,
   onReview: () -> Unit,
+  onLearned: () -> Unit,
 ) {
   val snackbarHostState = remember { SnackbarHostState() }
   val scope = rememberCoroutineScope()
@@ -95,7 +96,7 @@ fun HomeScreen(
           modifier = Modifier.fillMaxWidth(),
           horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-          HomeTile(Modifier.weight(1f), "🏆", stringResource(Res.string.home_progress), Sunny, showComingSoon)
+          HomeTile(Modifier.weight(1f), "🎓", stringResource(Res.string.home_learned), Sunny, onLearned)
           HomeTile(Modifier.weight(1f), "📖", stringResource(Res.string.home_stories), Grape, showComingSoon)
         }
       }
