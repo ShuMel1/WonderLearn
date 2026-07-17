@@ -27,9 +27,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,7 +48,6 @@ import com.compose.wonderlearn.resources.quiz_correct
 import com.compose.wonderlearn.resources.quiz_learned
 import com.compose.wonderlearn.resources.quiz_prompt
 import com.compose.wonderlearn.resources.quiz_score
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -63,8 +62,10 @@ fun QuizScreen(
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
   val snackbarHostState = remember { SnackbarHostState() }
-  val scope = rememberCoroutineScope()
   val unavailable = stringResource(Res.string.pronunciation_unavailable)
+  LaunchedEffect(viewModel) {
+    viewModel.unavailable.collect { snackbarHostState.showSnackbar(unavailable) }
+  }
 
   Scaffold(
     containerColor = MaterialTheme.colorScheme.background,
@@ -122,11 +123,7 @@ fun QuizScreen(
         color = if (state.solved) CorrectGreen else MaterialTheme.colorScheme.onBackground,
       )
 
-      FilledTonalButton(onClick = {
-        if (!viewModel.replay()) {
-          scope.launch { snackbarHostState.showSnackbar(unavailable) }
-        }
-      }) {
+      FilledTonalButton(onClick = { viewModel.replay() }) {
         Text("🔁  ${stringResource(Res.string.action_repeat)}", fontSize = 16.sp)
       }
 
