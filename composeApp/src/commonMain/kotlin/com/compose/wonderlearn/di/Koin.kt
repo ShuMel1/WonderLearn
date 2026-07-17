@@ -1,6 +1,8 @@
 package com.compose.wonderlearn.di
 
-import com.compose.wonderlearn.data.InMemoryVocabularyRepository
+import com.compose.wonderlearn.data.DatabaseDriverFactory
+import com.compose.wonderlearn.data.SqlDelightVocabularyRepository
+import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.VocabularyRepository
 import com.compose.wonderlearn.feature.categories.CategoriesViewModel
 import com.compose.wonderlearn.feature.detail.WordDetailViewModel
@@ -15,7 +17,8 @@ import org.koin.dsl.module
 expect val platformModule: Module
 
 val appModule = module {
-  single<VocabularyRepository> { InMemoryVocabularyRepository() }
+  single { WonderLearnDatabase(get<DatabaseDriverFactory>().createDriver()) }
+  single<VocabularyRepository> { SqlDelightVocabularyRepository(get()) }
   viewModel { CategoriesViewModel(get()) }
   viewModel { params -> WordListViewModel(params.get(), get()) }
   viewModel { params -> WordDetailViewModel(params.get(), get(), get()) }

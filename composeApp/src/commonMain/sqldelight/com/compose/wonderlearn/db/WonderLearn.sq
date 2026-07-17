@@ -1,0 +1,35 @@
+CREATE TABLE CategoryEntity (
+  id TEXT NOT NULL PRIMARY KEY,
+  title TEXT NOT NULL,
+  emoji TEXT NOT NULL,
+  sortIndex INTEGER NOT NULL
+);
+
+CREATE TABLE WordEntity (
+  id TEXT NOT NULL PRIMARY KEY,
+  categoryId TEXT NOT NULL,
+  emoji TEXT NOT NULL,
+  armenian TEXT NOT NULL,
+  english TEXT NOT NULL,
+  russian TEXT NOT NULL
+);
+
+countCategories:
+SELECT count(*) FROM CategoryEntity;
+
+selectAllCategories:
+SELECT * FROM CategoryEntity ORDER BY sortIndex;
+
+selectWordsByCategory:
+SELECT * FROM WordEntity WHERE categoryId = ?;
+
+selectWordById:
+SELECT * FROM WordEntity WHERE id = ?;
+
+insertCategory:
+INSERT INTO CategoryEntity(id, title, emoji, sortIndex)
+VALUES (?, ?, ?, ?);
+
+insertWord:
+INSERT INTO WordEntity(id, categoryId, emoji, armenian, english, russian)
+VALUES (?, ?, ?, ?, ?, ?);

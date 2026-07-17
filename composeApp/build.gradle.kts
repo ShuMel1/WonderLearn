@@ -6,6 +6,7 @@ plugins {
   alias(libs.plugins.compose.multiplatform)
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -23,6 +24,7 @@ kotlin {
     iosTarget.binaries.framework {
       baseName = "ComposeApp"
       isStatic = true
+      linkerOpts("-lsqlite3")
     }
   }
 
@@ -43,12 +45,18 @@ kotlin {
       implementation(libs.koin.core)
       implementation(libs.koin.compose)
       implementation(libs.koin.compose.viewmodel)
+      implementation(libs.sqldelight.runtime)
+      implementation(libs.sqldelight.coroutines)
     }
     androidMain.dependencies {
       implementation(compose.uiTooling)
       implementation(libs.androidx.activity.compose)
       implementation(libs.androidx.core.ktx)
       implementation(libs.koin.android)
+      implementation(libs.sqldelight.android.driver)
+    }
+    iosMain.dependencies {
+      implementation(libs.sqldelight.native.driver)
     }
   }
 }
@@ -56,6 +64,14 @@ kotlin {
 compose.resources {
   publicResClass = true
   packageOfResClass = "com.compose.wonderlearn.resources"
+}
+
+sqldelight {
+  databases {
+    create("WonderLearnDatabase") {
+      packageName.set("com.compose.wonderlearn.db")
+    }
+  }
 }
 
 android {
