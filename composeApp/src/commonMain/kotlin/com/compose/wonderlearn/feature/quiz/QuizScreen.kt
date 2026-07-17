@@ -39,9 +39,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.resources.Res
+import com.compose.wonderlearn.resources.action_repeat
 import com.compose.wonderlearn.resources.pronunciation_unavailable
 import com.compose.wonderlearn.resources.quiz_all_learned
 import com.compose.wonderlearn.resources.quiz_correct
@@ -122,16 +122,12 @@ fun QuizScreen(
         color = if (state.solved) CorrectGreen else MaterialTheme.colorScheme.onBackground,
       )
 
-      Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Language.entries.forEach { language ->
-          FilledTonalButton(onClick = {
-            if (!viewModel.replay(language)) {
-              scope.launch { snackbarHostState.showSnackbar(unavailable) }
-            }
-          }) {
-            Text("${language.flag} 🔊", fontSize = 16.sp)
-          }
+      FilledTonalButton(onClick = {
+        if (!viewModel.replay()) {
+          scope.launch { snackbarHostState.showSnackbar(unavailable) }
         }
+      }) {
+        Text("🔁  ${stringResource(Res.string.action_repeat)}", fontSize = 16.sp)
       }
 
       val options = state.options

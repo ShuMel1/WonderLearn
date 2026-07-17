@@ -19,4 +19,6 @@
     <string name="home_learned">Սովորած</string>
     <string name="learned_title">Սովորած բառեր</string>
     <string name="learned_empty">Դեռ սովորած բառեր չկան։ Խաղա «Կրկնել» և ճիշտ պատասխանիր բառին 3 անգամ անընդմեջ։</string>
+    <string name="action_repeat">Կրկնել</string>
+    <string name="language_picker_title">Ընտրիր քո լեզուն</string>
 </resources>

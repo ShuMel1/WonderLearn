@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,8 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -37,10 +34,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.action_pronounce
+import com.compose.wonderlearn.resources.action_repeat
 import com.compose.wonderlearn.resources.pronunciation_unavailable
+import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
 import kotlinx.coroutines.launch
@@ -57,6 +54,7 @@ fun WordDetailScreen(
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
   val item = state.item
+  val language = LocalLanguage.current
 
   val snackbarHostState = remember { SnackbarHostState() }
   val scope = rememberCoroutineScope()
@@ -86,7 +84,7 @@ fun WordDetailScreen(
     Column(
       modifier = Modifier.fillMaxSize().padding(padding).padding(24.dp),
       horizontalAlignment = Alignment.CenterHorizontally,
-      verticalArrangement = Arrangement.spacedBy(28.dp),
+      verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
       Box(
         modifier = Modifier.size(220.dp).clip(CircleShape).background(accent.copy(alpha = 0.22f)),
@@ -96,7 +94,7 @@ fun WordDetailScreen(
       }
 
       Text(
-        item.text(state.selectedLanguage),
+        item.text(language),
         fontSize = 46.sp,
         fontWeight = FontWeight.ExtraBold,
         textAlign = TextAlign.Center,
@@ -104,27 +102,9 @@ fun WordDetailScreen(
         modifier = Modifier.fillMaxWidth(),
       )
 
-      Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-      ) {
-        Language.entries.forEach { language ->
-          val selected = language == state.selectedLanguage
-          FilterChip(
-            selected = selected,
-            onClick = { viewModel.selectLanguage(language) },
-            label = { Text("${language.flag} ${language.displayName}") },
-            colors = FilterChipDefaults.filterChipColors(
-              selectedContainerColor = accent,
-              selectedLabelColor = onAccent,
-            ),
-          )
-        }
-      }
-
       Button(
         onClick = {
-          if (!viewModel.speak()) {
+          if (!viewModel.speak(language)) {
             scope.launch { snackbarHostState.showSnackbar(unavailableMessage) }
           }
         },
@@ -132,7 +112,7 @@ fun WordDetailScreen(
         colors = ButtonDefaults.buttonColors(containerColor = accent, contentColor = onAccent),
         modifier = Modifier.fillMaxWidth(0.7f).height(64.dp),
       ) {
-        Text("🔊  ${stringResource(Res.string.action_pronounce)}", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Text("🔁  ${stringResource(Res.string.action_repeat)}", fontSize = 20.sp, fontWeight = FontWeight.Bold)
       }
     }
   }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 
 data class WordDetailState(
   val item: VocabularyItem? = null,
-  val selectedLanguage: Language = Language.ENGLISH,
 )
 
 class WordDetailViewModel(
@@ -31,13 +30,8 @@ class WordDetailViewModel(
     }
   }
 
-  fun selectLanguage(language: Language) {
-    _state.value = _state.value.copy(selectedLanguage = language)
-  }
-
-  fun speak(): Boolean {
-    val current = _state.value
-    val item = current.item ?: return false
-    return speaker.speak(item.text(current.selectedLanguage), current.selectedLanguage.bcp47)
+  fun speak(language: Language): Boolean {
+    val item = _state.value.item ?: return false
+    return speaker.speak(item.text(language), language.bcp47)
   }
 }
