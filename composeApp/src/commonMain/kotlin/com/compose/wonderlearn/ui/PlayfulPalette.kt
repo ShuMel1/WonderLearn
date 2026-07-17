@@ -15,6 +15,8 @@ private val ByCategory = mapOf(
   "animals" to Teal,
   "colors" to Sunny,
   "food" to Grape,
+  "vehicles" to Sky,
+  "nature" to Bubblegum,
 )
 
 fun colorForCategory(categoryId: String): Color =
