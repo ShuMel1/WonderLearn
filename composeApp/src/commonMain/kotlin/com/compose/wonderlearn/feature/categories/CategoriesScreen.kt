@@ -17,8 +17,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,7 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.Category
 import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.app_name
+import com.compose.wonderlearn.resources.home_learn
+import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
 import org.jetbrains.compose.resources.stringResource
@@ -45,30 +46,23 @@ fun CategoriesScreen(
 ) {
   val categories by viewModel.categories.collectAsStateWithLifecycle()
 
-  LazyColumn(
-    modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
-    contentPadding = PaddingValues(20.dp),
-    verticalArrangement = Arrangement.spacedBy(18.dp),
-  ) {
-    item {
-      Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 24.dp, bottom = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-      ) {
-        IconButton(onClick = onBack) {
-          Text("←", fontSize = 26.sp, color = MaterialTheme.colorScheme.onBackground)
-        }
-        Text(
-          text = "${stringResource(Res.string.app_name)} ✨",
-          fontSize = 32.sp,
-          fontWeight = FontWeight.ExtraBold,
-          color = MaterialTheme.colorScheme.onBackground,
-        )
+  Scaffold(
+    containerColor = MaterialTheme.colorScheme.background,
+    topBar = {
+      WonderTopBar(
+        title = stringResource(Res.string.home_learn),
+        onBack = onBack,
+      )
+    },
+  ) { padding ->
+    LazyColumn(
+      modifier = Modifier.fillMaxSize().padding(padding),
+      contentPadding = PaddingValues(20.dp),
+      verticalArrangement = Arrangement.spacedBy(18.dp),
+    ) {
+      itemsIndexed(categories, key = { _, c -> c.id }) { _, category ->
+        CategoryCard(category, onClick = { onCategoryClick(category) })
       }
-    }
-    itemsIndexed(categories, key = { _, c -> c.id }) { _, category ->
-      CategoryCard(category, onClick = { onCategoryClick(category) })
     }
   }
 }

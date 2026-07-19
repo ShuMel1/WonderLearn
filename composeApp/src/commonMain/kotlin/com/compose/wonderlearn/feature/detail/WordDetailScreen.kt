@@ -14,14 +14,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,6 +35,7 @@ import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.action_repeat
 import com.compose.wonderlearn.resources.pronunciation_unavailable
 import com.compose.wonderlearn.ui.LocalLanguage
+import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
 import org.jetbrains.compose.resources.stringResource
@@ -67,16 +65,9 @@ fun WordDetailScreen(
   Scaffold(
     containerColor = MaterialTheme.colorScheme.background,
     topBar = {
-      TopAppBar(
-        title = { Text("") },
-        navigationIcon = {
-          IconButton(onClick = onBack) {
-            Text("←", fontSize = 26.sp, color = MaterialTheme.colorScheme.onBackground)
-          }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-          containerColor = MaterialTheme.colorScheme.background,
-        ),
+      WonderTopBar(
+        onBack = onBack,
+        containerColor = accent,
       )
     },
     snackbarHost = { SnackbarHost(snackbarHostState) },
