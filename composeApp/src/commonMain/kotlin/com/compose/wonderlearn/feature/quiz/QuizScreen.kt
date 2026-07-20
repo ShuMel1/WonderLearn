@@ -109,7 +109,7 @@ fun QuizScreen(
         color = if (state.solved) CorrectGreen else MaterialTheme.colorScheme.onBackground,
       )
 
-      FilledTonalButton(onClick = { viewModel.replay() }) {
+      FilledTonalButton(onClick = { viewModel.replay() }, enabled = !state.speaking) {
         Text("🔁  ${stringResource(Res.string.action_repeat)}", fontSize = 16.sp)
       }
 

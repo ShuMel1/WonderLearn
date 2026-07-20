@@ -2,36 +2,65 @@ package com.compose.wonderlearn.audio
 
 import android.media.MediaDataSource
 import android.media.MediaPlayer
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 actual class AudioPlayer {
 
   private var player: MediaPlayer? = null
+  private var finishCurrent: (() -> Unit)? = null
 
-  actual fun play(bytes: ByteArray) {
+  actual suspend fun play(bytes: ByteArray) {
     if (bytes.isEmpty()) return
     releaseCurrent()
 
-    val next = MediaPlayer()
-    player = next
-    next.setOnPreparedListener { prepared ->
-      if (prepared === player) prepared.start() else prepared.release()
-    }
-    next.setOnCompletionListener { finished ->
-      if (finished === player) player = null
-      finished.release()
-    }
-    next.setOnErrorListener { failed, _, _ ->
-      if (failed === player) player = null
-      failed.release()
-      true
-    }
+    suspendCancellableCoroutine { continuation ->
+      val next = MediaPlayer()
+      player = next
 
-    try {
-      next.setDataSource(ByteArrayMediaDataSource(bytes))
-      next.prepareAsync()
-    } catch (e: Exception) {
-      if (player === next) player = null
-      next.release()
+      var finished = false
+      val finish = {
+        if (!finished) {
+          finished = true
+          if (continuation.isActive) continuation.resume(Unit)
+        }
+      }
+      finishCurrent = finish
+
+      next.setOnPreparedListener { prepared ->
+        if (prepared === player) prepared.start() else prepared.release()
+      }
+      next.setOnCompletionListener { done ->
+        if (done === player) {
+          player = null
+          finishCurrent = null
+        }
+        done.release()
+        finish()
+      }
+      next.setOnErrorListener { failed, _, _ ->
+        if (failed === player) {
+          player = null
+          finishCurrent = null
+        }
+        failed.release()
+        finish()
+        true
+      }
+
+      continuation.invokeOnCancellation { if (player === next) releaseCurrent() }
+
+      try {
+        next.setDataSource(ByteArrayMediaDataSource(bytes))
+        next.prepareAsync()
+      } catch (e: Exception) {
+        if (player === next) {
+          player = null
+          finishCurrent = null
+        }
+        next.release()
+        finish()
+      }
     }
   }
 
@@ -44,6 +73,8 @@ actual class AudioPlayer {
       current.release()
     }
     player = null
+    finishCurrent?.invoke()
+    finishCurrent = null
   }
 }
 
