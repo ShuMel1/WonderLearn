@@ -40,7 +40,7 @@ val appModule = module {
   viewModel { params -> WordListViewModel(params.get(), get()) }
   viewModel { params -> WordDetailViewModel(params.get(), get(), get()) }
   viewModel { QuizViewModel(get(), get(), get()) }
-  viewModel { LearnedViewModel(get()) }
+  viewModel { LearnedViewModel(get(), get()) }
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {
