@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.feature.app.AppViewModel
 import com.compose.wonderlearn.feature.categories.CategoriesScreen
 import com.compose.wonderlearn.feature.detail.WordDetailScreen
@@ -58,7 +59,7 @@ private fun AppNavHost(onExit: () -> Unit) {
     composable<Destination.Home> {
       HomeScreen(
         onLearn = { navController.navigate(Destination.Categories) },
-        onReview = { navController.navigate(Destination.Quiz) },
+        onReview = { navController.navigate(Destination.Quiz()) },
         onLearned = { navController.navigate(Destination.Learned) },
         onChangeLanguage = { navController.navigate(Destination.Language) },
       )
@@ -84,11 +85,19 @@ private fun AppNavHost(onExit: () -> Unit) {
         onBack = { navController.popBackStack() },
       )
     }
-    composable<Destination.Quiz> {
-      QuizScreen(onBack = { navController.popBackStack() })
+    composable<Destination.Quiz> { entry ->
+      val route = entry.toRoute<Destination.Quiz>()
+      QuizScreen(
+        mode = if (route.revise) QuizMode.REVISE else QuizMode.LEARN,
+        onRevise = { navController.navigate(Destination.Quiz(revise = true)) },
+        onBack = { navController.popBackStack() },
+      )
     }
     composable<Destination.Learned> {
-      LearnedScreen(onBack = { navController.popBackStack() })
+      LearnedScreen(
+        onRevise = { navController.navigate(Destination.Quiz(revise = true)) },
+        onBack = { navController.popBackStack() },
+      )
     }
     composable<Destination.Language> {
       LanguagePickerScreen(onBack = { navController.popBackStack() })

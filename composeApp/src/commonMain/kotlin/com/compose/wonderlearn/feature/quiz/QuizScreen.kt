@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,18 +38,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.action_repeat
+import com.compose.wonderlearn.resources.action_revise
 import com.compose.wonderlearn.resources.pronunciation_unavailable
 import com.compose.wonderlearn.resources.quiz_all_learned
 import com.compose.wonderlearn.resources.quiz_correct
 import com.compose.wonderlearn.resources.quiz_learned
 import com.compose.wonderlearn.resources.quiz_prompt
 import com.compose.wonderlearn.resources.quiz_score
+import com.compose.wonderlearn.resources.revise_done
+import com.compose.wonderlearn.resources.revise_empty
 import com.compose.wonderlearn.ui.WonderTopBar
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 private val CorrectGreen = Color(0xFF35C46A)
 private val WrongRed = Color(0xFFED5757)
@@ -55,8 +62,10 @@ private val WrongRed = Color(0xFFED5757)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizScreen(
+  mode: QuizMode,
+  onRevise: () -> Unit,
   onBack: () -> Unit,
-  viewModel: QuizViewModel = koinViewModel(),
+  viewModel: QuizViewModel = koinViewModel { parametersOf(mode) },
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
   val snackbarHostState = remember { SnackbarHostState() }
@@ -69,26 +78,45 @@ fun QuizScreen(
     containerColor = MaterialTheme.colorScheme.background,
     topBar = {
       WonderTopBar(
-        title = "${stringResource(Res.string.quiz_score)}: ${state.score}",
+        title = when (state.mode) {
+          QuizMode.REVISE -> "${stringResource(Res.string.action_revise)}: ${state.score}"
+          QuizMode.LEARN -> "${stringResource(Res.string.quiz_score)}: ${state.score}"
+        },
         onBack = onBack,
       )
     },
     snackbarHost = { SnackbarHost(snackbarHostState) },
   ) { padding ->
     if (state.allLearned) {
+      val revising = state.mode == QuizMode.REVISE
       Column(
         modifier = Modifier.fillMaxSize().padding(padding).padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically),
       ) {
-        Text("🏆", fontSize = 96.sp)
+        Text(if (revising) "🎓" else "🏆", fontSize = 96.sp)
         Text(
-          stringResource(Res.string.quiz_all_learned),
+          stringResource(
+            if (revising) Res.string.revise_empty else Res.string.quiz_all_learned,
+          ),
           fontSize = 26.sp,
           fontWeight = FontWeight.ExtraBold,
           color = CorrectGreen,
           textAlign = TextAlign.Center,
         )
+        if (!revising) {
+          Button(
+            onClick = onRevise,
+            shape = RoundedCornerShape(50),
+            modifier = Modifier.height(56.dp),
+          ) {
+            Text(
+              "🎓  ${stringResource(Res.string.action_revise)}",
+              fontSize = 18.sp,
+              fontWeight = FontWeight.Bold,
+            )
+          }
+        }
       }
       return@Scaffold
     }
@@ -99,6 +127,7 @@ fun QuizScreen(
     ) {
       val prompt = when {
         state.solved && state.justLearned -> stringResource(Res.string.quiz_learned)
+        state.solved && state.mode == QuizMode.REVISE -> stringResource(Res.string.revise_done)
         state.solved -> stringResource(Res.string.quiz_correct)
         else -> stringResource(Res.string.quiz_prompt)
       }

@@ -65,10 +65,13 @@ ensureProgress:
 INSERT OR IGNORE INTO WordProgress(wordId, languageCode, streak) VALUES (?, ?, 0);
 
 incrementStreak:
-UPDATE WordProgress SET streak = streak + 1 WHERE wordId = ? AND languageCode = ?;
+UPDATE WordProgress SET streak = min(3, streak + 1) WHERE wordId = ? AND languageCode = ?;
 
 resetStreak:
 UPDATE WordProgress SET streak = 0 WHERE wordId = ? AND languageCode = ?;
+
+decayStreak:
+UPDATE WordProgress SET streak = max(0, streak - 1) WHERE wordId = ? AND languageCode = ?;
 
 selectStreak:
 SELECT streak FROM WordProgress WHERE wordId = ? AND languageCode = ?;

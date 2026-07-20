@@ -11,6 +11,7 @@ import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.LearningRepository
 import com.compose.wonderlearn.domain.Pronouncer
+import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.VocabularyRepository
 import com.compose.wonderlearn.feature.app.AppViewModel
 import com.compose.wonderlearn.feature.categories.CategoriesViewModel
@@ -39,7 +40,7 @@ val appModule = module {
   viewModel { CategoriesViewModel(get()) }
   viewModel { params -> WordListViewModel(params.get(), get()) }
   viewModel { params -> WordDetailViewModel(params.get(), get(), get()) }
-  viewModel { QuizViewModel(get(), get(), get()) }
+  viewModel { (mode: QuizMode) -> QuizViewModel(get(), get(), get(), mode) }
   viewModel { LearnedViewModel(get(), get()) }
 }
 
