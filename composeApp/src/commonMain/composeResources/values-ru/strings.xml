@@ -21,4 +21,7 @@
     <string name="learned_empty">Пока нет изученных слов. Играй в «Повторить» и ответь правильно 3 раза подряд, чтобы выучить слово!</string>
     <string name="action_repeat">Повторить</string>
     <string name="language_picker_title">Выбери свой язык</string>
+    <string name="action_revise">Закрепить</string>
+    <string name="revise_empty">Пока нечего закреплять. Сначала выучи несколько слов!</string>
+    <string name="revise_done">Отлично закрепил! 🎉</string>
 </resources>

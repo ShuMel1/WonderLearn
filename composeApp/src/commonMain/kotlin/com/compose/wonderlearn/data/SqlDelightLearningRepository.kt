@@ -6,6 +6,7 @@ import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.LEARNED_THRESHOLD
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LearningRepository
+import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.QuizRound
 import com.compose.wonderlearn.domain.VocabularyItem
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,13 +21,16 @@ class SqlDelightLearningRepository(
 
   private val queries = database.wonderLearnQueries
 
-  override suspend fun nextRound(language: Language): QuizRound? = withContext(dispatcher) {
-    val unlearned = queries.selectUnlearnedWordsWithTranslations(language.code, ::TranslationRow)
-      .executeAsList().toItems()
-    if (unlearned.isEmpty()) return@withContext null
+  override suspend fun nextRound(language: Language, mode: QuizMode): QuizRound? =
+    withContext(dispatcher) {
+    val pool = when (mode) {
+      QuizMode.LEARN -> queries.selectUnlearnedWordsWithTranslations(language.code, ::TranslationRow)
+      QuizMode.REVISE -> queries.selectLearnedWordsWithTranslations(language.code, ::TranslationRow)
+    }.executeAsList().toItems()
+    if (pool.isEmpty()) return@withContext null
 
-    val categoryId = unlearned.map { it.categoryId }.distinct().random()
-    val target = unlearned.filter { it.categoryId == categoryId }.random()
+    val categoryId = pool.map { it.categoryId }.distinct().random()
+    val target = pool.filter { it.categoryId == categoryId }.random()
 
     val inCategory = queries.selectWordsWithTranslationsByCategory(categoryId, ::TranslationRow)
       .executeAsList().toItems()
@@ -43,12 +47,16 @@ class SqlDelightLearningRepository(
       }
     }
 
-  override suspend fun recordWrong(wordId: String, language: Language) = withContext(dispatcher) {
-    queries.transaction {
-      queries.ensureProgress(wordId, language.code)
-      queries.resetStreak(wordId, language.code)
+  override suspend fun recordWrong(wordId: String, language: Language, mode: QuizMode) =
+    withContext(dispatcher) {
+      queries.transaction {
+        queries.ensureProgress(wordId, language.code)
+        when (mode) {
+          QuizMode.LEARN -> queries.resetStreak(wordId, language.code)
+          QuizMode.REVISE -> queries.decayStreak(wordId, language.code)
+        }
+      }
     }
-  }
 
   override fun learnedItems(language: Language): Flow<List<VocabularyItem>> =
     queries.selectLearnedWordsWithTranslations(language.code, ::TranslationRow)

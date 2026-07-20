@@ -21,4 +21,7 @@
     <string name="learned_empty">No learned words yet. Play Review and answer a word right 3 times in a row to master it!</string>
     <string name="action_repeat">Repeat</string>
     <string name="language_picker_title">Choose your language</string>
+    <string name="action_revise">Revise</string>
+    <string name="revise_empty">Nothing to revise yet. Learn some words first!</string>
+    <string name="revise_done">Great revising! 🎉</string>
 </resources>

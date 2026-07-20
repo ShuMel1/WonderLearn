@@ -6,6 +6,7 @@ import com.compose.wonderlearn.data.SeedData
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
 import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.Language
+import com.compose.wonderlearn.domain.QuizMode
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -43,7 +44,7 @@ class LearningRepositoryTest {
     val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
     repo.recordCorrect("apple", hy)
     repo.recordCorrect("apple", hy)
-    repo.recordWrong("apple", hy)
+    repo.recordWrong("apple", hy, QuizMode.LEARN)
     assertFalse(repo.recordCorrect("apple", hy), "after reset, one correct is streak 1")
     assertTrue(repo.learnedItems(hy).first().none { it.id == "apple" })
   }
@@ -53,7 +54,7 @@ class LearningRepositoryTest {
     val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
     repeat(3) { repo.recordCorrect("apple", hy) }
     repeat(60) {
-      val round = repo.nextRound(hy)
+      val round = repo.nextRound(hy, QuizMode.LEARN)
       assertNotNull(round)
       assertTrue(round.target.id != "apple", "learned word must not be a quiz target")
     }
@@ -63,7 +64,58 @@ class LearningRepositoryTest {
   fun nextRoundIsNullWhenEverythingIsLearned() = runTest {
     val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
     SeedData.words.forEach { word -> repeat(3) { repo.recordCorrect(word.id, hy) } }
-    assertNull(repo.nextRound(hy), "no rounds left once all words are learned")
+    assertNull(repo.nextRound(hy, QuizMode.LEARN), "no rounds left once all words are learned")
+  }
+
+  @Test
+  fun reviseQuizzesOnlyLearnedWords() = runTest {
+    val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
+    repeat(3) { repo.recordCorrect("apple", hy) }
+    repeat(3) { repo.recordCorrect("dog", hy) }
+
+    repeat(40) {
+      val round = repo.nextRound(hy, QuizMode.REVISE)
+      assertNotNull(round)
+      assertTrue(
+        round.target.id == "apple" || round.target.id == "dog",
+        "revise must only target learned words, got ${'$'}{round.target.id}",
+      )
+    }
+  }
+
+  @Test
+  fun reviseIsEmptyUntilSomethingIsLearned() = runTest {
+    val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
+    assertNull(repo.nextRound(hy, QuizMode.REVISE), "nothing learned yet, nothing to revise")
+  }
+
+  @Test
+  fun aWrongReviseAnswerCostsOneStepNotTheWholeStreak() = runTest {
+    val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
+    repeat(3) { repo.recordCorrect("apple", hy) }
+    assertTrue(repo.learnedItems(hy).first().any { it.id == "apple" })
+
+    repo.recordWrong("apple", hy, QuizMode.REVISE)
+    assertTrue(
+      repo.learnedItems(hy).first().none { it.id == "apple" },
+      "3 -> 2 drops it out of learned",
+    )
+
+    assertTrue(
+      repo.recordCorrect("apple", hy),
+      "one correct answer takes 2 -> 3 and re-masters it",
+    )
+  }
+
+  @Test
+  fun aWrongLearnAnswerStillClearsTheWholeStreak() = runTest {
+    val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
+    repeat(3) { repo.recordCorrect("apple", hy) }
+
+    repo.recordWrong("apple", hy, QuizMode.LEARN)
+    assertFalse(repo.recordCorrect("apple", hy), "streak was cleared, one correct is only 1")
+    assertFalse(repo.recordCorrect("apple", hy), "still only 2")
+    assertTrue(repo.recordCorrect("apple", hy), "3 again")
   }
 
   @Test
@@ -82,7 +134,7 @@ class LearningRepositoryTest {
 
     var targetedInEnglish = false
     repeat(200) {
-      val round = repo.nextRound(en)
+      val round = repo.nextRound(en, QuizMode.LEARN)
       assertNotNull(round)
       if (round.target.id == "apple") targetedInEnglish = true
     }
@@ -94,7 +146,7 @@ class LearningRepositoryTest {
     val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
     SeedData.words.forEach { word -> repeat(3) { repo.recordCorrect(word.id, hy) } }
 
-    assertNull(repo.nextRound(hy), "Armenian is complete")
-    assertNotNull(repo.nextRound(en), "English still has everything to learn")
+    assertNull(repo.nextRound(hy, QuizMode.LEARN), "Armenian is complete")
+    assertNotNull(repo.nextRound(en, QuizMode.LEARN), "English still has everything to learn")
   }
 }

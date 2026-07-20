@@ -18,7 +18,7 @@ sealed interface Destination {
   data class Detail(val itemId: String) : Destination
 
   @Serializable
-  data object Quiz : Destination
+  data class Quiz(val revise: Boolean = false) : Destination
 
   @Serializable
   data object Learned : Destination

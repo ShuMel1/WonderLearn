@@ -6,6 +6,7 @@ import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.LearningRepository
 import com.compose.wonderlearn.domain.Pronouncer
+import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.VocabularyItem
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -27,15 +28,17 @@ data class QuizState(
   val score: Int = 0,
   val loading: Boolean = true,
   val speaking: Boolean = false,
+  val mode: QuizMode = QuizMode.LEARN,
 )
 
 class QuizViewModel(
   private val learning: LearningRepository,
   private val pronouncer: Pronouncer,
   private val preferences: LanguagePreferences,
+  private val mode: QuizMode = QuizMode.LEARN,
 ) : ViewModel() {
 
-  private val _state = MutableStateFlow(QuizState())
+  private val _state = MutableStateFlow(QuizState(mode = mode))
   val state: StateFlow<QuizState> = _state.asStateFlow()
 
   private val _unavailable = Channel<Unit>(Channel.BUFFERED)
@@ -53,7 +56,7 @@ class QuizViewModel(
   fun nextRound() {
     viewModelScope.launch {
       val language = awaitLanguage()
-      val round = learning.nextRound(language)
+      val round = learning.nextRound(language, mode)
       if (round == null) {
         _state.value = _state.value.copy(target = null, allLearned = true, loading = false)
         return@launch
@@ -77,7 +80,8 @@ class QuizViewModel(
     val target = current.target ?: return
     if (item.id == target.id) {
       viewModelScope.launch {
-        val nowLearned = learning.recordCorrect(target.id, awaitLanguage())
+        val nowLearned =
+          learning.recordCorrect(target.id, awaitLanguage()) && mode == QuizMode.LEARN
         _state.value = _state.value.copy(
           solved = true,
           wrongId = null,
@@ -89,7 +93,7 @@ class QuizViewModel(
       }
     } else {
       _state.value = current.copy(wrongId = item.id)
-      viewModelScope.launch { learning.recordWrong(target.id, awaitLanguage()) }
+      viewModelScope.launch { learning.recordWrong(target.id, awaitLanguage(), mode) }
     }
   }
 

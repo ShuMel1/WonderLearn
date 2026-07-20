@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.VocabularyItem
+import com.compose.wonderlearn.resources.action_revise
 import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.learned_empty
@@ -42,6 +44,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LearnedScreen(
+  onRevise: () -> Unit,
   onBack: () -> Unit,
   viewModel: LearnedViewModel = koinViewModel(),
 ) {
@@ -54,6 +57,16 @@ fun LearnedScreen(
         title = "🎓 ${stringResource(Res.string.learned_title)}",
         onBack = onBack,
       )
+    },
+    floatingActionButton = {
+      if (items.isNotEmpty()) {
+        ExtendedFloatingActionButton(onClick = onRevise) {
+          Text(
+            "🎓  ${stringResource(Res.string.action_revise)}",
+            fontWeight = FontWeight.Bold,
+          )
+        }
+      }
     },
   ) { padding ->
     if (items.isEmpty()) {
