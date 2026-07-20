@@ -18,6 +18,9 @@ actual class AudioPlayer {
 
   actual fun play(bytes: ByteArray) {
     if (bytes.isEmpty()) return
+    player?.stop()
+    player = null
+
     AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, null)
     AVAudioSession.sharedInstance().setActive(true, null)
     val data = bytes.usePinned { pinned ->

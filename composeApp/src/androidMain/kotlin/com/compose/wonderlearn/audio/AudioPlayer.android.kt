@@ -8,13 +8,42 @@ actual class AudioPlayer {
   private var player: MediaPlayer? = null
 
   actual fun play(bytes: ByteArray) {
-    player?.release()
-    player = MediaPlayer().apply {
-      setDataSource(ByteArrayMediaDataSource(bytes))
-      setOnCompletionListener { it.release() }
-      setOnPreparedListener { it.start() }
-      prepareAsync()
+    if (bytes.isEmpty()) return
+    releaseCurrent()
+
+    val next = MediaPlayer()
+    player = next
+    next.setOnPreparedListener { prepared ->
+      if (prepared === player) prepared.start() else prepared.release()
     }
+    next.setOnCompletionListener { finished ->
+      if (finished === player) player = null
+      finished.release()
+    }
+    next.setOnErrorListener { failed, _, _ ->
+      if (failed === player) player = null
+      failed.release()
+      true
+    }
+
+    try {
+      next.setDataSource(ByteArrayMediaDataSource(bytes))
+      next.prepareAsync()
+    } catch (e: Exception) {
+      if (player === next) player = null
+      next.release()
+    }
+  }
+
+  private fun releaseCurrent() {
+    player?.let { current ->
+      current.setOnPreparedListener(null)
+      current.setOnCompletionListener(null)
+      current.setOnErrorListener(null)
+      runCatching { current.reset() }
+      current.release()
+    }
+    player = null
   }
 }
 
