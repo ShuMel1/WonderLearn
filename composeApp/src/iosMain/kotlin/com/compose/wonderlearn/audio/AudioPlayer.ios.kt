@@ -20,8 +20,9 @@ import kotlin.coroutines.resume
 actual class AudioPlayer {
 
   private var player: AVAudioPlayer? = null
-  private var delegate: PlaybackDelegate? = null
   private var finishCurrent: (() -> Unit)? = null
+
+  private val playbackDelegate = PlaybackDelegate(::onPlaybackEnded)
 
   actual suspend fun play(bytes: ByteArray) {
     if (bytes.isEmpty()) return
@@ -44,22 +45,26 @@ actual class AudioPlayer {
       finishCurrent = finish
 
       val next = AVAudioPlayer(data = data, error = null)
-      val playbackDelegate = PlaybackDelegate {
-        if (player === next) {
-          player = null
-          delegate = null
-          finishCurrent = null
-        }
-        finish()
-      }
       next.setDelegate(playbackDelegate)
       player = next
-      delegate = playbackDelegate
 
       continuation.invokeOnCancellation { if (player === next) stopCurrent() }
 
-      if (!next.play()) finish()
+      if (!next.play()) {
+        player = null
+        finishCurrent = null
+        finish()
+      }
     }
+  }
+
+  private fun onPlaybackEnded(ended: AVAudioPlayer) {
+    if (ended !== player) return
+    ended.setDelegate(null)
+    player = null
+    val finish = finishCurrent
+    finishCurrent = null
+    finish?.invoke()
   }
 
   private fun stopCurrent() {
@@ -68,17 +73,19 @@ actual class AudioPlayer {
       current.stop()
     }
     player = null
-    delegate = null
-    finishCurrent?.invoke()
+    val finish = finishCurrent
     finishCurrent = null
+    finish?.invoke()
   }
 }
 
 private class PlaybackDelegate(
-  private val onDone: () -> Unit,
+  private val onEnded: (AVAudioPlayer) -> Unit,
 ) : NSObject(), AVAudioPlayerDelegateProtocol {
 
-  override fun audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully: Boolean) = onDone()
+  override fun audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully: Boolean) =
+    onEnded(player)
 
-  override fun audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) = onDone()
+  override fun audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) =
+    onEnded(player)
 }
