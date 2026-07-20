@@ -6,6 +6,7 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withTimeoutOrNull
 import platform.AVFAudio.AVAudioPlayer
 import platform.AVFAudio.AVAudioPlayerDelegateProtocol
 import platform.AVFAudio.AVAudioSession
@@ -34,32 +35,37 @@ actual class AudioPlayer {
       NSData.create(bytes = pinned.addressOf(0), length = bytes.size.toULong())
     }
 
-    suspendCancellableCoroutine { continuation ->
-      var finished = false
-      val finish = {
-        if (!finished) {
-          finished = true
-          if (continuation.isActive) continuation.resume(Unit)
+    val next = AVAudioPlayer(data = data, error = null)
+    next.setDelegate(playbackDelegate)
+    player = next
+
+    val guardMillis = ((next.duration + 1.0) * 1000).toLong().coerceIn(1_000, 30_000)
+
+    withTimeoutOrNull(guardMillis) {
+      suspendCancellableCoroutine { continuation ->
+        var finished = false
+        val finish = {
+          if (!finished) {
+            finished = true
+            if (continuation.isActive) continuation.resume(Unit)
+          }
+        }
+        finishCurrent = finish
+
+        continuation.invokeOnCancellation { if (player === next) stopCurrent() }
+
+        if (!next.play()) {
+          player = null
+          finishCurrent = null
+          finish()
         }
       }
-      finishCurrent = finish
-
-      val next = AVAudioPlayer(data = data, error = null)
-      next.setDelegate(playbackDelegate)
-      player = next
-
-      continuation.invokeOnCancellation { if (player === next) stopCurrent() }
-
-      if (!next.play()) {
-        player = null
-        finishCurrent = null
-        finish()
-      }
     }
+
+    if (player === next) stopCurrent()
   }
 
   private fun onPlaybackEnded(ended: AVAudioPlayer) {
-    if (ended !== player) return
     ended.setDelegate(null)
     player = null
     val finish = finishCurrent
