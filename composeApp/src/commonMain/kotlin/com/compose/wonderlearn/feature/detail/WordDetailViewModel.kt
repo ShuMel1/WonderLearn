@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 
 data class WordDetailState(
   val item: VocabularyItem? = null,
+  val speaking: Boolean = false,
 )
 
 class WordDetailViewModel(
@@ -36,9 +37,16 @@ class WordDetailViewModel(
   }
 
   fun pronounce(language: Language) {
-    val item = _state.value.item ?: return
+    val current = _state.value
+    val item = current.item ?: return
+    if (current.speaking) return
     viewModelScope.launch {
-      if (!pronouncer.pronounce(item, language)) _unavailable.send(Unit)
+      _state.value = _state.value.copy(speaking = true)
+      try {
+        if (!pronouncer.pronounce(item, language)) _unavailable.send(Unit)
+      } finally {
+        _state.value = _state.value.copy(speaking = false)
+      }
     }
   }
 }

@@ -26,6 +26,7 @@ data class QuizState(
   val allLearned: Boolean = false,
   val score: Int = 0,
   val loading: Boolean = true,
+  val speaking: Boolean = false,
 )
 
 class QuizViewModel(
@@ -66,7 +67,7 @@ class QuizViewModel(
         allLearned = false,
         loading = false,
       )
-      pronouncer.pronounce(round.target, language)
+      speak(round.target)
     }
   }
 
@@ -93,9 +94,18 @@ class QuizViewModel(
   }
 
   fun replay() {
-    val target = _state.value.target ?: return
-    viewModelScope.launch {
+    val current = _state.value
+    val target = current.target ?: return
+    if (current.speaking) return
+    viewModelScope.launch { speak(target) }
+  }
+
+  private suspend fun speak(target: VocabularyItem) {
+    _state.value = _state.value.copy(speaking = true)
+    try {
       if (!pronouncer.pronounce(target, awaitLanguage())) _unavailable.send(Unit)
+    } finally {
+      _state.value = _state.value.copy(speaking = false)
     }
   }
 }

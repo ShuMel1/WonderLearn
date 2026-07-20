@@ -98,8 +98,14 @@ fun WordDetailScreen(
         onClick = {
           viewModel.pronounce(language)
         },
+        enabled = !state.speaking,
         shape = RoundedCornerShape(50),
-        colors = ButtonDefaults.buttonColors(containerColor = accent, contentColor = onAccent),
+        colors = ButtonDefaults.buttonColors(
+          containerColor = accent,
+          contentColor = onAccent,
+          disabledContainerColor = accent.copy(alpha = 0.45f),
+          disabledContentColor = onAccent.copy(alpha = 0.7f),
+        ),
         modifier = Modifier.fillMaxWidth(0.7f).height(64.dp),
       ) {
         Text("🔁  ${stringResource(Res.string.action_repeat)}", fontSize = 20.sp, fontWeight = FontWeight.Bold)
