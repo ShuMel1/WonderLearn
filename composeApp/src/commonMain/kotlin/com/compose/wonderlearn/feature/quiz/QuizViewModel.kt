@@ -12,6 +12,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -29,7 +31,7 @@ data class QuizState(
 class QuizViewModel(
   private val learning: LearningRepository,
   private val pronouncer: Pronouncer,
-  preferences: LanguagePreferences,
+  private val preferences: LanguagePreferences,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(QuizState())
@@ -38,18 +40,19 @@ class QuizViewModel(
   private val _unavailable = Channel<Unit>(Channel.BUFFERED)
   val unavailable = _unavailable.receiveAsFlow()
 
-  private var language: Language = Language.ENGLISH
+  private var language: Language? = null
 
   init {
-    viewModelScope.launch {
-      preferences.selectedLanguage().collect { language = it ?: Language.ENGLISH }
-    }
     nextRound()
   }
 
+  private suspend fun awaitLanguage(): Language =
+    language ?: (preferences.selectedLanguage().filterNotNull().first()).also { language = it }
+
   fun nextRound() {
     viewModelScope.launch {
-      val round = learning.nextRound()
+      val language = awaitLanguage()
+      val round = learning.nextRound(language)
       if (round == null) {
         _state.value = _state.value.copy(target = null, allLearned = true, loading = false)
         return@launch
@@ -73,7 +76,7 @@ class QuizViewModel(
     val target = current.target ?: return
     if (item.id == target.id) {
       viewModelScope.launch {
-        val nowLearned = learning.recordCorrect(target.id)
+        val nowLearned = learning.recordCorrect(target.id, awaitLanguage())
         _state.value = _state.value.copy(
           solved = true,
           wrongId = null,
@@ -85,14 +88,14 @@ class QuizViewModel(
       }
     } else {
       _state.value = current.copy(wrongId = item.id)
-      viewModelScope.launch { learning.recordWrong(target.id) }
+      viewModelScope.launch { learning.recordWrong(target.id, awaitLanguage()) }
     }
   }
 
   fun replay() {
     val target = _state.value.target ?: return
     viewModelScope.launch {
-      if (!pronouncer.pronounce(target, language)) _unavailable.send(Unit)
+      if (!pronouncer.pronounce(target, awaitLanguage())) _unavailable.send(Unit)
     }
   }
 }

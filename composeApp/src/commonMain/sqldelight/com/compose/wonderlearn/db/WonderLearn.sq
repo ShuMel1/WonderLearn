@@ -19,8 +19,10 @@ CREATE TABLE Translation (
 );
 
 CREATE TABLE WordProgress (
-  wordId TEXT NOT NULL PRIMARY KEY,
-  streak INTEGER NOT NULL DEFAULT 0
+  wordId TEXT NOT NULL,
+  languageCode TEXT NOT NULL,
+  streak INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (wordId, languageCode)
 );
 
 CREATE TABLE AppSetting (
@@ -60,25 +62,27 @@ INSERT INTO Translation(wordId, languageCode, text)
 VALUES (?, ?, ?);
 
 ensureProgress:
-INSERT OR IGNORE INTO WordProgress(wordId, streak) VALUES (?, 0);
+INSERT OR IGNORE INTO WordProgress(wordId, languageCode, streak) VALUES (?, ?, 0);
 
 incrementStreak:
-UPDATE WordProgress SET streak = streak + 1 WHERE wordId = ?;
+UPDATE WordProgress SET streak = streak + 1 WHERE wordId = ? AND languageCode = ?;
 
 resetStreak:
-UPDATE WordProgress SET streak = 0 WHERE wordId = ?;
+UPDATE WordProgress SET streak = 0 WHERE wordId = ? AND languageCode = ?;
 
 selectStreak:
-SELECT streak FROM WordProgress WHERE wordId = ?;
+SELECT streak FROM WordProgress WHERE wordId = ? AND languageCode = ?;
 
 countLearned:
-SELECT count(*) FROM WordProgress WHERE streak >= 3;
+SELECT count(*) FROM WordProgress WHERE streak >= 3 AND languageCode = ?;
 
 selectUnlearnedWordsWithTranslations:
 SELECT w.id, w.categoryId, w.emoji, t.languageCode, t.text
 FROM WordEntity w
 JOIN Translation t ON t.wordId = w.id
-WHERE w.id NOT IN (SELECT wordId FROM WordProgress WHERE streak >= 3)
+WHERE w.id NOT IN (
+  SELECT wordId FROM WordProgress WHERE streak >= 3 AND languageCode = :progressLanguage
+)
 ORDER BY w.id;
 
 selectLearnedWordsWithTranslations:
@@ -86,7 +90,7 @@ SELECT w.id, w.categoryId, w.emoji, t.languageCode, t.text
 FROM WordEntity w
 JOIN Translation t ON t.wordId = w.id
 JOIN WordProgress p ON p.wordId = w.id
-WHERE p.streak >= 3
+WHERE p.streak >= 3 AND p.languageCode = :progressLanguage
 ORDER BY w.id;
 
 selectSetting:

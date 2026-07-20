@@ -10,14 +10,14 @@ data class QuizRound(
 )
 
 interface LearningRepository {
-  /** A quiz round drawn from not-yet-learned words, or null when everything is learned. */
-  suspend fun nextRound(): QuizRound?
+  /** A quiz round drawn from words not yet learned in [language], or null when all are learned. */
+  suspend fun nextRound(language: Language): QuizRound?
 
-  /** Records a correct answer; returns true if the word just became learned. */
-  suspend fun recordCorrect(wordId: String): Boolean
+  /** Records a correct answer; returns true if the word just became learned in [language]. */
+  suspend fun recordCorrect(wordId: String, language: Language): Boolean
 
-  /** Resets a word's streak after a wrong answer. */
-  suspend fun recordWrong(wordId: String)
+  /** Resets a word's streak in [language] after a wrong answer. */
+  suspend fun recordWrong(wordId: String, language: Language)
 
-  fun learnedItems(): Flow<List<VocabularyItem>>
+  fun learnedItems(language: Language): Flow<List<VocabularyItem>>
 }
