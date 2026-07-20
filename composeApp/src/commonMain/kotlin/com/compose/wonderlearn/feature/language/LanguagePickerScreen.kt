@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.action_back
 import com.compose.wonderlearn.resources.language_picker_title
+import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.colorForIndex
 import com.compose.wonderlearn.ui.onColorFor
 import org.jetbrains.compose.resources.stringResource
@@ -34,39 +35,35 @@ fun LanguagePickerScreen(
   onBack: (() -> Unit)? = null,
   viewModel: LanguagePickerViewModel = koinViewModel(),
 ) {
-  Column(
-    modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).padding(24.dp),
-    horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center,
-  ) {
-    if (onBack != null) {
+  Scaffold(
+    containerColor = MaterialTheme.colorScheme.background,
+    topBar = { WonderTopBar(onBack = onBack) },
+  ) { padding ->
+    Column(
+      modifier = Modifier.fillMaxSize().padding(padding).padding(horizontal = 24.dp),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.Center,
+    ) {
+      Text("🦉", fontSize = 80.sp)
       Text(
-        "←",
+        stringResource(Res.string.language_picker_title),
         fontSize = 28.sp,
+        fontWeight = FontWeight.ExtraBold,
         color = MaterialTheme.colorScheme.onBackground,
-        modifier = Modifier.align(Alignment.Start).clickable(onClick = onBack).padding(8.dp),
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
       )
-    }
 
-    Text("🦉", fontSize = 80.sp)
-    Text(
-      stringResource(Res.string.language_picker_title),
-      fontSize = 28.sp,
-      fontWeight = FontWeight.ExtraBold,
-      color = MaterialTheme.colorScheme.onBackground,
-      textAlign = TextAlign.Center,
-      modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
-    )
-
-    Language.entries.forEachIndexed { index, language ->
-      LanguageCard(
-        language = language,
-        index = index,
-        onClick = {
-          viewModel.choose(language)
-          onBack?.invoke()
-        },
-      )
+      Language.entries.forEachIndexed { index, language ->
+        LanguageCard(
+          language = language,
+          index = index,
+          onClick = {
+            viewModel.choose(language)
+            onBack?.invoke()
+          },
+        )
+      }
     }
   }
 }
