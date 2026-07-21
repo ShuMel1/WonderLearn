@@ -8,8 +8,8 @@ import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.speech.TextToSpeaker
 
 /**
- * Armenian is spoken from a bundled recording (no device TTS voice exists for it);
- * every other language uses the platform text-to-speech engine.
+ * A language with bundled recordings is spoken from them; anything else falls back to the
+ * platform text-to-speech engine, which not every language has a voice for.
  */
 class DefaultPronouncer(
   private val tts: TextToSpeaker,
@@ -17,17 +17,20 @@ class DefaultPronouncer(
 ) : Pronouncer {
 
   override suspend fun pronounce(item: VocabularyItem, language: Language): Boolean {
-    if (language == Language.ARMENIAN) {
-      val clip = loadArmenianClip(item.id) ?: return false
-      audioPlayer.play(clip)
-      return true
+    if (language.hasRecordedAudio) {
+      val clip = loadClip(language, item.id)
+      if (clip != null) {
+        audioPlayer.play(clip)
+        return true
+      }
     }
+    if (!language.ttsSupported) return false
     return tts.speak(item.text(language), language.bcp47)
   }
 
-  private suspend fun loadArmenianClip(wordId: String): ByteArray? =
+  private suspend fun loadClip(language: Language, wordId: String): ByteArray? =
     try {
-      Res.readBytes("files/audio/hy_$wordId.m4a")
+      Res.readBytes("files/audio/${language.code}_$wordId.m4a")
     } catch (e: Exception) {
       null
     }

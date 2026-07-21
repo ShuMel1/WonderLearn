@@ -5,10 +5,37 @@ enum class Language(
   val bcp47: String,
   val displayName: String,
   val flag: String,
+  val ttsSupported: Boolean,
+  val asrSupported: Boolean,
+  val hasRecordedAudio: Boolean,
 ) {
-  ARMENIAN("hy", "hy-AM", "Հայերեն", "🇦🇲"),
-  ENGLISH("en", "en-US", "English", "🇬🇧"),
-  RUSSIAN("ru", "ru-RU", "Русский", "🇷🇺"),
+  ARMENIAN(
+    code = "hy",
+    bcp47 = "hy-AM",
+    displayName = "Հայերեն",
+    flag = "🇦🇲",
+    ttsSupported = false,
+    asrSupported = false,
+    hasRecordedAudio = true,
+  ),
+  ENGLISH(
+    code = "en",
+    bcp47 = "en-US",
+    displayName = "English",
+    flag = "🇬🇧",
+    ttsSupported = true,
+    asrSupported = true,
+    hasRecordedAudio = false,
+  ),
+  RUSSIAN(
+    code = "ru",
+    bcp47 = "ru-RU",
+    displayName = "Русский",
+    flag = "🇷🇺",
+    ttsSupported = true,
+    asrSupported = true,
+    hasRecordedAudio = false,
+  ),
 }
 
 data class Category(
