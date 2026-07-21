@@ -1,12 +1,16 @@
 package com.compose.wonderlearn.data
 
 import com.compose.wonderlearn.db.WonderLearnDatabase
+import com.compose.wonderlearn.domain.DEFAULT_PROFILE_ID
 import com.compose.wonderlearn.domain.Language
+
+private const val DEFAULT_PROFILE_NAME = "Me"
 
 internal object DatabaseSeeder {
 
   fun seedIfEmpty(database: WonderLearnDatabase) {
     val queries = database.wonderLearnQueries
+    queries.ensureDefaultProfile(DEFAULT_PROFILE_ID, DEFAULT_PROFILE_NAME)
     if (queries.countCategories().executeAsOne() > 0L) return
     queries.transaction {
       SeedData.categories.forEach {

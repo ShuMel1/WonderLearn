@@ -20,11 +20,19 @@ CREATE TABLE Translation (
   PRIMARY KEY (wordId, languageCode)
 );
 
+CREATE TABLE Profile (
+  id TEXT NOT NULL PRIMARY KEY,
+  displayName TEXT NOT NULL,
+  avatarId TEXT,
+  sortIndex INTEGER NOT NULL
+);
+
 CREATE TABLE WordProgress (
+  profileId TEXT NOT NULL,
   wordId TEXT NOT NULL,
   languageCode TEXT NOT NULL,
   streak INTEGER NOT NULL DEFAULT 0,
-  PRIMARY KEY (wordId, languageCode)
+  PRIMARY KEY (profileId, wordId, languageCode)
 );
 
 CREATE TABLE AppSetting (
@@ -64,29 +72,35 @@ INSERT INTO Translation(wordId, languageCode, text)
 VALUES (?, ?, ?);
 
 ensureProgress:
-INSERT OR IGNORE INTO WordProgress(wordId, languageCode, streak) VALUES (?, ?, 0);
+INSERT OR IGNORE INTO WordProgress(profileId, wordId, languageCode, streak) VALUES (?, ?, ?, 0);
 
 incrementStreak:
-UPDATE WordProgress SET streak = min(3, streak + 1) WHERE wordId = ? AND languageCode = ?;
+UPDATE WordProgress SET streak = min(3, streak + 1)
+WHERE profileId = ? AND wordId = ? AND languageCode = ?;
 
 resetStreak:
-UPDATE WordProgress SET streak = 0 WHERE wordId = ? AND languageCode = ?;
+UPDATE WordProgress SET streak = 0
+WHERE profileId = ? AND wordId = ? AND languageCode = ?;
 
 decayStreak:
-UPDATE WordProgress SET streak = max(0, streak - 1) WHERE wordId = ? AND languageCode = ?;
+UPDATE WordProgress SET streak = max(0, streak - 1)
+WHERE profileId = ? AND wordId = ? AND languageCode = ?;
 
 selectStreak:
-SELECT streak FROM WordProgress WHERE wordId = ? AND languageCode = ?;
+SELECT streak FROM WordProgress
+WHERE profileId = ? AND wordId = ? AND languageCode = ?;
 
 countLearned:
-SELECT count(*) FROM WordProgress WHERE streak >= 3 AND languageCode = ?;
+SELECT count(*) FROM WordProgress
+WHERE streak >= 3 AND profileId = ? AND languageCode = ?;
 
 selectUnlearnedWordsWithTranslations:
 SELECT w.id, w.categoryId, w.emoji, w.imageRef, t.languageCode, t.text
 FROM WordEntity w
 JOIN Translation t ON t.wordId = w.id
 WHERE w.id NOT IN (
-  SELECT wordId FROM WordProgress WHERE streak >= 3 AND languageCode = :progressLanguage
+  SELECT wordId FROM WordProgress
+  WHERE streak >= 3 AND profileId = :profileId AND languageCode = :progressLanguage
 )
 ORDER BY w.id;
 
@@ -95,8 +109,22 @@ SELECT w.id, w.categoryId, w.emoji, w.imageRef, t.languageCode, t.text
 FROM WordEntity w
 JOIN Translation t ON t.wordId = w.id
 JOIN WordProgress p ON p.wordId = w.id
-WHERE p.streak >= 3 AND p.languageCode = :progressLanguage
+WHERE p.streak >= 3 AND p.profileId = :profileId AND p.languageCode = :progressLanguage
 ORDER BY w.id;
+
+selectAllProfiles:
+SELECT * FROM Profile ORDER BY sortIndex;
+
+countProfiles:
+SELECT count(*) FROM Profile;
+
+insertProfile:
+INSERT INTO Profile(id, displayName, avatarId, sortIndex)
+VALUES (?, ?, ?, ?);
+
+ensureDefaultProfile:
+INSERT OR IGNORE INTO Profile(id, displayName, avatarId, sortIndex)
+VALUES (?, ?, NULL, 0);
 
 selectSetting:
 SELECT value FROM AppSetting WHERE key = ?;
