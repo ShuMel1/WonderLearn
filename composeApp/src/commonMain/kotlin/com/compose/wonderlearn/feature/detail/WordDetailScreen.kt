@@ -1,9 +1,11 @@
 package com.compose.wonderlearn.feature.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,12 +28,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.resources.Res
+import com.compose.wonderlearn.resources.action_next
+import com.compose.wonderlearn.resources.action_previous
 import com.compose.wonderlearn.resources.action_repeat
 import com.compose.wonderlearn.resources.pronunciation_unavailable
 import com.compose.wonderlearn.ui.LocalLanguage
@@ -57,6 +64,10 @@ fun WordDetailScreen(
   val unavailableMessage = stringResource(Res.string.pronunciation_unavailable)
   LaunchedEffect(viewModel) {
     viewModel.unavailable.collect { snackbarHostState.showSnackbar(unavailableMessage) }
+  }
+
+  LaunchedEffect(item != null) {
+    if (item != null) viewModel.pronounceOnOpen(language)
   }
 
   val accent = colorForCategory(item?.categoryId ?: "")
@@ -110,6 +121,47 @@ fun WordDetailScreen(
       ) {
         Text("🔁  ${stringResource(Res.string.action_repeat)}", fontSize = 20.sp, fontWeight = FontWeight.Bold)
       }
+
+      if (state.hasSiblings) {
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
+          verticalAlignment = Alignment.CenterVertically,
+        ) {
+          StepButton(
+            glyph = "◀",
+            label = stringResource(Res.string.action_previous),
+            accent = accent,
+            onClick = { viewModel.previous(language) },
+          )
+          StepButton(
+            glyph = "▶",
+            label = stringResource(Res.string.action_next),
+            accent = accent,
+            onClick = { viewModel.next(language) },
+          )
+        }
+      }
     }
+  }
+}
+
+@Composable
+private fun StepButton(
+  glyph: String,
+  label: String,
+  accent: Color,
+  onClick: () -> Unit,
+) {
+  Box(
+    modifier = Modifier
+      .size(72.dp)
+      .clip(CircleShape)
+      .background(accent.copy(alpha = 0.22f))
+      .clickable(onClick = onClick)
+      .semantics { contentDescription = label },
+    contentAlignment = Alignment.Center,
+  ) {
+    Text(glyph, fontSize = 30.sp, color = MaterialTheme.colorScheme.onBackground)
   }
 }
