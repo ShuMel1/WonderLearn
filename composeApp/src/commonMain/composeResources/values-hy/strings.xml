@@ -26,4 +26,12 @@
     <string name="revise_done">Լավ ամրապնդեցիր! 🎉</string>
     <string name="action_previous">Նախորդը</string>
     <string name="action_next">Հաջորդը</string>
+    <string name="account_title">Կարգավորումներ</string>
+    <string name="account_open">Հաշիվ</string>
+    <string name="account_who_is_learning">Ո՞վ է սովորում</string>
+    <string name="account_add_child">Ավելացնել երեխա</string>
+    <string name="account_child_name">Անուն</string>
+    <string name="account_learning_language">Սովորելու լեզուն</string>
+    <string name="action_save">Պահպանել</string>
+    <string name="action_cancel">Չեղարկել</string>
 </resources>
