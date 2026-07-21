@@ -44,7 +44,11 @@ class AccountViewModel(
     }
   }
 
-  fun chooseLanguage(language: Language) {
-    viewModelScope.launch { languagePreferences.setLanguage(language) }
+  fun chooseTargetLanguage(language: Language) {
+    viewModelScope.launch { languagePreferences.setTargetLanguage(language) }
+  }
+
+  fun chooseNativeLanguage(language: Language) {
+    viewModelScope.launch { languagePreferences.setNativeLanguage(language) }
   }
 }

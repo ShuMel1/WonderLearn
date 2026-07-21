@@ -42,6 +42,7 @@ import com.compose.wonderlearn.resources.action_previous
 import com.compose.wonderlearn.resources.action_repeat
 import com.compose.wonderlearn.resources.pronunciation_unavailable
 import com.compose.wonderlearn.ui.LocalLanguage
+import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
@@ -60,6 +61,7 @@ fun WordDetailScreen(
   val state by viewModel.state.collectAsStateWithLifecycle()
   val item = state.item
   val language = LocalLanguage.current
+  val nativeLanguage = LocalNativeLanguage.current
 
   val snackbarHostState = remember { SnackbarHostState() }
   val unavailableMessage = stringResource(Res.string.pronunciation_unavailable)
@@ -103,14 +105,30 @@ fun WordDetailScreen(
         )
       }
 
-      Text(
-        item.text(language),
-        fontSize = 46.sp,
-        fontWeight = FontWeight.ExtraBold,
-        textAlign = TextAlign.Center,
-        color = MaterialTheme.colorScheme.onBackground,
+      Column(
         modifier = Modifier.fillMaxWidth(),
-      )
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+      ) {
+        Text(
+          item.text(language),
+          fontSize = 46.sp,
+          fontWeight = FontWeight.ExtraBold,
+          textAlign = TextAlign.Center,
+          color = MaterialTheme.colorScheme.onBackground,
+          modifier = Modifier.fillMaxWidth(),
+        )
+        if (nativeLanguage != language) {
+          Text(
+            item.text(nativeLanguage),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.fillMaxWidth(),
+          )
+        }
+      }
 
       Button(
         onClick = {
