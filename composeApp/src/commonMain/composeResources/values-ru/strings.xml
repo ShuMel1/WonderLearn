@@ -26,4 +26,12 @@
     <string name="revise_done">Отлично закрепил! 🎉</string>
     <string name="action_previous">Предыдущее</string>
     <string name="action_next">Следующее</string>
+    <string name="account_title">Настройки</string>
+    <string name="account_open">Аккаунт</string>
+    <string name="account_who_is_learning">Кто учится?</string>
+    <string name="account_add_child">Добавить ребёнка</string>
+    <string name="account_child_name">Имя</string>
+    <string name="account_learning_language">Язык изучения</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_cancel">Отмена</string>
 </resources>

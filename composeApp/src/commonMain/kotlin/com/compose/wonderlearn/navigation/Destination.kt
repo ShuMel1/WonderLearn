@@ -22,7 +22,4 @@ sealed interface Destination {
 
   @Serializable
   data object Learned : Destination
-
-  @Serializable
-  data object Language : Destination
 }

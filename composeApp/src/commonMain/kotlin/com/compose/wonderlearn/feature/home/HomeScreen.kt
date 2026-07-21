@@ -19,8 +19,11 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,13 +39,17 @@ import com.compose.wonderlearn.resources.home_learned
 import com.compose.wonderlearn.resources.home_review
 import com.compose.wonderlearn.resources.home_stories
 import com.compose.wonderlearn.resources.home_tagline
-import com.compose.wonderlearn.ui.LocalLanguage
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.feature.account.AccountButton
+import com.compose.wonderlearn.feature.account.AccountSheet
+import com.compose.wonderlearn.feature.account.AccountViewModel
 import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,12 +57,19 @@ fun HomeScreen(
   onLearn: () -> Unit,
   onReview: () -> Unit,
   onLearned: () -> Unit,
-  onChangeLanguage: () -> Unit,
 ) {
   val snackbarHostState = remember { SnackbarHostState() }
   val scope = rememberCoroutineScope()
   val comingSoon = stringResource(Res.string.coming_soon)
   val showComingSoon: () -> Unit = { scope.launch { snackbarHostState.showSnackbar(comingSoon) } }
+
+  val accountViewModel: AccountViewModel = koinViewModel()
+  val accountState by accountViewModel.state.collectAsStateWithLifecycle()
+  var showAccount by remember { mutableStateOf(false) }
+
+  if (showAccount) {
+    AccountSheet(onDismiss = { showAccount = false }, viewModel = accountViewModel)
+  }
 
   Scaffold(
     containerColor = MaterialTheme.colorScheme.background,
@@ -66,20 +80,10 @@ fun HomeScreen(
         modifier = Modifier.fillMaxWidth().padding(top = 12.dp, end = 16.dp),
         horizontalArrangement = Arrangement.End,
       ) {
-        Card(
-          onClick = onChangeLanguage,
-          shape = RoundedCornerShape(50),
-          colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-          elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        ) {
-          Text(
-            "${LocalLanguage.current.flag}  ${LocalLanguage.current.displayName}",
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
-          )
-        }
+        AccountButton(
+          displayName = accountState.activeProfile?.displayName,
+          onClick = { showAccount = true },
+        )
       }
       Column(
         modifier = Modifier.fillMaxWidth().weight(1f).padding(24.dp),

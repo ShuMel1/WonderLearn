@@ -15,6 +15,7 @@ import com.compose.wonderlearn.domain.ProfileRepository
 import com.compose.wonderlearn.domain.Pronouncer
 import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.VocabularyRepository
+import com.compose.wonderlearn.feature.account.AccountViewModel
 import com.compose.wonderlearn.feature.app.AppViewModel
 import com.compose.wonderlearn.feature.categories.CategoriesViewModel
 import com.compose.wonderlearn.feature.detail.WordDetailViewModel
@@ -39,6 +40,7 @@ val appModule = module {
   single { AudioPlayer() }
   single<Pronouncer> { DefaultPronouncer(get(), get()) }
   viewModel { AppViewModel(get()) }
+  viewModel { AccountViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }
   viewModel { params -> WordListViewModel(params.get(), get(), get()) }

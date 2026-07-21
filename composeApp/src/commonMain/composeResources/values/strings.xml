@@ -26,4 +26,12 @@
     <string name="revise_done">Great revising! 🎉</string>
     <string name="action_previous">Previous</string>
     <string name="action_next">Next</string>
+    <string name="account_title">Settings</string>
+    <string name="account_open">Account</string>
+    <string name="account_who_is_learning">Who is learning?</string>
+    <string name="account_add_child">Add child</string>
+    <string name="account_child_name">Name</string>
+    <string name="account_learning_language">Learning language</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
 </resources>

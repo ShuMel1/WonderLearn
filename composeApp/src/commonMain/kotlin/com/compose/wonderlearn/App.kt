@@ -61,7 +61,6 @@ private fun AppNavHost(onExit: () -> Unit) {
         onLearn = { navController.navigate(Destination.Categories) },
         onReview = { navController.navigate(Destination.Quiz()) },
         onLearned = { navController.navigate(Destination.Learned) },
-        onChangeLanguage = { navController.navigate(Destination.Language) },
       )
     }
     composable<Destination.Categories> {
@@ -98,9 +97,6 @@ private fun AppNavHost(onExit: () -> Unit) {
         onRevise = { navController.navigate(Destination.Quiz(revise = true)) },
         onBack = { navController.popBackStack() },
       )
-    }
-    composable<Destination.Language> {
-      LanguagePickerScreen(onBack = { navController.popBackStack() })
     }
   }
 }
