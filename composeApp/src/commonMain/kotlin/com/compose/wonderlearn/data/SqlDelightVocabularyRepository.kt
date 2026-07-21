@@ -37,4 +37,5 @@ class SqlDelightVocabularyRepository(
     }
 }
 
-private fun CategoryEntity.toDomain() = Category(id = id, title = title, emoji = emoji)
+private fun CategoryEntity.toDomain() =
+  Category(id = id, title = title, emoji = emoji, imageRef = imageRef)

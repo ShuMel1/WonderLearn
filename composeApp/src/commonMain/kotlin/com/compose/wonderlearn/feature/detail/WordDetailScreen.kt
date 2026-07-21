@@ -43,6 +43,7 @@ import com.compose.wonderlearn.resources.action_repeat
 import com.compose.wonderlearn.resources.pronunciation_unavailable
 import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.ui.WonderTopBar
+import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
 import org.jetbrains.compose.resources.stringResource
@@ -93,7 +94,13 @@ fun WordDetailScreen(
         modifier = Modifier.size(220.dp).clip(CircleShape).background(accent.copy(alpha = 0.22f)),
         contentAlignment = Alignment.Center,
       ) {
-        Text(item.emoji, fontSize = 130.sp)
+        WordImage(
+          imageRef = item.imageRef,
+          emoji = item.emoji,
+          emojiSize = 130.sp,
+          contentDescription = item.text(language),
+          modifier = Modifier.size(150.dp),
+        )
       }
 
       Text(

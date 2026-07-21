@@ -7,6 +7,7 @@ internal data class TranslationRow(
   val wordId: String,
   val categoryId: String,
   val emoji: String,
+  val imageRef: String?,
   val languageCode: String,
   val text: String,
 )
@@ -18,6 +19,7 @@ internal fun List<TranslationRow>.toItems(): List<VocabularyItem> =
       id = first.wordId,
       categoryId = first.categoryId,
       emoji = first.emoji,
+      imageRef = first.imageRef,
       translations = rows.mapNotNull { row ->
         languageOf(row.languageCode)?.let { it to row.text }
       }.toMap(),

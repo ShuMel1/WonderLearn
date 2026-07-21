@@ -10,10 +10,10 @@ internal object DatabaseSeeder {
     if (queries.countCategories().executeAsOne() > 0L) return
     queries.transaction {
       SeedData.categories.forEach {
-        queries.insertCategory(it.id, it.title, it.emoji, it.sortIndex)
+        queries.insertCategory(it.id, it.title, it.emoji, it.sortIndex, it.imageRef)
       }
       SeedData.words.forEach { word ->
-        queries.insertWord(word.id, word.categoryId, word.emoji)
+        queries.insertWord(word.id, word.categoryId, word.emoji, word.imageRef)
         queries.insertTranslation(word.id, Language.ARMENIAN.code, word.armenian)
         queries.insertTranslation(word.id, Language.ENGLISH.code, word.english)
         queries.insertTranslation(word.id, Language.RUSSIAN.code, word.russian)

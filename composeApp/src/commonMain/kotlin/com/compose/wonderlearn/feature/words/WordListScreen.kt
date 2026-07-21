@@ -43,6 +43,7 @@ import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.title_words
 import com.compose.wonderlearn.ui.WonderTopBar
+import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
 import org.jetbrains.compose.resources.stringResource
@@ -120,7 +121,13 @@ private fun WordCard(
         modifier = Modifier.size(64.dp).clip(CircleShape).background(accent.copy(alpha = 0.18f)),
         contentAlignment = Alignment.Center,
       ) {
-        Text(item.emoji, fontSize = 34.sp)
+        WordImage(
+          imageRef = item.imageRef,
+          emoji = item.emoji,
+          emojiSize = 34.sp,
+          contentDescription = null,
+          modifier = Modifier.size(44.dp),
+        )
       }
       Text(
         item.text(LocalLanguage.current),
