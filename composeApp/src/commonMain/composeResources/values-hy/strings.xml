@@ -20,7 +20,6 @@
     <string name="learned_title">Սովորած բառեր</string>
     <string name="learned_empty">Դեռ սովորած բառեր չկան։ Խաղա «Կրկնել» և ճիշտ պատասխանիր բառին 3 անգամ անընդմեջ։</string>
     <string name="action_repeat">Կրկնել</string>
-    <string name="language_picker_title">Ընտրիր քո լեզուն</string>
     <string name="action_revise">Ամրապնդել</string>
     <string name="revise_empty">Դեռ ամրապնդելու բան չկա։ Սկզբում սովորիր մի քանի բառ։</string>
     <string name="revise_done">Լավ ամրապնդեցիր! 🎉</string>
@@ -34,4 +33,7 @@
     <string name="account_learning_language">Սովորելու լեզուն</string>
     <string name="action_save">Պահպանել</string>
     <string name="action_cancel">Չեղարկել</string>
+    <string name="language_native_title">Ո՞ր լեզվով ես խոսում</string>
+    <string name="language_target_title">Ի՞նչ ես ուզում սովորել</string>
+    <string name="account_my_language">Ես խոսում եմ</string>
 </resources>

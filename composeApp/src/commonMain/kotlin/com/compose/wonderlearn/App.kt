@@ -20,6 +20,8 @@ import com.compose.wonderlearn.feature.categories.CategoriesScreen
 import com.compose.wonderlearn.feature.detail.WordDetailScreen
 import com.compose.wonderlearn.feature.home.HomeScreen
 import com.compose.wonderlearn.feature.language.LanguagePickerScreen
+import com.compose.wonderlearn.feature.language.LanguageRole
+import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.feature.learned.LearnedScreen
 import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
@@ -34,12 +36,17 @@ fun App(onExit: () -> Unit = {}) {
   WonderLearnTheme {
     val appViewModel: AppViewModel = koinViewModel()
     val state by appViewModel.state.collectAsStateWithLifecycle()
-    val language = state.language
+    val native = state.nativeLanguage
+    val target = state.targetLanguage
 
     when {
       state.loading -> Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background))
-      language == null -> LanguagePickerScreen()
-      else -> CompositionLocalProvider(LocalLanguage provides language) {
+      native == null -> LanguagePickerScreen(role = LanguageRole.NATIVE, exclude = target)
+      target == null -> LanguagePickerScreen(role = LanguageRole.TARGET, exclude = native)
+      else -> CompositionLocalProvider(
+        LocalLanguage provides target,
+        LocalNativeLanguage provides native,
+      ) {
         AppNavHost(onExit = onExit)
       }
     }

@@ -16,7 +16,7 @@ class LearnedViewModel(
   preferences: LanguagePreferences,
 ) : ViewModel() {
 
-  val items: StateFlow<List<VocabularyItem>> = preferences.selectedLanguage()
+  val items: StateFlow<List<VocabularyItem>> = preferences.targetLanguage()
     .filterNotNull()
     .flatMapLatest { language -> learning.learnedItems(language) }
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())

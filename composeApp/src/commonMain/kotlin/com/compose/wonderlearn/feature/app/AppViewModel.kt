@@ -6,19 +6,24 @@ import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
 data class AppState(
   val loading: Boolean = true,
-  val language: Language? = null,
+  val nativeLanguage: Language? = null,
+  val targetLanguage: Language? = null,
 )
 
 class AppViewModel(
   preferences: LanguagePreferences,
 ) : ViewModel() {
 
-  val state: StateFlow<AppState> = preferences.selectedLanguage()
-    .map { AppState(loading = false, language = it) }
-    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AppState(loading = true))
+  val state: StateFlow<AppState> =
+    combine(
+      preferences.nativeLanguage(),
+      preferences.targetLanguage(),
+    ) { native, target ->
+      AppState(loading = false, nativeLanguage = native, targetLanguage = target)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AppState(loading = true))
 }

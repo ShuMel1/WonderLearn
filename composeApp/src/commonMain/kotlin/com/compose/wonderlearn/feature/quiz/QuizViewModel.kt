@@ -51,7 +51,7 @@ class QuizViewModel(
   }
 
   private suspend fun awaitLanguage(): Language =
-    language ?: (preferences.selectedLanguage().filterNotNull().first()).also { language = it }
+    language ?: (preferences.targetLanguage().filterNotNull().first()).also { language = it }
 
   fun nextRound() {
     viewModelScope.launch {

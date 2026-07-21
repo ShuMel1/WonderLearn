@@ -23,7 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.language_picker_title
+import com.compose.wonderlearn.resources.language_native_title
+import com.compose.wonderlearn.resources.language_target_title
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.colorForIndex
 import com.compose.wonderlearn.ui.onColorFor
@@ -32,9 +33,19 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun LanguagePickerScreen(
+  role: LanguageRole,
+  exclude: Language? = null,
   onBack: (() -> Unit)? = null,
   viewModel: LanguagePickerViewModel = koinViewModel(),
 ) {
+  val choices = when (role) {
+    LanguageRole.NATIVE -> Language.natives
+    LanguageRole.TARGET -> Language.targets
+  }.filter { it != exclude }
+  val title = when (role) {
+    LanguageRole.NATIVE -> Res.string.language_native_title
+    LanguageRole.TARGET -> Res.string.language_target_title
+  }
   Scaffold(
     containerColor = MaterialTheme.colorScheme.background,
     topBar = { WonderTopBar(onBack = onBack) },
@@ -46,7 +57,7 @@ fun LanguagePickerScreen(
     ) {
       Text("🦉", fontSize = 80.sp)
       Text(
-        stringResource(Res.string.language_picker_title),
+        stringResource(title),
         fontSize = 28.sp,
         fontWeight = FontWeight.ExtraBold,
         color = MaterialTheme.colorScheme.onBackground,
@@ -54,12 +65,12 @@ fun LanguagePickerScreen(
         modifier = Modifier.padding(top = 12.dp, bottom = 32.dp),
       )
 
-      Language.entries.forEachIndexed { index, language ->
+      choices.forEachIndexed { index, language ->
         LanguageCard(
           language = language,
           index = index,
           onClick = {
-            viewModel.choose(language)
+            viewModel.choose(language, role)
             onBack?.invoke()
           },
         )
