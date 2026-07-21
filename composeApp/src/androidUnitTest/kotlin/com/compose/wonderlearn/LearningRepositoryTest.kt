@@ -4,7 +4,9 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.compose.wonderlearn.data.DatabaseSeeder
 import com.compose.wonderlearn.data.SeedData
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
+import com.compose.wonderlearn.data.SqlDelightProfileRepository
 import com.compose.wonderlearn.db.WonderLearnDatabase
+import com.compose.wonderlearn.domain.DEFAULT_PROFILE_ID
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.QuizMode
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,13 +24,22 @@ class LearningRepositoryTest {
   private val hy = Language.ARMENIAN
   private val en = Language.ENGLISH
 
-  private fun newRepository(dispatcher: CoroutineDispatcher): SqlDelightLearningRepository {
+  private class Fixture(
+    val repo: SqlDelightLearningRepository,
+    val profiles: SqlDelightProfileRepository,
+  )
+
+  private fun newFixture(dispatcher: CoroutineDispatcher): Fixture {
     val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
     WonderLearnDatabase.Schema.create(driver)
     val database = WonderLearnDatabase(driver)
     DatabaseSeeder.seedIfEmpty(database)
-    return SqlDelightLearningRepository(database, dispatcher)
+    val profiles = SqlDelightProfileRepository(database, dispatcher)
+    return Fixture(SqlDelightLearningRepository(database, profiles, dispatcher), profiles)
   }
+
+  private fun newRepository(dispatcher: CoroutineDispatcher): SqlDelightLearningRepository =
+    newFixture(dispatcher).repo
 
   @Test
   fun wordBecomesLearnedAfterThreeCorrectInARow() = runTest {
@@ -139,6 +150,40 @@ class LearningRepositoryTest {
       if (round.target.id == "apple") targetedInEnglish = true
     }
     assertTrue(targetedInEnglish, "a word learned in Armenian must still come up in English")
+  }
+
+  @Test
+  fun progressInOneProfileDoesNotLeakIntoAnother() = runTest {
+    val fixture = newFixture(UnconfinedTestDispatcher(testScheduler))
+    repeat(3) { fixture.repo.recordCorrect("apple", hy) }
+    assertTrue(fixture.repo.learnedItems(hy).first().any { it.id == "apple" })
+
+    val sibling = fixture.profiles.createProfile("Sibling")
+    fixture.profiles.setActiveProfile(sibling.id)
+
+    assertTrue(
+      fixture.repo.learnedItems(hy).first().none { it.id == "apple" },
+      "a second child starts from nothing",
+    )
+    assertFalse(
+      fixture.repo.recordCorrect("apple", hy),
+      "the sibling's first correct answer is streak 1, not 4",
+    )
+  }
+
+  @Test
+  fun switchingBackRestoresTheOriginalProfileProgress() = runTest {
+    val fixture = newFixture(UnconfinedTestDispatcher(testScheduler))
+    repeat(3) { fixture.repo.recordCorrect("apple", hy) }
+
+    val sibling = fixture.profiles.createProfile("Sibling")
+    fixture.profiles.setActiveProfile(sibling.id)
+    repeat(3) { fixture.repo.recordCorrect("dog", hy) }
+    fixture.profiles.setActiveProfile(DEFAULT_PROFILE_ID)
+
+    val learned = fixture.repo.learnedItems(hy).first().map { it.id }
+    assertTrue("apple" in learned, "the first profile keeps what it learned")
+    assertTrue("dog" !in learned, "and does not inherit the sibling's progress")
   }
 
   @Test

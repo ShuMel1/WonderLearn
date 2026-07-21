@@ -1,0 +1,25 @@
+CREATE TABLE Profile (
+  id TEXT NOT NULL PRIMARY KEY,
+  displayName TEXT NOT NULL,
+  avatarId TEXT,
+  sortIndex INTEGER NOT NULL
+);
+
+INSERT INTO Profile(id, displayName, avatarId, sortIndex)
+VALUES ('local', 'Me', NULL, 0);
+
+ALTER TABLE WordProgress RENAME TO WordProgressLegacy;
+
+CREATE TABLE WordProgress (
+  profileId TEXT NOT NULL,
+  wordId TEXT NOT NULL,
+  languageCode TEXT NOT NULL,
+  streak INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (profileId, wordId, languageCode)
+);
+
+INSERT INTO WordProgress(profileId, wordId, languageCode, streak)
+SELECT 'local', wordId, languageCode, streak
+FROM WordProgressLegacy;
+
+DROP TABLE WordProgressLegacy;
