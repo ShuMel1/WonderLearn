@@ -52,6 +52,7 @@ import com.compose.wonderlearn.resources.quiz_score
 import com.compose.wonderlearn.resources.revise_done
 import com.compose.wonderlearn.resources.revise_empty
 import com.compose.wonderlearn.ui.WonderTopBar
+import com.compose.wonderlearn.ui.WordImage
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -189,7 +190,13 @@ private fun QuizTile(
     border = border,
   ) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-      Text(item.emoji, fontSize = 72.sp)
+      WordImage(
+        imageRef = item.imageRef,
+        emoji = item.emoji,
+        emojiSize = 72.sp,
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize().padding(24.dp),
+      )
       if (isCorrect || isWrong) {
         val badgeColor = if (isCorrect) CorrectGreen else WrongRed
         Box(

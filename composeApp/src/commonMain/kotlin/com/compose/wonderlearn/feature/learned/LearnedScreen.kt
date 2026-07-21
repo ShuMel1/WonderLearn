@@ -37,6 +37,7 @@ import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.learned_empty
 import com.compose.wonderlearn.resources.learned_title
 import com.compose.wonderlearn.ui.WonderTopBar
+import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -113,7 +114,13 @@ private fun LearnedCard(item: VocabularyItem) {
         modifier = Modifier.size(64.dp).clip(CircleShape).background(accent.copy(alpha = 0.18f)),
         contentAlignment = Alignment.Center,
       ) {
-        Text(item.emoji, fontSize = 34.sp)
+        WordImage(
+          imageRef = item.imageRef,
+          emoji = item.emoji,
+          emojiSize = 34.sp,
+          contentDescription = null,
+          modifier = Modifier.size(44.dp),
+        )
       }
       Text(
         item.text(LocalLanguage.current),

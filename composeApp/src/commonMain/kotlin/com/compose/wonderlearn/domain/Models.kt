@@ -15,12 +15,14 @@ data class Category(
   val id: String,
   val title: String,
   val emoji: String,
+  val imageRef: String? = null,
 )
 
 data class VocabularyItem(
   val id: String,
   val categoryId: String,
   val emoji: String,
+  val imageRef: String? = null,
   val translations: Map<Language, String>,
 ) {
   fun text(language: Language): String =

@@ -1,0 +1,3 @@
+ALTER TABLE CategoryEntity ADD COLUMN imageRef TEXT;
+
+ALTER TABLE WordEntity ADD COLUMN imageRef TEXT;

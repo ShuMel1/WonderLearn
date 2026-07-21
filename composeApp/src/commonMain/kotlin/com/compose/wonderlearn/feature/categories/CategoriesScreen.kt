@@ -33,6 +33,7 @@ import com.compose.wonderlearn.domain.Category
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.home_learn
 import com.compose.wonderlearn.ui.WonderTopBar
+import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
 import org.jetbrains.compose.resources.stringResource
@@ -86,7 +87,13 @@ private fun CategoryCard(category: Category, onClick: () -> Unit) {
         modifier = Modifier.size(72.dp).clip(CircleShape).background(onColor.copy(alpha = 0.25f)),
         contentAlignment = Alignment.Center,
       ) {
-        Text(category.emoji, fontSize = 40.sp)
+        WordImage(
+          imageRef = category.imageRef,
+          emoji = category.emoji,
+          emojiSize = 40.sp,
+          contentDescription = null,
+          modifier = Modifier.size(50.dp),
+        )
       }
       Text(
         category.title,

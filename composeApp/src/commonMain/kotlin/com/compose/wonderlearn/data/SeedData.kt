@@ -5,6 +5,7 @@ internal data class SeedCategory(
   val title: String,
   val emoji: String,
   val sortIndex: Long,
+  val imageRef: String? = null,
 )
 
 internal data class SeedWord(
@@ -14,6 +15,7 @@ internal data class SeedWord(
   val armenian: String,
   val english: String,
   val russian: String,
+  val imageRef: String? = null,
 )
 
 internal object SeedData {
