@@ -36,6 +36,7 @@ class WordDetailViewModel(
   val unavailable = _unavailable.receiveAsFlow()
 
   private var speakToken = 0
+  private var openPlayed = false
 
   init {
     viewModelScope.launch {
@@ -52,6 +53,12 @@ class WordDetailViewModel(
 
   fun pronounce(language: Language) {
     if (_state.value.speaking) return
+    speak(language)
+  }
+
+  fun pronounceOnOpen(language: Language) {
+    if (openPlayed) return
+    openPlayed = true
     speak(language)
   }
 

@@ -66,6 +66,10 @@ fun WordDetailScreen(
     viewModel.unavailable.collect { snackbarHostState.showSnackbar(unavailableMessage) }
   }
 
+  LaunchedEffect(item != null) {
+    if (item != null) viewModel.pronounceOnOpen(language)
+  }
+
   val accent = colorForCategory(item?.categoryId ?: "")
   val onAccent = onColorFor(accent)
 
