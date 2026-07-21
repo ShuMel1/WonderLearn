@@ -38,7 +38,7 @@ val appModule = module {
   viewModel { AppViewModel(get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }
-  viewModel { params -> WordListViewModel(params.get(), get()) }
+  viewModel { params -> WordListViewModel(params.get(), get(), get()) }
   viewModel { params -> WordDetailViewModel(params.get(), get(), get()) }
   viewModel { (mode: QuizMode) -> QuizViewModel(get(), get(), get(), mode) }
   viewModel { LearnedViewModel(get(), get()) }

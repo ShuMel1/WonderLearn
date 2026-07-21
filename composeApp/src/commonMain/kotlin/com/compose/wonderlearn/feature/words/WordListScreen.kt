@@ -19,18 +19,26 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.VocabularyItem
+import com.compose.wonderlearn.resources.action_listen
+import com.compose.wonderlearn.resources.pronunciation_unavailable
 import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.title_words
@@ -50,8 +58,15 @@ fun WordListScreen(
   viewModel: WordListViewModel = koinViewModel { parametersOf(categoryId) },
 ) {
   val items by viewModel.items.collectAsStateWithLifecycle()
+  val playingId by viewModel.playingId.collectAsStateWithLifecycle()
+  val language = LocalLanguage.current
   val accent = colorForCategory(categoryId)
-  val onAccent = onColorFor(accent)
+
+  val snackbarHostState = remember { SnackbarHostState() }
+  val unavailableMessage = stringResource(Res.string.pronunciation_unavailable)
+  LaunchedEffect(viewModel) {
+    viewModel.unavailable.collect { snackbarHostState.showSnackbar(unavailableMessage) }
+  }
 
   Scaffold(
     containerColor = MaterialTheme.colorScheme.background,
@@ -62,6 +77,7 @@ fun WordListScreen(
         containerColor = accent,
       )
     },
+    snackbarHost = { SnackbarHost(snackbarHostState) },
   ) { padding ->
     LazyColumn(
       modifier = Modifier.fillMaxSize().padding(padding),
@@ -69,14 +85,26 @@ fun WordListScreen(
       verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
       items(items, key = { it.id }) { item ->
-        WordCard(item, accent, onClick = { onItemClick(item) })
+        WordCard(
+          item = item,
+          accent = accent,
+          playing = playingId == item.id,
+          onPlay = { viewModel.play(item, language) },
+          onClick = { onItemClick(item) },
+        )
       }
     }
   }
 }
 
 @Composable
-private fun WordCard(item: VocabularyItem, accent: Color, onClick: () -> Unit) {
+private fun WordCard(
+  item: VocabularyItem,
+  accent: Color,
+  playing: Boolean,
+  onPlay: () -> Unit,
+  onClick: () -> Unit,
+) {
   Card(
     modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
     shape = RoundedCornerShape(24.dp),
@@ -99,7 +127,20 @@ private fun WordCard(item: VocabularyItem, accent: Color, onClick: () -> Unit) {
         fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.weight(1f),
       )
+      val listenLabel = stringResource(Res.string.action_listen)
+      Box(
+        modifier = Modifier
+          .size(52.dp)
+          .clip(CircleShape)
+          .background(if (playing) accent else accent.copy(alpha = 0.18f))
+          .clickable(onClick = onPlay)
+          .semantics { contentDescription = listenLabel },
+        contentAlignment = Alignment.Center,
+      ) {
+        Text(if (playing) "🔊" else "🔈", fontSize = 24.sp)
+      }
     }
   }
 }
