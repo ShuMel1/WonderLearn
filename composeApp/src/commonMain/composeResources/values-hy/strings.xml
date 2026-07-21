@@ -24,4 +24,6 @@
     <string name="action_revise">Ամրապնդել</string>
     <string name="revise_empty">Դեռ ամրապնդելու բան չկա։ Սկզբում սովորիր մի քանի բառ։</string>
     <string name="revise_done">Լավ ամրապնդեցիր! 🎉</string>
+    <string name="action_previous">Նախորդը</string>
+    <string name="action_next">Հաջորդը</string>
 </resources>

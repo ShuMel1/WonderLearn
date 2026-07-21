@@ -24,4 +24,6 @@
     <string name="action_revise">Закрепить</string>
     <string name="revise_empty">Пока нечего закреплять. Сначала выучи несколько слов!</string>
     <string name="revise_done">Отлично закрепил! 🎉</string>
+    <string name="action_previous">Предыдущее</string>
+    <string name="action_next">Следующее</string>
 </resources>

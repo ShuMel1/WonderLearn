@@ -24,4 +24,6 @@
     <string name="action_revise">Revise</string>
     <string name="revise_empty">Nothing to revise yet. Learn some words first!</string>
     <string name="revise_done">Great revising! 🎉</string>
+    <string name="action_previous">Previous</string>
+    <string name="action_next">Next</string>
 </resources>
