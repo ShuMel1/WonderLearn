@@ -103,3 +103,8 @@ android {
     targetCompatibility = JavaVersion.VERSION_11
   }
 }
+
+tasks.withType<Test>().configureEach {
+  inputs.file("src/commonMain/composeResources/files/content/vocabulary.json")
+    .withPathSensitivity(PathSensitivity.RELATIVE)
+}

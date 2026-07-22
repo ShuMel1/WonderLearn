@@ -1,8 +1,9 @@
 package com.compose.wonderlearn
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import com.compose.wonderlearn.data.DatabaseSeeder
-import com.compose.wonderlearn.data.SeedData
+import com.compose.wonderlearn.data.content.ContentManifest
+import com.compose.wonderlearn.data.content.ContentSource
+import com.compose.wonderlearn.data.content.ContentSeeder
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
 import com.compose.wonderlearn.data.SqlDelightProfileRepository
 import com.compose.wonderlearn.db.WonderLearnDatabase
@@ -10,6 +11,8 @@ import com.compose.wonderlearn.domain.DEFAULT_PROFILE_ID
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.QuizMode
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.serialization.json.Json
+import java.io.File
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -20,6 +23,18 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class LearningRepositoryTest {
+
+  private val manifest: ContentManifest by lazy {
+    val file = listOf(
+      File("src/commonMain/composeResources/files/content/vocabulary.json"),
+      File("composeApp/src/commonMain/composeResources/files/content/vocabulary.json"),
+    ).firstOrNull { it.exists() } ?: error("vocabulary manifest not found from ${File(".").absolutePath}")
+    Json { ignoreUnknownKeys = true }.decodeFromString(file.readText())
+  }
+
+  private object EmptyContentSource : ContentSource {
+    override suspend fun load(): ContentManifest? = null
+  }
 
   private val hy = Language.ARMENIAN
   private val en = Language.ENGLISH
@@ -33,13 +48,30 @@ class LearningRepositoryTest {
     val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
     WonderLearnDatabase.Schema.create(driver)
     val database = WonderLearnDatabase(driver)
-    DatabaseSeeder.seedIfEmpty(database)
+    ContentSeeder(database, EmptyContentSource, dispatcher).apply(manifest)
     val profiles = SqlDelightProfileRepository(database, dispatcher)
     return Fixture(SqlDelightLearningRepository(database, profiles, dispatcher), profiles)
   }
 
   private fun newRepository(dispatcher: CoroutineDispatcher): SqlDelightLearningRepository =
     newFixture(dispatcher).repo
+
+  @Test
+  fun bundledManifestIsInternallyConsistent() {
+    assertTrue(manifest.categories.isNotEmpty(), "manifest has categories")
+    assertTrue(manifest.words.size >= 50, "manifest has the full vocabulary, got ${manifest.words.size}")
+
+    val categoryIds = manifest.categories.map { it.id }.toSet()
+    val orphans = manifest.words.filter { it.categoryId !in categoryIds }
+    assertTrue(orphans.isEmpty(), "words point at missing categories: ${orphans.map { it.id }}")
+
+    val codes = Language.entries.map { it.code }.toSet()
+    val untranslated = manifest.words.filter { !it.translations.keys.containsAll(codes) }
+    assertTrue(untranslated.isEmpty(), "words missing a translation: ${untranslated.map { it.id }}")
+
+    val duplicates = manifest.words.groupBy { it.id }.filterValues { it.size > 1 }.keys
+    assertTrue(duplicates.isEmpty(), "duplicate word ids: $duplicates")
+  }
 
   @Test
   fun wordBecomesLearnedAfterThreeCorrectInARow() = runTest {
@@ -74,7 +106,7 @@ class LearningRepositoryTest {
   @Test
   fun nextRoundIsNullWhenEverythingIsLearned() = runTest {
     val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
-    SeedData.words.forEach { word -> repeat(3) { repo.recordCorrect(word.id, hy) } }
+    manifest.words.forEach { word -> repeat(3) { repo.recordCorrect(word.id, hy) } }
     assertNull(repo.nextRound(hy, QuizMode.LEARN), "no rounds left once all words are learned")
   }
 
@@ -189,7 +221,7 @@ class LearningRepositoryTest {
   @Test
   fun everythingLearnedInOneLanguageLeavesOtherLanguagesUntouched() = runTest {
     val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
-    SeedData.words.forEach { word -> repeat(3) { repo.recordCorrect(word.id, hy) } }
+    manifest.words.forEach { word -> repeat(3) { repo.recordCorrect(word.id, hy) } }
 
     assertNull(repo.nextRound(hy, QuizMode.LEARN), "Armenian is complete")
     assertNotNull(repo.nextRound(en, QuizMode.LEARN), "English still has everything to learn")
