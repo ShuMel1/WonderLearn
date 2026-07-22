@@ -16,13 +16,17 @@ private const val DEFAULT_PROFILE_NAME = "Me"
  */
 class ContentSeeder(
   private val database: WonderLearnDatabase,
-  private val source: ContentSource,
   private val dispatcher: CoroutineDispatcher = ioDispatcher,
 ) {
 
   private val queries = database.wonderLearnQueries
 
-  suspend fun sync(): Boolean = withContext(dispatcher) {
+  /** True once any content exists locally, meaning startup need not wait on the network. */
+  suspend fun hasContent(): Boolean = withContext(dispatcher) {
+    queries.countCategories().executeAsOne() > 0L
+  }
+
+  suspend fun sync(source: ContentSource): Boolean = withContext(dispatcher) {
     queries.ensureDefaultProfile(DEFAULT_PROFILE_ID, DEFAULT_PROFILE_NAME)
     val manifest = source.load() ?: return@withContext false
     if (manifest.version <= currentVersion()) return@withContext false
