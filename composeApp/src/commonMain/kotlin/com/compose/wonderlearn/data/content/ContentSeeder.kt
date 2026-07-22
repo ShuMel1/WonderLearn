@@ -1,5 +1,6 @@
 package com.compose.wonderlearn.data.content
 
+import com.compose.wonderlearn.shared.ContentManifest
 import com.compose.wonderlearn.data.ioDispatcher
 import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.DEFAULT_PROFILE_ID
@@ -24,10 +25,13 @@ class ContentSeeder(
   suspend fun sync(): Boolean = withContext(dispatcher) {
     queries.ensureDefaultProfile(DEFAULT_PROFILE_ID, DEFAULT_PROFILE_NAME)
     val manifest = source.load() ?: return@withContext false
-    if (manifest.version <= storedVersion()) return@withContext false
+    if (manifest.version <= currentVersion()) return@withContext false
     apply(manifest)
     true
   }
+
+  private fun currentVersion(): Long =
+    queries.selectSetting(KEY_CONTENT_VERSION).executeAsOneOrNull()?.toLongOrNull() ?: 0L
 
   fun apply(manifest: ContentManifest) {
     queries.transaction {
@@ -44,6 +48,7 @@ class ContentSeeder(
     }
   }
 
-  private fun storedVersion(): Long =
+  suspend fun storedVersion(): Long = withContext(dispatcher) {
     queries.selectSetting(KEY_CONTENT_VERSION).executeAsOneOrNull()?.toLongOrNull() ?: 0L
+  }
 }

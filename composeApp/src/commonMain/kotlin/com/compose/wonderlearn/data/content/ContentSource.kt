@@ -1,5 +1,6 @@
 package com.compose.wonderlearn.data.content
 
+import com.compose.wonderlearn.shared.ContentManifest
 import com.compose.wonderlearn.resources.Res
 import kotlinx.serialization.json.Json
 

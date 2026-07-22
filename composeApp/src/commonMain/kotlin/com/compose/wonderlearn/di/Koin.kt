@@ -6,6 +6,9 @@ import com.compose.wonderlearn.data.DefaultPronouncer
 import com.compose.wonderlearn.data.content.BundledContentSource
 import com.compose.wonderlearn.data.content.ContentSeeder
 import com.compose.wonderlearn.data.content.ContentSource
+import com.compose.wonderlearn.data.content.FallbackContentSource
+import com.compose.wonderlearn.data.content.RemoteContentSource
+import com.compose.wonderlearn.data.content.httpClient
 import com.compose.wonderlearn.data.SqlDelightLanguagePreferences
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
 import com.compose.wonderlearn.data.SqlDelightProfileRepository
@@ -37,7 +40,13 @@ expect val platformModule: Module
 val appModule = module {
   single { WonderLearnDatabase(get<DatabaseDriverFactory>().createDriver()) }
   single { Json { ignoreUnknownKeys = true } }
-  single<ContentSource> { BundledContentSource(get()) }
+  single { httpClient() }
+  single<ContentSource> {
+    FallbackContentSource(
+      primary = RemoteContentSource(get(), currentVersion = { get<ContentSeeder>().storedVersion() }),
+      fallback = BundledContentSource(get()),
+    )
+  }
   single { ContentSeeder(get(), get()) }
   single<VocabularyRepository> { SqlDelightVocabularyRepository(get()) }
   single<ProfileRepository> { SqlDelightProfileRepository(get()) }

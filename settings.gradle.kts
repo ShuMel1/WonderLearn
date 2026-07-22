@@ -22,6 +22,10 @@ dependencyResolutionManagement {
   }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "WonderLearn"
 include(":composeApp")
+include(":shared")
+include(":server")
  

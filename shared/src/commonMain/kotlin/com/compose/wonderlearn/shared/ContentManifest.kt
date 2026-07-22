@@ -1,4 +1,4 @@
-package com.compose.wonderlearn.data.content
+package com.compose.wonderlearn.shared
 
 import kotlinx.serialization.Serializable
 
