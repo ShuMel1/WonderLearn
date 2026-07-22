@@ -2,8 +2,10 @@ package com.compose.wonderlearn.di
 
 import com.compose.wonderlearn.audio.AudioPlayer
 import com.compose.wonderlearn.data.DatabaseDriverFactory
-import com.compose.wonderlearn.data.DatabaseSeeder
 import com.compose.wonderlearn.data.DefaultPronouncer
+import com.compose.wonderlearn.data.content.BundledContentSource
+import com.compose.wonderlearn.data.content.ContentSeeder
+import com.compose.wonderlearn.data.content.ContentSource
 import com.compose.wonderlearn.data.SqlDelightLanguagePreferences
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
 import com.compose.wonderlearn.data.SqlDelightProfileRepository
@@ -23,6 +25,7 @@ import com.compose.wonderlearn.feature.language.LanguagePickerViewModel
 import com.compose.wonderlearn.feature.learned.LearnedViewModel
 import com.compose.wonderlearn.feature.quiz.QuizViewModel
 import com.compose.wonderlearn.feature.words.WordListViewModel
+import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
@@ -32,14 +35,17 @@ import org.koin.dsl.module
 expect val platformModule: Module
 
 val appModule = module {
-  single { WonderLearnDatabase(get<DatabaseDriverFactory>().createDriver()).also(DatabaseSeeder::seedIfEmpty) }
+  single { WonderLearnDatabase(get<DatabaseDriverFactory>().createDriver()) }
+  single { Json { ignoreUnknownKeys = true } }
+  single<ContentSource> { BundledContentSource(get()) }
+  single { ContentSeeder(get(), get()) }
   single<VocabularyRepository> { SqlDelightVocabularyRepository(get()) }
   single<ProfileRepository> { SqlDelightProfileRepository(get()) }
   single<LearningRepository> { SqlDelightLearningRepository(get(), get()) }
   single<LanguagePreferences> { SqlDelightLanguagePreferences(get()) }
   single { AudioPlayer() }
   single<Pronouncer> { DefaultPronouncer(get(), get()) }
-  viewModel { AppViewModel(get()) }
+  viewModel { AppViewModel(get(), get()) }
   viewModel { AccountViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }

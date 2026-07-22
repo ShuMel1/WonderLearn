@@ -2,12 +2,15 @@ package com.compose.wonderlearn.feature.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.compose.wonderlearn.data.content.ContentSeeder
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 data class AppState(
   val loading: Boolean = true,
@@ -17,13 +20,24 @@ data class AppState(
 
 class AppViewModel(
   preferences: LanguagePreferences,
+  contentSeeder: ContentSeeder,
 ) : ViewModel() {
+
+  private val contentReady = MutableStateFlow(false)
+
+  init {
+    viewModelScope.launch {
+      contentSeeder.sync()
+      contentReady.value = true
+    }
+  }
 
   val state: StateFlow<AppState> =
     combine(
       preferences.nativeLanguage(),
       preferences.targetLanguage(),
-    ) { native, target ->
-      AppState(loading = false, nativeLanguage = native, targetLanguage = target)
+      contentReady,
+    ) { native, target, ready ->
+      AppState(loading = !ready, nativeLanguage = native, targetLanguage = target)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AppState(loading = true))
 }

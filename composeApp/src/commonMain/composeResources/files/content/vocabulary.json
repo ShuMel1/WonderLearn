@@ -1,0 +1,553 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "fruits",
+      "title": "Fruits",
+      "emoji": "🍎",
+      "sortIndex": 0
+    },
+    {
+      "id": "animals",
+      "title": "Animals",
+      "emoji": "🐶",
+      "sortIndex": 1
+    },
+    {
+      "id": "colors",
+      "title": "Colors",
+      "emoji": "🎨",
+      "sortIndex": 2
+    },
+    {
+      "id": "food",
+      "title": "Food",
+      "emoji": "🍞",
+      "sortIndex": 3
+    },
+    {
+      "id": "vehicles",
+      "title": "Vehicles",
+      "emoji": "🚗",
+      "sortIndex": 4
+    },
+    {
+      "id": "nature",
+      "title": "Nature",
+      "emoji": "🌳",
+      "sortIndex": 5
+    }
+  ],
+  "words": [
+    {
+      "id": "apple",
+      "categoryId": "fruits",
+      "emoji": "🍎",
+      "translations": {
+        "hy": "Խնձոր",
+        "en": "Apple",
+        "ru": "Яблоко"
+      }
+    },
+    {
+      "id": "banana",
+      "categoryId": "fruits",
+      "emoji": "🍌",
+      "translations": {
+        "hy": "Բանան",
+        "en": "Banana",
+        "ru": "Банан"
+      }
+    },
+    {
+      "id": "orange",
+      "categoryId": "fruits",
+      "emoji": "🍊",
+      "translations": {
+        "hy": "Նարինջ",
+        "en": "Orange",
+        "ru": "Апельсин"
+      }
+    },
+    {
+      "id": "grapes",
+      "categoryId": "fruits",
+      "emoji": "🍇",
+      "translations": {
+        "hy": "Խաղող",
+        "en": "Grapes",
+        "ru": "Виноград"
+      }
+    },
+    {
+      "id": "strawberry",
+      "categoryId": "fruits",
+      "emoji": "🍓",
+      "translations": {
+        "hy": "Ելակ",
+        "en": "Strawberry",
+        "ru": "Клубника"
+      }
+    },
+    {
+      "id": "watermelon",
+      "categoryId": "fruits",
+      "emoji": "🍉",
+      "translations": {
+        "hy": "Ձմերուկ",
+        "en": "Watermelon",
+        "ru": "Арбуз"
+      }
+    },
+    {
+      "id": "pear",
+      "categoryId": "fruits",
+      "emoji": "🍐",
+      "translations": {
+        "hy": "Տանձ",
+        "en": "Pear",
+        "ru": "Груша"
+      }
+    },
+    {
+      "id": "cherry",
+      "categoryId": "fruits",
+      "emoji": "🍒",
+      "translations": {
+        "hy": "Բալ",
+        "en": "Cherry",
+        "ru": "Вишня"
+      }
+    },
+    {
+      "id": "lemon",
+      "categoryId": "fruits",
+      "emoji": "🍋",
+      "translations": {
+        "hy": "Կիտրոն",
+        "en": "Lemon",
+        "ru": "Лимон"
+      }
+    },
+    {
+      "id": "dog",
+      "categoryId": "animals",
+      "emoji": "🐶",
+      "translations": {
+        "hy": "Շուն",
+        "en": "Dog",
+        "ru": "Собака"
+      }
+    },
+    {
+      "id": "cat",
+      "categoryId": "animals",
+      "emoji": "🐱",
+      "translations": {
+        "hy": "Կատու",
+        "en": "Cat",
+        "ru": "Кошка"
+      }
+    },
+    {
+      "id": "horse",
+      "categoryId": "animals",
+      "emoji": "🐴",
+      "translations": {
+        "hy": "Ձի",
+        "en": "Horse",
+        "ru": "Лошадь"
+      }
+    },
+    {
+      "id": "lion",
+      "categoryId": "animals",
+      "emoji": "🦁",
+      "translations": {
+        "hy": "Առյուծ",
+        "en": "Lion",
+        "ru": "Лев"
+      }
+    },
+    {
+      "id": "elephant",
+      "categoryId": "animals",
+      "emoji": "🐘",
+      "translations": {
+        "hy": "Փիղ",
+        "en": "Elephant",
+        "ru": "Слон"
+      }
+    },
+    {
+      "id": "bear",
+      "categoryId": "animals",
+      "emoji": "🐻",
+      "translations": {
+        "hy": "Արջ",
+        "en": "Bear",
+        "ru": "Медведь"
+      }
+    },
+    {
+      "id": "rabbit",
+      "categoryId": "animals",
+      "emoji": "🐰",
+      "translations": {
+        "hy": "Նապաստակ",
+        "en": "Rabbit",
+        "ru": "Кролик"
+      }
+    },
+    {
+      "id": "fox",
+      "categoryId": "animals",
+      "emoji": "🦊",
+      "translations": {
+        "hy": "Աղվես",
+        "en": "Fox",
+        "ru": "Лиса"
+      }
+    },
+    {
+      "id": "cow",
+      "categoryId": "animals",
+      "emoji": "🐮",
+      "translations": {
+        "hy": "Կով",
+        "en": "Cow",
+        "ru": "Корова"
+      }
+    },
+    {
+      "id": "monkey",
+      "categoryId": "animals",
+      "emoji": "🐵",
+      "translations": {
+        "hy": "Կապիկ",
+        "en": "Monkey",
+        "ru": "Обезьяна"
+      }
+    },
+    {
+      "id": "red",
+      "categoryId": "colors",
+      "emoji": "🔴",
+      "translations": {
+        "hy": "Կարմիր",
+        "en": "Red",
+        "ru": "Красный"
+      }
+    },
+    {
+      "id": "blue",
+      "categoryId": "colors",
+      "emoji": "🔵",
+      "translations": {
+        "hy": "Կապույտ",
+        "en": "Blue",
+        "ru": "Синий"
+      }
+    },
+    {
+      "id": "green",
+      "categoryId": "colors",
+      "emoji": "🟢",
+      "translations": {
+        "hy": "Կանաչ",
+        "en": "Green",
+        "ru": "Зелёный"
+      }
+    },
+    {
+      "id": "yellow",
+      "categoryId": "colors",
+      "emoji": "🟡",
+      "translations": {
+        "hy": "Դեղին",
+        "en": "Yellow",
+        "ru": "Жёлтый"
+      }
+    },
+    {
+      "id": "black",
+      "categoryId": "colors",
+      "emoji": "⚫",
+      "translations": {
+        "hy": "Սև",
+        "en": "Black",
+        "ru": "Чёрный"
+      }
+    },
+    {
+      "id": "white",
+      "categoryId": "colors",
+      "emoji": "⚪",
+      "translations": {
+        "hy": "Սպիտակ",
+        "en": "White",
+        "ru": "Белый"
+      }
+    },
+    {
+      "id": "orange_color",
+      "categoryId": "colors",
+      "emoji": "🟠",
+      "translations": {
+        "hy": "Նարնջագույն",
+        "en": "Orange",
+        "ru": "Оранжевый"
+      }
+    },
+    {
+      "id": "purple",
+      "categoryId": "colors",
+      "emoji": "🟣",
+      "translations": {
+        "hy": "Մանուշակագույն",
+        "en": "Purple",
+        "ru": "Фиолетовый"
+      }
+    },
+    {
+      "id": "bread",
+      "categoryId": "food",
+      "emoji": "🍞",
+      "translations": {
+        "hy": "Հաց",
+        "en": "Bread",
+        "ru": "Хлеб"
+      }
+    },
+    {
+      "id": "milk",
+      "categoryId": "food",
+      "emoji": "🥛",
+      "translations": {
+        "hy": "Կաթ",
+        "en": "Milk",
+        "ru": "Молоко"
+      }
+    },
+    {
+      "id": "cheese",
+      "categoryId": "food",
+      "emoji": "🧀",
+      "translations": {
+        "hy": "Պանիր",
+        "en": "Cheese",
+        "ru": "Сыр"
+      }
+    },
+    {
+      "id": "egg",
+      "categoryId": "food",
+      "emoji": "🥚",
+      "translations": {
+        "hy": "Ձու",
+        "en": "Egg",
+        "ru": "Яйцо"
+      }
+    },
+    {
+      "id": "water",
+      "categoryId": "food",
+      "emoji": "💧",
+      "translations": {
+        "hy": "Ջուր",
+        "en": "Water",
+        "ru": "Вода"
+      }
+    },
+    {
+      "id": "rice",
+      "categoryId": "food",
+      "emoji": "🍚",
+      "translations": {
+        "hy": "Բրինձ",
+        "en": "Rice",
+        "ru": "Рис"
+      }
+    },
+    {
+      "id": "meat",
+      "categoryId": "food",
+      "emoji": "🍖",
+      "translations": {
+        "hy": "Միս",
+        "en": "Meat",
+        "ru": "Мясо"
+      }
+    },
+    {
+      "id": "soup",
+      "categoryId": "food",
+      "emoji": "🍲",
+      "translations": {
+        "hy": "Ապուր",
+        "en": "Soup",
+        "ru": "Суп"
+      }
+    },
+    {
+      "id": "honey",
+      "categoryId": "food",
+      "emoji": "🍯",
+      "translations": {
+        "hy": "Մեղր",
+        "en": "Honey",
+        "ru": "Мёд"
+      }
+    },
+    {
+      "id": "car",
+      "categoryId": "vehicles",
+      "emoji": "🚗",
+      "translations": {
+        "hy": "Մեքենա",
+        "en": "Car",
+        "ru": "Машина"
+      }
+    },
+    {
+      "id": "bus",
+      "categoryId": "vehicles",
+      "emoji": "🚌",
+      "translations": {
+        "hy": "Ավտոբուս",
+        "en": "Bus",
+        "ru": "Автобус"
+      }
+    },
+    {
+      "id": "train",
+      "categoryId": "vehicles",
+      "emoji": "🚆",
+      "translations": {
+        "hy": "Գնացք",
+        "en": "Train",
+        "ru": "Поезд"
+      }
+    },
+    {
+      "id": "plane",
+      "categoryId": "vehicles",
+      "emoji": "✈️",
+      "translations": {
+        "hy": "Ինքնաթիռ",
+        "en": "Plane",
+        "ru": "Самолёт"
+      }
+    },
+    {
+      "id": "bicycle",
+      "categoryId": "vehicles",
+      "emoji": "🚲",
+      "translations": {
+        "hy": "Հեծանիվ",
+        "en": "Bicycle",
+        "ru": "Велосипед"
+      }
+    },
+    {
+      "id": "boat",
+      "categoryId": "vehicles",
+      "emoji": "🛶",
+      "translations": {
+        "hy": "Նավակ",
+        "en": "Boat",
+        "ru": "Лодка"
+      }
+    },
+    {
+      "id": "truck",
+      "categoryId": "vehicles",
+      "emoji": "🚚",
+      "translations": {
+        "hy": "Բեռնատար",
+        "en": "Truck",
+        "ru": "Грузовик"
+      }
+    },
+    {
+      "id": "tree",
+      "categoryId": "nature",
+      "emoji": "🌳",
+      "translations": {
+        "hy": "Ծառ",
+        "en": "Tree",
+        "ru": "Дерево"
+      }
+    },
+    {
+      "id": "flower",
+      "categoryId": "nature",
+      "emoji": "🌸",
+      "translations": {
+        "hy": "Ծաղիկ",
+        "en": "Flower",
+        "ru": "Цветок"
+      }
+    },
+    {
+      "id": "sun",
+      "categoryId": "nature",
+      "emoji": "☀️",
+      "translations": {
+        "hy": "Արև",
+        "en": "Sun",
+        "ru": "Солнце"
+      }
+    },
+    {
+      "id": "moon",
+      "categoryId": "nature",
+      "emoji": "🌙",
+      "translations": {
+        "hy": "Լուսին",
+        "en": "Moon",
+        "ru": "Луна"
+      }
+    },
+    {
+      "id": "star",
+      "categoryId": "nature",
+      "emoji": "⭐",
+      "translations": {
+        "hy": "Աստղ",
+        "en": "Star",
+        "ru": "Звезда"
+      }
+    },
+    {
+      "id": "rain",
+      "categoryId": "nature",
+      "emoji": "🌧️",
+      "translations": {
+        "hy": "Անձրև",
+        "en": "Rain",
+        "ru": "Дождь"
+      }
+    },
+    {
+      "id": "mountain",
+      "categoryId": "nature",
+      "emoji": "⛰️",
+      "translations": {
+        "hy": "Սար",
+        "en": "Mountain",
+        "ru": "Гора"
+      }
+    },
+    {
+      "id": "river",
+      "categoryId": "nature",
+      "emoji": "🏞️",
+      "translations": {
+        "hy": "Գետ",
+        "en": "River",
+        "ru": "Река"
+      }
+    }
+  ]
+}
