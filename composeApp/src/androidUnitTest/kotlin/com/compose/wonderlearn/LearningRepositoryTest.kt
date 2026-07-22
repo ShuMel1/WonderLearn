@@ -1,7 +1,7 @@
 package com.compose.wonderlearn
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import com.compose.wonderlearn.data.content.ContentManifest
+import com.compose.wonderlearn.shared.ContentManifest
 import com.compose.wonderlearn.data.content.ContentSource
 import com.compose.wonderlearn.data.content.ContentSeeder
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
