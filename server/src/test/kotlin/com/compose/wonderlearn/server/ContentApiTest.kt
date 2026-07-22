@@ -27,6 +27,16 @@ class ContentApiTest {
   }
 
   @Test
+  fun theRootDescribesTheService() = testApplication {
+    application { module(store) }
+    val response = client.get("/")
+    assertEquals(HttpStatusCode.OK, response.status)
+    val body = response.bodyAsText()
+    assertTrue(body.contains("wonderlearn-api"), "got $body")
+    assertTrue(body.contains("/v1/content/manifest"), "root lists its endpoints, got $body")
+  }
+
+  @Test
   fun healthReportsTheContentVersion() = testApplication {
     application { module(store) }
     val body = client.get("/health").bodyAsText()

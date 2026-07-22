@@ -9,6 +9,13 @@ data class HealthResponse(
 )
 
 @Serializable
+data class ServiceInfo(
+  val service: String,
+  val contentVersion: Long,
+  val endpoints: List<String>,
+)
+
+@Serializable
 data class ErrorResponse(
   val error: String,
 )

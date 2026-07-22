@@ -3,6 +3,7 @@ package com.compose.wonderlearn.server
 import com.compose.wonderlearn.shared.ContentManifest
 import com.compose.wonderlearn.shared.ContentManifestRoute
 import com.compose.wonderlearn.shared.HealthRoute
+import com.compose.wonderlearn.shared.RootRoute
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -37,6 +38,16 @@ fun Application.module(contentStore: ContentStore = ResourceContentStore()) {
   }
 
   routing {
+    get<RootRoute> {
+      call.respond(
+        ServiceInfo(
+          service = "wonderlearn-api",
+          contentVersion = contentStore.manifest().version,
+          endpoints = listOf("/health", "/v1/content/manifest"),
+        ),
+      )
+    }
+
     get<HealthRoute> {
       call.respond(HealthResponse(status = "ok", contentVersion = contentStore.manifest().version))
     }
