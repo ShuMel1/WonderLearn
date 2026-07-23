@@ -1,5 +1,7 @@
 package com.compose.wonderlearn.feature.learned
 
+import com.compose.wonderlearn.ui.AppStrings
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,15 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.VocabularyItem
-import com.compose.wonderlearn.resources.action_revise
 import com.compose.wonderlearn.ui.LocalLanguage
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.learned_empty
-import com.compose.wonderlearn.resources.learned_title
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,7 +52,7 @@ fun LearnedScreen(
     containerColor = MaterialTheme.colorScheme.background,
     topBar = {
       WonderTopBar(
-        title = "🎓 ${stringResource(Res.string.learned_title)}",
+        title = "🎓 ${AppStrings.learned_title()}",
         onBack = onBack,
       )
     },
@@ -63,7 +60,7 @@ fun LearnedScreen(
       if (items.isNotEmpty()) {
         ExtendedFloatingActionButton(onClick = onRevise) {
           Text(
-            "🎓  ${stringResource(Res.string.action_revise)}",
+            "🎓  ${AppStrings.action_revise()}",
             fontWeight = FontWeight.Bold,
           )
         }
@@ -76,7 +73,7 @@ fun LearnedScreen(
         contentAlignment = Alignment.Center,
       ) {
         Text(
-          stringResource(Res.string.learned_empty),
+          AppStrings.learned_empty(),
           fontSize = 18.sp,
           textAlign = TextAlign.Center,
           color = MaterialTheme.colorScheme.onSurfaceVariant,

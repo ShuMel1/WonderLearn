@@ -1,5 +1,7 @@
 package com.compose.wonderlearn.feature.categories
 
+import com.compose.wonderlearn.ui.AppStrings
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,13 +32,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.Category
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.home_learn
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -51,7 +50,7 @@ fun CategoriesScreen(
     containerColor = MaterialTheme.colorScheme.background,
     topBar = {
       WonderTopBar(
-        title = stringResource(Res.string.home_learn),
+        title = AppStrings.home_learn(),
         onBack = onBack,
       )
     },
