@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.LearningRepository
+import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.Pronouncer
 import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.VocabularyItem
@@ -33,6 +34,7 @@ data class QuizState(
 
 class QuizViewModel(
   private val learning: LearningRepository,
+  private val progress: ProgressRepository,
   private val pronouncer: Pronouncer,
   private val preferences: LanguagePreferences,
   private val mode: QuizMode = QuizMode.LEARN,
@@ -82,6 +84,8 @@ class QuizViewModel(
       viewModelScope.launch {
         val nowLearned =
           learning.recordCorrect(target.id, awaitLanguage()) && mode == QuizMode.LEARN
+        progress.recordCorrectAnswer()
+        if (nowLearned) progress.recordWordLearned()
         _state.value = _state.value.copy(
           solved = true,
           wrongId = null,

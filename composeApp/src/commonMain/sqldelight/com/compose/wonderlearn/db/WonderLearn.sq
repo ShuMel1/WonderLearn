@@ -40,6 +40,14 @@ CREATE TABLE AppSetting (
   value TEXT NOT NULL
 );
 
+CREATE TABLE DailyActivity (
+  profileId TEXT NOT NULL,
+  day INTEGER NOT NULL,
+  wordsLearned INTEGER NOT NULL DEFAULT 0,
+  xpEarned INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (profileId, day)
+);
+
 countCategories:
 SELECT count(*) FROM CategoryEntity;
 
@@ -137,6 +145,22 @@ DELETE FROM WordProgress WHERE profileId = ?;
 
 selectAnyOtherProfileId:
 SELECT id FROM Profile WHERE id != ? ORDER BY sortIndex LIMIT 1;
+
+ensureDailyActivity:
+INSERT OR IGNORE INTO DailyActivity(profileId, day, wordsLearned, xpEarned) VALUES (?, ?, 0, 0);
+
+addDailyActivity:
+UPDATE DailyActivity SET wordsLearned = wordsLearned + ?, xpEarned = xpEarned + ?
+WHERE profileId = ? AND day = ?;
+
+selectDayActivity:
+SELECT wordsLearned, xpEarned FROM DailyActivity WHERE profileId = ? AND day = ?;
+
+selectActiveDays:
+SELECT day FROM DailyActivity WHERE profileId = ? AND wordsLearned > 0 ORDER BY day DESC;
+
+selectTotalXp:
+SELECT COALESCE(SUM(xpEarned), 0) FROM DailyActivity WHERE profileId = ?;
 
 selectSetting:
 SELECT value FROM AppSetting WHERE key = ?;
