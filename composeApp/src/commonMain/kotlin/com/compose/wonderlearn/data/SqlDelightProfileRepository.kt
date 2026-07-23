@@ -51,6 +51,29 @@ class SqlDelightProfileRepository(
       }
       profile
     }
+
+  override suspend fun renameProfile(id: String, displayName: String) {
+    val name = displayName.trim()
+    if (name.isEmpty()) return
+    withContext(dispatcher) { queries.renameProfile(name, id) }
+  }
+
+  override suspend fun deleteProfile(id: String): Boolean =
+    withContext(dispatcher) {
+      queries.transactionWithResult {
+        if (queries.countProfiles().executeAsOne() <= 1L) return@transactionWithResult false
+        if (currentActiveProfileId() == id) {
+          val next = queries.selectAnyOtherProfileId(id).executeAsOneOrNull()
+          if (next != null) queries.upsertSetting(KEY_ACTIVE_PROFILE, next)
+        }
+        queries.deleteProfileProgress(id)
+        queries.deleteProfile(id)
+        true
+      }
+    }
+
+  private fun currentActiveProfileId(): String =
+    queries.selectSetting(KEY_ACTIVE_PROFILE).executeAsOneOrNull() ?: DEFAULT_PROFILE_ID
 }
 
 private fun newProfileId(): String =

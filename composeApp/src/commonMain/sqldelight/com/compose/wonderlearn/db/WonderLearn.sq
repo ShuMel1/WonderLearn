@@ -126,6 +126,18 @@ ensureDefaultProfile:
 INSERT OR IGNORE INTO Profile(id, displayName, avatarId, sortIndex)
 VALUES (?, ?, NULL, 0);
 
+renameProfile:
+UPDATE Profile SET displayName = ? WHERE id = ?;
+
+deleteProfile:
+DELETE FROM Profile WHERE id = ?;
+
+deleteProfileProgress:
+DELETE FROM WordProgress WHERE profileId = ?;
+
+selectAnyOtherProfileId:
+SELECT id FROM Profile WHERE id != ? ORDER BY sortIndex LIMIT 1;
+
 selectSetting:
 SELECT value FROM AppSetting WHERE key = ?;
 

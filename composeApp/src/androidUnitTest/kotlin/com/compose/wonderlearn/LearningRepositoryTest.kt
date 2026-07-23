@@ -214,6 +214,63 @@ class LearningRepositoryTest {
   }
 
   @Test
+  fun deletingAProfileRemovesItsProgressAndDoesNotOrphanRows() = runTest {
+    val fixture = newFixture(UnconfinedTestDispatcher(testScheduler))
+    val keep = fixture.profiles.createProfile("Keeper")
+    val child = fixture.profiles.createProfile("Aram")
+    fixture.profiles.setActiveProfile(child.id)
+    repeat(3) { fixture.repo.recordCorrect("apple", hy) }
+    assertTrue(fixture.repo.learnedItems(hy).first().any { it.id == "apple" })
+
+    assertTrue(fixture.profiles.deleteProfile(child.id), "a non-last profile is deletable")
+
+    // active fell back to the remaining profile, which never learned apple
+    assertTrue(fixture.profiles.currentProfileId() == keep.id)
+    assertTrue(fixture.repo.learnedItems(hy).first().none { it.id == "apple" })
+    // and the deleted child's progress rows are gone, not orphaned
+    assertFalse(
+      fixture.repo.recordCorrect("apple", hy),
+      "the surviving profile starts apple from streak 1, proving no stale rows remained",
+    )
+  }
+
+  @Test
+  fun theLastProfileCannotBeDeleted() = runTest {
+    val fixture = newFixture(UnconfinedTestDispatcher(testScheduler))
+    val only = fixture.profiles.createProfile("Only")
+    assertFalse(
+      fixture.profiles.deleteProfile(only.id),
+      "refusing to delete the only profile leaves the app with an active profile",
+    )
+    assertTrue(fixture.profiles.profiles().first().any { it.id == only.id })
+  }
+
+  @Test
+  fun deletingTheActiveProfileReassignsActive() = runTest {
+    val fixture = newFixture(UnconfinedTestDispatcher(testScheduler))
+    fixture.profiles.createProfile("Keeper")
+    val child = fixture.profiles.createProfile("Nare")
+    fixture.profiles.setActiveProfile(child.id)
+
+    fixture.profiles.deleteProfile(child.id)
+
+    assertTrue(
+      fixture.profiles.currentProfileId() != child.id,
+      "active profile no longer points at the deleted one",
+    )
+    assertTrue(fixture.profiles.profiles().first().none { it.id == child.id })
+  }
+
+  @Test
+  fun renamingAProfileChangesItsDisplayName() = runTest {
+    val fixture = newFixture(UnconfinedTestDispatcher(testScheduler))
+    val child = fixture.profiles.createProfile("Typo")
+    fixture.profiles.renameProfile(child.id, "Aram")
+    val renamed = fixture.profiles.profiles().first().first { it.id == child.id }
+    assertTrue(renamed.displayName == "Aram")
+  }
+
+  @Test
   fun everythingLearnedInOneLanguageLeavesOtherLanguagesUntouched() = runTest {
     val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
     manifest.words.forEach { word -> repeat(3) { repo.recordCorrect(word.id, hy) } }

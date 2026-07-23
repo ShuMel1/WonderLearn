@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -88,11 +89,31 @@ fun AccountSheet(
 
   var adding by remember { mutableStateOf(false) }
   var newName by remember { mutableStateOf("") }
+  var editingId by remember { mutableStateOf<String?>(null) }
+  var editName by remember { mutableStateOf("") }
+  var pendingDeleteId by remember { mutableStateOf<String?>(null) }
 
   val submit: () -> Unit = {
     viewModel.addChild(newName)
     newName = ""
     adding = false
+  }
+
+  pendingDeleteId?.let { id ->
+    AlertDialog(
+      onDismissRequest = { pendingDeleteId = null },
+      title = { Text(AppStrings.account_delete_confirm()) },
+      confirmButton = {
+        TextButton(onClick = {
+          viewModel.deleteProfile(id)
+          if (editingId == id) editingId = null
+          pendingDeleteId = null
+        }) { Text(AppStrings.account_delete(), fontWeight = FontWeight.Bold) }
+      },
+      dismissButton = {
+        TextButton(onClick = { pendingDeleteId = null }) { Text(AppStrings.action_cancel()) }
+      },
+    )
   }
 
   ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState) {
@@ -116,12 +137,50 @@ fun AccountSheet(
 
         SectionLabel(AppStrings.account_who_is_learning())
         state.profiles.forEach { profile ->
-          AccountRow(
-            leading = profile.displayName.initial(),
-            label = profile.displayName,
-            selected = profile.id == state.activeProfileId,
-            onClick = { viewModel.switchProfile(profile.id) },
-          )
+          if (editingId == profile.id) {
+            Row(
+              modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+              verticalAlignment = Alignment.CenterVertically,
+              horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+              OutlinedTextField(
+                value = editName,
+                onValueChange = { editName = it },
+                singleLine = true,
+                shape = RoundedCornerShape(16.dp),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                  viewModel.renameProfile(profile.id, editName)
+                  editingId = null
+                }),
+                modifier = Modifier.weight(1f),
+              )
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+              TextButton(onClick = { editingId = null }) { Text(AppStrings.action_cancel()) }
+              if (state.profiles.size > 1) {
+                TextButton(onClick = { pendingDeleteId = profile.id }) {
+                  Text(AppStrings.account_delete(), color = MaterialTheme.colorScheme.error)
+                }
+              }
+              TextButton(
+                onClick = {
+                  viewModel.renameProfile(profile.id, editName)
+                  editingId = null
+                },
+                enabled = editName.isNotBlank(),
+              ) { Text(AppStrings.action_save(), fontWeight = FontWeight.Bold) }
+            }
+          } else {
+            AccountRow(
+              leading = profile.displayName.initial(),
+              label = profile.displayName,
+              selected = profile.id == state.activeProfileId,
+              onClick = { viewModel.switchProfile(profile.id) },
+              trailingEdit = AppStrings.account_edit(),
+              onEdit = { editingId = profile.id; editName = profile.displayName },
+            )
+          }
         }
 
         if (adding) {
@@ -203,6 +262,8 @@ private fun AccountRow(
   label: String,
   selected: Boolean,
   onClick: () -> Unit,
+  trailingEdit: String? = null,
+  onEdit: (() -> Unit)? = null,
 ) {
   val background =
     if (selected) Sky.copy(alpha = 0.20f) else Color.Transparent
@@ -232,6 +293,18 @@ private fun AccountRow(
     )
     if (selected) {
       Text("✓", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Sky)
+    }
+    if (onEdit != null) {
+      Text(
+        "✎",
+        fontSize = 20.sp,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier
+          .clip(CircleShape)
+          .clickable(onClick = onEdit)
+          .semantics { contentDescription = trailingEdit ?: "" }
+          .padding(6.dp),
+      )
     }
   }
 }
