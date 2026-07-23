@@ -1,7 +1,5 @@
 package com.compose.wonderlearn.feature.account
 
-import com.compose.wonderlearn.ui.AppStrings
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.Language
+import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.ui.theme.Sky
@@ -103,86 +102,86 @@ fun AccountSheet(
       LocalLanguage provides language,
       LocalNativeLanguage provides nativeLanguage,
     ) {
-    Column(
-      modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp).padding(bottom = 32.dp),
-      verticalArrangement = Arrangement.spacedBy(4.dp),
-    ) {
-      Text(
-        AppStrings.account_title(),
-        fontSize = 24.sp,
-        fontWeight = FontWeight.ExtraBold,
-        color = MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.padding(bottom = 12.dp),
-      )
-
-      SectionLabel(AppStrings.account_who_is_learning())
-      state.profiles.forEach { profile ->
-        AccountRow(
-          leading = profile.displayName.initial(),
-          label = profile.displayName,
-          selected = profile.id == state.activeProfileId,
-          onClick = { viewModel.switchProfile(profile.id) },
+      Column(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp).padding(bottom = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+      ) {
+        Text(
+          AppStrings.account_title(),
+          fontSize = 24.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = MaterialTheme.colorScheme.onSurface,
+          modifier = Modifier.padding(bottom = 12.dp),
         )
-      }
 
-      if (adding) {
-        Row(
-          modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-          verticalAlignment = Alignment.CenterVertically,
-          horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-          OutlinedTextField(
-            value = newName,
-            onValueChange = { newName = it },
-            label = { Text(AppStrings.account_child_name()) },
-            singleLine = true,
-            shape = RoundedCornerShape(16.dp),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = { submit() }),
-            modifier = Modifier.weight(1f),
+        SectionLabel(AppStrings.account_who_is_learning())
+        state.profiles.forEach { profile ->
+          AccountRow(
+            leading = profile.displayName.initial(),
+            label = profile.displayName,
+            selected = profile.id == state.activeProfileId,
+            onClick = { viewModel.switchProfile(profile.id) },
           )
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-          TextButton(onClick = { adding = false; newName = "" }) {
-            Text(AppStrings.action_cancel())
+
+        if (adding) {
+          Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+          ) {
+            OutlinedTextField(
+              value = newName,
+              onValueChange = { newName = it },
+              label = { Text(AppStrings.account_child_name()) },
+              singleLine = true,
+              shape = RoundedCornerShape(16.dp),
+              keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+              keyboardActions = KeyboardActions(onDone = { submit() }),
+              modifier = Modifier.weight(1f),
+            )
           }
-          TextButton(onClick = submit, enabled = newName.isNotBlank()) {
-            Text(AppStrings.action_save(), fontWeight = FontWeight.Bold)
+          Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            TextButton(onClick = { adding = false; newName = "" }) {
+              Text(AppStrings.action_cancel())
+            }
+            TextButton(onClick = submit, enabled = newName.isNotBlank()) {
+              Text(AppStrings.action_save(), fontWeight = FontWeight.Bold)
+            }
           }
+        } else {
+          AccountRow(
+            leading = "+",
+            label = AppStrings.account_add_child(),
+            selected = false,
+            onClick = { adding = true },
+          )
         }
-      } else {
-        AccountRow(
-          leading = "+",
-          label = AppStrings.account_add_child(),
-          selected = false,
-          onClick = { adding = true },
-        )
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+
+        SectionLabel(AppStrings.account_my_language())
+        Language.natives.forEach { entry ->
+          AccountRow(
+            leading = entry.flag,
+            label = entry.displayName,
+            selected = entry == nativeLanguage,
+            onClick = { viewModel.chooseNativeLanguage(entry) },
+          )
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+
+        SectionLabel(AppStrings.account_learning_language())
+        Language.targets.forEach { entry ->
+          AccountRow(
+            leading = entry.flag,
+            label = entry.displayName,
+            selected = entry == language,
+            onClick = { viewModel.chooseTargetLanguage(entry) },
+          )
+        }
       }
-
-      HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
-
-      SectionLabel(AppStrings.account_my_language())
-      Language.natives.forEach { entry ->
-        AccountRow(
-          leading = entry.flag,
-          label = entry.displayName,
-          selected = entry == nativeLanguage,
-          onClick = { viewModel.chooseNativeLanguage(entry) },
-        )
-      }
-
-      HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
-
-      SectionLabel(AppStrings.account_learning_language())
-      Language.targets.forEach { entry ->
-        AccountRow(
-          leading = entry.flag,
-          label = entry.displayName,
-          selected = entry == language,
-          onClick = { viewModel.chooseTargetLanguage(entry) },
-        )
-      }
-    }
     }
   }
 }

@@ -8,6 +8,8 @@ import com.compose.wonderlearn.domain.Language
  * language rather than the device locale. Generated from the strings.xml resource files.
  */
 class LocalizedString(private val values: Map<Language, String>) {
+  internal val languages: Set<Language> get() = values.keys
+
   @Composable
   operator fun invoke(): String {
     val language = LocalNativeLanguage.current

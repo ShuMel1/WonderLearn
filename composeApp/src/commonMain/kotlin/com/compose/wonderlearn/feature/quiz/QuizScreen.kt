@@ -1,7 +1,5 @@
 package com.compose.wonderlearn.feature.quiz
 
-import com.compose.wonderlearn.ui.AppStrings
-
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,12 +40,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.VocabularyItem
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.quiz_all_learned
-import com.compose.wonderlearn.resources.revise_empty
+import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -91,9 +86,7 @@ fun QuizScreen(
       ) {
         Text(if (revising) "🎓" else "🏆", fontSize = 96.sp)
         Text(
-          stringResource(
-            if (revising) Res.string.revise_empty else Res.string.quiz_all_learned,
-          ),
+          if (revising) AppStrings.revise_empty() else AppStrings.quiz_all_learned(),
           fontSize = 26.sp,
           fontWeight = FontWeight.ExtraBold,
           color = CorrectGreen,
