@@ -77,6 +77,16 @@ class ProgressTest {
     assertEquals(1, p.streakDays, "a day with words learned is a one-day streak")
   }
 
+  @Test fun theDailyGoalIsConfigurableAndReflectedInProgress() = runTest {
+    val repo = newRepo(FakeClock(today = 500))
+    assertEquals(com.compose.wonderlearn.domain.DEFAULT_DAILY_GOAL, repo.dailyProgress().first().dailyGoal)
+    repo.setDailyGoal(10)
+    val p = repo.dailyProgress().first()
+    assertEquals(10, p.dailyGoal)
+    assertEquals(10, repo.dailyGoal().first())
+    assertFalse(p.goalReached, "five words no longer reaches a goal of ten")
+  }
+
   @Test fun activityOnConsecutiveDaysBuildsAStreak() = runTest {
     val clock = FakeClock(today = 500)
     val repo = newRepo(clock)

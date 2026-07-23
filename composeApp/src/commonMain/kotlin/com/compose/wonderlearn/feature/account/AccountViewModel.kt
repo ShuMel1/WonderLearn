@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.Profile
+import com.compose.wonderlearn.domain.DEFAULT_DAILY_GOAL
 import com.compose.wonderlearn.domain.ProfileRepository
+import com.compose.wonderlearn.domain.ProgressRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -15,6 +17,7 @@ import kotlinx.coroutines.launch
 data class AccountState(
   val profiles: List<Profile> = emptyList(),
   val activeProfileId: String? = null,
+  val dailyGoal: Int = DEFAULT_DAILY_GOAL,
 ) {
   val activeProfile: Profile? get() = profiles.firstOrNull { it.id == activeProfileId }
 }
@@ -22,14 +25,20 @@ data class AccountState(
 class AccountViewModel(
   private val profileRepository: ProfileRepository,
   private val languagePreferences: LanguagePreferences,
+  private val progressRepository: ProgressRepository,
 ) : ViewModel() {
 
   val state: StateFlow<AccountState> =
     combine(
       profileRepository.profiles(),
       profileRepository.activeProfileId(),
-    ) { profiles, activeId -> AccountState(profiles, activeId) }
+      progressRepository.dailyGoal(),
+    ) { profiles, activeId, goal -> AccountState(profiles, activeId, goal) }
       .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AccountState())
+
+  fun setDailyGoal(goal: Int) {
+    viewModelScope.launch { progressRepository.setDailyGoal(goal) }
+  }
 
   fun switchProfile(id: String) {
     viewModelScope.launch { profileRepository.setActiveProfile(id) }

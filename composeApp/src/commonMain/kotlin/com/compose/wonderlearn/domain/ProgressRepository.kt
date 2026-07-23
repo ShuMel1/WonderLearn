@@ -9,6 +9,9 @@ const val DEFAULT_DAILY_GOAL = 5
 const val XP_PER_CORRECT = 10
 const val XP_PER_WORD_LEARNED = 50
 
+/** The daily-goal options a parent can choose from. */
+val DAILY_GOAL_CHOICES = listOf(3, 5, 10)
+
 /** Today's learning at a glance, for the home screen. */
 data class DailyProgress(
   val wordsToday: Int = 0,
@@ -35,6 +38,10 @@ interface ProgressRepository {
   suspend fun recordWordLearned()
 
   fun dailyProgress(): Flow<DailyProgress>
+
+  fun dailyGoal(): Flow<Int>
+
+  suspend fun setDailyGoal(goal: Int)
 }
 
 /** Consecutive days with activity, counting back from today (or yesterday if today isn't done yet). */
