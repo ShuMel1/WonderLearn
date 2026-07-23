@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,20 +41,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.Language
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.account_add_child
-import com.compose.wonderlearn.resources.account_child_name
-import com.compose.wonderlearn.resources.account_learning_language
-import com.compose.wonderlearn.resources.account_my_language
-import com.compose.wonderlearn.resources.account_open
-import com.compose.wonderlearn.resources.account_title
-import com.compose.wonderlearn.resources.account_who_is_learning
-import com.compose.wonderlearn.resources.action_cancel
-import com.compose.wonderlearn.resources.action_save
+import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.ui.theme.Sky
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -62,7 +53,7 @@ fun AccountButton(
   onClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  val label = stringResource(Res.string.account_open)
+  val label = AppStrings.account_open()
   Card(
     onClick = onClick,
     shape = CircleShape,
@@ -105,84 +96,91 @@ fun AccountSheet(
   }
 
   ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState) {
-    Column(
-      modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp).padding(bottom = 32.dp),
-      verticalArrangement = Arrangement.spacedBy(4.dp),
+    // A ModalBottomSheet composes in its own subtree, which the app-wide language provider does
+    // not reach, so the chosen language is re-provided here or the sheet renders in English.
+    CompositionLocalProvider(
+      LocalLanguage provides language,
+      LocalNativeLanguage provides nativeLanguage,
     ) {
-      Text(
-        stringResource(Res.string.account_title),
-        fontSize = 24.sp,
-        fontWeight = FontWeight.ExtraBold,
-        color = MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.padding(bottom = 12.dp),
-      )
-
-      SectionLabel(stringResource(Res.string.account_who_is_learning))
-      state.profiles.forEach { profile ->
-        AccountRow(
-          leading = profile.displayName.initial(),
-          label = profile.displayName,
-          selected = profile.id == state.activeProfileId,
-          onClick = { viewModel.switchProfile(profile.id) },
+      Column(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp).padding(bottom = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+      ) {
+        Text(
+          AppStrings.account_title(),
+          fontSize = 24.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = MaterialTheme.colorScheme.onSurface,
+          modifier = Modifier.padding(bottom = 12.dp),
         )
-      }
 
-      if (adding) {
-        Row(
-          modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-          verticalAlignment = Alignment.CenterVertically,
-          horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-          OutlinedTextField(
-            value = newName,
-            onValueChange = { newName = it },
-            label = { Text(stringResource(Res.string.account_child_name)) },
-            singleLine = true,
-            shape = RoundedCornerShape(16.dp),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = { submit() }),
-            modifier = Modifier.weight(1f),
+        SectionLabel(AppStrings.account_who_is_learning())
+        state.profiles.forEach { profile ->
+          AccountRow(
+            leading = profile.displayName.initial(),
+            label = profile.displayName,
+            selected = profile.id == state.activeProfileId,
+            onClick = { viewModel.switchProfile(profile.id) },
           )
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-          TextButton(onClick = { adding = false; newName = "" }) {
-            Text(stringResource(Res.string.action_cancel))
+
+        if (adding) {
+          Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+          ) {
+            OutlinedTextField(
+              value = newName,
+              onValueChange = { newName = it },
+              label = { Text(AppStrings.account_child_name()) },
+              singleLine = true,
+              shape = RoundedCornerShape(16.dp),
+              keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+              keyboardActions = KeyboardActions(onDone = { submit() }),
+              modifier = Modifier.weight(1f),
+            )
           }
-          TextButton(onClick = submit, enabled = newName.isNotBlank()) {
-            Text(stringResource(Res.string.action_save), fontWeight = FontWeight.Bold)
+          Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            TextButton(onClick = { adding = false; newName = "" }) {
+              Text(AppStrings.action_cancel())
+            }
+            TextButton(onClick = submit, enabled = newName.isNotBlank()) {
+              Text(AppStrings.action_save(), fontWeight = FontWeight.Bold)
+            }
           }
+        } else {
+          AccountRow(
+            leading = "+",
+            label = AppStrings.account_add_child(),
+            selected = false,
+            onClick = { adding = true },
+          )
         }
-      } else {
-        AccountRow(
-          leading = "+",
-          label = stringResource(Res.string.account_add_child),
-          selected = false,
-          onClick = { adding = true },
-        )
-      }
 
-      HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
-      SectionLabel(stringResource(Res.string.account_my_language))
-      Language.natives.forEach { entry ->
-        AccountRow(
-          leading = entry.flag,
-          label = entry.displayName,
-          selected = entry == nativeLanguage,
-          onClick = { viewModel.chooseNativeLanguage(entry) },
-        )
-      }
+        SectionLabel(AppStrings.account_my_language())
+        Language.natives.forEach { entry ->
+          AccountRow(
+            leading = entry.flag,
+            label = entry.displayName,
+            selected = entry == nativeLanguage,
+            onClick = { viewModel.chooseNativeLanguage(entry) },
+          )
+        }
 
-      HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
-      SectionLabel(stringResource(Res.string.account_learning_language))
-      Language.targets.forEach { entry ->
-        AccountRow(
-          leading = entry.flag,
-          label = entry.displayName,
-          selected = entry == language,
-          onClick = { viewModel.chooseTargetLanguage(entry) },
-        )
+        SectionLabel(AppStrings.account_learning_language())
+        Language.targets.forEach { entry ->
+          AccountRow(
+            leading = entry.flag,
+            label = entry.displayName,
+            selected = entry == language,
+            onClick = { viewModel.chooseTargetLanguage(entry) },
+          )
+        }
       }
     }
   }

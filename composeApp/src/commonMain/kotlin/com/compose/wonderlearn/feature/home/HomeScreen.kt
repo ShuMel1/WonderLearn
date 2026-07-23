@@ -31,24 +31,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.app_name
-import com.compose.wonderlearn.resources.coming_soon
-import com.compose.wonderlearn.resources.home_learn
-import com.compose.wonderlearn.resources.home_learned
-import com.compose.wonderlearn.resources.home_review
-import com.compose.wonderlearn.resources.home_stories
-import com.compose.wonderlearn.resources.home_tagline
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.feature.account.AccountButton
 import com.compose.wonderlearn.feature.account.AccountSheet
 import com.compose.wonderlearn.feature.account.AccountViewModel
+import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +52,7 @@ fun HomeScreen(
 ) {
   val snackbarHostState = remember { SnackbarHostState() }
   val scope = rememberCoroutineScope()
-  val comingSoon = stringResource(Res.string.coming_soon)
+  val comingSoon = AppStrings.coming_soon()
   val showComingSoon: () -> Unit = { scope.launch { snackbarHostState.showSnackbar(comingSoon) } }
 
   val accountViewModel: AccountViewModel = koinViewModel()
@@ -92,13 +84,13 @@ fun HomeScreen(
       ) {
         Text("🦉", fontSize = 96.sp)
         Text(
-          "${stringResource(Res.string.app_name)} ✨",
+          "${AppStrings.app_name()} ✨",
           fontSize = 40.sp,
           fontWeight = FontWeight.ExtraBold,
           color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
-          stringResource(Res.string.home_tagline),
+          AppStrings.home_tagline(),
           fontSize = 18.sp,
           color = MaterialTheme.colorScheme.onSurfaceVariant,
           textAlign = TextAlign.Center,
@@ -114,15 +106,15 @@ fun HomeScreen(
           modifier = Modifier.fillMaxWidth(),
           horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-          HomeTile(Modifier.weight(1f), "📚", stringResource(Res.string.home_learn), Sky, onLearn)
-          HomeTile(Modifier.weight(1f), "🎯", stringResource(Res.string.home_review), Coral, onReview)
+          HomeTile(Modifier.weight(1f), "📚", AppStrings.home_learn(), Sky, onLearn)
+          HomeTile(Modifier.weight(1f), "🎯", AppStrings.home_review(), Coral, onReview)
         }
         Row(
           modifier = Modifier.fillMaxWidth(),
           horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-          HomeTile(Modifier.weight(1f), "🎓", stringResource(Res.string.home_learned), Sunny, onLearned)
-          HomeTile(Modifier.weight(1f), "📖", stringResource(Res.string.home_stories), Grape, showComingSoon)
+          HomeTile(Modifier.weight(1f), "🎓", AppStrings.home_learned(), Sunny, onLearned)
+          HomeTile(Modifier.weight(1f), "📖", AppStrings.home_stories(), Grape, showComingSoon)
         }
       }
     }

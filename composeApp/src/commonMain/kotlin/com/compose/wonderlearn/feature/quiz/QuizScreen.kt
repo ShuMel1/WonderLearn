@@ -40,20 +40,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.VocabularyItem
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.action_repeat
-import com.compose.wonderlearn.resources.action_revise
-import com.compose.wonderlearn.resources.pronunciation_unavailable
-import com.compose.wonderlearn.resources.quiz_all_learned
-import com.compose.wonderlearn.resources.quiz_correct
-import com.compose.wonderlearn.resources.quiz_learned
-import com.compose.wonderlearn.resources.quiz_prompt
-import com.compose.wonderlearn.resources.quiz_score
-import com.compose.wonderlearn.resources.revise_done
-import com.compose.wonderlearn.resources.revise_empty
+import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -70,7 +59,7 @@ fun QuizScreen(
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
   val snackbarHostState = remember { SnackbarHostState() }
-  val unavailable = stringResource(Res.string.pronunciation_unavailable)
+  val unavailable = AppStrings.pronunciation_unavailable()
   LaunchedEffect(viewModel) {
     viewModel.unavailable.collect { snackbarHostState.showSnackbar(unavailable) }
   }
@@ -80,8 +69,8 @@ fun QuizScreen(
     topBar = {
       WonderTopBar(
         title = when (state.mode) {
-          QuizMode.REVISE -> "${stringResource(Res.string.action_revise)}: ${state.score}"
-          QuizMode.LEARN -> "${stringResource(Res.string.quiz_score)}: ${state.score}"
+          QuizMode.REVISE -> "${AppStrings.action_revise()}: ${state.score}"
+          QuizMode.LEARN -> "${AppStrings.quiz_score()}: ${state.score}"
         },
         onBack = onBack,
       )
@@ -97,9 +86,7 @@ fun QuizScreen(
       ) {
         Text(if (revising) "🎓" else "🏆", fontSize = 96.sp)
         Text(
-          stringResource(
-            if (revising) Res.string.revise_empty else Res.string.quiz_all_learned,
-          ),
+          if (revising) AppStrings.revise_empty() else AppStrings.quiz_all_learned(),
           fontSize = 26.sp,
           fontWeight = FontWeight.ExtraBold,
           color = CorrectGreen,
@@ -112,7 +99,7 @@ fun QuizScreen(
             modifier = Modifier.height(56.dp),
           ) {
             Text(
-              "🎓  ${stringResource(Res.string.action_revise)}",
+              "🎓  ${AppStrings.action_revise()}",
               fontSize = 18.sp,
               fontWeight = FontWeight.Bold,
             )
@@ -127,10 +114,10 @@ fun QuizScreen(
       verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
       val prompt = when {
-        state.solved && state.justLearned -> stringResource(Res.string.quiz_learned)
-        state.solved && state.mode == QuizMode.REVISE -> stringResource(Res.string.revise_done)
-        state.solved -> stringResource(Res.string.quiz_correct)
-        else -> stringResource(Res.string.quiz_prompt)
+        state.solved && state.justLearned -> AppStrings.quiz_learned()
+        state.solved && state.mode == QuizMode.REVISE -> AppStrings.revise_done()
+        state.solved -> AppStrings.quiz_correct()
+        else -> AppStrings.quiz_prompt()
       }
       Text(
         prompt,
@@ -140,7 +127,7 @@ fun QuizScreen(
       )
 
       FilledTonalButton(onClick = { viewModel.replay() }, enabled = !state.speaking) {
-        Text("🔁  ${stringResource(Res.string.action_repeat)}", fontSize = 16.sp)
+        Text("🔁  ${AppStrings.action_repeat()}", fontSize = 16.sp)
       }
 
       val options = state.options

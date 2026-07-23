@@ -37,16 +37,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.VocabularyItem
-import com.compose.wonderlearn.resources.action_listen
-import com.compose.wonderlearn.resources.pronunciation_unavailable
+import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.LocalLanguage
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.title_words
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -64,7 +60,7 @@ fun WordListScreen(
   val accent = colorForCategory(categoryId)
 
   val snackbarHostState = remember { SnackbarHostState() }
-  val unavailableMessage = stringResource(Res.string.pronunciation_unavailable)
+  val unavailableMessage = AppStrings.pronunciation_unavailable()
   LaunchedEffect(viewModel) {
     viewModel.unavailable.collect { snackbarHostState.showSnackbar(unavailableMessage) }
   }
@@ -73,7 +69,7 @@ fun WordListScreen(
     containerColor = MaterialTheme.colorScheme.background,
     topBar = {
       WonderTopBar(
-        title = stringResource(Res.string.title_words),
+        title = AppStrings.title_words(),
         onBack = onBack,
         containerColor = accent,
       )
@@ -136,7 +132,7 @@ private fun WordCard(
         color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier.weight(1f),
       )
-      val listenLabel = stringResource(Res.string.action_listen)
+      val listenLabel = AppStrings.action_listen()
       Box(
         modifier = Modifier
           .size(52.dp)
