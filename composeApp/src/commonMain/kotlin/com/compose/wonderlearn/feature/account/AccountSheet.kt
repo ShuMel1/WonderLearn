@@ -41,6 +41,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.domain.DAILY_GOAL_CHOICES
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.LocalLanguage
@@ -215,6 +216,34 @@ fun AccountSheet(
             selected = false,
             onClick = { adding = true },
           )
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+
+        SectionLabel(AppStrings.home_daily_goal())
+        Row(
+          modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
+          horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+          DAILY_GOAL_CHOICES.forEach { choice ->
+            val selected = choice == state.dailyGoal
+            Box(
+              modifier = Modifier
+                .weight(1f)
+                .clip(RoundedCornerShape(16.dp))
+                .background(if (selected) Sky.copy(alpha = 0.20f) else MaterialTheme.colorScheme.surfaceVariant)
+                .clickable { viewModel.setDailyGoal(choice) }
+                .padding(vertical = 14.dp),
+              contentAlignment = Alignment.Center,
+            ) {
+              Text(
+                "📚 $choice",
+                fontSize = 16.sp,
+                fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                color = if (selected) Sky else MaterialTheme.colorScheme.onSurface,
+              )
+            }
+          }
         }
 
         HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))

@@ -62,7 +62,7 @@ val appModule = module {
   single { AudioPlayer() }
   single<Pronouncer> { DefaultPronouncer(get(), get()) }
   viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
-  viewModel { AccountViewModel(get(), get()) }
+  viewModel { AccountViewModel(get(), get(), get()) }
   viewModel { HomeViewModel(get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }
