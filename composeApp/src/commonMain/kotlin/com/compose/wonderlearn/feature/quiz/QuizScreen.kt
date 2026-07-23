@@ -41,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.ui.AppStrings
+import com.compose.wonderlearn.ui.ConfettiBurst
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import org.koin.compose.viewmodel.koinViewModel
@@ -64,6 +65,7 @@ fun QuizScreen(
     viewModel.unavailable.collect { snackbarHostState.showSnackbar(unavailable) }
   }
 
+  Box(modifier = Modifier.fillMaxSize()) {
   Scaffold(
     containerColor = MaterialTheme.colorScheme.background,
     topBar = {
@@ -153,6 +155,11 @@ fun QuizScreen(
         }
       }
     }
+  }
+    ConfettiBurst(
+      visible = state.solved && state.justLearned,
+      modifier = Modifier.fillMaxSize(),
+    )
   }
 }
 
