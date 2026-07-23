@@ -1,0 +1,59 @@
+package com.compose.wonderlearn.data
+
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
+import com.compose.wonderlearn.db.WonderLearnDatabase
+import com.compose.wonderlearn.domain.DEFAULT_DAILY_GOAL
+import com.compose.wonderlearn.domain.DailyProgress
+import com.compose.wonderlearn.domain.ProfileRepository
+import com.compose.wonderlearn.domain.ProgressRepository
+import com.compose.wonderlearn.domain.TimeProvider
+import com.compose.wonderlearn.domain.XP_PER_CORRECT
+import com.compose.wonderlearn.domain.XP_PER_WORD_LEARNED
+import com.compose.wonderlearn.domain.computeStreak
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
+
+class SqlDelightProgressRepository(
+  database: WonderLearnDatabase,
+  private val profiles: ProfileRepository,
+  private val time: TimeProvider,
+  private val dispatcher: CoroutineDispatcher = ioDispatcher,
+) : ProgressRepository {
+
+  private val queries = database.wonderLearnQueries
+
+  override suspend fun recordCorrectAnswer() = add(words = 0L, xp = XP_PER_CORRECT.toLong())
+
+  override suspend fun recordWordLearned() = add(words = 1L, xp = XP_PER_WORD_LEARNED.toLong())
+
+  private suspend fun add(words: Long, xp: Long) {
+    withContext(dispatcher) {
+      val profileId = profiles.currentProfileId()
+      val day = time.todayEpochDay()
+      queries.transaction {
+        queries.ensureDailyActivity(profileId, day)
+        queries.addDailyActivity(words, xp, profileId, day)
+      }
+    }
+  }
+
+  @OptIn(ExperimentalCoroutinesApi::class)
+  override fun dailyProgress(): Flow<DailyProgress> =
+    profiles.activeProfileId().flatMapLatest { profileId ->
+      queries.selectActiveDays(profileId).asFlow().mapToList(dispatcher).map { activeDays ->
+        val today = time.todayEpochDay()
+        val todayRow = queries.selectDayActivity(profileId, today).executeAsOneOrNull()
+        DailyProgress(
+          wordsToday = (todayRow?.wordsLearned ?: 0L).toInt(),
+          dailyGoal = DEFAULT_DAILY_GOAL,
+          streakDays = computeStreak(today, activeDays),
+          totalXp = queries.selectTotalXp(profileId).executeAsOne().toInt(),
+        )
+      }
+    }
+}

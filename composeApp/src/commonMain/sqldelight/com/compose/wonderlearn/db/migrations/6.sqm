@@ -1,0 +1,7 @@
+CREATE TABLE DailyActivity (
+  profileId TEXT NOT NULL,
+  day INTEGER NOT NULL,
+  wordsLearned INTEGER NOT NULL DEFAULT 0,
+  xpEarned INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (profileId, day)
+);

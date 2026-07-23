@@ -8,7 +8,7 @@ import com.compose.wonderlearn.domain.Language
  * language rather than the device locale. Generated from the strings.xml resource files.
  */
 class LocalizedString(private val values: Map<Language, String>) {
-  internal val languages: Set<Language> get() = values.keys
+  val languages: Set<Language> get() = values.keys
 
   @Composable
   operator fun invoke(): String {
@@ -59,4 +59,6 @@ object AppStrings {
   val account_delete = LocalizedString(mapOf(Language.ARMENIAN to "Ջնջել", Language.ENGLISH to "Delete", Language.RUSSIAN to "Удалить"))
   val account_delete_confirm = LocalizedString(mapOf(Language.ARMENIAN to "Ջնջե՞լ այս երեխային և ամբողջ առաջընթացը", Language.ENGLISH to "Delete this child and all their progress?", Language.RUSSIAN to "Удалить этого ребёнка и весь его прогресс?"))
   val account_edit = LocalizedString(mapOf(Language.ARMENIAN to "Խմբագրել պրոֆիլը", Language.ENGLISH to "Edit profile", Language.RUSSIAN to "Изменить профиль"))
+  val home_daily_goal = LocalizedString(mapOf(Language.ARMENIAN to "Օրվա նպատակ", Language.ENGLISH to "Daily goal", Language.RUSSIAN to "Цель дня"))
+  val home_goal_done = LocalizedString(mapOf(Language.ARMENIAN to "Նպատակը կատարված է! 🎉", Language.ENGLISH to "Goal reached! 🎉", Language.RUSSIAN to "Цель достигнута! 🎉"))
 }

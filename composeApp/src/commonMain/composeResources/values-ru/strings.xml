@@ -40,4 +40,6 @@
     <string name="account_delete">Удалить</string>
     <string name="account_delete_confirm">Удалить этого ребёнка и весь его прогресс?</string>
     <string name="account_edit">Изменить профиль</string>
+    <string name="home_daily_goal">Цель дня</string>
+    <string name="home_goal_done">Цель достигнута! 🎉</string>
 </resources>

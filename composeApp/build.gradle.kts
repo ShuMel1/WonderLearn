@@ -45,6 +45,7 @@ kotlin {
       implementation(compose.components.uiToolingPreview)
       implementation(libs.kotlinx.coroutines.core)
       implementation(libs.kotlinx.serialization.json)
+      implementation(libs.kotlinx.datetime)
       implementation(libs.navigation.compose)
       implementation(libs.lifecycle.viewmodel)
       implementation(libs.lifecycle.viewmodel.compose)

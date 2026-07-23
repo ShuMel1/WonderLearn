@@ -40,4 +40,6 @@
     <string name="account_delete">Ջնջել</string>
     <string name="account_delete_confirm">Ջնջե՞լ այս երեխային և ամբողջ առաջընթացը</string>
     <string name="account_edit">Խմբագրել պրոֆիլը</string>
+    <string name="home_daily_goal">Օրվա նպատակ</string>
+    <string name="home_goal_done">Նպատակը կատարված է! 🎉</string>
 </resources>
