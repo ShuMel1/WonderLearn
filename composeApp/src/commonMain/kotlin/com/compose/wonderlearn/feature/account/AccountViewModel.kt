@@ -44,6 +44,14 @@ class AccountViewModel(
     }
   }
 
+  fun renameProfile(id: String, displayName: String) {
+    viewModelScope.launch { profileRepository.renameProfile(id, displayName) }
+  }
+
+  fun deleteProfile(id: String) {
+    viewModelScope.launch { profileRepository.deleteProfile(id) }
+  }
+
   fun chooseTargetLanguage(language: Language) {
     viewModelScope.launch { languagePreferences.setTargetLanguage(language) }
   }

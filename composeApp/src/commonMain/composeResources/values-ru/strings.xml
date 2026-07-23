@@ -36,4 +36,8 @@
     <string name="language_native_title">На каком языке ты говоришь?</string>
     <string name="language_target_title">Что хочешь выучить?</string>
     <string name="account_my_language">Я говорю</string>
+    <string name="account_rename">Переименовать</string>
+    <string name="account_delete">Удалить</string>
+    <string name="account_delete_confirm">Удалить этого ребёнка и весь его прогресс?</string>
+    <string name="account_edit">Изменить профиль</string>
 </resources>

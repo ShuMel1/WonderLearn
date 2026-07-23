@@ -36,4 +36,8 @@
     <string name="language_native_title">Which language do you speak?</string>
     <string name="language_target_title">What do you want to learn?</string>
     <string name="account_my_language">I speak</string>
+    <string name="account_rename">Rename</string>
+    <string name="account_delete">Delete</string>
+    <string name="account_delete_confirm">Delete this child and all their progress?</string>
+    <string name="account_edit">Edit profile</string>
 </resources>
