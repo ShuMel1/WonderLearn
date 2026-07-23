@@ -36,4 +36,8 @@
     <string name="language_native_title">Ո՞ր լեզվով ես խոսում</string>
     <string name="language_target_title">Ի՞նչ ես ուզում սովորել</string>
     <string name="account_my_language">Ես խոսում եմ</string>
+    <string name="account_rename">Վերանվանել</string>
+    <string name="account_delete">Ջնջել</string>
+    <string name="account_delete_confirm">Ջնջե՞լ այս երեխային և ամբողջ առաջընթացը</string>
+    <string name="account_edit">Խմբագրել պրոֆիլը</string>
 </resources>

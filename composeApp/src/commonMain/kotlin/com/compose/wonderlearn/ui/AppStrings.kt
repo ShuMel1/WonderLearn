@@ -55,4 +55,8 @@ object AppStrings {
   val language_native_title = LocalizedString(mapOf(Language.ARMENIAN to "Ո՞ր լեզվով ես խոսում", Language.ENGLISH to "Which language do you speak?", Language.RUSSIAN to "На каком языке ты говоришь?"))
   val language_target_title = LocalizedString(mapOf(Language.ARMENIAN to "Ի՞նչ ես ուզում սովորել", Language.ENGLISH to "What do you want to learn?", Language.RUSSIAN to "Что хочешь выучить?"))
   val account_my_language = LocalizedString(mapOf(Language.ARMENIAN to "Ես խոսում եմ", Language.ENGLISH to "I speak", Language.RUSSIAN to "Я говорю"))
+  val account_rename = LocalizedString(mapOf(Language.ARMENIAN to "Վերանվանել", Language.ENGLISH to "Rename", Language.RUSSIAN to "Переименовать"))
+  val account_delete = LocalizedString(mapOf(Language.ARMENIAN to "Ջնջել", Language.ENGLISH to "Delete", Language.RUSSIAN to "Удалить"))
+  val account_delete_confirm = LocalizedString(mapOf(Language.ARMENIAN to "Ջնջե՞լ այս երեխային և ամբողջ առաջընթացը", Language.ENGLISH to "Delete this child and all their progress?", Language.RUSSIAN to "Удалить этого ребёнка и весь его прогресс?"))
+  val account_edit = LocalizedString(mapOf(Language.ARMENIAN to "Խմբագրել պրոֆիլը", Language.ENGLISH to "Edit profile", Language.RUSSIAN to "Изменить профиль"))
 }
