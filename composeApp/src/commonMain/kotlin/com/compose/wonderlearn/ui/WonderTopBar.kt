@@ -19,9 +19,6 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.action_back
-import org.jetbrains.compose.resources.stringResource
 
 private val BackArrow: ImageVector = ImageVector.Builder(
   name = "BackArrow",
@@ -73,7 +70,7 @@ fun WonderTopBar(
         IconButton(onClick = onBack) {
           Icon(
             imageVector = BackArrow,
-            contentDescription = stringResource(Res.string.action_back),
+            contentDescription = AppStrings.action_back(),
             tint = content,
           )
         }

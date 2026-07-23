@@ -47,7 +47,7 @@ fun App(onExit: () -> Unit = {}) {
         LocalLanguage provides target,
         LocalNativeLanguage provides native,
       ) {
-        AppNavHost(onExit = onExit)
+          AppNavHost(onExit = onExit)
       }
     }
   }

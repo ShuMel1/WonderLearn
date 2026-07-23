@@ -1,5 +1,7 @@
 package com.compose.wonderlearn.feature.detail
 
+import com.compose.wonderlearn.ui.AppStrings
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,18 +38,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.compose.wonderlearn.resources.Res
-import com.compose.wonderlearn.resources.action_next
-import com.compose.wonderlearn.resources.action_previous
-import com.compose.wonderlearn.resources.action_repeat
-import com.compose.wonderlearn.resources.pronunciation_unavailable
 import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
 import com.compose.wonderlearn.ui.onColorFor
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -64,7 +60,7 @@ fun WordDetailScreen(
   val nativeLanguage = LocalNativeLanguage.current
 
   val snackbarHostState = remember { SnackbarHostState() }
-  val unavailableMessage = stringResource(Res.string.pronunciation_unavailable)
+  val unavailableMessage = AppStrings.pronunciation_unavailable()
   LaunchedEffect(viewModel) {
     viewModel.unavailable.collect { snackbarHostState.showSnackbar(unavailableMessage) }
   }
@@ -144,7 +140,7 @@ fun WordDetailScreen(
         ),
         modifier = Modifier.fillMaxWidth(0.7f).height(64.dp),
       ) {
-        Text("🔁  ${stringResource(Res.string.action_repeat)}", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Text("🔁  ${AppStrings.action_repeat()}", fontSize = 20.sp, fontWeight = FontWeight.Bold)
       }
 
       if (state.hasSiblings) {
@@ -155,13 +151,13 @@ fun WordDetailScreen(
         ) {
           StepButton(
             glyph = "◀",
-            label = stringResource(Res.string.action_previous),
+            label = AppStrings.action_previous(),
             accent = accent,
             onClick = { viewModel.previous(language) },
           )
           StepButton(
             glyph = "▶",
-            label = stringResource(Res.string.action_next),
+            label = AppStrings.action_next(),
             accent = accent,
             onClick = { viewModel.next(language) },
           )
