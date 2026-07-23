@@ -35,6 +35,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.ui.draw.clip
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import com.compose.wonderlearn.ui.LocalLockUi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.feature.account.AccountButton
 import com.compose.wonderlearn.feature.account.AccountSheet
@@ -70,6 +73,44 @@ fun HomeScreen(
     AccountSheet(onDismiss = { showAccount = false }, viewModel = accountViewModel)
   }
 
+  val lockUi = LocalLockUi.current
+  var showLock by remember { mutableStateOf(false) }
+  var showPinningHelp by remember { mutableStateOf(false) }
+  if (showLock) {
+    AlertDialog(
+      onDismissRequest = { showLock = false },
+      title = { Text(AppStrings.lock_start()) },
+      text = { Text(if (lockUi.supported) AppStrings.lock_explain() else AppStrings.lock_ios_guide()) },
+      confirmButton = {
+        if (lockUi.supported) {
+          TextButton(onClick = {
+            showLock = false
+            if (!lockUi.requestLock()) showPinningHelp = true
+          }) {
+            Text(AppStrings.lock_button(), fontWeight = FontWeight.Bold)
+          }
+        } else {
+          TextButton(onClick = { showLock = false }) { Text(AppStrings.action_save()) }
+        }
+      },
+      dismissButton = {
+        if (lockUi.supported) {
+          TextButton(onClick = { showLock = false }) { Text(AppStrings.action_cancel()) }
+        }
+      },
+    )
+  }
+  if (showPinningHelp) {
+    AlertDialog(
+      onDismissRequest = { showPinningHelp = false },
+      title = { Text(AppStrings.lock_start()) },
+      text = { Text(AppStrings.lock_pinning_off()) },
+      confirmButton = {
+        TextButton(onClick = { showPinningHelp = false }) { Text(AppStrings.action_save()) }
+      },
+    )
+  }
+
   var celebrateGoal by remember { mutableStateOf(false) }
   var seenGoalReached by remember { mutableStateOf<Boolean?>(null) }
   LaunchedEffect(daily.goalReached) {
@@ -93,10 +134,13 @@ fun HomeScreen(
           StatChip("🔥", daily.streakDays.toString())
           StatChip("⭐", daily.totalXp.toString())
         }
-        AccountButton(
-          displayName = accountState.activeProfile?.displayName,
-          onClick = { showAccount = true },
-        )
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+          IconChip("🔒", onClick = { showLock = true })
+          AccountButton(
+            displayName = accountState.activeProfile?.displayName,
+            onClick = { showAccount = true },
+          )
+        }
       }
       DailyGoalCard(
         wordsToday = daily.wordsToday,
@@ -239,5 +283,19 @@ private fun DailyGoalCard(
         trackColor = MaterialTheme.colorScheme.surfaceVariant,
       )
     }
+  }
+}
+
+@Composable
+private fun IconChip(icon: String, onClick: () -> Unit) {
+  Box(
+    modifier = Modifier
+      .clip(androidx.compose.foundation.shape.CircleShape)
+      .background(MaterialTheme.colorScheme.surface)
+      .clickable(onClick = onClick)
+      .padding(10.dp),
+    contentAlignment = Alignment.Center,
+  ) {
+    Text(icon, fontSize = 18.sp)
   }
 }

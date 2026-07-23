@@ -8,7 +8,7 @@ import com.compose.wonderlearn.domain.Language
  * language rather than the device locale. Generated from the strings.xml resource files.
  */
 class LocalizedString(private val values: Map<Language, String>) {
-  val languages: Set<Language> get() = values.keys
+  internal val languages: Set<Language> get() = values.keys
 
   @Composable
   operator fun invoke(): String {
@@ -61,4 +61,10 @@ object AppStrings {
   val account_edit = LocalizedString(mapOf(Language.ARMENIAN to "Խմբագրել պրոֆիլը", Language.ENGLISH to "Edit profile", Language.RUSSIAN to "Изменить профиль"))
   val home_daily_goal = LocalizedString(mapOf(Language.ARMENIAN to "Օրվա նպատակ", Language.ENGLISH to "Daily goal", Language.RUSSIAN to "Цель дня"))
   val home_goal_done = LocalizedString(mapOf(Language.ARMENIAN to "Նպատակը կատարված է! 🎉", Language.ENGLISH to "Goal reached! 🎉", Language.RUSSIAN to "Цель достигнута! 🎉"))
+  val lock_button = LocalizedString(mapOf(Language.ARMENIAN to "Կողպել", Language.ENGLISH to "Lock", Language.RUSSIAN to "Замок"))
+  val lock_explain = LocalizedString(mapOf(Language.ARMENIAN to "Էկրանը կմնա այս հավելվածում երեխայի համար։ Պահիր կոճակը՝ ապակողպելու համար։", Language.ENGLISH to "The screen will stay on this app for your child. Hold the button to unlock.", Language.RUSSIAN to "Экран останется на этом приложении для ребёнка. Удерживай кнопку, чтобы разблокировать."))
+  val lock_hold_to_unlock = LocalizedString(mapOf(Language.ARMENIAN to "Պահիր՝ ապակողպելու համար", Language.ENGLISH to "Hold to unlock", Language.RUSSIAN to "Удерживай, чтобы разблокировать"))
+  val lock_start = LocalizedString(mapOf(Language.ARMENIAN to "Կողպել էկրանը", Language.ENGLISH to "Lock the screen", Language.RUSSIAN to "Заблокировать экран"))
+  val lock_ios_guide = LocalizedString(mapOf(Language.ARMENIAN to "iPhone-ում միացրու Guided Access-ը Կարգավորումներ → Հատուկ հնարավորություններ, ապա եռակի սեղմիր կողային կոճակը՝ էկրանը այս հավելվածում կողպելու համար։", Language.ENGLISH to "On iPhone, turn on Guided Access in Settings → Accessibility, then triple-click the side button to lock the screen to this app.", Language.RUSSIAN to "На iPhone включи «Гид-доступ» в Настройки → Универсальный доступ, затем тройным нажатием боковой кнопки заблокируй экран на этом приложении."))
+  val lock_pinning_off = LocalizedString(mapOf(Language.ARMENIAN to "Էկրանը կողպելու համար նախ միացրու «Էկրանի ամրացումը» հեռախոսում՝ Կարգավորումներ → Անվտանգություն → Էկրանի ամրացում։", Language.ENGLISH to "To lock the screen, first turn on Screen pinning in your phone: Settings → Security → Screen pinning.", Language.RUSSIAN to "Чтобы заблокировать экран, сначала включите «Закрепление экрана» в телефоне: Настройки → Безопасность → Закрепление экрана."))
 }
