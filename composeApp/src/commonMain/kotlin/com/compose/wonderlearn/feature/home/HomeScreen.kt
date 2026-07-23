@@ -19,6 +19,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +40,7 @@ import com.compose.wonderlearn.feature.account.AccountButton
 import com.compose.wonderlearn.feature.account.AccountSheet
 import com.compose.wonderlearn.feature.account.AccountViewModel
 import com.compose.wonderlearn.ui.AppStrings
+import com.compose.wonderlearn.ui.ConfettiBurst
 import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
@@ -68,6 +70,15 @@ fun HomeScreen(
     AccountSheet(onDismiss = { showAccount = false }, viewModel = accountViewModel)
   }
 
+  var celebrateGoal by remember { mutableStateOf(false) }
+  var seenGoalReached by remember { mutableStateOf<Boolean?>(null) }
+  LaunchedEffect(daily.goalReached) {
+    val previous = seenGoalReached
+    seenGoalReached = daily.goalReached
+    if (previous == false && daily.goalReached) celebrateGoal = true
+  }
+
+  Box(modifier = Modifier.fillMaxSize()) {
   Scaffold(
     containerColor = MaterialTheme.colorScheme.background,
     snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -134,6 +145,11 @@ fun HomeScreen(
         }
       }
     }
+  }
+    ConfettiBurst(
+      visible = celebrateGoal,
+      modifier = Modifier.fillMaxSize(),
+    )
   }
 }
 
