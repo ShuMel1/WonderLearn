@@ -5,8 +5,9 @@ import com.compose.wonderlearn.data.DatabaseDriverFactory
 import com.compose.wonderlearn.data.DefaultPronouncer
 import com.compose.wonderlearn.data.content.BundledContentSource
 import com.compose.wonderlearn.data.content.ContentSeeder
+import com.compose.wonderlearn.data.content.BUNDLED_CONTENT
 import com.compose.wonderlearn.data.content.ContentSource
-import com.compose.wonderlearn.data.content.FallbackContentSource
+import com.compose.wonderlearn.data.content.REMOTE_CONTENT
 import com.compose.wonderlearn.data.content.RemoteContentSource
 import com.compose.wonderlearn.data.content.httpClient
 import com.compose.wonderlearn.data.SqlDelightLanguagePreferences
@@ -32,6 +33,7 @@ import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
@@ -41,20 +43,18 @@ val appModule = module {
   single { WonderLearnDatabase(get<DatabaseDriverFactory>().createDriver()) }
   single { Json { ignoreUnknownKeys = true } }
   single { httpClient() }
-  single<ContentSource> {
-    FallbackContentSource(
-      primary = RemoteContentSource(get(), currentVersion = { get<ContentSeeder>().storedVersion() }),
-      fallback = BundledContentSource(get()),
-    )
+  single<ContentSource>(named(BUNDLED_CONTENT)) { BundledContentSource(get()) }
+  single<ContentSource>(named(REMOTE_CONTENT)) {
+    RemoteContentSource(get()) { get<ContentSeeder>().storedVersion() }
   }
-  single { ContentSeeder(get(), get()) }
+  single { ContentSeeder(get()) }
   single<VocabularyRepository> { SqlDelightVocabularyRepository(get()) }
   single<ProfileRepository> { SqlDelightProfileRepository(get()) }
   single<LearningRepository> { SqlDelightLearningRepository(get(), get()) }
   single<LanguagePreferences> { SqlDelightLanguagePreferences(get()) }
   single { AudioPlayer() }
   single<Pronouncer> { DefaultPronouncer(get(), get()) }
-  viewModel { AppViewModel(get(), get()) }
+  viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
   viewModel { AccountViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }

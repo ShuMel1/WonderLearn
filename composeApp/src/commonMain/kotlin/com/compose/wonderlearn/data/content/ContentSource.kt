@@ -6,6 +6,9 @@ import kotlinx.serialization.json.Json
 
 private const val MANIFEST_PATH = "files/content/vocabulary.json"
 
+const val BUNDLED_CONTENT = "bundledContent"
+const val REMOTE_CONTENT = "remoteContent"
+
 /** Where vocabulary comes from. Bundled today, a server response once sync exists. */
 interface ContentSource {
   suspend fun load(): ContentManifest?

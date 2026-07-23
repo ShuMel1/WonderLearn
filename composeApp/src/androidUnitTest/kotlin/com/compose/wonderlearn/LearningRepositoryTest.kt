@@ -2,7 +2,6 @@ package com.compose.wonderlearn
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.compose.wonderlearn.shared.ContentManifest
-import com.compose.wonderlearn.data.content.ContentSource
 import com.compose.wonderlearn.data.content.ContentSeeder
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
 import com.compose.wonderlearn.data.SqlDelightProfileRepository
@@ -32,10 +31,6 @@ class LearningRepositoryTest {
     Json { ignoreUnknownKeys = true }.decodeFromString(file.readText())
   }
 
-  private object EmptyContentSource : ContentSource {
-    override suspend fun load(): ContentManifest? = null
-  }
-
   private val hy = Language.ARMENIAN
   private val en = Language.ENGLISH
 
@@ -48,7 +43,7 @@ class LearningRepositoryTest {
     val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
     WonderLearnDatabase.Schema.create(driver)
     val database = WonderLearnDatabase(driver)
-    ContentSeeder(database, EmptyContentSource, dispatcher).apply(manifest)
+    ContentSeeder(database, dispatcher).apply(manifest)
     val profiles = SqlDelightProfileRepository(database, dispatcher)
     return Fixture(SqlDelightLearningRepository(database, profiles, dispatcher), profiles)
   }

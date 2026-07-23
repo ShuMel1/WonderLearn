@@ -3,6 +3,7 @@ package com.compose.wonderlearn.feature.app
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.data.content.ContentSeeder
+import com.compose.wonderlearn.data.content.ContentSource
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,14 +22,17 @@ data class AppState(
 class AppViewModel(
   preferences: LanguagePreferences,
   contentSeeder: ContentSeeder,
+  bundledContent: ContentSource,
+  remoteContent: ContentSource,
 ) : ViewModel() {
 
   private val contentReady = MutableStateFlow(false)
 
   init {
     viewModelScope.launch {
-      contentSeeder.sync()
+      if (!contentSeeder.hasContent()) contentSeeder.sync(bundledContent)
       contentReady.value = true
+      contentSeeder.sync(remoteContent)
     }
   }
 

@@ -45,6 +45,7 @@ kotlin {
       implementation(libs.koin.core)
       implementation(projects.shared)
       implementation(libs.ktor.client.core)
+      implementation(libs.ktor.client.resources)
       implementation(libs.ktor.client.content.negotiation)
       implementation(libs.ktor.serialization.json)
       implementation(libs.koin.compose)
@@ -95,6 +96,10 @@ android {
     targetSdk = 36
     versionCode = 1
     versionName = "1.0"
+  }
+
+  buildFeatures {
+    buildConfig = true
   }
 
   buildTypes {
