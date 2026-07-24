@@ -2,6 +2,7 @@ package com.compose.wonderlearn.feature.memory
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +41,7 @@ import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.ConfettiBurst
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
+import com.compose.wonderlearn.ui.theme.BrandPrimary
 import com.compose.wonderlearn.ui.theme.Sky
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -54,12 +60,12 @@ fun MemoryGameScreen(
     ) { padding ->
       Column(
         modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
       ) {
         state.cards.chunked(3).forEach { rowCards ->
           Row(
             modifier = Modifier.fillMaxWidth().weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
           ) {
             rowCards.forEach { card ->
               MemoryCardTile(
@@ -117,7 +123,7 @@ private fun MemoryCardTile(
         cameraDistance = 12f * density
       }
       .clip(RoundedCornerShape(20.dp))
-      .background(if (rotation > 90f) MaterialTheme.colorScheme.surface else Sky)
+      .background(if (rotation > 90f) MaterialTheme.colorScheme.surface else BrandPrimary)
       .alpha(if (card.matched) 0.55f else 1f)
       .clickable(enabled = !faceUp, onClick = onClick),
     contentAlignment = Alignment.Center,
@@ -134,7 +140,52 @@ private fun MemoryCardTile(
           .graphicsLayer { rotationY = 180f },
       )
     } else {
-      Text("❓", fontSize = 36.sp)
+      Box(
+        modifier = Modifier.fillMaxSize().background(Color.White.copy(alpha = 0.2f)),
+        contentAlignment = Alignment.Center,
+      ) {
+        OwlMark(modifier = Modifier.fillMaxSize(0.5f))
+      }
     }
+  }
+}
+
+@Composable
+private fun OwlMark(modifier: Modifier = Modifier) {
+  val color = Color.White.copy(alpha = 0.35f)
+  Canvas(modifier = modifier.aspectRatio(1f)) {
+    val w = size.width
+    val cx = w / 2f
+    val cy = size.height / 2f
+    val eyeR = w * 0.18f
+    val gap = eyeR * 1.15f
+    val stroke = w * 0.05f
+    val leftEye = Offset(cx - gap, cy)
+    val rightEye = Offset(cx + gap, cy)
+
+    fun ear(center: Offset, tipDx: Float) {
+      val path = Path().apply {
+        moveTo(center.x - eyeR * 0.6f, center.y - eyeR * 0.85f)
+        lineTo(center.x + tipDx, center.y - eyeR * 2f)
+        lineTo(center.x + eyeR * 0.6f, center.y - eyeR * 0.85f)
+        close()
+      }
+      drawPath(path, color)
+    }
+    ear(leftEye, -eyeR * 0.3f)
+    ear(rightEye, eyeR * 0.3f)
+
+    drawCircle(color, eyeR, leftEye, style = Stroke(width = stroke))
+    drawCircle(color, eyeR, rightEye, style = Stroke(width = stroke))
+    drawCircle(color, eyeR * 0.32f, leftEye)
+    drawCircle(color, eyeR * 0.32f, rightEye)
+
+    val beak = Path().apply {
+      moveTo(cx - eyeR * 0.35f, cy + eyeR * 0.7f)
+      lineTo(cx + eyeR * 0.35f, cy + eyeR * 0.7f)
+      lineTo(cx, cy + eyeR * 1.5f)
+      close()
+    }
+    drawPath(beak, color)
   }
 }
