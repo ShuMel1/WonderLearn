@@ -50,4 +50,7 @@
     <string name="lock_pinning_off">Чтобы заблокировать экран, сначала включите «Закрепление экрана» в телефоне: Настройки → Безопасность → Закрепление экрана.</string>
     <string name="lock_gate_prompt">Попроси взрослого решить это</string>
     <string name="lock_unlock">Разблокировать</string>
+    <string name="memory_title">Пары</string>
+    <string name="memory_won">Ты нашёл все пары! 🎉</string>
+    <string name="memory_again">Ещё раз</string>
 </resources>

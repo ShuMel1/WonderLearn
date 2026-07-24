@@ -61,6 +61,12 @@ JOIN Translation t ON t.wordId = w.id
 WHERE w.categoryId = ?
 ORDER BY w.id;
 
+selectAllWordsWithTranslations:
+SELECT w.id, w.categoryId, w.emoji, w.imageRef, t.languageCode, t.text
+FROM WordEntity w
+JOIN Translation t ON t.wordId = w.id
+ORDER BY w.id;
+
 selectWordWithTranslationsById:
 SELECT w.id, w.categoryId, w.emoji, w.imageRef, t.languageCode, t.text
 FROM WordEntity w

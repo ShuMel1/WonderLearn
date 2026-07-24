@@ -50,4 +50,7 @@
     <string name="lock_pinning_off">Էկրանը կողպելու համար նախ միացրու «Էկրանի ամրացումը» հեռախոսում՝ Կարգավորումներ → Անվտանգություն → Էկրանի ամրացում։</string>
     <string name="lock_gate_prompt">Խնդրիր մեծահասակին լուծել սա</string>
     <string name="lock_unlock">Ապակողպել</string>
+    <string name="memory_title">Զույգեր</string>
+    <string name="memory_won">Դու գտար բոլոր զույգերը! 🎉</string>
+    <string name="memory_again">Նորից</string>
 </resources>
