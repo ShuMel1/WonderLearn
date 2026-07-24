@@ -163,7 +163,7 @@ selectDayActivity:
 SELECT wordsLearned, xpEarned FROM DailyActivity WHERE profileId = ? AND day = ?;
 
 selectActiveDays:
-SELECT day FROM DailyActivity WHERE profileId = ? AND wordsLearned > 0 ORDER BY day DESC;
+SELECT day FROM DailyActivity WHERE profileId = ? AND xpEarned > 0 ORDER BY day DESC;
 
 selectTotalXp:
 SELECT COALESCE(SUM(xpEarned), 0) FROM DailyActivity WHERE profileId = ?;

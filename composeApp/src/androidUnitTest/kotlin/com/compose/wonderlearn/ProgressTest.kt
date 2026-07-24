@@ -63,9 +63,17 @@ class ProgressTest {
     val repo = newRepo(FakeClock(today = 500))
     repo.recordCorrectAnswer()
     val p = repo.dailyProgress().first()
-    assertEquals(0, p.wordsToday)
+    assertEquals(0, p.wordsToday, "the goal only counts brand-new words")
     assertTrue(p.totalXp > 0)
     assertFalse(p.goalReached)
+  }
+
+  @Test fun reviewingKeepsTheStreakAliveWithoutLearningANewWord() = runTest {
+    val repo = newRepo(FakeClock(today = 500))
+    repo.recordCorrectAnswer()
+    val p = repo.dailyProgress().first()
+    assertEquals(0, p.wordsToday, "no new word, so the goal does not move")
+    assertEquals(1, p.streakDays, "but any practice keeps the streak alive")
   }
 
   @Test fun learningWordsCountsTowardTheDailyGoal() = runTest {
