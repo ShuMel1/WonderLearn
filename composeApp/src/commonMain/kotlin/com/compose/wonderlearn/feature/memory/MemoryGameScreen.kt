@@ -60,25 +60,30 @@ fun MemoryGameScreen(
     ) { padding ->
       Column(
         modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
       ) {
         DifficultySelector(
           selected = state.difficulty,
           onSelect = { viewModel.newGame(it) },
         )
-        state.cards.chunked(state.columns).forEach { rowCards ->
-          Row(
-            modifier = Modifier.fillMaxWidth().weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-          ) {
-            rowCards.forEach { card ->
-              MemoryCardTile(
-                card = card,
-                onClick = { viewModel.onCardClick(card.cardId) },
-                modifier = Modifier.weight(1f),
-              )
+        Column(
+          modifier = Modifier.fillMaxWidth().weight(1f),
+          verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
+        ) {
+          state.cards.chunked(state.columns).forEach { rowCards ->
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+              rowCards.forEach { card ->
+                MemoryCardTile(
+                  card = card,
+                  onClick = { viewModel.onCardClick(card.cardId) },
+                  modifier = Modifier.weight(1f),
+                )
+              }
+              repeat(state.columns - rowCards.size) { Box(Modifier.weight(1f)) }
             }
-            repeat(state.columns - rowCards.size) { Box(Modifier.weight(1f)) }
           }
         }
 
