@@ -50,6 +50,37 @@ object AppStrings {
   val account_add_child = LocalizedString(mapOf(Language.ARMENIAN to "Ավելացնել երեխա", Language.ENGLISH to "Add child", Language.RUSSIAN to "Добавить ребёнка"))
   val account_child_name = LocalizedString(mapOf(Language.ARMENIAN to "Անուն", Language.ENGLISH to "Name", Language.RUSSIAN to "Имя"))
   val account_learning_language = LocalizedString(mapOf(Language.ARMENIAN to "Սովորելու լեզուն", Language.ENGLISH to "Learning language", Language.RUSSIAN to "Язык изучения"))
+
+  val categoryTitles: Map<String, LocalizedString> = mapOf(
+    "fruits" to LocalizedString(mapOf(Language.ARMENIAN to "Մրգեր", Language.ENGLISH to "Fruits", Language.RUSSIAN to "Фрукты")),
+    "vegetables" to LocalizedString(mapOf(Language.ARMENIAN to "Բանջարեղեն", Language.ENGLISH to "Vegetables", Language.RUSSIAN to "Овощи")),
+    "animals" to LocalizedString(mapOf(Language.ARMENIAN to "Կենդանիներ", Language.ENGLISH to "Animals", Language.RUSSIAN to "Животные")),
+    "birds" to LocalizedString(mapOf(Language.ARMENIAN to "Թռչուններ", Language.ENGLISH to "Birds", Language.RUSSIAN to "Птицы")),
+    "sea" to LocalizedString(mapOf(Language.ARMENIAN to "Ծովային կենդանիներ", Language.ENGLISH to "Sea animals", Language.RUSSIAN to "Морские животные")),
+    "insects" to LocalizedString(mapOf(Language.ARMENIAN to "Միջատներ", Language.ENGLISH to "Insects", Language.RUSSIAN to "Насекомые")),
+    "colors" to LocalizedString(mapOf(Language.ARMENIAN to "Գույներ", Language.ENGLISH to "Colors", Language.RUSSIAN to "Цвета")),
+    "food" to LocalizedString(mapOf(Language.ARMENIAN to "Ուտելիք", Language.ENGLISH to "Food", Language.RUSSIAN to "Еда")),
+    "meals" to LocalizedString(mapOf(Language.ARMENIAN to "Ուտեստներ", Language.ENGLISH to "Meals", Language.RUSSIAN to "Блюда")),
+    "sweets" to LocalizedString(mapOf(Language.ARMENIAN to "Քաղցրավենիք", Language.ENGLISH to "Sweets", Language.RUSSIAN to "Сладости")),
+    "drinks" to LocalizedString(mapOf(Language.ARMENIAN to "Ըմպելիքներ", Language.ENGLISH to "Drinks", Language.RUSSIAN to "Напитки")),
+    "body" to LocalizedString(mapOf(Language.ARMENIAN to "Մարմին", Language.ENGLISH to "Body", Language.RUSSIAN to "Тело")),
+    "people" to LocalizedString(mapOf(Language.ARMENIAN to "Մարդիկ", Language.ENGLISH to "People", Language.RUSSIAN to "Люди")),
+    "jobs" to LocalizedString(mapOf(Language.ARMENIAN to "Մասնագիտություններ", Language.ENGLISH to "Jobs", Language.RUSSIAN to "Профессии")),
+    "clothes" to LocalizedString(mapOf(Language.ARMENIAN to "Հագուստ", Language.ENGLISH to "Clothes", Language.RUSSIAN to "Одежда")),
+    "home" to LocalizedString(mapOf(Language.ARMENIAN to "Տուն", Language.ENGLISH to "Home", Language.RUSSIAN to "Дом")),
+    "kitchen" to LocalizedString(mapOf(Language.ARMENIAN to "Խոհանոց", Language.ENGLISH to "Kitchen", Language.RUSSIAN to "Кухня")),
+    "tools" to LocalizedString(mapOf(Language.ARMENIAN to "Գործիքներ", Language.ENGLISH to "Tools", Language.RUSSIAN to "Инструменты")),
+    "school" to LocalizedString(mapOf(Language.ARMENIAN to "Դպրոց", Language.ENGLISH to "School", Language.RUSSIAN to "Школа")),
+    "numbers" to LocalizedString(mapOf(Language.ARMENIAN to "Թվեր", Language.ENGLISH to "Numbers", Language.RUSSIAN to "Числа")),
+    "vehicles" to LocalizedString(mapOf(Language.ARMENIAN to "Տրանսպորտ", Language.ENGLISH to "Vehicles", Language.RUSSIAN to "Транспорт")),
+    "places" to LocalizedString(mapOf(Language.ARMENIAN to "Վայրեր", Language.ENGLISH to "Places", Language.RUSSIAN to "Места")),
+    "nature" to LocalizedString(mapOf(Language.ARMENIAN to "Բնություն", Language.ENGLISH to "Nature", Language.RUSSIAN to "Природа")),
+    "weather" to LocalizedString(mapOf(Language.ARMENIAN to "Եղանակ", Language.ENGLISH to "Weather", Language.RUSSIAN to "Погода")),
+    "space" to LocalizedString(mapOf(Language.ARMENIAN to "Տիեզերք", Language.ENGLISH to "Space", Language.RUSSIAN to "Космос")),
+    "sports" to LocalizedString(mapOf(Language.ARMENIAN to "Սպորտ", Language.ENGLISH to "Sports", Language.RUSSIAN to "Спорт")),
+    "music" to LocalizedString(mapOf(Language.ARMENIAN to "Երաժշտություն", Language.ENGLISH to "Music", Language.RUSSIAN to "Музыка")),
+    "toys" to LocalizedString(mapOf(Language.ARMENIAN to "Խաղալիքներ", Language.ENGLISH to "Toys", Language.RUSSIAN to "Игрушки")),
+  )
   val action_save = LocalizedString(mapOf(Language.ARMENIAN to "Պահպանել", Language.ENGLISH to "Save", Language.RUSSIAN to "Сохранить"))
   val action_cancel = LocalizedString(mapOf(Language.ARMENIAN to "Չեղարկել", Language.ENGLISH to "Cancel", Language.RUSSIAN to "Отмена"))
   val language_native_title = LocalizedString(mapOf(Language.ARMENIAN to "Ո՞ր լեզվով ես խոսում", Language.ENGLISH to "Which language do you speak?", Language.RUSSIAN to "На каком языке ты говоришь?"))

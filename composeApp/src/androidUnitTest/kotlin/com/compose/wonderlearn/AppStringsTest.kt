@@ -19,4 +19,13 @@ class AppStringsTest {
       assertTrue(missing.isEmpty(), "${getter.name} is missing translations for $missing")
     }
   }
+
+  @Test
+  fun everyCategoryTitleCoversEveryNativeLanguage() {
+    assertTrue(AppStrings.categoryTitles.isNotEmpty(), "no category titles defined")
+    AppStrings.categoryTitles.forEach { (id, string) ->
+      val missing = Language.natives.toSet() - string.languages
+      assertTrue(missing.isEmpty(), "category '$id' is missing translations for $missing")
+    }
+  }
 }
