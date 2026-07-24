@@ -46,6 +46,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.DAILY_GOAL_CHOICES
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.ui.AppStrings
+import com.compose.wonderlearn.ui.appVersionName
 import com.compose.wonderlearn.ui.LocalLanguage
 import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.ui.theme.Sky
@@ -273,6 +274,27 @@ fun AccountSheet(
             label = entry.displayName,
             selected = entry == language,
             onClick = { viewModel.chooseTargetLanguage(entry) },
+          )
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+
+        SectionLabel(AppStrings.account_about())
+        Row(
+          modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 12.dp),
+          horizontalArrangement = Arrangement.SpaceBetween,
+          verticalAlignment = Alignment.CenterVertically,
+        ) {
+          Text(
+            "🦉  ${AppStrings.app_name()}",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurface,
+          )
+          Text(
+            "${AppStrings.account_version()} ${appVersionName()}",
+            fontSize = 15.sp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
           )
         }
       }
