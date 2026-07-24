@@ -27,6 +27,14 @@ import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
 import com.compose.wonderlearn.navigation.Destination
 import com.compose.wonderlearn.ui.LocalLanguage
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import com.compose.wonderlearn.ui.LockUi
+import com.compose.wonderlearn.ui.LocalLockUi
+import com.compose.wonderlearn.ui.ParentGate
+import com.compose.wonderlearn.ui.UnlockBar
+import com.compose.wonderlearn.ui.rememberAppLockController
 import com.compose.wonderlearn.ui.PlatformBackHandler
 import com.compose.wonderlearn.ui.theme.WonderLearnTheme
 import org.koin.compose.viewmodel.koinViewModel
@@ -43,11 +51,32 @@ fun App(onExit: () -> Unit = {}) {
       state.loading -> Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background))
       native == null -> LanguagePickerScreen(role = LanguageRole.NATIVE, exclude = target)
       target == null -> LanguagePickerScreen(role = LanguageRole.TARGET, exclude = native)
-      else -> CompositionLocalProvider(
-        LocalLanguage provides target,
-        LocalNativeLanguage provides native,
-      ) {
-        AppNavHost(onExit = onExit)
+      else -> {
+        val appLock = rememberAppLockController()
+        var locked by remember { mutableStateOf(false) }
+        val lockUi = LockUi(
+          supported = appLock.lockSupported,
+          locked = locked,
+          requestLock = { appLock.lock().also { if (it) locked = true } },
+          requestUnlock = { appLock.unlock(); locked = false },
+        )
+        CompositionLocalProvider(
+          LocalLanguage provides target,
+          LocalNativeLanguage provides native,
+          LocalLockUi provides lockUi,
+        ) {
+          var showUnlockGate by remember { mutableStateOf(false) }
+          Box(Modifier.fillMaxSize()) {
+            AppNavHost(onExit = onExit)
+            if (locked) UnlockBar(onUnlock = { showUnlockGate = true })
+            if (showUnlockGate) {
+              ParentGate(
+                onPass = { showUnlockGate = false; lockUi.requestUnlock() },
+                onDismiss = { showUnlockGate = false },
+              )
+            }
+          }
+        }
       }
     }
   }

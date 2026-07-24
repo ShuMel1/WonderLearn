@@ -42,4 +42,12 @@
     <string name="account_edit">Изменить профиль</string>
     <string name="home_daily_goal">Цель дня</string>
     <string name="home_goal_done">Цель достигнута! 🎉</string>
+    <string name="lock_button">Замок</string>
+    <string name="lock_explain">Экран останется на этом приложении для ребёнка. Удерживай кнопку, чтобы разблокировать.</string>
+    <string name="lock_hold_to_unlock">Удерживай, чтобы разблокировать</string>
+    <string name="lock_start">Заблокировать экран</string>
+    <string name="lock_ios_guide">На iPhone: включите «Гид-доступ» в Настройки → Универсальный доступ. Тройным нажатием боковой кнопки заблокируйте экран на этом приложении; чтобы разблокировать, снова нажмите три раза и введите код-пароль.</string>
+    <string name="lock_pinning_off">Чтобы заблокировать экран, сначала включите «Закрепление экрана» в телефоне: Настройки → Безопасность → Закрепление экрана.</string>
+    <string name="lock_gate_prompt">Попроси взрослого решить это</string>
+    <string name="lock_unlock">Разблокировать</string>
 </resources>

@@ -42,4 +42,12 @@
     <string name="account_edit">Խմբագրել պրոֆիլը</string>
     <string name="home_daily_goal">Օրվա նպատակ</string>
     <string name="home_goal_done">Նպատակը կատարված է! 🎉</string>
+    <string name="lock_button">Կողպել</string>
+    <string name="lock_explain">Էկրանը կմնա այս հավելվածում երեխայի համար։ Պահիր կոճակը՝ ապակողպելու համար։</string>
+    <string name="lock_hold_to_unlock">Պահիր՝ ապակողպելու համար</string>
+    <string name="lock_start">Կողպել էկրանը</string>
+    <string name="lock_ios_guide">iPhone-ում՝ միացրու Guided Access-ը Կարգավորումներ → Հատուկ հնարավորություններ։ Եռակի սեղմիր կողային կոճակը՝ էկրանը կողպելու համար, իսկ ապակողպելու համար նորից եռակի սեղմիր և մուտքագրիր գաղտնաբառը։</string>
+    <string name="lock_pinning_off">Էկրանը կողպելու համար նախ միացրու «Էկրանի ամրացումը» հեռախոսում՝ Կարգավորումներ → Անվտանգություն → Էկրանի ամրացում։</string>
+    <string name="lock_gate_prompt">Խնդրիր մեծահասակին լուծել սա</string>
+    <string name="lock_unlock">Ապակողպել</string>
 </resources>
