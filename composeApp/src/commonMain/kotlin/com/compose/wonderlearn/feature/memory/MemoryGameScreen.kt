@@ -1,6 +1,7 @@
 package com.compose.wonderlearn.feature.memory
 
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -106,29 +109,38 @@ private fun MemoryCardTile(
   modifier: Modifier = Modifier,
 ) {
   val faceUp = card.revealed || card.matched
+  val rotation by animateFloatAsState(
+    targetValue = if (faceUp) 180f else 0f,
+    animationSpec = tween(durationMillis = 400),
+    label = "cardFlip",
+  )
+  val density = LocalDensity.current.density
   Box(
     modifier = modifier
       .aspectRatio(1f)
+      .graphicsLayer {
+        rotationY = rotation
+        cameraDistance = 12f * density
+      }
       .clip(RoundedCornerShape(20.dp))
-      .background(if (faceUp) MaterialTheme.colorScheme.surface else Sky)
+      .background(if (rotation > 90f) MaterialTheme.colorScheme.surface else Sky)
       .alpha(if (card.matched) 0.55f else 1f)
       .clickable(enabled = !faceUp, onClick = onClick),
     contentAlignment = Alignment.Center,
   ) {
-    Crossfade(targetState = faceUp) { up ->
-      if (up) {
-        WordImage(
-          imageRef = card.imageRef,
-          emoji = card.emoji,
-          emojiSize = 44.sp,
-          contentDescription = null,
-          modifier = Modifier.fillMaxSize().padding(12.dp),
-        )
-      } else {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-          Text("❓", fontSize = 36.sp)
-        }
-      }
+    if (rotation > 90f) {
+      WordImage(
+        imageRef = card.imageRef,
+        emoji = card.emoji,
+        emojiSize = 44.sp,
+        contentDescription = null,
+        modifier = Modifier
+          .fillMaxSize()
+          .padding(12.dp)
+          .graphicsLayer { rotationY = 180f },
+      )
+    } else {
+      Text("❓", fontSize = 36.sp)
     }
   }
 }

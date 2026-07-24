@@ -3,7 +3,9 @@ package com.compose.wonderlearn
 import com.compose.wonderlearn.domain.Category
 import com.compose.wonderlearn.domain.DailyProgress
 import com.compose.wonderlearn.domain.Language
+import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.ProgressRepository
+import com.compose.wonderlearn.domain.Pronouncer
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.domain.VocabularyRepository
 import com.compose.wonderlearn.feature.memory.MemoryGameViewModel
@@ -51,7 +53,18 @@ class MemoryGameTest {
     override suspend fun setDailyGoal(goal: Int) = Unit
   }
 
-  private fun game() = MemoryGameViewModel(vocabulary, progress)
+  private val pronouncer = object : Pronouncer {
+    override suspend fun pronounce(item: VocabularyItem, language: Language): Boolean = true
+  }
+
+  private val preferences = object : LanguagePreferences {
+    override fun nativeLanguage(): Flow<Language?> = flowOf(Language.ENGLISH)
+    override fun targetLanguage(): Flow<Language?> = flowOf(Language.ENGLISH)
+    override suspend fun setNativeLanguage(language: Language) = Unit
+    override suspend fun setTargetLanguage(language: Language) = Unit
+  }
+
+  private fun game() = MemoryGameViewModel(vocabulary, progress, pronouncer, preferences)
 
   @Test
   fun newGameDealsEachWordAsExactlyTwoCards() = runTest(dispatcher) {

@@ -65,7 +65,7 @@ val appModule = module {
   viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
   viewModel { AccountViewModel(get(), get(), get()) }
   viewModel { HomeViewModel(get()) }
-  viewModel { MemoryGameViewModel(get(), get()) }
+  viewModel { MemoryGameViewModel(get(), get(), get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }
   viewModel { params -> WordListViewModel(params.get(), get(), get()) }

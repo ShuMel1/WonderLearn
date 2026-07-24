@@ -2,12 +2,18 @@ package com.compose.wonderlearn.feature.memory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.compose.wonderlearn.domain.Language
+import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.ProgressRepository
+import com.compose.wonderlearn.domain.Pronouncer
+import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.domain.VocabularyRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 private const val PAIR_COUNT = 6
@@ -15,12 +21,14 @@ private const val MISMATCH_DELAY_MS = 800L
 
 data class MemoryCard(
   val cardId: Int,
-  val wordId: String,
-  val emoji: String,
-  val imageRef: String?,
+  val item: VocabularyItem,
   val revealed: Boolean = false,
   val matched: Boolean = false,
-)
+) {
+  val wordId: String get() = item.id
+  val emoji: String get() = item.emoji
+  val imageRef: String? get() = item.imageRef
+}
 
 data class MemoryState(
   val cards: List<MemoryCard> = emptyList(),
@@ -35,6 +43,8 @@ data class MemoryState(
 class MemoryGameViewModel(
   private val vocabulary: VocabularyRepository,
   private val progress: ProgressRepository,
+  private val pronouncer: Pronouncer,
+  private val preferences: LanguagePreferences,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(MemoryState())
@@ -42,6 +52,7 @@ class MemoryGameViewModel(
 
   private var firstPick: Int? = null
   private var busy = false
+  private var language: Language? = null
 
   init {
     newGame()
@@ -55,9 +66,7 @@ class MemoryGameViewModel(
       val words = vocabulary.randomItems(PAIR_COUNT)
       var nextId = 0
       val cards = words.flatMap { word ->
-        List(2) {
-          MemoryCard(cardId = nextId++, wordId = word.id, emoji = word.emoji, imageRef = word.imageRef)
-        }
+        List(2) { MemoryCard(cardId = nextId++, item = word) }
       }.shuffled()
       _state.value = MemoryState(cards = cards, loading = false, totalPairs = words.size)
     }
@@ -69,6 +78,7 @@ class MemoryGameViewModel(
     if (card.revealed || card.matched) return
 
     setRevealed(cardId, true)
+    pronounce(card.item)
     val first = firstPick
     if (first == null) {
       firstPick = cardId
@@ -91,6 +101,13 @@ class MemoryGameViewModel(
         firstPick = null
         busy = false
       }
+    }
+  }
+
+  private fun pronounce(item: VocabularyItem) {
+    viewModelScope.launch {
+      val lang = language ?: preferences.targetLanguage().filterNotNull().first().also { language = it }
+      pronouncer.pronounce(item, lang)
     }
   }
 
