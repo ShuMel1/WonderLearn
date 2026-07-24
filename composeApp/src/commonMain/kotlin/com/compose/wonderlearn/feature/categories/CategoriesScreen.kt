@@ -94,7 +94,7 @@ private fun CategoryCard(category: Category, onClick: () -> Unit) {
         )
       }
       Text(
-        category.title,
+        AppStrings.categoryTitles[category.id]?.invoke() ?: category.title,
         fontSize = 26.sp,
         fontWeight = FontWeight.Bold,
         color = onColor,
