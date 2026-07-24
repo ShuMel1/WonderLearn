@@ -31,6 +31,8 @@
     <string name="account_add_child">Add child</string>
     <string name="account_child_name">Name</string>
     <string name="account_learning_language">Learning language</string>
+    <string name="account_about">About</string>
+    <string name="account_version">Version</string>
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
     <string name="language_native_title">Which language do you speak?</string>

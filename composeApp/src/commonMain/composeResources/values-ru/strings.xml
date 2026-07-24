@@ -31,6 +31,8 @@
     <string name="account_add_child">Добавить ребёнка</string>
     <string name="account_child_name">Имя</string>
     <string name="account_learning_language">Язык изучения</string>
+    <string name="account_about">О приложении</string>
+    <string name="account_version">Версия</string>
     <string name="action_save">Сохранить</string>
     <string name="action_cancel">Отмена</string>
     <string name="language_native_title">На каком языке ты говоришь?</string>
