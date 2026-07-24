@@ -50,4 +50,7 @@
     <string name="lock_pinning_off">To lock the screen, first turn on Screen pinning in your phone: Settings → Security → Screen pinning.</string>
     <string name="lock_gate_prompt">Ask a grown-up to solve this</string>
     <string name="lock_unlock">Unlock</string>
+    <string name="memory_title">Match</string>
+    <string name="memory_won">You found every pair! 🎉</string>
+    <string name="memory_again">Play again</string>
 </resources>
