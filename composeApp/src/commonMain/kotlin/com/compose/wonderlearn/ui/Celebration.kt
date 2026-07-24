@@ -15,7 +15,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
+import com.compose.wonderlearn.audio.AudioPlayer
+import com.compose.wonderlearn.resources.Res
+import kotlinx.coroutines.launch
 import kotlin.random.Random
+
+private const val TADA_SOUND = "files/sounds/tada.wav"
 
 private data class Confetto(
   val startX: Float,
@@ -47,10 +52,12 @@ fun ConfettiBurst(
 ) {
   var playing by remember { mutableStateOf(false) }
   val progress = remember { Animatable(0f) }
+  val tada = remember { AudioPlayer() }
 
   LaunchedEffect(visible) {
     if (visible) {
       playing = true
+      launch { runCatching { tada.play(Res.readBytes(TADA_SOUND)) } }
       progress.snapTo(0f)
       progress.animateTo(1f, tween(durationMillis, easing = LinearEasing))
       playing = false
