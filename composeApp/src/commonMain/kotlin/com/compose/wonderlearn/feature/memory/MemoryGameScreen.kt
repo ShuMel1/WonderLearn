@@ -73,6 +73,14 @@ fun MemoryGameScreen(
         }
 
         if (state.won) {
+          Text(
+            AppStrings.memory_won(),
+            fontSize = 22.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = Sky,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+          )
           Button(
             onClick = { viewModel.newGame() },
             shape = RoundedCornerShape(50),
@@ -84,20 +92,6 @@ fun MemoryGameScreen(
       }
     }
 
-    if (state.won) {
-      Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 80.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-      ) {
-        Text(
-          AppStrings.memory_won(),
-          fontSize = 22.sp,
-          fontWeight = FontWeight.ExtraBold,
-          color = Sky,
-          textAlign = TextAlign.Center,
-        )
-      }
-    }
     ConfettiBurst(visible = state.won, modifier = Modifier.fillMaxSize())
   }
 }
