@@ -1,9 +1,9 @@
 package com.compose.wonderlearn.ui
 
 import android.app.Activity
-import android.app.ActivityManager
 import android.content.Context
 import android.content.ContextWrapper
+import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -13,16 +13,21 @@ private class AndroidAppLockController(private val activity: Activity?) : AppLoc
 
   override fun lock(): Boolean {
     val act = activity ?: return false
-    return runCatching {
-      act.startLockTask()
-      val am = act.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-      am.lockTaskModeState != ActivityManager.LOCK_TASK_MODE_NONE
-    }.getOrDefault(false)
+    // startLockTask() updates the lock state asynchronously, so checking it straight after races.
+    // Instead, decide from whether screen pinning is enabled in Settings — if it is off, pinning
+    // silently does nothing, and the caller should guide the parent to turn it on.
+    if (!screenPinningEnabled(act)) return false
+    return runCatching { act.startLockTask(); true }.getOrDefault(false)
   }
 
   override fun unlock() {
     runCatching { activity?.stopLockTask() }
   }
+
+  private fun screenPinningEnabled(act: Activity): Boolean =
+    runCatching {
+      Settings.Secure.getInt(act.contentResolver, "lock_to_app_enabled", 0) == 1
+    }.getOrDefault(false)
 }
 
 private fun Context.findActivity(): Activity? {

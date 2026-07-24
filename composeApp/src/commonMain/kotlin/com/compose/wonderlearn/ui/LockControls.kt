@@ -15,6 +15,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,4 +56,53 @@ fun UnlockBar(onUnlock: () -> Unit) {
       )
     }
   }
+}
+
+/** A simple maths gate a young child can't solve, so only a grown-up can unlock. */
+@Composable
+fun ParentGate(onPass: () -> Unit, onDismiss: () -> Unit) {
+  val a = remember { kotlin.random.Random.nextInt(3, 10) }
+  val b = remember { kotlin.random.Random.nextInt(3, 10) }
+  val answer = a * b
+  var input by remember { mutableStateOf("") }
+
+  androidx.compose.material3.AlertDialog(
+    onDismissRequest = onDismiss,
+    title = { androidx.compose.material3.Text(AppStrings.lock_gate_prompt()) },
+    text = {
+      androidx.compose.foundation.layout.Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+      ) {
+        androidx.compose.material3.Text(
+          "$a × $b = ?",
+          fontSize = 30.sp,
+          fontWeight = FontWeight.ExtraBold,
+        )
+        androidx.compose.material3.OutlinedTextField(
+          value = input,
+          onValueChange = { new -> input = new.filter { it.isDigit() }.take(3) },
+          singleLine = true,
+          shape = RoundedCornerShape(16.dp),
+          keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+            keyboardType = androidx.compose.ui.text.input.KeyboardType.Number,
+            imeAction = androidx.compose.ui.text.input.ImeAction.Done,
+          ),
+          keyboardActions = androidx.compose.foundation.text.KeyboardActions(
+            onDone = { if (input.toIntOrNull() == answer) onPass() else input = "" },
+          ),
+        )
+      }
+    },
+    confirmButton = {
+      androidx.compose.material3.TextButton(
+        onClick = { if (input.toIntOrNull() == answer) onPass() else input = "" },
+        enabled = input.isNotBlank(),
+      ) { androidx.compose.material3.Text(AppStrings.lock_unlock(), fontWeight = FontWeight.Bold) }
+    },
+    dismissButton = {
+      androidx.compose.material3.TextButton(onClick = onDismiss) {
+        androidx.compose.material3.Text(AppStrings.action_cancel())
+      }
+    },
+  )
 }

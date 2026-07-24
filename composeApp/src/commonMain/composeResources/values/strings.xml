@@ -48,4 +48,6 @@
     <string name="lock_start">Lock the screen</string>
     <string name="lock_ios_guide">On iPhone: turn on Guided Access in Settings → Accessibility. Triple-click the side button to lock the screen to this app, and triple-click again with your passcode to unlock.</string>
     <string name="lock_pinning_off">To lock the screen, first turn on Screen pinning in your phone: Settings → Security → Screen pinning.</string>
+    <string name="lock_gate_prompt">Ask a grown-up to solve this</string>
+    <string name="lock_unlock">Unlock</string>
 </resources>
