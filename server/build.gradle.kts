@@ -6,6 +6,12 @@ plugins {
 
 sourceSets["main"].kotlin.srcDir("../shared/src/commonMain/kotlin")
 
+val syncVocabulary by tasks.registering(Copy::class) {
+  from("../composeApp/src/commonMain/composeResources/files/content/vocabulary.json")
+  into(layout.buildDirectory.dir("generated/vocabulary"))
+}
+sourceSets["main"].resources.srcDir(files(layout.buildDirectory.dir("generated/vocabulary")).builtBy(syncVocabulary))
+
 dependencies {
   implementation(libs.ktor.server.core)
   implementation(libs.ktor.server.resources)
