@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -170,13 +171,13 @@ class LearningRepositoryTest {
     val repo = newRepository(UnconfinedTestDispatcher(testScheduler))
     repeat(3) { repo.recordCorrect("apple", hy) }
 
-    var targetedInEnglish = false
-    repeat(200) {
-      val round = repo.nextRound(en, QuizMode.LEARN)
-      assertNotNull(round)
-      if (round.target.id == "apple") targetedInEnglish = true
+    manifest.words.map { it.id }.filter { it != "apple" }.forEach { id ->
+      repeat(3) { repo.recordCorrect(id, en) }
     }
-    assertTrue(targetedInEnglish, "a word learned in Armenian must still come up in English")
+
+    val round = repo.nextRound(en, QuizMode.LEARN)
+    assertNotNull(round)
+    assertEquals("apple", round.target.id, "a word learned in Armenian must still come up in English")
   }
 
   @Test
