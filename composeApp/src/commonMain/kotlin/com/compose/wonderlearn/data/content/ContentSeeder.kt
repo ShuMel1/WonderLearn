@@ -5,6 +5,8 @@ import com.compose.wonderlearn.data.ioDispatcher
 import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.DEFAULT_PROFILE_ID
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 private const val KEY_CONTENT_VERSION = "contentVersion"
@@ -21,17 +23,23 @@ class ContentSeeder(
 
   private val queries = database.wonderLearnQueries
 
+  // Serialises sync so two callers (e.g. startup and a manual/periodic refresh) can't both pass
+  // the version check and apply the same manifest twice — the check and the apply act as one.
+  private val syncMutex = Mutex()
+
   /** True once any content exists locally, meaning startup need not wait on the network. */
   suspend fun hasContent(): Boolean = withContext(dispatcher) {
     queries.countCategories().executeAsOne() > 0L
   }
 
-  suspend fun sync(source: ContentSource): Boolean = withContext(dispatcher) {
-    queries.ensureDefaultProfile(DEFAULT_PROFILE_ID, DEFAULT_PROFILE_NAME)
-    val manifest = source.load() ?: return@withContext false
-    if (manifest.version <= currentVersion()) return@withContext false
-    apply(manifest)
-    true
+  suspend fun sync(source: ContentSource): Boolean = syncMutex.withLock {
+    withContext(dispatcher) {
+      queries.ensureDefaultProfile(DEFAULT_PROFILE_ID, DEFAULT_PROFILE_NAME)
+      val manifest = source.load() ?: return@withContext false
+      if (manifest.version <= currentVersion()) return@withContext false
+      apply(manifest)
+      true
+    }
   }
 
   private fun currentVersion(): Long =
