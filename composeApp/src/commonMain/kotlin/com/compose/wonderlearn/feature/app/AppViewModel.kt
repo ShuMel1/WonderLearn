@@ -30,7 +30,7 @@ class AppViewModel(
 
   init {
     viewModelScope.launch {
-      if (!contentSeeder.hasContent()) contentSeeder.sync(bundledContent)
+      contentSeeder.sync(bundledContent)
       contentReady.value = true
       contentSeeder.sync(remoteContent)
     }
