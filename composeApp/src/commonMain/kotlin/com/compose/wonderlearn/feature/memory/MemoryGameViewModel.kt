@@ -16,8 +16,13 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-private const val PAIR_COUNT = 6
 private const val MISMATCH_DELAY_MS = 800L
+
+enum class Difficulty(val pairs: Int, val columns: Int) {
+  EASY(pairs = 6, columns = 3),
+  MEDIUM(pairs = 8, columns = 4),
+  HARD(pairs = 10, columns = 4),
+}
 
 data class MemoryCard(
   val cardId: Int,
@@ -36,8 +41,10 @@ data class MemoryState(
   val moves: Int = 0,
   val matchedPairs: Int = 0,
   val totalPairs: Int = 0,
+  val difficulty: Difficulty = Difficulty.EASY,
 ) {
   val won: Boolean get() = totalPairs > 0 && matchedPairs == totalPairs
+  val columns: Int get() = difficulty.columns
 }
 
 class MemoryGameViewModel(
@@ -58,17 +65,18 @@ class MemoryGameViewModel(
     newGame()
   }
 
-  fun newGame() {
+  fun newGame(difficulty: Difficulty = _state.value.difficulty) {
     viewModelScope.launch {
-      _state.value = MemoryState(loading = true)
+      _state.value = MemoryState(loading = true, difficulty = difficulty)
       firstPick = null
       busy = false
-      val words = vocabulary.randomItems(PAIR_COUNT)
+      val words = vocabulary.randomItems(difficulty.pairs)
       var nextId = 0
       val cards = words.flatMap { word ->
         List(2) { MemoryCard(cardId = nextId++, item = word) }
       }.shuffled()
-      _state.value = MemoryState(cards = cards, loading = false, totalPairs = words.size)
+      _state.value =
+        MemoryState(cards = cards, loading = false, totalPairs = words.size, difficulty = difficulty)
     }
   }
 

@@ -62,7 +62,11 @@ fun MemoryGameScreen(
         modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
       ) {
-        state.cards.chunked(3).forEach { rowCards ->
+        DifficultySelector(
+          selected = state.difficulty,
+          onSelect = { viewModel.newGame(it) },
+        )
+        state.cards.chunked(state.columns).forEach { rowCards ->
           Row(
             modifier = Modifier.fillMaxWidth().weight(1f),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -74,7 +78,7 @@ fun MemoryGameScreen(
                 modifier = Modifier.weight(1f),
               )
             }
-            repeat(3 - rowCards.size) { Box(Modifier.weight(1f)) }
+            repeat(state.columns - rowCards.size) { Box(Modifier.weight(1f)) }
           }
         }
 
@@ -100,6 +104,45 @@ fun MemoryGameScreen(
 
     ConfettiBurst(visible = state.won, modifier = Modifier.fillMaxSize())
   }
+}
+
+@Composable
+private fun DifficultySelector(
+  selected: Difficulty,
+  onSelect: (Difficulty) -> Unit,
+  modifier: Modifier = Modifier,
+) {
+  Row(
+    modifier = modifier.fillMaxWidth(),
+    horizontalArrangement = Arrangement.spacedBy(8.dp),
+  ) {
+    Difficulty.entries.forEach { difficulty ->
+      val active = difficulty == selected
+      Box(
+        modifier = Modifier
+          .weight(1f)
+          .clip(RoundedCornerShape(50))
+          .background(if (active) BrandPrimary else MaterialTheme.colorScheme.surface)
+          .clickable { onSelect(difficulty) }
+          .padding(vertical = 10.dp),
+        contentAlignment = Alignment.Center,
+      ) {
+        Text(
+          difficulty.label(),
+          fontSize = 15.sp,
+          fontWeight = FontWeight.Bold,
+          color = if (active) Color.White else MaterialTheme.colorScheme.onSurface,
+        )
+      }
+    }
+  }
+}
+
+@Composable
+private fun Difficulty.label(): String = when (this) {
+  Difficulty.EASY -> AppStrings.memory_easy()
+  Difficulty.MEDIUM -> AppStrings.memory_medium()
+  Difficulty.HARD -> AppStrings.memory_hard()
 }
 
 @Composable

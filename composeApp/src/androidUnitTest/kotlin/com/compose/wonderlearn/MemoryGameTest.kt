@@ -8,6 +8,7 @@ import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.Pronouncer
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.domain.VocabularyRepository
+import com.compose.wonderlearn.feature.memory.Difficulty
 import com.compose.wonderlearn.feature.memory.MemoryGameViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -75,6 +76,19 @@ class MemoryGameTest {
     assertEquals(6, s.totalPairs)
     assertTrue(s.cards.groupingBy { it.wordId }.eachCount().values.all { it == 2 })
     assertTrue(s.cards.none { it.revealed || it.matched }, "cards start face down")
+  }
+
+  @Test
+  fun hardDifficultyDealsMorePairs() = runTest(dispatcher) {
+    val vm = game()
+    advanceUntilIdle()
+    vm.newGame(Difficulty.HARD)
+    advanceUntilIdle()
+    val s = vm.state.value
+    assertEquals(Difficulty.HARD, s.difficulty)
+    assertEquals(20, s.cards.size)
+    assertEquals(10, s.totalPairs)
+    assertEquals(4, s.columns)
   }
 
   @Test
