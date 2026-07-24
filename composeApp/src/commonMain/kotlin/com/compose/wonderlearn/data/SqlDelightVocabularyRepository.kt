@@ -35,6 +35,15 @@ class SqlDelightVocabularyRepository(
         .toItems()
         .firstOrNull()
     }
+
+  override suspend fun randomItems(count: Int): List<VocabularyItem> =
+    withContext(dispatcher) {
+      queries.selectAllWordsWithTranslations(::TranslationRow)
+        .executeAsList()
+        .toItems()
+        .shuffled()
+        .take(count)
+    }
 }
 
 private fun CategoryEntity.toDomain() =

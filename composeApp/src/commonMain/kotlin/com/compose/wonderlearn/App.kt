@@ -23,6 +23,7 @@ import com.compose.wonderlearn.feature.language.LanguagePickerScreen
 import com.compose.wonderlearn.feature.language.LanguageRole
 import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.feature.learned.LearnedScreen
+import com.compose.wonderlearn.feature.memory.MemoryGameScreen
 import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
 import com.compose.wonderlearn.navigation.Destination
@@ -97,6 +98,7 @@ private fun AppNavHost(onExit: () -> Unit) {
         onLearn = { navController.navigate(Destination.Categories) },
         onReview = { navController.navigate(Destination.Quiz()) },
         onLearned = { navController.navigate(Destination.Learned) },
+        onGames = { navController.navigate(Destination.MemoryGame) },
       )
     }
     composable<Destination.Categories> {
@@ -133,6 +135,9 @@ private fun AppNavHost(onExit: () -> Unit) {
         onRevise = { navController.navigate(Destination.Quiz(revise = true)) },
         onBack = { navController.popBackStack() },
       )
+    }
+    composable<Destination.MemoryGame> {
+      MemoryGameScreen(onBack = { navController.popBackStack() })
     }
   }
 }

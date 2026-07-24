@@ -69,4 +69,10 @@ object AppStrings {
   val lock_pinning_off = LocalizedString(mapOf(Language.ARMENIAN to "Էկրանը կողպելու համար նախ միացրու «Էկրանի ամրացումը» հեռախոսում՝ Կարգավորումներ → Անվտանգություն → Էկրանի ամրացում։", Language.ENGLISH to "To lock the screen, first turn on Screen pinning in your phone: Settings → Security → Screen pinning.", Language.RUSSIAN to "Чтобы заблокировать экран, сначала включите «Закрепление экрана» в телефоне: Настройки → Безопасность → Закрепление экрана."))
   val lock_gate_prompt = LocalizedString(mapOf(Language.ARMENIAN to "Խնդրիր մեծահասակին լուծել սա", Language.ENGLISH to "Ask a grown-up to solve this", Language.RUSSIAN to "Попроси взрослого решить это"))
   val lock_unlock = LocalizedString(mapOf(Language.ARMENIAN to "Ապակողպել", Language.ENGLISH to "Unlock", Language.RUSSIAN to "Разблокировать"))
+  val memory_title = LocalizedString(mapOf(Language.ARMENIAN to "Զույգեր", Language.ENGLISH to "Match", Language.RUSSIAN to "Пары"))
+  val memory_won = LocalizedString(mapOf(Language.ARMENIAN to "Դու գտար բոլոր զույգերը! 🎉", Language.ENGLISH to "You found every pair! 🎉", Language.RUSSIAN to "Ты нашёл все пары! 🎉"))
+  val memory_easy = LocalizedString(mapOf(Language.ARMENIAN to "Հեշտ", Language.ENGLISH to "Easy", Language.RUSSIAN to "Легко"))
+  val memory_medium = LocalizedString(mapOf(Language.ARMENIAN to "Միջին", Language.ENGLISH to "Medium", Language.RUSSIAN to "Средне"))
+  val memory_hard = LocalizedString(mapOf(Language.ARMENIAN to "Դժվար", Language.ENGLISH to "Hard", Language.RUSSIAN to "Сложно"))
+  val memory_again = LocalizedString(mapOf(Language.ARMENIAN to "Նորից", Language.ENGLISH to "Play again", Language.RUSSIAN to "Ещё раз"))
 }
