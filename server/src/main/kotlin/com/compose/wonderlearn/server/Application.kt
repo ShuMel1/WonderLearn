@@ -3,7 +3,9 @@ package com.compose.wonderlearn.server
 import com.compose.wonderlearn.shared.ContentManifest
 import com.compose.wonderlearn.shared.ContentManifestRoute
 import com.compose.wonderlearn.shared.HealthRoute
+import com.compose.wonderlearn.shared.PrivacyRoute
 import com.compose.wonderlearn.shared.RootRoute
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -16,6 +18,7 @@ import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.resources.Resources
 import io.ktor.server.resources.get
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
 import io.ktor.server.routing.routing
 import kotlinx.serialization.json.Json
 
@@ -52,6 +55,10 @@ fun Application.module(contentStore: ContentStore = ResourceContentStore()) {
       call.respond(HealthResponse(status = "ok", contentVersion = contentStore.manifest().version))
     }
 
+    get<PrivacyRoute> {
+      call.respondText(privacyPolicyHtml, ContentType.Text.Html)
+    }
+
     get<ContentManifestRoute> { route ->
       val manifest = contentStore.manifest()
       if (route.since != null && route.since >= manifest.version) {
@@ -61,6 +68,13 @@ fun Application.module(contentStore: ContentStore = ResourceContentStore()) {
       }
     }
   }
+}
+
+private val privacyPolicyHtml: String by lazy {
+  object {}.javaClass.getResourceAsStream("/privacy.html")
+    ?.bufferedReader()
+    ?.use { it.readText() }
+    ?: "<!DOCTYPE html><title>Privacy Policy</title><h1>WonderLearn Privacy Policy</h1>"
 }
 
 /** Where the server reads content from. A packaged file today, a database once content is editable. */
