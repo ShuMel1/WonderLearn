@@ -18,7 +18,7 @@ class LocalizedString(private val values: Map<Language, String>) {
 }
 
 object AppStrings {
-  val app_name = LocalizedString(mapOf(Language.ARMENIAN to "WonderLearn", Language.ENGLISH to "WonderLearn", Language.RUSSIAN to "WonderLearn"))
+  val app_name = LocalizedString(mapOf(Language.ARMENIAN to "Wisekins", Language.ENGLISH to "Wisekins", Language.RUSSIAN to "Wisekins"))
   val title_words = LocalizedString(mapOf(Language.ARMENIAN to "Բառեր", Language.ENGLISH to "Words", Language.RUSSIAN to "Слова"))
   val action_back = LocalizedString(mapOf(Language.ARMENIAN to "Հետ", Language.ENGLISH to "Back", Language.RUSSIAN to "Назад"))
   val action_pronounce = LocalizedString(mapOf(Language.ARMENIAN to "Արտասանել", Language.ENGLISH to "Pronounce", Language.RUSSIAN to "Произнести"))
