@@ -15,5 +15,8 @@ class HealthRoute
 @Resource("/privacy")
 class PrivacyRoute
 
+@Resource("/support")
+class SupportRoute
+
 @Resource("/v1/content/manifest")
 class ContentManifestRoute(val since: Long? = null)

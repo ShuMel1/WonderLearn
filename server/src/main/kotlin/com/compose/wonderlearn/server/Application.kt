@@ -5,6 +5,7 @@ import com.compose.wonderlearn.shared.ContentManifestRoute
 import com.compose.wonderlearn.shared.HealthRoute
 import com.compose.wonderlearn.shared.PrivacyRoute
 import com.compose.wonderlearn.shared.RootRoute
+import com.compose.wonderlearn.shared.SupportRoute
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
@@ -59,6 +60,10 @@ fun Application.module(contentStore: ContentStore = ResourceContentStore()) {
       call.respondText(privacyPolicyHtml, ContentType.Text.Html)
     }
 
+    get<SupportRoute> {
+      call.respondText(supportPageHtml, ContentType.Text.Html)
+    }
+
     get<ContentManifestRoute> { route ->
       val manifest = contentStore.manifest()
       if (route.since != null && route.since >= manifest.version) {
@@ -75,6 +80,13 @@ private val privacyPolicyHtml: String by lazy {
     ?.bufferedReader()
     ?.use { it.readText() }
     ?: "<!DOCTYPE html><title>Privacy Policy</title><h1>Wisekins Privacy Policy</h1>"
+}
+
+private val supportPageHtml: String by lazy {
+  object {}.javaClass.getResourceAsStream("/support.html")
+    ?.bufferedReader()
+    ?.use { it.readText() }
+    ?: "<!DOCTYPE html><title>Support</title><h1>Wisekins Support</h1>"
 }
 
 /** Where the server reads content from. A packaged file today, a database once content is editable. */
