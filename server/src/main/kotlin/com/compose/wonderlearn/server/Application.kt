@@ -74,7 +74,7 @@ private val privacyPolicyHtml: String by lazy {
   object {}.javaClass.getResourceAsStream("/privacy.html")
     ?.bufferedReader()
     ?.use { it.readText() }
-    ?: "<!DOCTYPE html><title>Privacy Policy</title><h1>WonderLearn Privacy Policy</h1>"
+    ?: "<!DOCTYPE html><title>Privacy Policy</title><h1>Wisekins Privacy Policy</h1>"
 }
 
 /** Where the server reads content from. A packaged file today, a database once content is editable. */
