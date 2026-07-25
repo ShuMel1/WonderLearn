@@ -7,6 +7,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -66,23 +68,33 @@ fun MemoryGameScreen(
           selected = state.difficulty,
           onSelect = { viewModel.newGame(it) },
         )
-        Column(
+        BoxWithConstraints(
           modifier = Modifier.fillMaxWidth().weight(1f),
-          verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
+          contentAlignment = Alignment.Center,
         ) {
-          state.cards.chunked(state.columns).forEach { rowCards ->
-            Row(
-              modifier = Modifier.fillMaxWidth(),
-              horizontalArrangement = Arrangement.spacedBy(6.dp),
+          val cols = state.columns
+          val rowCount = (state.cards.size + cols - 1) / cols
+          if (rowCount > 0) {
+            val gap = 6.dp
+            val cell = minOf(
+              (maxWidth - gap * (cols - 1)) / cols,
+              (maxHeight - gap * (rowCount - 1)) / rowCount,
+            )
+            Column(
+              verticalArrangement = Arrangement.spacedBy(gap),
+              horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-              rowCards.forEach { card ->
-                MemoryCardTile(
-                  card = card,
-                  onClick = { viewModel.onCardClick(card.cardId) },
-                  modifier = Modifier.weight(1f),
-                )
+              state.cards.chunked(cols).forEach { rowCards ->
+                Row(horizontalArrangement = Arrangement.spacedBy(gap)) {
+                  rowCards.forEach { card ->
+                    MemoryCardTile(
+                      card = card,
+                      onClick = { viewModel.onCardClick(card.cardId) },
+                      modifier = Modifier.size(cell),
+                    )
+                  }
+                }
               }
-              repeat(state.columns - rowCards.size) { Box(Modifier.weight(1f)) }
             }
           }
         }
