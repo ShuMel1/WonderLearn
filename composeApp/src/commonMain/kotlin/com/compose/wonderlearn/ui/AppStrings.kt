@@ -105,6 +105,7 @@ object AppStrings {
   val memory_title = LocalizedString(mapOf(Language.ARMENIAN to "Զույգեր", Language.ENGLISH to "Match", Language.RUSSIAN to "Пары"))
   val memory_won = LocalizedString(mapOf(Language.ARMENIAN to "Դու գտար բոլոր զույգերը! 🎉", Language.ENGLISH to "You found every pair! 🎉", Language.RUSSIAN to "Ты нашёл все пары! 🎉"))
   val games_title = LocalizedString(mapOf(Language.ARMENIAN to "Խաղեր", Language.ENGLISH to "Games", Language.RUSSIAN to "Игры"))
+  val avatars_title = LocalizedString(mapOf(Language.ARMENIAN to "Կերպարներ", Language.ENGLISH to "My Avatars", Language.RUSSIAN to "Аватары"))
   val odd_title = LocalizedString(mapOf(Language.ARMENIAN to "Գտիր ավելորդը", Language.ENGLISH to "Odd One Out", Language.RUSSIAN to "Найди лишнее"))
   val odd_prompt = LocalizedString(mapOf(Language.ARMENIAN to "Ո՞րն է ավելորդը", Language.ENGLISH to "Which one is different?", Language.RUSSIAN to "Что здесь лишнее?"))
   val memory_easy = LocalizedString(mapOf(Language.ARMENIAN to "Հեշտ", Language.ENGLISH to "Easy", Language.RUSSIAN to "Легко"))

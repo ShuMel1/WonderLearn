@@ -14,12 +14,14 @@ import com.compose.wonderlearn.data.SqlDelightLanguagePreferences
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
 import com.compose.wonderlearn.data.SqlDelightProfileRepository
 import com.compose.wonderlearn.data.SqlDelightProgressRepository
+import com.compose.wonderlearn.data.SqlDelightRewardsRepository
 import com.compose.wonderlearn.data.SqlDelightVocabularyRepository
 import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.LearningRepository
 import com.compose.wonderlearn.domain.ProfileRepository
 import com.compose.wonderlearn.domain.ProgressRepository
+import com.compose.wonderlearn.domain.RewardsRepository
 import com.compose.wonderlearn.domain.SystemTimeProvider
 import com.compose.wonderlearn.domain.TimeProvider
 import com.compose.wonderlearn.domain.Pronouncer
@@ -29,6 +31,7 @@ import com.compose.wonderlearn.feature.account.AccountViewModel
 import com.compose.wonderlearn.feature.home.HomeViewModel
 import com.compose.wonderlearn.feature.memory.MemoryGameViewModel
 import com.compose.wonderlearn.feature.oddoneout.OddOneOutViewModel
+import com.compose.wonderlearn.feature.avatars.AvatarsViewModel
 import com.compose.wonderlearn.feature.app.AppViewModel
 import com.compose.wonderlearn.feature.categories.CategoriesViewModel
 import com.compose.wonderlearn.feature.detail.WordDetailViewModel
@@ -59,15 +62,17 @@ val appModule = module {
   single<ProfileRepository> { SqlDelightProfileRepository(get()) }
   single<TimeProvider> { SystemTimeProvider() }
   single<ProgressRepository> { SqlDelightProgressRepository(get(), get(), get()) }
+  single<RewardsRepository> { SqlDelightRewardsRepository(get(), get()) }
   single<LearningRepository> { SqlDelightLearningRepository(get(), get()) }
   single<LanguagePreferences> { SqlDelightLanguagePreferences(get()) }
   single { AudioPlayer() }
   single<Pronouncer> { DefaultPronouncer(get(), get()) }
   viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
   viewModel { AccountViewModel(get(), get(), get()) }
-  viewModel { HomeViewModel(get()) }
+  viewModel { HomeViewModel(get(), get()) }
   viewModel { MemoryGameViewModel(get(), get(), get(), get()) }
   viewModel { OddOneOutViewModel(get(), get()) }
+  viewModel { AvatarsViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }
   viewModel { params -> WordListViewModel(params.get(), get(), get()) }

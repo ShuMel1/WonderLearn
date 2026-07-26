@@ -26,6 +26,7 @@ import com.compose.wonderlearn.feature.learned.LearnedScreen
 import com.compose.wonderlearn.feature.games.GamesScreen
 import com.compose.wonderlearn.feature.memory.MemoryGameScreen
 import com.compose.wonderlearn.feature.oddoneout.OddOneOutScreen
+import com.compose.wonderlearn.feature.avatars.AvatarsScreen
 import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
 import com.compose.wonderlearn.navigation.Destination
@@ -101,6 +102,7 @@ private fun AppNavHost(onExit: () -> Unit) {
         onReview = { navController.navigate(Destination.Quiz()) },
         onLearned = { navController.navigate(Destination.Learned) },
         onGames = { navController.navigate(Destination.Games) },
+        onAvatars = { navController.navigate(Destination.Avatars) },
       )
     }
     composable<Destination.Categories> {
@@ -150,6 +152,9 @@ private fun AppNavHost(onExit: () -> Unit) {
     }
     composable<Destination.OddOneOut> {
       OddOneOutScreen(onBack = { navController.popBackStack() })
+    }
+    composable<Destination.Avatars> {
+      AvatarsScreen(onBack = { navController.popBackStack() })
     }
   }
 }

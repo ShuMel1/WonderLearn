@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -83,7 +81,7 @@ fun AccountButton(
   }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountSheet(
   onDismiss: () -> Unit,
@@ -166,23 +164,6 @@ fun AccountSheet(
                 }),
                 modifier = Modifier.weight(1f),
               )
-            }
-            FlowRow(
-              modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-              horizontalArrangement = Arrangement.spacedBy(8.dp),
-              verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-              PROFILE_AVATARS.forEach { avatar ->
-                val chosen = profile.avatarId == avatar
-                Box(
-                  modifier = Modifier
-                    .size(46.dp)
-                    .clip(CircleShape)
-                    .background(if (chosen) Sky.copy(alpha = 0.35f) else MaterialTheme.colorScheme.surfaceVariant)
-                    .clickable { viewModel.chooseAvatar(profile.id, avatar) },
-                  contentAlignment = Alignment.Center,
-                ) { Text(avatar, fontSize = 24.sp) }
-              }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
               TextButton(onClick = { editingId = null }) { Text(AppStrings.action_cancel()) }
