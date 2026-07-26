@@ -28,6 +28,7 @@ import com.compose.wonderlearn.domain.VocabularyRepository
 import com.compose.wonderlearn.feature.account.AccountViewModel
 import com.compose.wonderlearn.feature.home.HomeViewModel
 import com.compose.wonderlearn.feature.memory.MemoryGameViewModel
+import com.compose.wonderlearn.feature.oddoneout.OddOneOutViewModel
 import com.compose.wonderlearn.feature.app.AppViewModel
 import com.compose.wonderlearn.feature.categories.CategoriesViewModel
 import com.compose.wonderlearn.feature.detail.WordDetailViewModel
@@ -66,6 +67,7 @@ val appModule = module {
   viewModel { AccountViewModel(get(), get(), get()) }
   viewModel { HomeViewModel(get()) }
   viewModel { MemoryGameViewModel(get(), get(), get(), get()) }
+  viewModel { OddOneOutViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }
   viewModel { params -> WordListViewModel(params.get(), get(), get()) }

@@ -23,7 +23,9 @@ import com.compose.wonderlearn.feature.language.LanguagePickerScreen
 import com.compose.wonderlearn.feature.language.LanguageRole
 import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.feature.learned.LearnedScreen
+import com.compose.wonderlearn.feature.games.GamesScreen
 import com.compose.wonderlearn.feature.memory.MemoryGameScreen
+import com.compose.wonderlearn.feature.oddoneout.OddOneOutScreen
 import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
 import com.compose.wonderlearn.navigation.Destination
@@ -98,7 +100,7 @@ private fun AppNavHost(onExit: () -> Unit) {
         onLearn = { navController.navigate(Destination.Categories) },
         onReview = { navController.navigate(Destination.Quiz()) },
         onLearned = { navController.navigate(Destination.Learned) },
-        onGames = { navController.navigate(Destination.MemoryGame) },
+        onGames = { navController.navigate(Destination.Games) },
       )
     }
     composable<Destination.Categories> {
@@ -136,8 +138,18 @@ private fun AppNavHost(onExit: () -> Unit) {
         onBack = { navController.popBackStack() },
       )
     }
+    composable<Destination.Games> {
+      GamesScreen(
+        onMemoryMatch = { navController.navigate(Destination.MemoryGame) },
+        onOddOneOut = { navController.navigate(Destination.OddOneOut) },
+        onBack = { navController.popBackStack() },
+      )
+    }
     composable<Destination.MemoryGame> {
       MemoryGameScreen(onBack = { navController.popBackStack() })
+    }
+    composable<Destination.OddOneOut> {
+      OddOneOutScreen(onBack = { navController.popBackStack() })
     }
   }
 }
