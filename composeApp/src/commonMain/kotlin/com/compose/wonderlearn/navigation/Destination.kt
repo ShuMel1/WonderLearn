@@ -31,4 +31,7 @@ sealed interface Destination {
 
   @Serializable
   data object OddOneOut : Destination
+
+  @Serializable
+  data object Avatars : Destination
 }

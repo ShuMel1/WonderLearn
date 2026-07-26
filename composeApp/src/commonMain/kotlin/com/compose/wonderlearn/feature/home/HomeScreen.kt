@@ -54,11 +54,13 @@ fun HomeScreen(
   onReview: () -> Unit,
   onLearned: () -> Unit,
   onGames: () -> Unit,
+  onAvatars: () -> Unit,
 ) {
   val accountViewModel: AccountViewModel = koinViewModel()
   val accountState by accountViewModel.state.collectAsStateWithLifecycle()
   val homeViewModel: HomeViewModel = koinViewModel()
   val daily by homeViewModel.dailyProgress.collectAsStateWithLifecycle()
+  val coins by homeViewModel.coins.collectAsStateWithLifecycle()
   var showAccount by remember { mutableStateOf(false) }
 
   if (showAccount) {
@@ -124,6 +126,7 @@ fun HomeScreen(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
           StatChip("🔥", daily.streakDays.toString())
           StatChip("⭐", daily.totalXp.toString())
+          StatChip("🪙", coins.toString(), onClick = onAvatars)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
           IconChip("🔒", onClick = { showLock = true })
@@ -216,11 +219,12 @@ private fun HomeTile(
 }
 
 @Composable
-private fun StatChip(icon: String, value: String) {
+private fun StatChip(icon: String, value: String, onClick: (() -> Unit)? = null) {
   Row(
     modifier = Modifier
       .clip(RoundedCornerShape(50))
       .background(MaterialTheme.colorScheme.surface)
+      .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
       .padding(horizontal = 12.dp, vertical = 6.dp),
     verticalAlignment = Alignment.CenterVertically,
     horizontalArrangement = Arrangement.spacedBy(4.dp),

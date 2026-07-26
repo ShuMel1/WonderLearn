@@ -2,6 +2,7 @@ package com.compose.wonderlearn.feature.account
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.compose.wonderlearn.domain.FREE_AVATARS
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.Profile
@@ -48,17 +49,13 @@ class AccountViewModel(
     val name = displayName.trim()
     if (name.isEmpty()) return
     viewModelScope.launch {
-      val profile = profileRepository.createProfile(name, PROFILE_AVATARS.random())
+      val profile = profileRepository.createProfile(name, FREE_AVATARS.random())
       profileRepository.setActiveProfile(profile.id)
     }
   }
 
   fun renameProfile(id: String, displayName: String) {
     viewModelScope.launch { profileRepository.renameProfile(id, displayName) }
-  }
-
-  fun chooseAvatar(id: String, avatarId: String) {
-    viewModelScope.launch { profileRepository.setAvatar(id, avatarId) }
   }
 
   fun deleteProfile(id: String) {
