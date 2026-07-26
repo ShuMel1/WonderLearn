@@ -55,6 +55,9 @@
     <string name="memory_title">Match</string>
     <string name="memory_won">You found every pair! 🎉</string>
     <string name="memory_again">Play again</string>
+    <string name="games_title">Games</string>
+    <string name="odd_title">Odd One Out</string>
+    <string name="odd_prompt">Which one is different?</string>
     <string name="memory_easy">Easy</string>
     <string name="memory_medium">Medium</string>
     <string name="memory_hard">Hard</string>

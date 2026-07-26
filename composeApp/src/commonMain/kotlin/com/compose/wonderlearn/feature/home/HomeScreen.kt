@@ -176,7 +176,7 @@ fun HomeScreen(
           horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
           HomeTile(Modifier.weight(1f), "🎓", AppStrings.home_learned(), Sunny, onLearned)
-          HomeTile(Modifier.weight(1f), "🧩", AppStrings.memory_title(), Grape, onGames)
+          HomeTile(Modifier.weight(1f), "🎮", AppStrings.games_title(), Grape, onGames)
         }
       }
     }

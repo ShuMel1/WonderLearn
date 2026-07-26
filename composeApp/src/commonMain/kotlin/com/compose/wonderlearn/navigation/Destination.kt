@@ -24,5 +24,11 @@ sealed interface Destination {
   data object Learned : Destination
 
   @Serializable
+  data object Games : Destination
+
+  @Serializable
   data object MemoryGame : Destination
+
+  @Serializable
+  data object OddOneOut : Destination
 }
