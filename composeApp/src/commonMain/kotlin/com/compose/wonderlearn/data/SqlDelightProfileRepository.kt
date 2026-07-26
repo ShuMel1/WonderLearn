@@ -58,6 +58,10 @@ class SqlDelightProfileRepository(
     withContext(dispatcher) { queries.renameProfile(name, id) }
   }
 
+  override suspend fun setAvatar(id: String, avatarId: String) {
+    withContext(dispatcher) { queries.setProfileAvatar(avatarId, id) }
+  }
+
   override suspend fun deleteProfile(id: String): Boolean =
     withContext(dispatcher) {
       queries.transactionWithResult {

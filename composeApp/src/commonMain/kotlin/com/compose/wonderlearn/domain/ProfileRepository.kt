@@ -24,6 +24,8 @@ interface ProfileRepository {
 
   suspend fun renameProfile(id: String, displayName: String)
 
+  suspend fun setAvatar(id: String, avatarId: String)
+
   /**
    * Removes a profile and every progress row belonging to it. Refuses to delete the last
    * profile, and reassigns the active profile if the deleted one was active. Returns true if
