@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -55,6 +57,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun AccountButton(
   displayName: String?,
+  avatar: String?,
   onClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
@@ -71,8 +74,8 @@ fun AccountButton(
       contentAlignment = Alignment.Center,
     ) {
       Text(
-        displayName.initial(),
-        fontSize = 18.sp,
+        avatar ?: displayName.initial(),
+        fontSize = if (avatar != null) 22.sp else 18.sp,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurface,
       )
@@ -80,7 +83,7 @@ fun AccountButton(
   }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun AccountSheet(
   onDismiss: () -> Unit,
@@ -164,6 +167,23 @@ fun AccountSheet(
                 modifier = Modifier.weight(1f),
               )
             }
+            FlowRow(
+              modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+              horizontalArrangement = Arrangement.spacedBy(8.dp),
+              verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+              PROFILE_AVATARS.forEach { avatar ->
+                val chosen = profile.avatarId == avatar
+                Box(
+                  modifier = Modifier
+                    .size(46.dp)
+                    .clip(CircleShape)
+                    .background(if (chosen) Sky.copy(alpha = 0.35f) else MaterialTheme.colorScheme.surfaceVariant)
+                    .clickable { viewModel.chooseAvatar(profile.id, avatar) },
+                  contentAlignment = Alignment.Center,
+                ) { Text(avatar, fontSize = 24.sp) }
+              }
+            }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
               TextButton(onClick = { editingId = null }) { Text(AppStrings.action_cancel()) }
               if (state.profiles.size > 1) {
@@ -181,7 +201,7 @@ fun AccountSheet(
             }
           } else {
             AccountRow(
-              leading = profile.displayName.initial(),
+              leading = profile.avatarId ?: profile.displayName.initial(),
               label = profile.displayName,
               selected = profile.id == state.activeProfileId,
               onClick = { viewModel.switchProfile(profile.id) },

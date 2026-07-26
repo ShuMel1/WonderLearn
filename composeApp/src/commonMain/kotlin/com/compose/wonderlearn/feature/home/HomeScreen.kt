@@ -129,6 +129,7 @@ fun HomeScreen(
           IconChip("🔒", onClick = { showLock = true })
           AccountButton(
             displayName = accountState.activeProfile?.displayName,
+            avatar = accountState.activeProfile?.avatarId,
             onClick = { showAccount = true },
           )
         }

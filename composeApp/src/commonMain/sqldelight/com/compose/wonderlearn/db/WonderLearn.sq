@@ -143,6 +143,9 @@ VALUES (?, ?, NULL, 0);
 renameProfile:
 UPDATE Profile SET displayName = ? WHERE id = ?;
 
+setProfileAvatar:
+UPDATE Profile SET avatarId = ? WHERE id = ?;
+
 deleteProfile:
 DELETE FROM Profile WHERE id = ?;
 

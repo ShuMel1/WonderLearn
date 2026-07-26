@@ -48,13 +48,17 @@ class AccountViewModel(
     val name = displayName.trim()
     if (name.isEmpty()) return
     viewModelScope.launch {
-      val profile = profileRepository.createProfile(name)
+      val profile = profileRepository.createProfile(name, PROFILE_AVATARS.random())
       profileRepository.setActiveProfile(profile.id)
     }
   }
 
   fun renameProfile(id: String, displayName: String) {
     viewModelScope.launch { profileRepository.renameProfile(id, displayName) }
+  }
+
+  fun chooseAvatar(id: String, avatarId: String) {
+    viewModelScope.launch { profileRepository.setAvatar(id, avatarId) }
   }
 
   fun deleteProfile(id: String) {
