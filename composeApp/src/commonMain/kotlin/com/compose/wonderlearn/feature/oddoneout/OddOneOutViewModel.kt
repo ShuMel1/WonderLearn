@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 private const val GROUP_SIZE = 3
-private const val REVEAL_DELAY_MS = 900L
+private const val REVEAL_DELAY_MS = 1300L
 
 data class OddOneOutState(
   val options: List<VocabularyItem> = emptyList(),

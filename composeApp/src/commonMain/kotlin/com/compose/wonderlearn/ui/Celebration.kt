@@ -58,9 +58,12 @@ fun ConfettiBurst(
     if (visible) {
       playing = true
       launch { runCatching { tada.play(Res.readBytes(TADA_SOUND)) } }
-      progress.snapTo(0f)
-      progress.animateTo(1f, tween(durationMillis, easing = LinearEasing))
-      playing = false
+      try {
+        progress.snapTo(0f)
+        progress.animateTo(1f, tween(durationMillis, easing = LinearEasing))
+      } finally {
+        playing = false
+      }
     }
   }
 

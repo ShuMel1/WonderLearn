@@ -53,7 +53,7 @@ fun OddOneOutScreen(
       topBar = { WonderTopBar(title = AppStrings.odd_title(), onBack = onBack) },
     ) { padding ->
       Column(
-        modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(padding).padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
       ) {
@@ -65,20 +65,26 @@ fun OddOneOutScreen(
           textAlign = TextAlign.Center,
           modifier = Modifier.fillMaxWidth(),
         )
-        state.options.chunked(2).forEach { rowItems ->
-          Row(
-            modifier = Modifier.fillMaxWidth().weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-          ) {
-            rowItems.forEach { item ->
-              OddTile(
-                item = item,
-                revealed = state.solved && item.id == state.oddId,
-                wrong = item.id == state.wrongId,
-                enabled = !state.solved,
-                onClick = { viewModel.onSelect(item) },
-                modifier = Modifier.weight(1f),
-              )
+        Column(
+          modifier = Modifier.fillMaxWidth().weight(1f),
+          verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+          horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+          state.options.chunked(2).forEach { rowItems ->
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+              rowItems.forEach { item ->
+                OddTile(
+                  item = item,
+                  revealed = state.solved && item.id == state.oddId,
+                  wrong = item.id == state.wrongId,
+                  enabled = !state.solved,
+                  onClick = { viewModel.onSelect(item) },
+                  modifier = Modifier.weight(1f),
+                )
+              }
             }
           }
         }
