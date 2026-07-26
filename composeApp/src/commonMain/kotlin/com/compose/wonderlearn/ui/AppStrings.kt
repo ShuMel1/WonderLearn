@@ -108,6 +108,7 @@ object AppStrings {
   val avatars_title = LocalizedString(mapOf(Language.ARMENIAN to "Կերպարներ", Language.ENGLISH to "My Avatars", Language.RUSSIAN to "Аватары"))
   val odd_title = LocalizedString(mapOf(Language.ARMENIAN to "Գտիր ավելորդը", Language.ENGLISH to "Odd One Out", Language.RUSSIAN to "Найди лишнее"))
   val odd_prompt = LocalizedString(mapOf(Language.ARMENIAN to "Ո՞րն է ավելորդը", Language.ENGLISH to "Which one is different?", Language.RUSSIAN to "Что здесь лишнее?"))
+  val bubble_title = LocalizedString(mapOf(Language.ARMENIAN to "Փուչիկներ", Language.ENGLISH to "Bubble Pop", Language.RUSSIAN to "Пузырьки"))
   val memory_easy = LocalizedString(mapOf(Language.ARMENIAN to "Հեշտ", Language.ENGLISH to "Easy", Language.RUSSIAN to "Легко"))
   val memory_medium = LocalizedString(mapOf(Language.ARMENIAN to "Միջին", Language.ENGLISH to "Medium", Language.RUSSIAN to "Средне"))
   val memory_hard = LocalizedString(mapOf(Language.ARMENIAN to "Դժվար", Language.ENGLISH to "Hard", Language.RUSSIAN to "Сложно"))

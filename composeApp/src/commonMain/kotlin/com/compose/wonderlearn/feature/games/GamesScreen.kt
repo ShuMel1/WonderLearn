@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.theme.Grape
+import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Teal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,6 +34,7 @@ fun GamesScreen(
   onBack: () -> Unit,
   onMemoryMatch: () -> Unit,
   onOddOneOut: () -> Unit,
+  onBubblePop: () -> Unit,
 ) {
   Scaffold(
     containerColor = MaterialTheme.colorScheme.background,
@@ -44,6 +46,7 @@ fun GamesScreen(
     ) {
       GameCard("🧩", AppStrings.memory_title(), Grape, onMemoryMatch)
       GameCard("🔍", AppStrings.odd_title(), Teal, onOddOneOut)
+      GameCard("🫧", AppStrings.bubble_title(), Sky, onBubblePop)
     }
   }
 }

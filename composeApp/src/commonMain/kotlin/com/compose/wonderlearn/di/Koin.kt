@@ -30,6 +30,7 @@ import com.compose.wonderlearn.domain.VocabularyRepository
 import com.compose.wonderlearn.feature.account.AccountViewModel
 import com.compose.wonderlearn.feature.home.HomeViewModel
 import com.compose.wonderlearn.feature.memory.MemoryGameViewModel
+import com.compose.wonderlearn.feature.bubblepop.BubblePopViewModel
 import com.compose.wonderlearn.feature.oddoneout.OddOneOutViewModel
 import com.compose.wonderlearn.feature.avatars.AvatarsViewModel
 import com.compose.wonderlearn.feature.app.AppViewModel
@@ -72,6 +73,7 @@ val appModule = module {
   viewModel { HomeViewModel(get(), get()) }
   viewModel { MemoryGameViewModel(get(), get(), get(), get()) }
   viewModel { OddOneOutViewModel(get(), get()) }
+  viewModel { BubblePopViewModel(get(), get(), get(), get()) }
   viewModel { AvatarsViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }

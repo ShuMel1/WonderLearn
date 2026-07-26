@@ -59,6 +59,7 @@
     <string name="avatars_title">My Avatars</string>
     <string name="odd_title">Odd One Out</string>
     <string name="odd_prompt">Which one is different?</string>
+    <string name="bubble_title">Bubble Pop</string>
     <string name="memory_easy">Easy</string>
     <string name="memory_medium">Medium</string>
     <string name="memory_hard">Hard</string>

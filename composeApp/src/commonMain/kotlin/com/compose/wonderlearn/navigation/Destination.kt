@@ -33,5 +33,8 @@ sealed interface Destination {
   data object OddOneOut : Destination
 
   @Serializable
+  data object BubblePop : Destination
+
+  @Serializable
   data object Avatars : Destination
 }
