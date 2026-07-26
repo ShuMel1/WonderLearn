@@ -59,6 +59,7 @@
     <string name="avatars_title">Аватары</string>
     <string name="odd_title">Найди лишнее</string>
     <string name="odd_prompt">Что здесь лишнее?</string>
+    <string name="bubble_title">Пузырьки</string>
     <string name="memory_easy">Легко</string>
     <string name="memory_medium">Средне</string>
     <string name="memory_hard">Сложно</string>
