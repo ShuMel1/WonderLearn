@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.ConfettiBurst
+import com.compose.wonderlearn.feature.levels.LevelProgressBar
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import org.koin.compose.viewmodel.koinViewModel
@@ -57,6 +58,7 @@ fun OddOneOutScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
       ) {
+        LevelProgressBar()
         Text(
           AppStrings.odd_prompt(),
           fontSize = 24.sp,

@@ -2,6 +2,7 @@ package com.compose.wonderlearn.feature.oddoneout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.compose.wonderlearn.domain.AnswerBus
 import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.domain.VocabularyRepository
@@ -26,6 +27,7 @@ data class OddOneOutState(
 class OddOneOutViewModel(
   private val vocabulary: VocabularyRepository,
   private val progress: ProgressRepository,
+  private val answerBus: AnswerBus,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(OddOneOutState())
@@ -66,6 +68,7 @@ class OddOneOutViewModel(
     if (current.solved || current.loading) return
     if (item.id == current.oddId) {
       _state.value = current.copy(solved = true, wrongId = null, score = current.score + 1)
+      answerBus.report(true)
       viewModelScope.launch {
         progress.recordCorrectAnswer()
         delay(REVEAL_DELAY_MS)
@@ -73,6 +76,7 @@ class OddOneOutViewModel(
       }
     } else {
       _state.value = current.copy(wrongId = item.id)
+      answerBus.report(false)
     }
   }
 

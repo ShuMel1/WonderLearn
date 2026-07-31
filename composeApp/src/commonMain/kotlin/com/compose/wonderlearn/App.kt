@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -23,7 +24,12 @@ import com.compose.wonderlearn.feature.language.LanguagePickerScreen
 import com.compose.wonderlearn.feature.language.LanguageRole
 import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.feature.learned.LearnedScreen
+import com.compose.wonderlearn.feature.levels.LevelsScreen
 import com.compose.wonderlearn.feature.games.GamesScreen
+import com.compose.wonderlearn.domain.LevelKind
+import com.compose.wonderlearn.domain.LevelRunController
+import androidx.compose.runtime.LaunchedEffect
+import org.koin.compose.koinInject
 import com.compose.wonderlearn.feature.memory.MemoryGameScreen
 import com.compose.wonderlearn.feature.bubblepop.BubblePopScreen
 import com.compose.wonderlearn.feature.oddoneout.OddOneOutScreen
@@ -93,6 +99,20 @@ private fun AppNavHost(onExit: () -> Unit) {
   val currentEntry by navController.currentBackStackEntryAsState()
   val atRoot = currentEntry == null || navController.previousBackStackEntry == null
   PlatformBackHandler(enabled = atRoot, onBack = onExit)
+
+  val levelRun: LevelRunController = koinInject()
+  val completedLevel by levelRun.completed.collectAsStateWithLifecycle()
+  LaunchedEffect(completedLevel) {
+    if (completedLevel != null) {
+      navController.popBackStack(Destination.Levels, inclusive = false)
+    }
+  }
+  val backOnRoad = currentEntry?.destination?.route?.substringBefore('/')?.endsWith("Destination.Levels") == true
+  LaunchedEffect(currentEntry) {
+    if (backOnRoad && levelRun.active.value != null && levelRun.completed.value == null) {
+      levelRun.clear()
+    }
+  }
   NavHost(
     navController = navController,
     startDestination = Destination.Home,
@@ -104,6 +124,20 @@ private fun AppNavHost(onExit: () -> Unit) {
         onLearned = { navController.navigate(Destination.Learned) },
         onGames = { navController.navigate(Destination.Games) },
         onAvatars = { navController.navigate(Destination.Avatars) },
+        onAdventure = { navController.navigate(Destination.Levels) },
+      )
+    }
+    composable<Destination.Levels> {
+      LevelsScreen(
+        onPlay = { level ->
+          when (level.kind) {
+            LevelKind.LEARN -> navController.navigate(Destination.Quiz(revise = false))
+            LevelKind.MEMORY -> navController.navigate(Destination.MemoryGame(fromLevel = true, size = (level.size?.ordinal ?: 0)))
+            LevelKind.BUBBLE_POP -> navController.navigate(Destination.BubblePop)
+            LevelKind.ODD_ONE_OUT -> navController.navigate(Destination.OddOneOut)
+          }
+        },
+        onBack = { navController.popBackStack() },
       )
     }
     composable<Destination.Categories> {
@@ -143,14 +177,19 @@ private fun AppNavHost(onExit: () -> Unit) {
     }
     composable<Destination.Games> {
       GamesScreen(
-        onMemoryMatch = { navController.navigate(Destination.MemoryGame) },
+        onMemoryMatch = { navController.navigate(Destination.MemoryGame()) },
         onOddOneOut = { navController.navigate(Destination.OddOneOut) },
         onBubblePop = { navController.navigate(Destination.BubblePop) },
         onBack = { navController.popBackStack() },
       )
     }
-    composable<Destination.MemoryGame> {
-      MemoryGameScreen(onBack = { navController.popBackStack() })
+    composable<Destination.MemoryGame> { entry ->
+      val route = entry.toRoute<Destination.MemoryGame>()
+      MemoryGameScreen(
+        fromLevel = route.fromLevel,
+        size = route.size,
+        onBack = { navController.popBackStack() },
+      )
     }
     composable<Destination.OddOneOut> {
       OddOneOutScreen(onBack = { navController.popBackStack() })

@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.feature.levels.LevelProgressBar
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
@@ -67,7 +69,8 @@ fun BubblePopScreen(
     containerColor = MaterialTheme.colorScheme.background,
     topBar = { WonderTopBar(title = AppStrings.bubble_title(), onBack = onBack) },
   ) { padding ->
-    Box(modifier = Modifier.fillMaxSize().padding(padding)) {
+    Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+      LevelProgressBar()
       Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -85,7 +88,7 @@ fun BubblePopScreen(
         }
       }
 
-      BoxWithConstraints(modifier = Modifier.fillMaxSize().padding(top = 56.dp)) {
+      BoxWithConstraints(modifier = Modifier.fillMaxWidth().weight(1f)) {
         val fieldWidth = maxWidth
         val fieldHeight = maxHeight
         state.bubbles.forEach { bubble ->

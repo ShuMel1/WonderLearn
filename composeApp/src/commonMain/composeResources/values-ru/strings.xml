@@ -5,6 +5,9 @@
     <string name="action_pronounce">Произнести</string>
     <string name="pronunciation_unavailable">Произношение для этого языка скоро появится 🔊</string>
     <string name="home_tagline">Что хочешь сделать?</string>
+    <string name="home_adventure">Приключение</string>
+    <string name="home_adventure_sub">Пройди уровни</string>
+    <string name="levels_title">Путь</string>
     <string name="home_learn">Учить</string>
     <string name="home_review">Повторить</string>
     <string name="home_progress">Прогресс</string>

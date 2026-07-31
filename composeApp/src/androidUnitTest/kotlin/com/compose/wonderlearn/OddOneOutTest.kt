@@ -53,7 +53,7 @@ class OddOneOutTest {
     override suspend fun setDailyGoal(goal: Int) = Unit
   }
 
-  private fun game() = OddOneOutViewModel(vocabulary, progress)
+  private fun game() = OddOneOutViewModel(vocabulary, progress, com.compose.wonderlearn.domain.AnswerBus())
 
   @Test
   fun aRoundHasFourOptionsWithExactlyOneOddCategory() = runTest(dispatcher) {

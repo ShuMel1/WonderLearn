@@ -12,13 +12,17 @@ import com.compose.wonderlearn.data.content.RemoteContentSource
 import com.compose.wonderlearn.data.content.httpClient
 import com.compose.wonderlearn.data.SqlDelightLanguagePreferences
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
+import com.compose.wonderlearn.data.SqlDelightLevelsRepository
 import com.compose.wonderlearn.data.SqlDelightProfileRepository
 import com.compose.wonderlearn.data.SqlDelightProgressRepository
 import com.compose.wonderlearn.data.SqlDelightRewardsRepository
 import com.compose.wonderlearn.data.SqlDelightVocabularyRepository
 import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.LanguagePreferences
+import com.compose.wonderlearn.domain.AnswerBus
 import com.compose.wonderlearn.domain.LearningRepository
+import com.compose.wonderlearn.domain.LevelRunController
+import com.compose.wonderlearn.domain.LevelsRepository
 import com.compose.wonderlearn.domain.ProfileRepository
 import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.RewardsRepository
@@ -38,6 +42,7 @@ import com.compose.wonderlearn.feature.categories.CategoriesViewModel
 import com.compose.wonderlearn.feature.detail.WordDetailViewModel
 import com.compose.wonderlearn.feature.language.LanguagePickerViewModel
 import com.compose.wonderlearn.feature.learned.LearnedViewModel
+import com.compose.wonderlearn.feature.levels.LevelsViewModel
 import com.compose.wonderlearn.feature.quiz.QuizViewModel
 import com.compose.wonderlearn.feature.words.WordListViewModel
 import kotlinx.serialization.json.Json
@@ -65,22 +70,26 @@ val appModule = module {
   single<ProgressRepository> { SqlDelightProgressRepository(get(), get(), get()) }
   single<RewardsRepository> { SqlDelightRewardsRepository(get(), get()) }
   single<LearningRepository> { SqlDelightLearningRepository(get(), get()) }
+  single<LevelsRepository> { SqlDelightLevelsRepository(get(), get()) }
+  single { LevelRunController() }
+  single { AnswerBus() }
   single<LanguagePreferences> { SqlDelightLanguagePreferences(get()) }
   single { AudioPlayer() }
   single<Pronouncer> { DefaultPronouncer(get(), get()) }
   viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
   viewModel { AccountViewModel(get(), get(), get()) }
-  viewModel { HomeViewModel(get(), get()) }
-  viewModel { MemoryGameViewModel(get(), get(), get(), get()) }
-  viewModel { OddOneOutViewModel(get(), get()) }
-  viewModel { BubblePopViewModel(get(), get(), get(), get()) }
+  viewModel { HomeViewModel(get(), get(), get()) }
+  viewModel { MemoryGameViewModel(get(), get(), get(), get(), get()) }
+  viewModel { OddOneOutViewModel(get(), get(), get()) }
+  viewModel { BubblePopViewModel(get(), get(), get(), get(), get()) }
   viewModel { AvatarsViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }
   viewModel { params -> WordListViewModel(params.get(), get(), get()) }
   viewModel { params -> WordDetailViewModel(params.get(), get(), get()) }
-  viewModel { (mode: QuizMode) -> QuizViewModel(get(), get(), get(), get(), mode) }
+  viewModel { (mode: QuizMode) -> QuizViewModel(get(), get(), get(), get(), get(), mode) }
   viewModel { LearnedViewModel(get(), get()) }
+  viewModel { LevelsViewModel(get(), get(), get()) }
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {

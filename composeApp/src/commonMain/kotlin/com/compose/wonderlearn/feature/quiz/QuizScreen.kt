@@ -42,6 +42,7 @@ import com.compose.wonderlearn.domain.QuizMode
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.ConfettiBurst
+import com.compose.wonderlearn.feature.levels.LevelProgressBar
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import org.koin.compose.viewmodel.koinViewModel
@@ -115,6 +116,7 @@ fun QuizScreen(
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+      LevelProgressBar()
       val prompt = when {
         state.solved && state.justLearned -> AppStrings.quiz_learned()
         state.solved && state.mode == QuizMode.REVISE -> AppStrings.revise_done()
