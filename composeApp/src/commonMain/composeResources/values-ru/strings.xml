@@ -8,6 +8,10 @@
     <string name="home_adventure">Приключение</string>
     <string name="home_adventure_sub">Пройди уровни</string>
     <string name="levels_title">Путь</string>
+    <string name="level_complete">Молодец!</string>
+    <string name="level_next">Дальше</string>
+    <string name="level_repeat">Ещё раз</string>
+    <string name="level_home">Домой</string>
     <string name="home_learn">Учить</string>
     <string name="home_review">Повторить</string>
     <string name="home_progress">Прогресс</string>

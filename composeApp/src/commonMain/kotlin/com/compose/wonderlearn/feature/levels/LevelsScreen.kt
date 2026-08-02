@@ -1,34 +1,49 @@
 package com.compose.wonderlearn.feature.levels
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.GameSize
+import com.compose.wonderlearn.domain.LEVELS
 import com.compose.wonderlearn.domain.LevelDef
 import com.compose.wonderlearn.domain.LevelKind
 import com.compose.wonderlearn.ui.AppStrings
@@ -75,6 +90,7 @@ private fun badgeFor(def: LevelDef): String =
 fun LevelsScreen(
   onPlay: (LevelDef) -> Unit,
   onBack: () -> Unit,
+  onHome: () -> Unit,
   viewModel: LevelsViewModel = koinViewModel(),
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
@@ -122,10 +138,86 @@ fun LevelsScreen(
     )
   }
 
-  LaunchedEffect(justCompleted) {
-    if (justCompleted != null) {
-      kotlinx.coroutines.delay(1800)
-      viewModel.clearCompleted()
+  val completedId = justCompleted
+  if (completedId != null) {
+    val doneDef = LEVELS.firstOrNull { it.id == completedId }
+    val nextDef = doneDef?.let { d -> LEVELS.firstOrNull { it.index == d.index + 1 } }
+    LevelCompleteDialog(
+      onDismiss = { viewModel.clearCompleted() },
+      onHome = {
+        viewModel.clearCompleted()
+        onHome()
+      },
+      onRepeat = doneDef?.let { d ->
+        {
+          viewModel.clearCompleted()
+          viewModel.onStart(d)
+          onPlay(d)
+        }
+      },
+      onNext = nextDef?.let { n ->
+        {
+          viewModel.clearCompleted()
+          viewModel.onStart(n)
+          onPlay(n)
+        }
+      },
+    )
+  }
+}
+
+@Composable
+private fun LevelCompleteDialog(
+  onDismiss: () -> Unit,
+  onHome: () -> Unit,
+  onRepeat: (() -> Unit)?,
+  onNext: (() -> Unit)?,
+) {
+  Dialog(onDismissRequest = onDismiss) {
+    Card(
+      shape = RoundedCornerShape(28.dp),
+      colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+    ) {
+      Column(
+        modifier = Modifier.padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+      ) {
+        Text("🎉", fontSize = 56.sp)
+        Text(
+          AppStrings.level_complete(),
+          fontSize = 24.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = MaterialTheme.colorScheme.onSurface,
+        )
+        if (onNext != null) {
+          Button(
+            onClick = onNext,
+            shape = RoundedCornerShape(50),
+            modifier = Modifier.fillMaxWidth().height(54.dp),
+          ) {
+            Text("▶  ${AppStrings.level_next()}", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+          }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+          if (onRepeat != null) {
+            OutlinedButton(
+              onClick = onRepeat,
+              shape = RoundedCornerShape(50),
+              modifier = Modifier.weight(1f).height(50.dp),
+            ) {
+              Text("🔁  ${AppStrings.level_repeat()}", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+            }
+          }
+          OutlinedButton(
+            onClick = onHome,
+            shape = RoundedCornerShape(50),
+            modifier = Modifier.weight(1f).height(50.dp),
+          ) {
+            Text("🏠  ${AppStrings.level_home()}", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+          }
+        }
+      }
     }
   }
 }
@@ -138,12 +230,24 @@ private fun LevelNodeButton(
 ) {
   val locked = node.status == LevelStatus.LOCKED
   val done = node.status == LevelStatus.DONE
+  val current = node.status == LevelStatus.CURRENT
   val base = colorFor(node.def.kind)
   val fill = when {
     locked -> MaterialTheme.colorScheme.surfaceVariant
     done -> base
     else -> base
   }
+  val pulse = rememberInfiniteTransition(label = "nodePulse")
+  val pulseScale by pulse.animateFloat(
+    initialValue = 1f,
+    targetValue = 1.1f,
+    animationSpec = infiniteRepeatable(
+      animation = tween(720, easing = FastOutSlowInEasing),
+      repeatMode = RepeatMode.Reverse,
+    ),
+    label = "nodePulseScale",
+  )
+  val scale = if (current) pulseScale else 1f
   Column(
     modifier = modifier,
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -153,6 +257,10 @@ private fun LevelNodeButton(
       Box(
         modifier = Modifier
           .size(NODE_SIZE)
+          .graphicsLayer {
+            scaleX = scale
+            scaleY = scale
+          }
           .clip(CircleShape)
           .background(if (done) fill else fill.copy(alpha = if (locked) 1f else 0.95f))
           .then(if (locked) Modifier else Modifier.clickable(onClick = onClick)),

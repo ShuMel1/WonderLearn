@@ -8,6 +8,10 @@
     <string name="home_adventure">Արկած</string>
     <string name="home_adventure_sub">Անցիր մակարդակները</string>
     <string name="levels_title">Ճանապարհ</string>
+    <string name="level_complete">Ապրե՛ս</string>
+    <string name="level_next">Հաջորդը</string>
+    <string name="level_repeat">Կրկնել</string>
+    <string name="level_home">Տուն</string>
     <string name="home_learn">Սովորել</string>
     <string name="home_review">Կրկնել</string>
     <string name="home_progress">Առաջընթաց</string>

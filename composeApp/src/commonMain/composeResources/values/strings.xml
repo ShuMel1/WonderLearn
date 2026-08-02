@@ -8,6 +8,10 @@
     <string name="home_adventure">Adventure</string>
     <string name="home_adventure_sub">Play through the levels</string>
     <string name="levels_title">Adventure</string>
+    <string name="level_complete">Great job!</string>
+    <string name="level_next">Next</string>
+    <string name="level_repeat">Repeat</string>
+    <string name="level_home">Home</string>
     <string name="home_learn">Learn</string>
     <string name="home_review">Review</string>
     <string name="home_progress">Progress</string>

@@ -1,5 +1,11 @@
 package com.compose.wonderlearn.feature.home
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -150,7 +157,34 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
       ) {
-        Text("🦉", fontSize = 96.sp)
+        val owl = rememberInfiniteTransition(label = "owl")
+        val bob by owl.animateFloat(
+          initialValue = 0f,
+          targetValue = -14f,
+          animationSpec = infiniteRepeatable(
+            animation = tween(1300, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse,
+          ),
+          label = "owlBob",
+        )
+        val breathe by owl.animateFloat(
+          initialValue = 1f,
+          targetValue = 1.06f,
+          animationSpec = infiniteRepeatable(
+            animation = tween(1300, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse,
+          ),
+          label = "owlBreathe",
+        )
+        Text(
+          "🦉",
+          fontSize = 96.sp,
+          modifier = Modifier.graphicsLayer {
+            translationY = bob
+            scaleX = breathe
+            scaleY = breathe
+          },
+        )
         Text(
           "${AppStrings.app_name()} ✨",
           fontSize = 40.sp,

@@ -138,6 +138,7 @@ private fun AppNavHost(onExit: () -> Unit) {
           }
         },
         onBack = { navController.popBackStack() },
+        onHome = { navController.popBackStack(Destination.Home, inclusive = false) },
       )
     }
     composable<Destination.Categories> {
