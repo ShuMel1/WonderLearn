@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,9 +52,17 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun MemoryGameScreen(
   onBack: () -> Unit,
+  fromLevel: Boolean = false,
+  size: Int = -1,
   viewModel: MemoryGameViewModel = koinViewModel(),
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
+
+  LaunchedEffect(fromLevel, size) {
+    if (fromLevel && size in Difficulty.entries.indices) {
+      viewModel.newGame(Difficulty.entries[size])
+    }
+  }
 
   Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
@@ -64,10 +73,12 @@ fun MemoryGameScreen(
         modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
       ) {
-        DifficultySelector(
-          selected = state.difficulty,
-          onSelect = { viewModel.newGame(it) },
-        )
+        if (!fromLevel) {
+          DifficultySelector(
+            selected = state.difficulty,
+            onSelect = { viewModel.newGame(it) },
+          )
+        }
         BoxWithConstraints(
           modifier = Modifier.fillMaxWidth().weight(1f),
           contentAlignment = Alignment.Center,

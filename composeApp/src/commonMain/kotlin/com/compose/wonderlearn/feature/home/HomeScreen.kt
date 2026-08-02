@@ -55,12 +55,14 @@ fun HomeScreen(
   onLearned: () -> Unit,
   onGames: () -> Unit,
   onAvatars: () -> Unit,
+  onAdventure: () -> Unit,
 ) {
   val accountViewModel: AccountViewModel = koinViewModel()
   val accountState by accountViewModel.state.collectAsStateWithLifecycle()
   val homeViewModel: HomeViewModel = koinViewModel()
   val daily by homeViewModel.dailyProgress.collectAsStateWithLifecycle()
   val coins by homeViewModel.coins.collectAsStateWithLifecycle()
+  val stars by homeViewModel.stars.collectAsStateWithLifecycle()
   var showAccount by remember { mutableStateOf(false) }
 
   if (showAccount) {
@@ -125,7 +127,7 @@ fun HomeScreen(
       ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
           StatChip("🔥", daily.streakDays.toString())
-          StatChip("⭐", daily.totalXp.toString())
+          StatChip("⭐", stars.toString(), onClick = onAdventure)
           StatChip("🪙", coins.toString(), onClick = onAvatars)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -168,6 +170,7 @@ fun HomeScreen(
         modifier = Modifier.fillMaxWidth().padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
       ) {
+        AdventureBanner(onClick = onAdventure)
         Row(
           modifier = Modifier.fillMaxWidth(),
           horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -189,6 +192,38 @@ fun HomeScreen(
       visible = celebrateGoal,
       modifier = Modifier.fillMaxSize(),
     )
+  }
+}
+
+@Composable
+private fun AdventureBanner(onClick: () -> Unit) {
+  Card(
+    modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+    shape = RoundedCornerShape(28.dp),
+    colors = CardDefaults.cardColors(containerColor = Grape),
+    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+  ) {
+    Row(
+      modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+      Text("🗺️", fontSize = 40.sp)
+      Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(
+          AppStrings.home_adventure(),
+          fontSize = 22.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = Color.White,
+        )
+        Text(
+          AppStrings.home_adventure_sub(),
+          fontSize = 14.sp,
+          color = Color.White.copy(alpha = 0.9f),
+        )
+      }
+      Text("▶", fontSize = 24.sp, color = Color.White)
+    }
   }
 }
 

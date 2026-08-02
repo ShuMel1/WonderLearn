@@ -2,6 +2,7 @@ package com.compose.wonderlearn.feature.bubblepop
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.compose.wonderlearn.domain.AnswerBus
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.ProgressRepository
@@ -39,6 +40,7 @@ class BubblePopViewModel(
   private val progress: ProgressRepository,
   private val pronouncer: Pronouncer,
   private val preferences: LanguagePreferences,
+  private val answerBus: AnswerBus,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(BubblePopState())
@@ -79,14 +81,17 @@ class BubblePopViewModel(
     if (bubble.id in current.poppedWrong) return
     if (bubble.item.id == current.targetId) {
       _state.value = current.copy(score = current.score + 1)
+      answerBus.report(true)
       viewModelScope.launch { progress.recordCorrectAnswer() }
       newRound()
     } else {
       _state.value = current.copy(poppedWrong = current.poppedWrong + bubble.id)
+      answerBus.report(false)
     }
   }
 
   fun onEscaped() {
+    answerBus.report(false)
     newRound()
   }
 

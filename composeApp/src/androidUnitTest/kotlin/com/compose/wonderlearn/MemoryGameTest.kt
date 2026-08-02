@@ -65,7 +65,7 @@ class MemoryGameTest {
     override suspend fun setTargetLanguage(language: Language) = Unit
   }
 
-  private fun game() = MemoryGameViewModel(vocabulary, progress, pronouncer, preferences)
+  private fun game() = MemoryGameViewModel(vocabulary, progress, pronouncer, preferences, com.compose.wonderlearn.domain.AnswerBus())
 
   @Test
   fun newGameDealsEachWordAsExactlyTwoCards() = runTest(dispatcher) {
