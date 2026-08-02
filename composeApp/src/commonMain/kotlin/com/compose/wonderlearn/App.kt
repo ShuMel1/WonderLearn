@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -30,6 +31,8 @@ import com.compose.wonderlearn.feature.oddoneout.OddOneOutScreen
 import com.compose.wonderlearn.feature.avatars.AvatarsScreen
 import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
+import com.compose.wonderlearn.domain.Analytics
+import com.compose.wonderlearn.domain.GameId
 import com.compose.wonderlearn.navigation.Destination
 import com.compose.wonderlearn.ui.LocalLanguage
 import androidx.compose.runtime.mutableStateOf
@@ -42,6 +45,7 @@ import com.compose.wonderlearn.ui.UnlockBar
 import com.compose.wonderlearn.ui.rememberAppLockController
 import com.compose.wonderlearn.ui.PlatformBackHandler
 import com.compose.wonderlearn.ui.theme.WonderLearnTheme
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -89,6 +93,7 @@ fun App(onExit: () -> Unit = {}) {
 
 @Composable
 private fun AppNavHost(onExit: () -> Unit) {
+  val analytics = koinInject<Analytics>()
   val navController = rememberNavController()
   val currentEntry by navController.currentBackStackEntryAsState()
   val atRoot = currentEntry == null || navController.previousBackStackEntry == null
@@ -150,12 +155,15 @@ private fun AppNavHost(onExit: () -> Unit) {
       )
     }
     composable<Destination.MemoryGame> {
+      LaunchedEffect(Unit) { analytics.gameStarted(GameId.MEMORY_MATCH) }
       MemoryGameScreen(onBack = { navController.popBackStack() })
     }
     composable<Destination.OddOneOut> {
+      LaunchedEffect(Unit) { analytics.gameStarted(GameId.ODD_ONE_OUT) }
       OddOneOutScreen(onBack = { navController.popBackStack() })
     }
     composable<Destination.BubblePop> {
+      LaunchedEffect(Unit) { analytics.gameStarted(GameId.BUBBLE_POP) }
       BubblePopScreen(onBack = { navController.popBackStack() })
     }
     composable<Destination.Avatars> {

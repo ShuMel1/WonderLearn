@@ -19,3 +19,9 @@ data class ServiceInfo(
 data class ErrorResponse(
   val error: String,
 )
+
+@Serializable
+data class GameCount(
+  val gameId: String,
+  val starts: Int,
+)

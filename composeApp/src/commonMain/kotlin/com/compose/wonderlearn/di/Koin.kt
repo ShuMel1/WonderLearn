@@ -10,6 +10,8 @@ import com.compose.wonderlearn.data.content.ContentSource
 import com.compose.wonderlearn.data.content.REMOTE_CONTENT
 import com.compose.wonderlearn.data.content.RemoteContentSource
 import com.compose.wonderlearn.data.content.httpClient
+import com.compose.wonderlearn.data.analytics.HttpAnalytics
+import com.compose.wonderlearn.data.analytics.InstallId
 import com.compose.wonderlearn.data.SqlDelightLanguagePreferences
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
 import com.compose.wonderlearn.data.SqlDelightProfileRepository
@@ -17,6 +19,7 @@ import com.compose.wonderlearn.data.SqlDelightProgressRepository
 import com.compose.wonderlearn.data.SqlDelightRewardsRepository
 import com.compose.wonderlearn.data.SqlDelightVocabularyRepository
 import com.compose.wonderlearn.db.WonderLearnDatabase
+import com.compose.wonderlearn.domain.Analytics
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.LearningRepository
 import com.compose.wonderlearn.domain.ProfileRepository
@@ -68,6 +71,8 @@ val appModule = module {
   single<LanguagePreferences> { SqlDelightLanguagePreferences(get()) }
   single { AudioPlayer() }
   single<Pronouncer> { DefaultPronouncer(get(), get()) }
+  single { InstallId(get()) }
+  single<Analytics> { HttpAnalytics(get(), get()) }
   viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
   viewModel { AccountViewModel(get(), get(), get()) }
   viewModel { HomeViewModel(get(), get()) }

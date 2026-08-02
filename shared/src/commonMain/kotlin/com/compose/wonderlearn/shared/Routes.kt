@@ -20,3 +20,9 @@ class SupportRoute
 
 @Resource("/v1/content/manifest")
 class ContentManifestRoute(val since: Long? = null)
+
+@Resource("/v1/events")
+class EventsRoute
+
+@Resource("/v1/events/summary")
+class EventsSummaryRoute
