@@ -2,6 +2,7 @@ package com.compose.wonderlearn.feature.quiz
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.compose.wonderlearn.domain.AnswerBus
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.LearningRepository
@@ -37,6 +38,7 @@ class QuizViewModel(
   private val progress: ProgressRepository,
   private val pronouncer: Pronouncer,
   private val preferences: LanguagePreferences,
+  private val answerBus: AnswerBus,
   private val mode: QuizMode = QuizMode.LEARN,
 ) : ViewModel() {
 
@@ -86,6 +88,7 @@ class QuizViewModel(
           learning.recordCorrect(target.id, awaitLanguage()) && mode == QuizMode.LEARN
         progress.recordCorrectAnswer()
         if (nowLearned) progress.recordWordLearned()
+        answerBus.report(true)
         _state.value = _state.value.copy(
           solved = true,
           wrongId = null,
@@ -97,6 +100,7 @@ class QuizViewModel(
       }
     } else {
       _state.value = current.copy(wrongId = item.id)
+      answerBus.report(false)
       viewModelScope.launch { learning.recordWrong(target.id, awaitLanguage(), mode) }
     }
   }

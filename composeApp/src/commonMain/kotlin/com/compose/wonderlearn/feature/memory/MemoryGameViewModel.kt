@@ -2,6 +2,7 @@ package com.compose.wonderlearn.feature.memory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.compose.wonderlearn.domain.AnswerBus
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.ProgressRepository
@@ -52,6 +53,7 @@ class MemoryGameViewModel(
   private val progress: ProgressRepository,
   private val pronouncer: Pronouncer,
   private val preferences: LanguagePreferences,
+  private val answerBus: AnswerBus,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(MemoryState())
@@ -100,6 +102,7 @@ class MemoryGameViewModel(
       firstPick = null
       _state.value = _state.value.copy(matchedPairs = _state.value.matchedPairs + 1)
       viewModelScope.launch { progress.recordCorrectAnswer() }
+      if (_state.value.won) answerBus.reportFinished()
     } else {
       busy = true
       viewModelScope.launch {

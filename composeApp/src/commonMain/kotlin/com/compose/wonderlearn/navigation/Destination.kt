@@ -24,10 +24,13 @@ sealed interface Destination {
   data object Learned : Destination
 
   @Serializable
+  data object Levels : Destination
+
+  @Serializable
   data object Games : Destination
 
   @Serializable
-  data object MemoryGame : Destination
+  data class MemoryGame(val fromLevel: Boolean = false, val size: Int = -1) : Destination
 
   @Serializable
   data object OddOneOut : Destination
