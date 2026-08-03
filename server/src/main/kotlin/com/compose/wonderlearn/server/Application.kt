@@ -1,7 +1,10 @@
 package com.compose.wonderlearn.server
 
+import com.compose.wonderlearn.shared.AnalyticsEvent
 import com.compose.wonderlearn.shared.ContentManifest
 import com.compose.wonderlearn.shared.ContentManifestRoute
+import com.compose.wonderlearn.shared.EventsRoute
+import com.compose.wonderlearn.shared.EventsSummaryRoute
 import com.compose.wonderlearn.shared.HealthRoute
 import com.compose.wonderlearn.shared.PrivacyRoute
 import com.compose.wonderlearn.shared.RootRoute
@@ -16,11 +19,14 @@ import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.calllogging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.request.receive
 import io.ktor.server.resources.Resources
 import io.ktor.server.resources.get
+import io.ktor.server.resources.post
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.routing
+import java.io.File
 import kotlinx.serialization.json.Json
 
 fun main() {
@@ -28,7 +34,13 @@ fun main() {
   embeddedServer(Netty, port = port, host = "0.0.0.0", module = Application::module).start(wait = true)
 }
 
-fun Application.module(contentStore: ContentStore = ResourceContentStore()) {
+fun Application.module(
+  contentStore: ContentStore = ResourceContentStore(),
+  eventStore: EventStore = JsonlEventStore(
+    File(System.getenv("ANALYTICS_FILE") ?: "analytics-events.jsonl"),
+  ),
+  summaryToken: String? = System.getenv("ANALYTICS_TOKEN"),
+) {
   install(ContentNegotiation) {
     json(Json { prettyPrint = false; ignoreUnknownKeys = true })
   }
@@ -70,6 +82,22 @@ fun Application.module(contentStore: ContentStore = ResourceContentStore()) {
         call.respond(HttpStatusCode.NotModified)
       } else {
         call.respond(manifest)
+      }
+    }
+
+    post<EventsRoute> {
+      val event = call.receive<AnalyticsEvent>()
+      eventStore.record(event)
+      call.respond(HttpStatusCode.Accepted)
+    }
+
+    get<EventsSummaryRoute> {
+      val authorized = !summaryToken.isNullOrBlank() &&
+        call.request.headers["Authorization"] == "Bearer $summaryToken"
+      if (!authorized) {
+        call.respond(HttpStatusCode.NotFound)
+      } else {
+        call.respond(eventStore.summary())
       }
     }
   }

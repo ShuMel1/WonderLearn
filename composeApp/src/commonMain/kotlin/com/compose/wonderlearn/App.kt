@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +29,6 @@ import com.compose.wonderlearn.feature.levels.LevelsScreen
 import com.compose.wonderlearn.feature.games.GamesScreen
 import com.compose.wonderlearn.domain.LevelKind
 import com.compose.wonderlearn.domain.LevelRunController
-import androidx.compose.runtime.LaunchedEffect
 import org.koin.compose.koinInject
 import com.compose.wonderlearn.feature.memory.MemoryGameScreen
 import com.compose.wonderlearn.feature.bubblepop.BubblePopScreen
@@ -36,6 +36,8 @@ import com.compose.wonderlearn.feature.oddoneout.OddOneOutScreen
 import com.compose.wonderlearn.feature.avatars.AvatarsScreen
 import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
+import com.compose.wonderlearn.domain.Analytics
+import com.compose.wonderlearn.domain.GameId
 import com.compose.wonderlearn.navigation.Destination
 import com.compose.wonderlearn.ui.LocalLanguage
 import androidx.compose.runtime.mutableStateOf
@@ -95,6 +97,7 @@ fun App(onExit: () -> Unit = {}) {
 
 @Composable
 private fun AppNavHost(onExit: () -> Unit) {
+  val analytics = koinInject<Analytics>()
   val navController = rememberNavController()
   val currentEntry by navController.currentBackStackEntryAsState()
   val atRoot = currentEntry == null || navController.previousBackStackEntry == null
@@ -184,6 +187,7 @@ private fun AppNavHost(onExit: () -> Unit) {
       )
     }
     composable<Destination.MemoryGame> { entry ->
+      LaunchedEffect(Unit) { analytics.gameStarted(GameId.MEMORY_MATCH) }
       val route = entry.toRoute<Destination.MemoryGame>()
       MemoryGameScreen(
         fromLevel = route.fromLevel,
@@ -192,9 +196,11 @@ private fun AppNavHost(onExit: () -> Unit) {
       )
     }
     composable<Destination.OddOneOut> {
+      LaunchedEffect(Unit) { analytics.gameStarted(GameId.ODD_ONE_OUT) }
       OddOneOutScreen(onBack = { navController.popBackStack() })
     }
     composable<Destination.BubblePop> {
+      LaunchedEffect(Unit) { analytics.gameStarted(GameId.BUBBLE_POP) }
       BubblePopScreen(onBack = { navController.popBackStack() })
     }
     composable<Destination.Avatars> {
