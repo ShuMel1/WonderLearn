@@ -45,6 +45,7 @@ import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
+import com.compose.wonderlearn.ui.theme.wonderBackground
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -115,9 +116,9 @@ fun HomeScreen(
     if (previous == false && daily.goalReached) celebrateGoal = true
   }
 
-  Box(modifier = Modifier.fillMaxSize()) {
+  Box(modifier = Modifier.fillMaxSize().wonderBackground()) {
   Scaffold(
-    containerColor = MaterialTheme.colorScheme.background,
+    containerColor = Color.Transparent,
   ) { padding ->
     Column(modifier = Modifier.fillMaxSize().padding(padding)) {
       Row(
