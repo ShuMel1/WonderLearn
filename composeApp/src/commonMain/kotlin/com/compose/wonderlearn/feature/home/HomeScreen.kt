@@ -162,12 +162,6 @@ fun HomeScreen(
       ) {
         Text("🦉", fontSize = 96.sp)
         Text(
-          "${AppStrings.app_name()} ✨",
-          fontSize = 40.sp,
-          fontWeight = FontWeight.ExtraBold,
-          color = MaterialTheme.colorScheme.onBackground,
-        )
-        Text(
           AppStrings.home_tagline(),
           fontSize = 18.sp,
           color = MaterialTheme.colorScheme.onSurfaceVariant,
