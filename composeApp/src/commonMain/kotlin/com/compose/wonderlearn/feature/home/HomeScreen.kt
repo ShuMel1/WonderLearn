@@ -9,6 +9,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -120,7 +124,12 @@ fun HomeScreen(
   Scaffold(
     containerColor = Color.Transparent,
   ) { padding ->
-    Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+    BoxWithConstraints(modifier = Modifier.fillMaxSize().padding(padding)) {
+    Column(
+      modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).heightIn(min = maxHeight),
+      verticalArrangement = Arrangement.SpaceBetween,
+    ) {
+    Column(modifier = Modifier.fillMaxWidth()) {
       Row(
         modifier = Modifier.fillMaxWidth().padding(top = 12.dp, start = 16.dp, end = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -146,10 +155,10 @@ fun HomeScreen(
         goalReached = daily.goalReached,
         modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 8.dp),
       )
+      }
       Column(
-        modifier = Modifier.fillMaxWidth().weight(1f).padding(24.dp),
+        modifier = Modifier.fillMaxWidth().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
       ) {
         Text("🦉", fontSize = 96.sp)
         Text(
@@ -187,6 +196,7 @@ fun HomeScreen(
           HomeTile(Modifier.weight(1f), "🎮", AppStrings.games_title(), Grape, onGames)
         }
       }
+    }
     }
   }
     ConfettiBurst(
