@@ -269,7 +269,7 @@ fun AccountSheet(
         HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
         SectionLabel(AppStrings.account_learning_language())
-        Language.targets.forEach { entry ->
+        (Language.targets + listOfNotNull(nativeLanguage)).distinct().forEach { entry ->
           AccountRow(
             leading = entry.flag,
             label = entry.displayName,

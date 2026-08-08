@@ -11,9 +11,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+
+private const val NUMBERS_CATEGORY = "numbers"
+
+private fun numberOf(emoji: String): Int = emoji.firstOrNull()?.digitToIntOrNull() ?: 10
 
 class WordListViewModel(
   val categoryId: String,
@@ -22,7 +27,12 @@ class WordListViewModel(
 ) : ViewModel() {
 
   val items: StateFlow<List<VocabularyItem>> = repository.itemsForCategory(categoryId)
+    .map { list -> if (categoryId == NUMBERS_CATEGORY) list.sortedBy { numberOf(it.emoji) } else list }
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+  val categoryTitle: StateFlow<String> = repository.categories()
+    .map { categories -> categories.firstOrNull { it.id == categoryId }?.title.orEmpty() }
+    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "")
 
   private val _playingId = MutableStateFlow<String?>(null)
   val playingId: StateFlow<String?> = _playingId.asStateFlow()
