@@ -23,7 +23,6 @@ object AppStrings {
   val action_back = LocalizedString(mapOf(Language.ARMENIAN to "Հետ", Language.ENGLISH to "Back", Language.RUSSIAN to "Назад"))
   val action_pronounce = LocalizedString(mapOf(Language.ARMENIAN to "Արտասանել", Language.ENGLISH to "Pronounce", Language.RUSSIAN to "Произнести"))
   val pronunciation_unavailable = LocalizedString(mapOf(Language.ARMENIAN to "Այս լեզվի արտասանությունը շուտով կլինի 🔊", Language.ENGLISH to "Pronunciation for this language is coming soon 🔊", Language.RUSSIAN to "Произношение для этого языка скоро появится 🔊"))
-  val home_tagline = LocalizedString(mapOf(Language.ARMENIAN to "Ի՞նչ ես ուզում անել", Language.ENGLISH to "What do you want to do?", Language.RUSSIAN to "Что хочешь сделать?"))
   val home_learn = LocalizedString(mapOf(Language.ARMENIAN to "Սովորել", Language.ENGLISH to "Learn", Language.RUSSIAN to "Учить"))
   val home_adventure = LocalizedString(mapOf(Language.ARMENIAN to "Արկած", Language.ENGLISH to "Adventure", Language.RUSSIAN to "Приключение"))
   val home_adventure_sub = LocalizedString(mapOf(Language.ARMENIAN to "Անցիր մակարդակները", Language.ENGLISH to "Play through the levels", Language.RUSSIAN to "Пройди уровни"))
