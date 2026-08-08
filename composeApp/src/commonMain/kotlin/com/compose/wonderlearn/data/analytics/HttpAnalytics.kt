@@ -13,8 +13,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 
 private const val LOG_TAG = "Wisekins-Analytics"
 
@@ -30,6 +31,7 @@ class HttpAnalytics(
 
   override fun gameStarted(game: GameId) = send(name = "game_start", gameId = game.id)
 
+  @OptIn(ExperimentalTime::class)
   private fun send(name: String, gameId: String? = null) {
     if (isDebugBuild) platformLog(LOG_TAG, listOfNotNull(name, gameId).joinToString(" "))
     scope.launch {

@@ -1,7 +1,8 @@
 package com.compose.wonderlearn.domain
 
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 
@@ -28,6 +29,7 @@ interface TimeProvider {
 }
 
 class SystemTimeProvider : TimeProvider {
+  @OptIn(ExperimentalTime::class)
   override fun todayEpochDay(): Long =
     Clock.System.todayIn(TimeZone.currentSystemDefault()).toEpochDays().toLong()
 }
