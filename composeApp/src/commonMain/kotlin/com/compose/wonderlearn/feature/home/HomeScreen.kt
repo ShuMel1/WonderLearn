@@ -1,5 +1,11 @@
 package com.compose.wonderlearn.feature.home
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,9 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,8 +33,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.height
@@ -51,6 +59,13 @@ import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
 import com.compose.wonderlearn.ui.theme.wonderBackground
 import org.koin.compose.viewmodel.koinViewModel
+
+private val CompactHeightThreshold = 600.dp
+private val MascotMaxSize = 96.dp
+private val MascotMinSize = 28.dp
+private const val MascotHeightFraction = 0.55f
+private val MascotBobDistance = 6.dp
+private const val MascotBreathScale = 0.04f
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -125,72 +140,72 @@ fun HomeScreen(
     containerColor = Color.Transparent,
   ) { padding ->
     BoxWithConstraints(modifier = Modifier.fillMaxSize().padding(padding)) {
-    Column(
-      modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).heightIn(min = maxHeight),
-      verticalArrangement = Arrangement.SpaceBetween,
-    ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-      Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 12.dp, start = 16.dp, end = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-      ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-          StatChip("🔥", daily.streakDays.toString())
-          StatChip("⭐", stars.toString(), onClick = onAdventure)
-          StatChip("🪙", coins.toString(), onClick = onAvatars)
-        }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-          IconChip("🔒", onClick = { showLock = true })
-          AccountButton(
-            displayName = accountState.activeProfile?.displayName,
-            avatar = accountState.activeProfile?.avatarId,
-            onClick = { showAccount = true },
+      val compact = maxHeight < CompactHeightThreshold
+      Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+          Row(
+            modifier = Modifier.fillMaxWidth().padding(top = 12.dp, start = 16.dp, end = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+          ) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+              StatChip("🔥", daily.streakDays.toString())
+              StatChip("⭐", stars.toString(), onClick = onAdventure)
+              StatChip("🪙", coins.toString(), onClick = onAvatars)
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+              IconChip("🔒", onClick = { showLock = true })
+              AccountButton(
+                displayName = accountState.activeProfile?.displayName,
+                avatar = accountState.activeProfile?.avatarId,
+                onClick = { showAccount = true },
+              )
+            }
+          }
+          DailyGoalCard(
+            wordsToday = daily.wordsToday,
+            dailyGoal = daily.dailyGoal,
+            goalReached = daily.goalReached,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 8.dp),
           )
         }
-      }
-      DailyGoalCard(
-        wordsToday = daily.wordsToday,
-        dailyGoal = daily.dailyGoal,
-        goalReached = daily.goalReached,
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 8.dp),
-      )
-      }
-      Column(
-        modifier = Modifier.fillMaxWidth().padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-      ) {
-        Text("🦉", fontSize = 96.sp)
-        Text(
-          AppStrings.home_tagline(),
-          fontSize = 18.sp,
-          color = MaterialTheme.colorScheme.onSurfaceVariant,
-          textAlign = TextAlign.Center,
-          modifier = Modifier.padding(top = 8.dp),
-        )
-      }
+        BoxWithConstraints(
+          modifier = Modifier.fillMaxWidth().weight(1f).padding(horizontal = 24.dp),
+          contentAlignment = Alignment.Center,
+        ) {
+          val mascotSize = minOf(MascotMaxSize, maxHeight * MascotHeightFraction)
+          if (mascotSize >= MascotMinSize) {
+            MascotButton(
+              emoji = accountState.activeProfile?.avatarId ?: "🦉",
+              size = mascotSize,
+              onClick = onAvatars,
+            )
+          }
+        }
 
-      Column(
-        modifier = Modifier.fillMaxWidth().padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-      ) {
-        AdventureBanner(onClick = onAdventure)
-        Row(
-          modifier = Modifier.fillMaxWidth(),
-          horizontalArrangement = Arrangement.spacedBy(16.dp),
+        val gap = if (compact) 10.dp else 16.dp
+        Column(
+          modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
+            .padding(bottom = if (compact) 10.dp else 20.dp),
+          verticalArrangement = Arrangement.spacedBy(gap),
         ) {
-          HomeTile(Modifier.weight(1f), "📚", AppStrings.home_learn(), Sky, onLearn)
-          HomeTile(Modifier.weight(1f), "🎯", AppStrings.home_review(), Coral, onReview)
-        }
-        Row(
-          modifier = Modifier.fillMaxWidth(),
-          horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-          HomeTile(Modifier.weight(1f), "🎓", AppStrings.home_learned(), Sunny, onLearned)
-          HomeTile(Modifier.weight(1f), "🎮", AppStrings.games_title(), Grape, onGames)
+          AdventureBanner(compact = compact, onClick = onAdventure)
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(gap),
+          ) {
+            HomeTile(Modifier.weight(1f), "📚", AppStrings.home_learn(), Sky, compact, onLearn)
+            HomeTile(Modifier.weight(1f), "🎯", AppStrings.home_review(), Coral, compact, onReview)
+          }
+          Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(gap),
+          ) {
+            HomeTile(Modifier.weight(1f), "🎓", AppStrings.home_learned(), Sunny, compact, onLearned)
+            HomeTile(Modifier.weight(1f), "🎮", AppStrings.games_title(), Grape, compact, onGames)
+          }
         }
       }
-    }
     }
   }
     ConfettiBurst(
@@ -201,7 +216,37 @@ fun HomeScreen(
 }
 
 @Composable
-private fun AdventureBanner(onClick: () -> Unit) {
+private fun MascotButton(emoji: String, size: Dp, onClick: () -> Unit) {
+  val label = AppStrings.avatars_title()
+  val transition = rememberInfiniteTransition()
+  val bob by transition.animateFloat(
+    initialValue = 0f,
+    targetValue = 1f,
+    animationSpec = infiniteRepeatable(
+      animation = tween(durationMillis = 2200, easing = FastOutSlowInEasing),
+      repeatMode = RepeatMode.Reverse,
+    ),
+  )
+  val fontSize = with(LocalDensity.current) { size.toSp() }
+  Box(
+    modifier = Modifier
+      .clip(CircleShape)
+      .clickable(onClick = onClick)
+      .semantics { contentDescription = label }
+      .padding(12.dp)
+      .graphicsLayer {
+        translationY = -bob * MascotBobDistance.toPx()
+        scaleX = 1f + bob * MascotBreathScale
+        scaleY = 1f + bob * MascotBreathScale
+      },
+    contentAlignment = Alignment.Center,
+  ) {
+    Text(emoji, fontSize = fontSize)
+  }
+}
+
+@Composable
+private fun AdventureBanner(compact: Boolean, onClick: () -> Unit) {
   Card(
     modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
     shape = RoundedCornerShape(28.dp),
@@ -209,21 +254,22 @@ private fun AdventureBanner(onClick: () -> Unit) {
     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
   ) {
     Row(
-      modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp),
+      modifier = Modifier.fillMaxWidth()
+        .padding(horizontal = 20.dp, vertical = if (compact) 12.dp else 20.dp),
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-      Text("🗺️", fontSize = 40.sp)
+      Text("🗺️", fontSize = if (compact) 32.sp else 40.sp)
       Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
         Text(
           AppStrings.home_adventure(),
-          fontSize = 22.sp,
+          fontSize = if (compact) 19.sp else 22.sp,
           fontWeight = FontWeight.ExtraBold,
           color = Color.White,
         )
         Text(
           AppStrings.home_adventure_sub(),
-          fontSize = 14.sp,
+          fontSize = if (compact) 13.sp else 14.sp,
           color = Color.White.copy(alpha = 0.9f),
         )
       }
@@ -238,6 +284,7 @@ private fun HomeTile(
   emoji: String,
   label: String,
   color: Color,
+  compact: Boolean,
   onClick: () -> Unit,
 ) {
   val onColor = if (color == Sunny) Color(0xFF33304A) else Color.White
@@ -248,12 +295,19 @@ private fun HomeTile(
     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
   ) {
     Column(
-      modifier = Modifier.fillMaxWidth().padding(vertical = 28.dp),
+      modifier = Modifier.fillMaxWidth().padding(vertical = if (compact) 14.dp else 28.dp),
       horizontalAlignment = Alignment.CenterHorizontally,
-      verticalArrangement = Arrangement.spacedBy(10.dp),
+      verticalArrangement = Arrangement.spacedBy(if (compact) 6.dp else 10.dp),
     ) {
-      Box(contentAlignment = Alignment.Center) { Text(emoji, fontSize = 48.sp) }
-      Text(label, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = onColor)
+      Box(contentAlignment = Alignment.Center) {
+        Text(emoji, fontSize = if (compact) 34.sp else 48.sp)
+      }
+      Text(
+        label,
+        fontSize = if (compact) 17.sp else 20.sp,
+        fontWeight = FontWeight.Bold,
+        color = onColor,
+      )
     }
   }
 }
@@ -326,7 +380,7 @@ private fun DailyGoalCard(
 private fun IconChip(icon: String, onClick: () -> Unit) {
   Box(
     modifier = Modifier
-      .clip(androidx.compose.foundation.shape.CircleShape)
+      .clip(CircleShape)
       .background(MaterialTheme.colorScheme.surface)
       .clickable(onClick = onClick)
       .padding(10.dp),
