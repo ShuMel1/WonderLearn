@@ -55,6 +55,7 @@ fun WordListScreen(
   viewModel: WordListViewModel = koinViewModel { parametersOf(categoryId) },
 ) {
   val items by viewModel.items.collectAsStateWithLifecycle()
+  val categoryTitle by viewModel.categoryTitle.collectAsStateWithLifecycle()
   val playingId by viewModel.playingId.collectAsStateWithLifecycle()
   val language = LocalLanguage.current
   val accent = colorForCategory(categoryId)
@@ -69,7 +70,7 @@ fun WordListScreen(
     containerColor = MaterialTheme.colorScheme.background,
     topBar = {
       WonderTopBar(
-        title = AppStrings.title_words(),
+        title = categoryTitle.ifEmpty { AppStrings.title_words() },
         onBack = onBack,
         containerColor = accent,
       )
