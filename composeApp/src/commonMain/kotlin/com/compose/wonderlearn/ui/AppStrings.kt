@@ -10,11 +10,11 @@ import com.compose.wonderlearn.domain.Language
 class LocalizedString(private val values: Map<Language, String>) {
   internal val languages: Set<Language> get() = values.keys
 
+  fun forLanguage(language: Language): String =
+    values[language] ?: values.getValue(Language.ENGLISH)
+
   @Composable
-  operator fun invoke(): String {
-    val language = LocalNativeLanguage.current
-    return values[language] ?: values.getValue(Language.ENGLISH)
-  }
+  operator fun invoke(): String = forLanguage(LocalNativeLanguage.current)
 }
 
 object AppStrings {

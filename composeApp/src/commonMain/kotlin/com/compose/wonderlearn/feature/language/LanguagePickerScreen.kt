@@ -34,13 +34,12 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun LanguagePickerScreen(
   role: LanguageRole,
-  native: Language? = null,
   onBack: (() -> Unit)? = null,
   viewModel: LanguagePickerViewModel = koinViewModel(),
 ) {
   val choices = when (role) {
     LanguageRole.NATIVE -> Language.natives
-    LanguageRole.TARGET -> (Language.targets + listOfNotNull(native)).distinct()
+    LanguageRole.TARGET -> Language.targets
   }
   val title = when (role) {
     LanguageRole.NATIVE -> Res.string.language_native_title

@@ -63,7 +63,7 @@ fun App(onExit: () -> Unit = {}) {
     when {
       state.loading -> Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background))
       native == null -> LanguagePickerScreen(role = LanguageRole.NATIVE)
-      target == null -> LanguagePickerScreen(role = LanguageRole.TARGET, native = native)
+      target == null -> LanguagePickerScreen(role = LanguageRole.TARGET)
       else -> {
         val appLock = rememberAppLockController()
         var locked by remember { mutableStateOf(false) }

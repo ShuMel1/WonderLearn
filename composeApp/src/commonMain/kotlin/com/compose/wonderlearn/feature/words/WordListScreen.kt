@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.LocalLanguage
+import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
@@ -126,13 +128,23 @@ private fun WordCard(
           modifier = Modifier.size(44.dp),
         )
       }
-      Text(
-        item.text(LocalLanguage.current),
-        fontSize = 22.sp,
-        fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.weight(1f),
-      )
+      val learning = LocalLanguage.current
+      val native = LocalNativeLanguage.current
+      Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(
+          item.text(learning),
+          fontSize = 22.sp,
+          fontWeight = FontWeight.Bold,
+          color = MaterialTheme.colorScheme.onSurface,
+        )
+        if (native != learning) {
+          Text(
+            item.text(native),
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+          )
+        }
+      }
       val listenLabel = AppStrings.action_listen()
       Box(
         modifier = Modifier

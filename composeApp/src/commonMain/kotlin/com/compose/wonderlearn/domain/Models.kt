@@ -8,8 +8,6 @@ enum class Language(
   val ttsSupported: Boolean,
   val asrSupported: Boolean,
   val hasRecordedAudio: Boolean,
-  val canBeTarget: Boolean,
-  val canBeNative: Boolean,
 ) {
   ARMENIAN(
     code = "hy",
@@ -19,8 +17,6 @@ enum class Language(
     ttsSupported = false,
     asrSupported = false,
     hasRecordedAudio = true,
-    canBeTarget = false,
-    canBeNative = true,
   ),
   ENGLISH(
     code = "en",
@@ -30,8 +26,6 @@ enum class Language(
     ttsSupported = true,
     asrSupported = true,
     hasRecordedAudio = false,
-    canBeTarget = true,
-    canBeNative = true,
   ),
   RUSSIAN(
     code = "ru",
@@ -41,14 +35,16 @@ enum class Language(
     ttsSupported = true,
     asrSupported = true,
     hasRecordedAudio = false,
-    canBeTarget = true,
-    canBeNative = true,
   ),
   ;
 
   companion object {
-    val targets: List<Language> get() = entries.filter { it.canBeTarget }
-    val natives: List<Language> get() = entries.filter { it.canBeNative }
+    /**
+     * Every language can be picked in either role, including the one already chosen for the
+     * other role, so both lists are simply every entry.
+     */
+    val targets: List<Language> get() = entries
+    val natives: List<Language> get() = entries
   }
 }
 
