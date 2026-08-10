@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "categories": [
     {
       "id": "fruits",
@@ -178,7 +178,10 @@
       "translations": {
         "hy": "Խնձոր",
         "en": "Apple",
-        "ru": "Яблоко"
+        "ru": "Яблоко",
+        "es": "Manzana",
+        "fr": "Pomme",
+        "de": "Apfel"
       }
     },
     {
@@ -188,7 +191,10 @@
       "translations": {
         "hy": "Բանան",
         "en": "Banana",
-        "ru": "Банан"
+        "ru": "Банан",
+        "es": "Plátano",
+        "fr": "Banane",
+        "de": "Banane"
       }
     },
     {
@@ -198,7 +204,10 @@
       "translations": {
         "hy": "Նարինջ",
         "en": "Orange",
-        "ru": "Апельсин"
+        "ru": "Апельсин",
+        "es": "Naranja",
+        "fr": "Orange",
+        "de": "Orange"
       }
     },
     {
@@ -208,7 +217,10 @@
       "translations": {
         "hy": "Խաղող",
         "en": "Grapes",
-        "ru": "Виноград"
+        "ru": "Виноград",
+        "es": "Uvas",
+        "fr": "Raisins",
+        "de": "Trauben"
       }
     },
     {
@@ -218,7 +230,10 @@
       "translations": {
         "hy": "Ելակ",
         "en": "Strawberry",
-        "ru": "Клубника"
+        "ru": "Клубника",
+        "es": "Fresa",
+        "fr": "Fraise",
+        "de": "Erdbeere"
       }
     },
     {
@@ -228,7 +243,10 @@
       "translations": {
         "hy": "Ձմերուկ",
         "en": "Watermelon",
-        "ru": "Арбуз"
+        "ru": "Арбуз",
+        "es": "Sandía",
+        "fr": "Pastèque",
+        "de": "Wassermelone"
       }
     },
     {
@@ -238,7 +256,10 @@
       "translations": {
         "hy": "Տանձ",
         "en": "Pear",
-        "ru": "Груша"
+        "ru": "Груша",
+        "es": "Pera",
+        "fr": "Poire",
+        "de": "Birne"
       }
     },
     {
@@ -248,7 +269,10 @@
       "translations": {
         "hy": "Բալ",
         "en": "Cherry",
-        "ru": "Вишня"
+        "ru": "Вишня",
+        "es": "Cereza",
+        "fr": "Cerise",
+        "de": "Kirsche"
       }
     },
     {
@@ -258,7 +282,10 @@
       "translations": {
         "hy": "Կիտրոն",
         "en": "Lemon",
-        "ru": "Лимон"
+        "ru": "Лимон",
+        "es": "Limón",
+        "fr": "Citron",
+        "de": "Zitrone"
       }
     },
     {
@@ -268,7 +295,10 @@
       "translations": {
         "hy": "Շուն",
         "en": "Dog",
-        "ru": "Собака"
+        "ru": "Собака",
+        "es": "Perro",
+        "fr": "Chien",
+        "de": "Hund"
       }
     },
     {
@@ -278,7 +308,10 @@
       "translations": {
         "hy": "Կատու",
         "en": "Cat",
-        "ru": "Кошка"
+        "ru": "Кошка",
+        "es": "Gato",
+        "fr": "Chat",
+        "de": "Katze"
       }
     },
     {
@@ -288,7 +321,10 @@
       "translations": {
         "hy": "Ձի",
         "en": "Horse",
-        "ru": "Лошадь"
+        "ru": "Лошадь",
+        "es": "Caballo",
+        "fr": "Cheval",
+        "de": "Pferd"
       }
     },
     {
@@ -298,7 +334,10 @@
       "translations": {
         "hy": "Առյուծ",
         "en": "Lion",
-        "ru": "Лев"
+        "ru": "Лев",
+        "es": "León",
+        "fr": "Lion",
+        "de": "Löwe"
       }
     },
     {
@@ -308,7 +347,10 @@
       "translations": {
         "hy": "Փիղ",
         "en": "Elephant",
-        "ru": "Слон"
+        "ru": "Слон",
+        "es": "Elefante",
+        "fr": "Éléphant",
+        "de": "Elefant"
       }
     },
     {
@@ -318,7 +360,10 @@
       "translations": {
         "hy": "Արջ",
         "en": "Bear",
-        "ru": "Медведь"
+        "ru": "Медведь",
+        "es": "Oso",
+        "fr": "Ours",
+        "de": "Bär"
       }
     },
     {
@@ -328,7 +373,10 @@
       "translations": {
         "hy": "Նապաստակ",
         "en": "Rabbit",
-        "ru": "Кролик"
+        "ru": "Кролик",
+        "es": "Conejo",
+        "fr": "Lapin",
+        "de": "Kaninchen"
       }
     },
     {
@@ -338,7 +386,10 @@
       "translations": {
         "hy": "Աղվես",
         "en": "Fox",
-        "ru": "Лиса"
+        "ru": "Лиса",
+        "es": "Zorro",
+        "fr": "Renard",
+        "de": "Fuchs"
       }
     },
     {
@@ -348,7 +399,10 @@
       "translations": {
         "hy": "Կով",
         "en": "Cow",
-        "ru": "Корова"
+        "ru": "Корова",
+        "es": "Vaca",
+        "fr": "Vache",
+        "de": "Kuh"
       }
     },
     {
@@ -358,7 +412,10 @@
       "translations": {
         "hy": "Կապիկ",
         "en": "Monkey",
-        "ru": "Обезьяна"
+        "ru": "Обезьяна",
+        "es": "Mono",
+        "fr": "Singe",
+        "de": "Affe"
       }
     },
     {
@@ -368,7 +425,10 @@
       "translations": {
         "hy": "Կարմիր",
         "en": "Red",
-        "ru": "Красный"
+        "ru": "Красный",
+        "es": "Rojo",
+        "fr": "Rouge",
+        "de": "Rot"
       }
     },
     {
@@ -378,7 +438,10 @@
       "translations": {
         "hy": "Կապույտ",
         "en": "Blue",
-        "ru": "Синий"
+        "ru": "Синий",
+        "es": "Azul",
+        "fr": "Bleu",
+        "de": "Blau"
       }
     },
     {
@@ -388,7 +451,10 @@
       "translations": {
         "hy": "Կանաչ",
         "en": "Green",
-        "ru": "Зелёный"
+        "ru": "Зелёный",
+        "es": "Verde",
+        "fr": "Vert",
+        "de": "Grün"
       }
     },
     {
@@ -398,7 +464,10 @@
       "translations": {
         "hy": "Դեղին",
         "en": "Yellow",
-        "ru": "Жёлтый"
+        "ru": "Жёлтый",
+        "es": "Amarillo",
+        "fr": "Jaune",
+        "de": "Gelb"
       }
     },
     {
@@ -408,7 +477,10 @@
       "translations": {
         "hy": "Սև",
         "en": "Black",
-        "ru": "Чёрный"
+        "ru": "Чёрный",
+        "es": "Negro",
+        "fr": "Noir",
+        "de": "Schwarz"
       }
     },
     {
@@ -418,7 +490,10 @@
       "translations": {
         "hy": "Սպիտակ",
         "en": "White",
-        "ru": "Белый"
+        "ru": "Белый",
+        "es": "Blanco",
+        "fr": "Blanc",
+        "de": "Weiß"
       }
     },
     {
@@ -428,7 +503,10 @@
       "translations": {
         "hy": "Նարնջագույն",
         "en": "Orange",
-        "ru": "Оранжевый"
+        "ru": "Оранжевый",
+        "es": "Naranja",
+        "fr": "Orange",
+        "de": "Orange"
       }
     },
     {
@@ -438,7 +516,10 @@
       "translations": {
         "hy": "Մանուշակագույն",
         "en": "Purple",
-        "ru": "Фиолетовый"
+        "ru": "Фиолетовый",
+        "es": "Morado",
+        "fr": "Violet",
+        "de": "Lila"
       }
     },
     {
@@ -448,7 +529,10 @@
       "translations": {
         "hy": "Հաց",
         "en": "Bread",
-        "ru": "Хлеб"
+        "ru": "Хлеб",
+        "es": "Pan",
+        "fr": "Pain",
+        "de": "Brot"
       }
     },
     {
@@ -458,7 +542,10 @@
       "translations": {
         "hy": "Կաթ",
         "en": "Milk",
-        "ru": "Молоко"
+        "ru": "Молоко",
+        "es": "Leche",
+        "fr": "Lait",
+        "de": "Milch"
       }
     },
     {
@@ -468,7 +555,10 @@
       "translations": {
         "hy": "Պանիր",
         "en": "Cheese",
-        "ru": "Сыр"
+        "ru": "Сыр",
+        "es": "Queso",
+        "fr": "Fromage",
+        "de": "Käse"
       }
     },
     {
@@ -478,7 +568,10 @@
       "translations": {
         "hy": "Ձու",
         "en": "Egg",
-        "ru": "Яйцо"
+        "ru": "Яйцо",
+        "es": "Huevo",
+        "fr": "Œuf",
+        "de": "Ei"
       }
     },
     {
@@ -488,7 +581,10 @@
       "translations": {
         "hy": "Ջուր",
         "en": "Water",
-        "ru": "Вода"
+        "ru": "Вода",
+        "es": "Agua",
+        "fr": "Eau",
+        "de": "Wasser"
       }
     },
     {
@@ -498,7 +594,10 @@
       "translations": {
         "hy": "Բրինձ",
         "en": "Rice",
-        "ru": "Рис"
+        "ru": "Рис",
+        "es": "Arroz",
+        "fr": "Riz",
+        "de": "Reis"
       }
     },
     {
@@ -508,7 +607,10 @@
       "translations": {
         "hy": "Միս",
         "en": "Meat",
-        "ru": "Мясо"
+        "ru": "Мясо",
+        "es": "Carne",
+        "fr": "Viande",
+        "de": "Fleisch"
       }
     },
     {
@@ -518,7 +620,10 @@
       "translations": {
         "hy": "Ապուր",
         "en": "Soup",
-        "ru": "Суп"
+        "ru": "Суп",
+        "es": "Sopa",
+        "fr": "Soupe",
+        "de": "Suppe"
       }
     },
     {
@@ -528,7 +633,10 @@
       "translations": {
         "hy": "Մեղր",
         "en": "Honey",
-        "ru": "Мёд"
+        "ru": "Мёд",
+        "es": "Miel",
+        "fr": "Miel",
+        "de": "Honig"
       }
     },
     {
@@ -538,7 +646,10 @@
       "translations": {
         "hy": "Մեքենա",
         "en": "Car",
-        "ru": "Машина"
+        "ru": "Машина",
+        "es": "Coche",
+        "fr": "Voiture",
+        "de": "Auto"
       }
     },
     {
@@ -548,7 +659,10 @@
       "translations": {
         "hy": "Ավտոբուս",
         "en": "Bus",
-        "ru": "Автобус"
+        "ru": "Автобус",
+        "es": "Autobús",
+        "fr": "Bus",
+        "de": "Bus"
       }
     },
     {
@@ -558,7 +672,10 @@
       "translations": {
         "hy": "Գնացք",
         "en": "Train",
-        "ru": "Поезд"
+        "ru": "Поезд",
+        "es": "Tren",
+        "fr": "Train",
+        "de": "Zug"
       }
     },
     {
@@ -568,7 +685,10 @@
       "translations": {
         "hy": "Ինքնաթիռ",
         "en": "Plane",
-        "ru": "Самолёт"
+        "ru": "Самолёт",
+        "es": "Avión",
+        "fr": "Avion",
+        "de": "Flugzeug"
       }
     },
     {
@@ -578,7 +698,10 @@
       "translations": {
         "hy": "Հեծանիվ",
         "en": "Bicycle",
-        "ru": "Велосипед"
+        "ru": "Велосипед",
+        "es": "Bicicleta",
+        "fr": "Vélo",
+        "de": "Fahrrad"
       }
     },
     {
@@ -588,7 +711,10 @@
       "translations": {
         "hy": "Նավակ",
         "en": "Boat",
-        "ru": "Лодка"
+        "ru": "Лодка",
+        "es": "Barca",
+        "fr": "Bateau",
+        "de": "Boot"
       }
     },
     {
@@ -598,7 +724,10 @@
       "translations": {
         "hy": "Բեռնատար",
         "en": "Truck",
-        "ru": "Грузовик"
+        "ru": "Грузовик",
+        "es": "Camión",
+        "fr": "Camion",
+        "de": "Lastwagen"
       }
     },
     {
@@ -608,7 +737,10 @@
       "translations": {
         "hy": "Ծառ",
         "en": "Tree",
-        "ru": "Дерево"
+        "ru": "Дерево",
+        "es": "Árbol",
+        "fr": "Arbre",
+        "de": "Baum"
       }
     },
     {
@@ -618,7 +750,10 @@
       "translations": {
         "hy": "Ծաղիկ",
         "en": "Flower",
-        "ru": "Цветок"
+        "ru": "Цветок",
+        "es": "Flor",
+        "fr": "Fleur",
+        "de": "Blume"
       }
     },
     {
@@ -628,7 +763,10 @@
       "translations": {
         "hy": "Արև",
         "en": "Sun",
-        "ru": "Солнце"
+        "ru": "Солнце",
+        "es": "Sol",
+        "fr": "Soleil",
+        "de": "Sonne"
       }
     },
     {
@@ -638,7 +776,10 @@
       "translations": {
         "hy": "Լուսին",
         "en": "Moon",
-        "ru": "Луна"
+        "ru": "Луна",
+        "es": "Luna",
+        "fr": "Lune",
+        "de": "Mond"
       }
     },
     {
@@ -648,7 +789,10 @@
       "translations": {
         "hy": "Աստղ",
         "en": "Star",
-        "ru": "Звезда"
+        "ru": "Звезда",
+        "es": "Estrella",
+        "fr": "Étoile",
+        "de": "Stern"
       }
     },
     {
@@ -658,7 +802,10 @@
       "translations": {
         "hy": "Անձրև",
         "en": "Rain",
-        "ru": "Дождь"
+        "ru": "Дождь",
+        "es": "Lluvia",
+        "fr": "Pluie",
+        "de": "Regen"
       }
     },
     {
@@ -668,7 +815,10 @@
       "translations": {
         "hy": "Սար",
         "en": "Mountain",
-        "ru": "Гора"
+        "ru": "Гора",
+        "es": "Montaña",
+        "fr": "Montagne",
+        "de": "Berg"
       }
     },
     {
@@ -678,7 +828,10 @@
       "translations": {
         "hy": "Գետ",
         "en": "River",
-        "ru": "Река"
+        "ru": "Река",
+        "es": "Río",
+        "fr": "Rivière",
+        "de": "Fluss"
       }
     },
     {
@@ -688,7 +841,10 @@
       "translations": {
         "hy": "Արքայախնձոր",
         "en": "Pineapple",
-        "ru": "Ананас"
+        "ru": "Ананас",
+        "es": "Piña",
+        "fr": "Ananas",
+        "de": "Ananas"
       }
     },
     {
@@ -698,7 +854,10 @@
       "translations": {
         "hy": "Դեղձ",
         "en": "Peach",
-        "ru": "Персик"
+        "ru": "Персик",
+        "es": "Melocotón",
+        "fr": "Pêche",
+        "de": "Pfirsich"
       }
     },
     {
@@ -708,7 +867,10 @@
       "translations": {
         "hy": "Մանգո",
         "en": "Mango",
-        "ru": "Манго"
+        "ru": "Манго",
+        "es": "Mango",
+        "fr": "Mangue",
+        "de": "Mango"
       }
     },
     {
@@ -718,7 +880,10 @@
       "translations": {
         "hy": "Կիվի",
         "en": "Kiwi",
-        "ru": "Киви"
+        "ru": "Киви",
+        "es": "Kiwi",
+        "fr": "Kiwi",
+        "de": "Kiwi"
       }
     },
     {
@@ -728,7 +893,10 @@
       "translations": {
         "hy": "Կոկոս",
         "en": "Coconut",
-        "ru": "Кокос"
+        "ru": "Кокос",
+        "es": "Coco",
+        "fr": "Noix de coco",
+        "de": "Kokosnuss"
       }
     },
     {
@@ -738,7 +906,10 @@
       "translations": {
         "hy": "Ավոկադո",
         "en": "Avocado",
-        "ru": "Авокадо"
+        "ru": "Авокадо",
+        "es": "Aguacate",
+        "fr": "Avocat",
+        "de": "Avocado"
       }
     },
     {
@@ -748,7 +919,10 @@
       "translations": {
         "hy": "Հապալաս",
         "en": "Blueberries",
-        "ru": "Черника"
+        "ru": "Черника",
+        "es": "Arándanos",
+        "fr": "Myrtilles",
+        "de": "Blaubeeren"
       }
     },
     {
@@ -758,7 +932,10 @@
       "translations": {
         "hy": "Սեխ",
         "en": "Melon",
-        "ru": "Дыня"
+        "ru": "Дыня",
+        "es": "Melón",
+        "fr": "Melon",
+        "de": "Melone"
       }
     },
     {
@@ -768,7 +945,10 @@
       "translations": {
         "hy": "Ձիթապտուղ",
         "en": "Olive",
-        "ru": "Оливка"
+        "ru": "Оливка",
+        "es": "Aceituna",
+        "fr": "Olive",
+        "de": "Olive"
       }
     },
     {
@@ -778,7 +958,10 @@
       "translations": {
         "hy": "Կոճապղպեղ",
         "en": "Ginger",
-        "ru": "Имбирь"
+        "ru": "Имбирь",
+        "es": "Jengibre",
+        "fr": "Gingembre",
+        "de": "Ingwer"
       }
     },
     {
@@ -788,7 +971,10 @@
       "translations": {
         "hy": "Գազար",
         "en": "Carrot",
-        "ru": "Морковь"
+        "ru": "Морковь",
+        "es": "Zanahoria",
+        "fr": "Carotte",
+        "de": "Karotte"
       }
     },
     {
@@ -798,7 +984,10 @@
       "translations": {
         "hy": "Եգիպտացորեն",
         "en": "Corn",
-        "ru": "Кукуруза"
+        "ru": "Кукуруза",
+        "es": "Maíz",
+        "fr": "Maïs",
+        "de": "Mais"
       }
     },
     {
@@ -808,7 +997,10 @@
       "translations": {
         "hy": "Բրոկկոլի",
         "en": "Broccoli",
-        "ru": "Брокколи"
+        "ru": "Брокколи",
+        "es": "Brócoli",
+        "fr": "Brocoli",
+        "de": "Brokkoli"
       }
     },
     {
@@ -818,7 +1010,10 @@
       "translations": {
         "hy": "Վարունգ",
         "en": "Cucumber",
-        "ru": "Огурец"
+        "ru": "Огурец",
+        "es": "Pepino",
+        "fr": "Concombre",
+        "de": "Gurke"
       }
     },
     {
@@ -828,7 +1023,10 @@
       "translations": {
         "hy": "Կարտոֆիլ",
         "en": "Potato",
-        "ru": "Картофель"
+        "ru": "Картофель",
+        "es": "Patata",
+        "fr": "Pomme de terre",
+        "de": "Kartoffel"
       }
     },
     {
@@ -838,7 +1036,10 @@
       "translations": {
         "hy": "Լոլիկ",
         "en": "Tomato",
-        "ru": "Помидор"
+        "ru": "Помидор",
+        "es": "Tomate",
+        "fr": "Tomate",
+        "de": "Tomate"
       }
     },
     {
@@ -848,7 +1049,10 @@
       "translations": {
         "hy": "Պղպեղ",
         "en": "Pepper",
-        "ru": "Перец"
+        "ru": "Перец",
+        "es": "Pimiento",
+        "fr": "Poivron",
+        "de": "Paprika"
       }
     },
     {
@@ -858,7 +1062,10 @@
       "translations": {
         "hy": "Կծու պղպեղ",
         "en": "Chili pepper",
-        "ru": "Острый перец"
+        "ru": "Острый перец",
+        "es": "Guindilla",
+        "fr": "Piment",
+        "de": "Chili"
       }
     },
     {
@@ -868,7 +1075,10 @@
       "translations": {
         "hy": "Բադրիջան",
         "en": "Eggplant",
-        "ru": "Баклажан"
+        "ru": "Баклажан",
+        "es": "Berenjena",
+        "fr": "Aubergine",
+        "de": "Aubergine"
       }
     },
     {
@@ -878,7 +1088,10 @@
       "translations": {
         "hy": "Սոխ",
         "en": "Onion",
-        "ru": "Лук"
+        "ru": "Лук",
+        "es": "Cebolla",
+        "fr": "Oignon",
+        "de": "Zwiebel"
       }
     },
     {
@@ -888,7 +1101,10 @@
       "translations": {
         "hy": "Սխտոր",
         "en": "Garlic",
-        "ru": "Чеснок"
+        "ru": "Чеснок",
+        "es": "Ajo",
+        "fr": "Ail",
+        "de": "Knoblauch"
       }
     },
     {
@@ -898,7 +1114,10 @@
       "translations": {
         "hy": "Սունկ",
         "en": "Mushroom",
-        "ru": "Гриб"
+        "ru": "Гриб",
+        "es": "Champiñón",
+        "fr": "Champignon",
+        "de": "Pilz"
       }
     },
     {
@@ -908,7 +1127,10 @@
       "translations": {
         "hy": "Հազար",
         "en": "Lettuce",
-        "ru": "Салат"
+        "ru": "Салат",
+        "es": "Lechuga",
+        "fr": "Laitue",
+        "de": "Kopfsalat"
       }
     },
     {
@@ -918,7 +1140,10 @@
       "translations": {
         "hy": "Քաղցր կարտոֆիլ",
         "en": "Sweet potato",
-        "ru": "Батат"
+        "ru": "Батат",
+        "es": "Boniato",
+        "fr": "Patate douce",
+        "de": "Süßkartoffel"
       }
     },
     {
@@ -928,7 +1153,10 @@
       "translations": {
         "hy": "Գետնանուշ",
         "en": "Peanut",
-        "ru": "Арахис"
+        "ru": "Арахис",
+        "es": "Cacahuete",
+        "fr": "Cacahuète",
+        "de": "Erdnuss"
       }
     },
     {
@@ -938,7 +1166,10 @@
       "translations": {
         "hy": "Լոբի",
         "en": "Beans",
-        "ru": "Фасоль"
+        "ru": "Фасоль",
+        "es": "Frijoles",
+        "fr": "Haricots",
+        "de": "Bohnen"
       }
     },
     {
@@ -948,7 +1179,10 @@
       "translations": {
         "hy": "Վագր",
         "en": "Tiger",
-        "ru": "Тигр"
+        "ru": "Тигр",
+        "es": "Tigre",
+        "fr": "Tigre",
+        "de": "Tiger"
       }
     },
     {
@@ -958,7 +1192,10 @@
       "translations": {
         "hy": "Գայլ",
         "en": "Wolf",
-        "ru": "Волк"
+        "ru": "Волк",
+        "es": "Lobo",
+        "fr": "Loup",
+        "de": "Wolf"
       }
     },
     {
@@ -968,7 +1205,10 @@
       "translations": {
         "hy": "Խոզ",
         "en": "Pig",
-        "ru": "Свинья"
+        "ru": "Свинья",
+        "es": "Cerdo",
+        "fr": "Cochon",
+        "de": "Schwein"
       }
     },
     {
@@ -978,7 +1218,10 @@
       "translations": {
         "hy": "Ոչխար",
         "en": "Sheep",
-        "ru": "Овца"
+        "ru": "Овца",
+        "es": "Oveja",
+        "fr": "Mouton",
+        "de": "Schaf"
       }
     },
     {
@@ -988,7 +1231,10 @@
       "translations": {
         "hy": "Այծ",
         "en": "Goat",
-        "ru": "Коза"
+        "ru": "Коза",
+        "es": "Cabra",
+        "fr": "Chèvre",
+        "de": "Ziege"
       }
     },
     {
@@ -998,7 +1244,10 @@
       "translations": {
         "hy": "Եղնիկ",
         "en": "Deer",
-        "ru": "Олень"
+        "ru": "Олень",
+        "es": "Ciervo",
+        "fr": "Cerf",
+        "de": "Hirsch"
       }
     },
     {
@@ -1008,7 +1257,10 @@
       "translations": {
         "hy": "Ընձուղտ",
         "en": "Giraffe",
-        "ru": "Жираф"
+        "ru": "Жираф",
+        "es": "Jirafa",
+        "fr": "Girafe",
+        "de": "Giraffe"
       }
     },
     {
@@ -1018,7 +1270,10 @@
       "translations": {
         "hy": "Զեբր",
         "en": "Zebra",
-        "ru": "Зебра"
+        "ru": "Зебра",
+        "es": "Cebra",
+        "fr": "Zèbre",
+        "de": "Zebra"
       }
     },
     {
@@ -1028,7 +1283,10 @@
       "translations": {
         "hy": "Կենգուրու",
         "en": "Kangaroo",
-        "ru": "Кенгуру"
+        "ru": "Кенгуру",
+        "es": "Canguro",
+        "fr": "Kangourou",
+        "de": "Känguru"
       }
     },
     {
@@ -1038,7 +1296,10 @@
       "translations": {
         "hy": "Ուղտ",
         "en": "Camel",
-        "ru": "Верблюд"
+        "ru": "Верблюд",
+        "es": "Camello",
+        "fr": "Chameau",
+        "de": "Kamel"
       }
     },
     {
@@ -1048,7 +1309,10 @@
       "translations": {
         "hy": "Պանդա",
         "en": "Panda",
-        "ru": "Панда"
+        "ru": "Панда",
+        "es": "Panda",
+        "fr": "Panda",
+        "de": "Panda"
       }
     },
     {
@@ -1058,7 +1322,10 @@
       "translations": {
         "hy": "Կոալա",
         "en": "Koala",
-        "ru": "Коала"
+        "ru": "Коала",
+        "es": "Koala",
+        "fr": "Koala",
+        "de": "Koala"
       }
     },
     {
@@ -1068,7 +1335,10 @@
       "translations": {
         "hy": "Ոզնի",
         "en": "Hedgehog",
-        "ru": "Ёж"
+        "ru": "Ёж",
+        "es": "Erizo",
+        "fr": "Hérisson",
+        "de": "Igel"
       }
     },
     {
@@ -1078,7 +1348,10 @@
       "translations": {
         "hy": "Չղջիկ",
         "en": "Bat",
-        "ru": "Летучая мышь"
+        "ru": "Летучая мышь",
+        "es": "Murciélago",
+        "fr": "Chauve-souris",
+        "de": "Fledermaus"
       }
     },
     {
@@ -1088,7 +1361,10 @@
       "translations": {
         "hy": "Սկյուռ",
         "en": "Squirrel",
-        "ru": "Белка"
+        "ru": "Белка",
+        "es": "Ardilla",
+        "fr": "Écureuil",
+        "de": "Eichhörnchen"
       }
     },
     {
@@ -1098,7 +1374,10 @@
       "translations": {
         "hy": "Մուկ",
         "en": "Mouse",
-        "ru": "Мышь"
+        "ru": "Мышь",
+        "es": "Ratón",
+        "fr": "Souris",
+        "de": "Maus"
       }
     },
     {
@@ -1108,7 +1387,10 @@
       "translations": {
         "hy": "Համստեր",
         "en": "Hamster",
-        "ru": "Хомяк"
+        "ru": "Хомяк",
+        "es": "Hámster",
+        "fr": "Hamster",
+        "de": "Hamster"
       }
     },
     {
@@ -1118,7 +1400,10 @@
       "translations": {
         "hy": "Գորտ",
         "en": "Frog",
-        "ru": "Лягушка"
+        "ru": "Лягушка",
+        "es": "Rana",
+        "fr": "Grenouille",
+        "de": "Frosch"
       }
     },
     {
@@ -1128,7 +1413,10 @@
       "translations": {
         "hy": "Օձ",
         "en": "Snake",
-        "ru": "Змея"
+        "ru": "Змея",
+        "es": "Serpiente",
+        "fr": "Serpent",
+        "de": "Schlange"
       }
     },
     {
@@ -1138,7 +1426,10 @@
       "translations": {
         "hy": "Կոկորդիլոս",
         "en": "Crocodile",
-        "ru": "Крокодил"
+        "ru": "Крокодил",
+        "es": "Cocodrilo",
+        "fr": "Crocodile",
+        "de": "Krokodil"
       }
     },
     {
@@ -1148,7 +1439,10 @@
       "translations": {
         "hy": "Կրիա",
         "en": "Turtle",
-        "ru": "Черепаха"
+        "ru": "Черепаха",
+        "es": "Tortuga",
+        "fr": "Tortue",
+        "de": "Schildkröte"
       }
     },
     {
@@ -1158,7 +1452,10 @@
       "translations": {
         "hy": "Մողես",
         "en": "Lizard",
-        "ru": "Ящерица"
+        "ru": "Ящерица",
+        "es": "Lagarto",
+        "fr": "Lézard",
+        "de": "Eidechse"
       }
     },
     {
@@ -1168,7 +1465,10 @@
       "translations": {
         "hy": "Դինոզավր",
         "en": "Dinosaur",
-        "ru": "Динозавр"
+        "ru": "Динозавр",
+        "es": "Dinosaurio",
+        "fr": "Dinosaure",
+        "de": "Dinosaurier"
       }
     },
     {
@@ -1178,7 +1478,10 @@
       "translations": {
         "hy": "Ռնգեղջյուր",
         "en": "Rhino",
-        "ru": "Носорог"
+        "ru": "Носорог",
+        "es": "Rinoceronte",
+        "fr": "Rhinocéros",
+        "de": "Nashorn"
       }
     },
     {
@@ -1188,7 +1491,10 @@
       "translations": {
         "hy": "Գետաձի",
         "en": "Hippo",
-        "ru": "Бегемот"
+        "ru": "Бегемот",
+        "es": "Hipopótamo",
+        "fr": "Hippopotame",
+        "de": "Nilpferd"
       }
     },
     {
@@ -1198,7 +1504,10 @@
       "translations": {
         "hy": "Գորիլլա",
         "en": "Gorilla",
-        "ru": "Горилла"
+        "ru": "Горилла",
+        "es": "Gorila",
+        "fr": "Gorille",
+        "de": "Gorilla"
       }
     },
     {
@@ -1208,7 +1517,10 @@
       "translations": {
         "hy": "Ընձառյուծ",
         "en": "Leopard",
-        "ru": "Леопард"
+        "ru": "Леопард",
+        "es": "Leopardo",
+        "fr": "Léopard",
+        "de": "Leopard"
       }
     },
     {
@@ -1218,7 +1530,10 @@
       "translations": {
         "hy": "Թաթ",
         "en": "Paw prints",
-        "ru": "Лапки"
+        "ru": "Лапки",
+        "es": "Huellas",
+        "fr": "Empreintes",
+        "de": "Pfotenabdrücke"
       }
     },
     {
@@ -1228,7 +1543,10 @@
       "translations": {
         "hy": "Ծույլ",
         "en": "Sloth",
-        "ru": "Ленивец"
+        "ru": "Ленивец",
+        "es": "Perezoso",
+        "fr": "Paresseux",
+        "de": "Faultier"
       }
     },
     {
@@ -1238,7 +1556,10 @@
       "translations": {
         "hy": "Գծագորշ",
         "en": "Skunk",
-        "ru": "Скунс"
+        "ru": "Скунс",
+        "es": "Mofeta",
+        "fr": "Moufette",
+        "de": "Stinktier"
       }
     },
     {
@@ -1248,7 +1569,10 @@
       "translations": {
         "hy": "Կուղբ",
         "en": "Beaver",
-        "ru": "Бобр"
+        "ru": "Бобр",
+        "es": "Castor",
+        "fr": "Castor",
+        "de": "Biber"
       }
     },
     {
@@ -1258,7 +1582,10 @@
       "translations": {
         "hy": "Փորսուղ",
         "en": "Badger",
-        "ru": "Барсук"
+        "ru": "Барсук",
+        "es": "Tejón",
+        "fr": "Blaireau",
+        "de": "Dachs"
       }
     },
     {
@@ -1268,7 +1595,10 @@
       "translations": {
         "hy": "Բիզոն",
         "en": "Bison",
-        "ru": "Бизон"
+        "ru": "Бизон",
+        "es": "Bisonte",
+        "fr": "Bison",
+        "de": "Bison"
       }
     },
     {
@@ -1278,7 +1608,10 @@
       "translations": {
         "hy": "Մամոնտ",
         "en": "Mammoth",
-        "ru": "Мамонт"
+        "ru": "Мамонт",
+        "es": "Mamut",
+        "fr": "Mammouth",
+        "de": "Mammut"
       }
     },
     {
@@ -1288,7 +1621,10 @@
       "translations": {
         "hy": "Թռչուն",
         "en": "Bird",
-        "ru": "Птица"
+        "ru": "Птица",
+        "es": "Pájaro",
+        "fr": "Oiseau",
+        "de": "Vogel"
       }
     },
     {
@@ -1298,7 +1634,10 @@
       "translations": {
         "hy": "Հավ",
         "en": "Chicken",
-        "ru": "Курица"
+        "ru": "Курица",
+        "es": "Gallina",
+        "fr": "Poule",
+        "de": "Huhn"
       }
     },
     {
@@ -1308,7 +1647,10 @@
       "translations": {
         "hy": "Աքաղաղ",
         "en": "Rooster",
-        "ru": "Петух"
+        "ru": "Петух",
+        "es": "Gallo",
+        "fr": "Coq",
+        "de": "Hahn"
       }
     },
     {
@@ -1318,7 +1660,10 @@
       "translations": {
         "hy": "Ճուտիկ",
         "en": "Chick",
-        "ru": "Цыплёнок"
+        "ru": "Цыплёнок",
+        "es": "Pollito",
+        "fr": "Poussin",
+        "de": "Küken"
       }
     },
     {
@@ -1328,7 +1673,10 @@
       "translations": {
         "hy": "Բադ",
         "en": "Duck",
-        "ru": "Утка"
+        "ru": "Утка",
+        "es": "Pato",
+        "fr": "Canard",
+        "de": "Ente"
       }
     },
     {
@@ -1338,7 +1686,10 @@
       "translations": {
         "hy": "Արծիվ",
         "en": "Eagle",
-        "ru": "Орёл"
+        "ru": "Орёл",
+        "es": "Águila",
+        "fr": "Aigle",
+        "de": "Adler"
       }
     },
     {
@@ -1348,7 +1699,10 @@
       "translations": {
         "hy": "Բու",
         "en": "Owl",
-        "ru": "Сова"
+        "ru": "Сова",
+        "es": "Búho",
+        "fr": "Hibou",
+        "de": "Eule"
       }
     },
     {
@@ -1358,7 +1712,10 @@
       "translations": {
         "hy": "Պինգվին",
         "en": "Penguin",
-        "ru": "Пингвин"
+        "ru": "Пингвин",
+        "es": "Pingüino",
+        "fr": "Pingouin",
+        "de": "Pinguin"
       }
     },
     {
@@ -1368,7 +1725,10 @@
       "translations": {
         "hy": "Կարապ",
         "en": "Swan",
-        "ru": "Лебедь"
+        "ru": "Лебедь",
+        "es": "Cisne",
+        "fr": "Cygne",
+        "de": "Schwan"
       }
     },
     {
@@ -1378,7 +1738,10 @@
       "translations": {
         "hy": "Թութակ",
         "en": "Parrot",
-        "ru": "Попугай"
+        "ru": "Попугай",
+        "es": "Loro",
+        "fr": "Perroquet",
+        "de": "Papagei"
       }
     },
     {
@@ -1388,7 +1751,10 @@
       "translations": {
         "hy": "Սիրամարգ",
         "en": "Peacock",
-        "ru": "Павлин"
+        "ru": "Павлин",
+        "es": "Pavo real",
+        "fr": "Paon",
+        "de": "Pfau"
       }
     },
     {
@@ -1398,7 +1764,10 @@
       "translations": {
         "hy": "Ֆլամինգո",
         "en": "Flamingo",
-        "ru": "Фламинго"
+        "ru": "Фламинго",
+        "es": "Flamenco",
+        "fr": "Flamant",
+        "de": "Flamingo"
       }
     },
     {
@@ -1408,7 +1777,10 @@
       "translations": {
         "hy": "Հնդկահավ",
         "en": "Turkey",
-        "ru": "Индюк"
+        "ru": "Индюк",
+        "es": "Pavo",
+        "fr": "Dinde",
+        "de": "Truthahn"
       }
     },
     {
@@ -1418,7 +1790,10 @@
       "translations": {
         "hy": "Աղավնի",
         "en": "Dove",
-        "ru": "Голубь"
+        "ru": "Голубь",
+        "es": "Paloma",
+        "fr": "Colombe",
+        "de": "Taube"
       }
     },
     {
@@ -1428,7 +1803,10 @@
       "translations": {
         "hy": "Փետուր",
         "en": "Feather",
-        "ru": "Перо"
+        "ru": "Перо",
+        "es": "Pluma",
+        "fr": "Plume",
+        "de": "Feder"
       }
     },
     {
@@ -1438,7 +1816,10 @@
       "translations": {
         "hy": "Սագ",
         "en": "Goose",
-        "ru": "Гусь"
+        "ru": "Гусь",
+        "es": "Ganso",
+        "fr": "Oie",
+        "de": "Gans"
       }
     },
     {
@@ -1448,7 +1829,10 @@
       "translations": {
         "hy": "Ձուկ",
         "en": "Fish",
-        "ru": "Рыба"
+        "ru": "Рыба",
+        "es": "Pez",
+        "fr": "Poisson",
+        "de": "Fisch"
       }
     },
     {
@@ -1458,7 +1842,10 @@
       "translations": {
         "hy": "Գնդաձուկ",
         "en": "Pufferfish",
-        "ru": "Рыба-шар"
+        "ru": "Рыба-шар",
+        "es": "Pez globo",
+        "fr": "Poisson-globe",
+        "de": "Kugelfisch"
       }
     },
     {
@@ -1468,7 +1855,10 @@
       "translations": {
         "hy": "Շնաձուկ",
         "en": "Shark",
-        "ru": "Акула"
+        "ru": "Акула",
+        "es": "Tiburón",
+        "fr": "Requin",
+        "de": "Hai"
       }
     },
     {
@@ -1478,7 +1868,10 @@
       "translations": {
         "hy": "Դելֆին",
         "en": "Dolphin",
-        "ru": "Дельфин"
+        "ru": "Дельфин",
+        "es": "Delfín",
+        "fr": "Dauphin",
+        "de": "Delfin"
       }
     },
     {
@@ -1488,7 +1881,10 @@
       "translations": {
         "hy": "Կետ",
         "en": "Whale",
-        "ru": "Кит"
+        "ru": "Кит",
+        "es": "Ballena",
+        "fr": "Baleine",
+        "de": "Wal"
       }
     },
     {
@@ -1498,7 +1894,10 @@
       "translations": {
         "hy": "Ութոտնուկ",
         "en": "Octopus",
-        "ru": "Осьминог"
+        "ru": "Осьминог",
+        "es": "Pulpo",
+        "fr": "Pieuvre",
+        "de": "Tintenfisch"
       }
     },
     {
@@ -1508,7 +1907,10 @@
       "translations": {
         "hy": "Կաղամար",
         "en": "Squid",
-        "ru": "Кальмар"
+        "ru": "Кальмар",
+        "es": "Calamar",
+        "fr": "Calmar",
+        "de": "Kalmar"
       }
     },
     {
@@ -1518,7 +1920,10 @@
       "translations": {
         "hy": "Ծովախեցգետին",
         "en": "Shrimp",
-        "ru": "Креветка"
+        "ru": "Креветка",
+        "es": "Gamba",
+        "fr": "Crevette",
+        "de": "Garnele"
       }
     },
     {
@@ -1528,7 +1933,10 @@
       "translations": {
         "hy": "Խեցգետին",
         "en": "Crab",
-        "ru": "Краб"
+        "ru": "Краб",
+        "es": "Cangrejo",
+        "fr": "Crabe",
+        "de": "Krabbe"
       }
     },
     {
@@ -1538,7 +1946,10 @@
       "translations": {
         "hy": "Օմար",
         "en": "Lobster",
-        "ru": "Омар"
+        "ru": "Омар",
+        "es": "Langosta",
+        "fr": "Homard",
+        "de": "Hummer"
       }
     },
     {
@@ -1548,7 +1959,10 @@
       "translations": {
         "hy": "Փոկ",
         "en": "Seal",
-        "ru": "Тюлень"
+        "ru": "Тюлень",
+        "es": "Foca",
+        "fr": "Phoque",
+        "de": "Robbe"
       }
     },
     {
@@ -1558,7 +1972,10 @@
       "translations": {
         "hy": "Մեդուզա",
         "en": "Jellyfish",
-        "ru": "Медуза"
+        "ru": "Медуза",
+        "es": "Medusa",
+        "fr": "Méduse",
+        "de": "Qualle"
       }
     },
     {
@@ -1568,7 +1985,10 @@
       "translations": {
         "hy": "Խեցի",
         "en": "Shell",
-        "ru": "Ракушка"
+        "ru": "Ракушка",
+        "es": "Concha",
+        "fr": "Coquillage",
+        "de": "Muschel"
       }
     },
     {
@@ -1578,7 +1998,10 @@
       "translations": {
         "hy": "Մարջան",
         "en": "Coral",
-        "ru": "Коралл"
+        "ru": "Коралл",
+        "es": "Coral",
+        "fr": "Corail",
+        "de": "Koralle"
       }
     },
     {
@@ -1588,7 +2011,10 @@
       "translations": {
         "hy": "Ջրասամույր",
         "en": "Otter",
-        "ru": "Выдра"
+        "ru": "Выдра",
+        "es": "Nutria",
+        "fr": "Loutre",
+        "de": "Otter"
       }
     },
     {
@@ -1598,7 +2024,10 @@
       "translations": {
         "hy": "Ոստրե",
         "en": "Oyster",
-        "ru": "Устрица"
+        "ru": "Устрица",
+        "es": "Ostra",
+        "fr": "Huître",
+        "de": "Auster"
       }
     },
     {
@@ -1608,7 +2037,10 @@
       "translations": {
         "hy": "Մեղու",
         "en": "Bee",
-        "ru": "Пчела"
+        "ru": "Пчела",
+        "es": "Abeja",
+        "fr": "Abeille",
+        "de": "Biene"
       }
     },
     {
@@ -1618,7 +2050,10 @@
       "translations": {
         "hy": "Թիթեռ",
         "en": "Butterfly",
-        "ru": "Бабочка"
+        "ru": "Бабочка",
+        "es": "Mariposa",
+        "fr": "Papillon",
+        "de": "Schmetterling"
       }
     },
     {
@@ -1628,7 +2063,10 @@
       "translations": {
         "hy": "Թրթուր",
         "en": "Caterpillar",
-        "ru": "Гусеница"
+        "ru": "Гусеница",
+        "es": "Oruga",
+        "fr": "Chenille",
+        "de": "Raupe"
       }
     },
     {
@@ -1638,7 +2076,10 @@
       "translations": {
         "hy": "Մրջյուն",
         "en": "Ant",
-        "ru": "Муравей"
+        "ru": "Муравей",
+        "es": "Hormiga",
+        "fr": "Fourmi",
+        "de": "Ameise"
       }
     },
     {
@@ -1648,7 +2089,10 @@
       "translations": {
         "hy": "Զատիկ",
         "en": "Ladybug",
-        "ru": "Божья коровка"
+        "ru": "Божья коровка",
+        "es": "Mariquita",
+        "fr": "Coccinelle",
+        "de": "Marienkäfer"
       }
     },
     {
@@ -1658,7 +2102,10 @@
       "translations": {
         "hy": "Սարդ",
         "en": "Spider",
-        "ru": "Паук"
+        "ru": "Паук",
+        "es": "Araña",
+        "fr": "Araignée",
+        "de": "Spinne"
       }
     },
     {
@@ -1668,7 +2115,10 @@
       "translations": {
         "hy": "Մոծակ",
         "en": "Mosquito",
-        "ru": "Комар"
+        "ru": "Комар",
+        "es": "Mosquito",
+        "fr": "Moustique",
+        "de": "Mücke"
       }
     },
     {
@@ -1678,7 +2128,10 @@
       "translations": {
         "hy": "Ճանճ",
         "en": "Fly",
-        "ru": "Муха"
+        "ru": "Муха",
+        "es": "Mosca",
+        "fr": "Mouche",
+        "de": "Fliege"
       }
     },
     {
@@ -1688,7 +2141,10 @@
       "translations": {
         "hy": "Ծղրիդ",
         "en": "Cricket",
-        "ru": "Сверчок"
+        "ru": "Сверчок",
+        "es": "Grillo",
+        "fr": "Grillon",
+        "de": "Grille"
       }
     },
     {
@@ -1698,7 +2154,10 @@
       "translations": {
         "hy": "Կարիճ",
         "en": "Scorpion",
-        "ru": "Скорпион"
+        "ru": "Скорпион",
+        "es": "Escorpión",
+        "fr": "Scorpion",
+        "de": "Skorpion"
       }
     },
     {
@@ -1708,7 +2167,10 @@
       "translations": {
         "hy": "Որդ",
         "en": "Worm",
-        "ru": "Червяк"
+        "ru": "Червяк",
+        "es": "Gusano",
+        "fr": "Ver",
+        "de": "Wurm"
       }
     },
     {
@@ -1718,7 +2180,10 @@
       "translations": {
         "hy": "Խխունջ",
         "en": "Snail",
-        "ru": "Улитка"
+        "ru": "Улитка",
+        "es": "Caracol",
+        "fr": "Escargot",
+        "de": "Schnecke"
       }
     },
     {
@@ -1728,7 +2193,10 @@
       "translations": {
         "hy": "Բզեզ",
         "en": "Beetle",
-        "ru": "Жук"
+        "ru": "Жук",
+        "es": "Escarabajo",
+        "fr": "Scarabée",
+        "de": "Käfer"
       }
     },
     {
@@ -1738,7 +2206,10 @@
       "translations": {
         "hy": "Ուտիճ",
         "en": "Cockroach",
-        "ru": "Таракан"
+        "ru": "Таракан",
+        "es": "Cucaracha",
+        "fr": "Cafard",
+        "de": "Kakerlake"
       }
     },
     {
@@ -1748,7 +2219,10 @@
       "translations": {
         "hy": "Տորթ",
         "en": "Cake",
-        "ru": "Торт"
+        "ru": "Торт",
+        "es": "Pastel",
+        "fr": "Gâteau",
+        "de": "Kuchen"
       }
     },
     {
@@ -1758,7 +2232,10 @@
       "translations": {
         "hy": "Սենդվիչ",
         "en": "Sandwich",
-        "ru": "Бутерброд"
+        "ru": "Бутерброд",
+        "es": "Sándwich",
+        "fr": "Sandwich",
+        "de": "Sandwich"
       }
     },
     {
@@ -1768,7 +2245,10 @@
       "translations": {
         "hy": "Աղցան",
         "en": "Salad",
-        "ru": "Салат"
+        "ru": "Салат",
+        "es": "Ensalada",
+        "fr": "Salade",
+        "de": "Salat"
       }
     },
     {
@@ -1778,7 +2258,10 @@
       "translations": {
         "hy": "Ադիբուդի",
         "en": "Popcorn",
-        "ru": "Попкорн"
+        "ru": "Попкорн",
+        "es": "Palomitas",
+        "fr": "Pop-corn",
+        "de": "Popcorn"
       }
     },
     {
@@ -1788,7 +2271,10 @@
       "translations": {
         "hy": "Կարագ",
         "en": "Butter",
-        "ru": "Масло"
+        "ru": "Масло",
+        "es": "Mantequilla",
+        "fr": "Beurre",
+        "de": "Butter"
       }
     },
     {
@@ -1798,7 +2284,10 @@
       "translations": {
         "hy": "Նրբաբլիթ",
         "en": "Pancakes",
-        "ru": "Блины"
+        "ru": "Блины",
+        "es": "Panqueques",
+        "fr": "Crêpes",
+        "de": "Pfannkuchen"
       }
     },
     {
@@ -1808,7 +2297,10 @@
       "translations": {
         "hy": "Բեկոն",
         "en": "Bacon",
-        "ru": "Бекон"
+        "ru": "Бекон",
+        "es": "Tocino",
+        "fr": "Bacon",
+        "de": "Speck"
       }
     },
     {
@@ -1818,7 +2310,10 @@
       "translations": {
         "hy": "Կրուասան",
         "en": "Croissant",
-        "ru": "Круассан"
+        "ru": "Круассан",
+        "es": "Croissant",
+        "fr": "Croissant",
+        "de": "Croissant"
       }
     },
     {
@@ -1828,7 +2323,10 @@
       "translations": {
         "hy": "Կրենդել",
         "en": "Pretzel",
-        "ru": "Крендель"
+        "ru": "Крендель",
+        "es": "Pretzel",
+        "fr": "Bretzel",
+        "de": "Brezel"
       }
     },
     {
@@ -1838,7 +2336,10 @@
       "translations": {
         "hy": "Պելմեն",
         "en": "Dumpling",
-        "ru": "Пельмень"
+        "ru": "Пельмень",
+        "es": "Empanadilla",
+        "fr": "Raviole",
+        "de": "Teigtasche"
       }
     },
     {
@@ -1848,7 +2349,10 @@
       "translations": {
         "hy": "Լավաշ",
         "en": "Flatbread",
-        "ru": "Лаваш"
+        "ru": "Лаваш",
+        "es": "Pan plano",
+        "fr": "Pain plat",
+        "de": "Fladenbrot"
       }
     },
     {
@@ -1858,7 +2362,10 @@
       "translations": {
         "hy": "Խորտիկ",
         "en": "Stew",
-        "ru": "Рагу"
+        "ru": "Рагу",
+        "es": "Estofado",
+        "fr": "Ragoût",
+        "de": "Eintopf"
       }
     },
     {
@@ -1868,7 +2375,10 @@
       "translations": {
         "hy": "Ճաշատուփ",
         "en": "Lunch box",
-        "ru": "Ланч-бокс"
+        "ru": "Ланч-бокс",
+        "es": "Fiambrera",
+        "fr": "Boîte-repas",
+        "de": "Lunchbox"
       }
     },
     {
@@ -1878,7 +2388,10 @@
       "translations": {
         "hy": "Բրնձաթխվածք",
         "en": "Rice cracker",
-        "ru": "Рисовый крекер"
+        "ru": "Рисовый крекер",
+        "es": "Galleta de arroz",
+        "fr": "Craquelin de riz",
+        "de": "Reiscracker"
       }
     },
     {
@@ -1888,7 +2401,10 @@
       "translations": {
         "hy": "Պահածո",
         "en": "Canned food",
-        "ru": "Консервы"
+        "ru": "Консервы",
+        "es": "Comida enlatada",
+        "fr": "Conserve",
+        "de": "Konserve"
       }
     },
     {
@@ -1898,7 +2414,10 @@
       "translations": {
         "hy": "Սթեյք",
         "en": "Steak",
-        "ru": "Стейк"
+        "ru": "Стейк",
+        "es": "Filete",
+        "fr": "Steak",
+        "de": "Steak"
       }
     },
     {
@@ -1908,7 +2427,10 @@
       "translations": {
         "hy": "Հավի բուդ",
         "en": "Chicken leg",
-        "ru": "Куриная ножка"
+        "ru": "Куриная ножка",
+        "es": "Muslo de pollo",
+        "fr": "Cuisse de poulet",
+        "de": "Hähnchenschenkel"
       }
     },
     {
@@ -1918,7 +2440,10 @@
       "translations": {
         "hy": "Տամալե",
         "en": "Tamale",
-        "ru": "Тамале"
+        "ru": "Тамале",
+        "es": "Tamal",
+        "fr": "Tamale",
+        "de": "Tamale"
       }
     },
     {
@@ -1928,7 +2453,10 @@
       "translations": {
         "hy": "Պիցցա",
         "en": "Pizza",
-        "ru": "Пицца"
+        "ru": "Пицца",
+        "es": "Pizza",
+        "fr": "Pizza",
+        "de": "Pizza"
       }
     },
     {
@@ -1938,7 +2466,10 @@
       "translations": {
         "hy": "Համբուրգեր",
         "en": "Hamburger",
-        "ru": "Гамбургер"
+        "ru": "Гамбургер",
+        "es": "Hamburguesa",
+        "fr": "Hamburger",
+        "de": "Hamburger"
       }
     },
     {
@@ -1948,7 +2479,10 @@
       "translations": {
         "hy": "Հոթ դոգ",
         "en": "Hot dog",
-        "ru": "Хот-дог"
+        "ru": "Хот-дог",
+        "es": "Perrito caliente",
+        "fr": "Hot-dog",
+        "de": "Hotdog"
       }
     },
     {
@@ -1958,7 +2492,10 @@
       "translations": {
         "hy": "Կարտոֆիլ ֆրի",
         "en": "Fries",
-        "ru": "Картошка фри"
+        "ru": "Картошка фри",
+        "es": "Papas fritas",
+        "fr": "Frites",
+        "de": "Pommes"
       }
     },
     {
@@ -1968,7 +2505,10 @@
       "translations": {
         "hy": "Տակո",
         "en": "Taco",
-        "ru": "Тако"
+        "ru": "Тако",
+        "es": "Taco",
+        "fr": "Taco",
+        "de": "Taco"
       }
     },
     {
@@ -1978,7 +2518,10 @@
       "translations": {
         "hy": "Բուրիտո",
         "en": "Burrito",
-        "ru": "Буррито"
+        "ru": "Буррито",
+        "es": "Burrito",
+        "fr": "Burrito",
+        "de": "Burrito"
       }
     },
     {
@@ -1988,7 +2531,10 @@
       "translations": {
         "hy": "Սպագետտի",
         "en": "Spaghetti",
-        "ru": "Спагетти"
+        "ru": "Спагетти",
+        "es": "Espaguetis",
+        "fr": "Spaghetti",
+        "de": "Spaghetti"
       }
     },
     {
@@ -1998,7 +2544,10 @@
       "translations": {
         "hy": "Արիշտա",
         "en": "Noodles",
-        "ru": "Лапша"
+        "ru": "Лапша",
+        "es": "Fideos",
+        "fr": "Nouilles",
+        "de": "Nudeln"
       }
     },
     {
@@ -2008,7 +2557,10 @@
       "translations": {
         "hy": "Սուշի",
         "en": "Sushi",
-        "ru": "Суши"
+        "ru": "Суши",
+        "es": "Sushi",
+        "fr": "Sushi",
+        "de": "Sushi"
       }
     },
     {
@@ -2018,7 +2570,10 @@
       "translations": {
         "hy": "Բրնձագունդ",
         "en": "Rice ball",
-        "ru": "Онигири"
+        "ru": "Онигири",
+        "es": "Bola de arroz",
+        "fr": "Boule de riz",
+        "de": "Reisball"
       }
     },
     {
@@ -2028,7 +2583,10 @@
       "translations": {
         "hy": "Կարրի",
         "en": "Curry",
-        "ru": "Карри"
+        "ru": "Карри",
+        "es": "Curri",
+        "fr": "Curry",
+        "de": "Curry"
       }
     },
     {
@@ -2038,7 +2596,10 @@
       "translations": {
         "hy": "Խորոված",
         "en": "Skewer",
-        "ru": "Шашлык"
+        "ru": "Шашлык",
+        "es": "Brocheta",
+        "fr": "Brochette",
+        "de": "Spieß"
       }
     },
     {
@@ -2048,7 +2609,10 @@
       "translations": {
         "hy": "Ձվածեղ",
         "en": "Fried egg",
-        "ru": "Яичница"
+        "ru": "Яичница",
+        "es": "Huevo frito",
+        "fr": "Œuf au plat",
+        "de": "Spiegelei"
       }
     },
     {
@@ -2058,7 +2622,10 @@
       "translations": {
         "hy": "Ձկան կոտլետ",
         "en": "Fish cake",
-        "ru": "Рыбный пирог"
+        "ru": "Рыбный пирог",
+        "es": "Pastel de pescado",
+        "fr": "Gâteau de poisson",
+        "de": "Fischkuchen"
       }
     },
     {
@@ -2068,7 +2635,10 @@
       "translations": {
         "hy": "Պաղպաղակ",
         "en": "Ice cream",
-        "ru": "Мороженое"
+        "ru": "Мороженое",
+        "es": "Helado",
+        "fr": "Glace",
+        "de": "Eis"
       }
     },
     {
@@ -2078,7 +2648,10 @@
       "translations": {
         "hy": "Պաղպաղակ բաժակով",
         "en": "Ice cream cup",
-        "ru": "Мороженое в стакане"
+        "ru": "Мороженое в стакане",
+        "es": "Copa de helado",
+        "fr": "Coupe glacée",
+        "de": "Eisbecher"
       }
     },
     {
@@ -2088,7 +2661,10 @@
       "translations": {
         "hy": "Թխվածքաբլիթ",
         "en": "Cookie",
-        "ru": "Печенье"
+        "ru": "Печенье",
+        "es": "Galleta",
+        "fr": "Biscuit",
+        "de": "Keks"
       }
     },
     {
@@ -2098,7 +2674,10 @@
       "translations": {
         "hy": "Շոկոլադ",
         "en": "Chocolate",
-        "ru": "Шоколад"
+        "ru": "Шоколад",
+        "es": "Chocolate",
+        "fr": "Chocolat",
+        "de": "Schokolade"
       }
     },
     {
@@ -2108,7 +2687,10 @@
       "translations": {
         "hy": "Կոնֆետ",
         "en": "Candy",
-        "ru": "Конфета"
+        "ru": "Конфета",
+        "es": "Caramelo",
+        "fr": "Bonbon",
+        "de": "Bonbon"
       }
     },
     {
@@ -2118,7 +2700,10 @@
       "translations": {
         "hy": "Չուպա-չուպս",
         "en": "Lollipop",
-        "ru": "Леденец"
+        "ru": "Леденец",
+        "es": "Piruleta",
+        "fr": "Sucette",
+        "de": "Lutscher"
       }
     },
     {
@@ -2128,7 +2713,10 @@
       "translations": {
         "hy": "Դոնատ",
         "en": "Donut",
-        "ru": "Пончик"
+        "ru": "Пончик",
+        "es": "Rosquilla",
+        "fr": "Beignet",
+        "de": "Donut"
       }
     },
     {
@@ -2138,7 +2726,10 @@
       "translations": {
         "hy": "Կեքս",
         "en": "Cupcake",
-        "ru": "Кекс"
+        "ru": "Кекс",
+        "es": "Magdalena",
+        "fr": "Cupcake",
+        "de": "Cupcake"
       }
     },
     {
@@ -2148,7 +2739,10 @@
       "translations": {
         "hy": "Կարկանդակ",
         "en": "Pie",
-        "ru": "Пирог"
+        "ru": "Пирог",
+        "es": "Tarta",
+        "fr": "Tarte",
+        "de": "Torte"
       }
     },
     {
@@ -2158,7 +2752,10 @@
       "translations": {
         "hy": "Պուդինգ",
         "en": "Pudding",
-        "ru": "Пудинг"
+        "ru": "Пудинг",
+        "es": "Flan",
+        "fr": "Flan",
+        "de": "Pudding"
       }
     },
     {
@@ -2168,7 +2765,10 @@
       "translations": {
         "hy": "Վաֆլի",
         "en": "Waffle",
-        "ru": "Вафля"
+        "ru": "Вафля",
+        "es": "Gofre",
+        "fr": "Gaufre",
+        "de": "Waffel"
       }
     },
     {
@@ -2178,7 +2778,10 @@
       "translations": {
         "hy": "Լուսնային տորթ",
         "en": "Moon cake",
-        "ru": "Лунный пряник"
+        "ru": "Лунный пряник",
+        "es": "Pastel lunar",
+        "fr": "Gâteau de lune",
+        "de": "Mondkuchen"
       }
     },
     {
@@ -2188,7 +2791,10 @@
       "translations": {
         "hy": "Քաղցր գնդիկներ",
         "en": "Sweet dumplings",
-        "ru": "Данго"
+        "ru": "Данго",
+        "es": "Bolas dulces",
+        "fr": "Boulettes sucrées",
+        "de": "Süße Klößchen"
       }
     },
     {
@@ -2198,7 +2804,10 @@
       "translations": {
         "hy": "Շագանակ",
         "en": "Chestnut",
-        "ru": "Каштан"
+        "ru": "Каштан",
+        "es": "Castaña",
+        "fr": "Châtaigne",
+        "de": "Kastanie"
       }
     },
     {
@@ -2208,7 +2817,10 @@
       "translations": {
         "hy": "Հյութ",
         "en": "Juice",
-        "ru": "Сок"
+        "ru": "Сок",
+        "es": "Jugo",
+        "fr": "Jus",
+        "de": "Saft"
       }
     },
     {
@@ -2218,7 +2830,10 @@
       "translations": {
         "hy": "Թեյ",
         "en": "Tea",
-        "ru": "Чай"
+        "ru": "Чай",
+        "es": "Té",
+        "fr": "Thé",
+        "de": "Tee"
       }
     },
     {
@@ -2228,7 +2843,10 @@
       "translations": {
         "hy": "Սուրճ",
         "en": "Coffee",
-        "ru": "Кофе"
+        "ru": "Кофе",
+        "es": "Café",
+        "fr": "Café",
+        "de": "Kaffee"
       }
     },
     {
@@ -2238,7 +2856,10 @@
       "translations": {
         "hy": "Գազավորված ջուր",
         "en": "Soda",
-        "ru": "Газировка"
+        "ru": "Газировка",
+        "es": "Refresco",
+        "fr": "Soda",
+        "de": "Limonade"
       }
     },
     {
@@ -2248,7 +2869,10 @@
       "translations": {
         "hy": "Կաթի շիշ",
         "en": "Baby bottle",
-        "ru": "Бутылочка"
+        "ru": "Бутылочка",
+        "es": "Biberón",
+        "fr": "Biberon",
+        "de": "Babyflasche"
       }
     },
     {
@@ -2258,7 +2882,10 @@
       "translations": {
         "hy": "Բաբլ թեյ",
         "en": "Bubble tea",
-        "ru": "Бабл ти"
+        "ru": "Бабл ти",
+        "es": "Té de burbujas",
+        "fr": "Thé aux perles",
+        "de": "Bubble Tea"
       }
     },
     {
@@ -2268,7 +2895,10 @@
       "translations": {
         "hy": "Մատե",
         "en": "Mate",
-        "ru": "Мате"
+        "ru": "Мате",
+        "es": "Mate",
+        "fr": "Maté",
+        "de": "Mate"
       }
     },
     {
@@ -2278,7 +2908,10 @@
       "translations": {
         "hy": "Շամպայն",
         "en": "Champagne",
-        "ru": "Шампанское"
+        "ru": "Шампанское",
+        "es": "Champán",
+        "fr": "Champagne",
+        "de": "Champagner"
       }
     },
     {
@@ -2288,7 +2921,10 @@
       "translations": {
         "hy": "Գարեջուր",
         "en": "Beer",
-        "ru": "Пиво"
+        "ru": "Пиво",
+        "es": "Cerveza",
+        "fr": "Bière",
+        "de": "Bier"
       }
     },
     {
@@ -2298,7 +2934,10 @@
       "translations": {
         "hy": "Կոկտեյլ",
         "en": "Cocktail",
-        "ru": "Коктейль"
+        "ru": "Коктейль",
+        "es": "Cóctel",
+        "fr": "Cocktail",
+        "de": "Cocktail"
       }
     },
     {
@@ -2308,7 +2947,10 @@
       "translations": {
         "hy": "Սառույց",
         "en": "Ice",
-        "ru": "Лёд"
+        "ru": "Лёд",
+        "es": "Hielo",
+        "fr": "Glaçon",
+        "de": "Eiswürfel"
       }
     },
     {
@@ -2318,7 +2960,10 @@
       "translations": {
         "hy": "Աչք",
         "en": "Eye",
-        "ru": "Глаз"
+        "ru": "Глаз",
+        "es": "Ojo",
+        "fr": "Œil",
+        "de": "Auge"
       }
     },
     {
@@ -2328,7 +2973,10 @@
       "translations": {
         "hy": "Աչքեր",
         "en": "Eyes",
-        "ru": "Глаза"
+        "ru": "Глаза",
+        "es": "Ojos",
+        "fr": "Yeux",
+        "de": "Augen"
       }
     },
     {
@@ -2338,7 +2986,10 @@
       "translations": {
         "hy": "Ականջ",
         "en": "Ear",
-        "ru": "Ухо"
+        "ru": "Ухо",
+        "es": "Oreja",
+        "fr": "Oreille",
+        "de": "Ohr"
       }
     },
     {
@@ -2348,7 +2999,10 @@
       "translations": {
         "hy": "Քիթ",
         "en": "Nose",
-        "ru": "Нос"
+        "ru": "Нос",
+        "es": "Nariz",
+        "fr": "Nez",
+        "de": "Nase"
       }
     },
     {
@@ -2358,7 +3012,10 @@
       "translations": {
         "hy": "Բերան",
         "en": "Mouth",
-        "ru": "Рот"
+        "ru": "Рот",
+        "es": "Boca",
+        "fr": "Bouche",
+        "de": "Mund"
       }
     },
     {
@@ -2368,7 +3025,10 @@
       "translations": {
         "hy": "Լեզու",
         "en": "Tongue",
-        "ru": "Язык"
+        "ru": "Язык",
+        "es": "Lengua",
+        "fr": "Langue",
+        "de": "Zunge"
       }
     },
     {
@@ -2378,7 +3038,10 @@
       "translations": {
         "hy": "Ատամ",
         "en": "Tooth",
-        "ru": "Зуб"
+        "ru": "Зуб",
+        "es": "Diente",
+        "fr": "Dent",
+        "de": "Zahn"
       }
     },
     {
@@ -2388,7 +3051,10 @@
       "translations": {
         "hy": "Ձեռք",
         "en": "Hand",
-        "ru": "Рука"
+        "ru": "Рука",
+        "es": "Mano",
+        "fr": "Main",
+        "de": "Hand"
       }
     },
     {
@@ -2398,7 +3064,10 @@
       "translations": {
         "hy": "Ոտք",
         "en": "Foot",
-        "ru": "Ступня"
+        "ru": "Ступня",
+        "es": "Pie",
+        "fr": "Pied",
+        "de": "Fuß"
       }
     },
     {
@@ -2408,7 +3077,10 @@
       "translations": {
         "hy": "Ոտք",
         "en": "Leg",
-        "ru": "Нога"
+        "ru": "Нога",
+        "es": "Pierna",
+        "fr": "Jambe",
+        "de": "Bein"
       }
     },
     {
@@ -2418,7 +3090,10 @@
       "translations": {
         "hy": "Բազուկ",
         "en": "Arm",
-        "ru": "Рука"
+        "ru": "Рука",
+        "es": "Brazo",
+        "fr": "Bras",
+        "de": "Arm"
       }
     },
     {
@@ -2428,7 +3103,10 @@
       "translations": {
         "hy": "Ուղեղ",
         "en": "Brain",
-        "ru": "Мозг"
+        "ru": "Мозг",
+        "es": "Cerebro",
+        "fr": "Cerveau",
+        "de": "Gehirn"
       }
     },
     {
@@ -2438,7 +3116,10 @@
       "translations": {
         "hy": "Ոսկոր",
         "en": "Bone",
-        "ru": "Кость"
+        "ru": "Кость",
+        "es": "Hueso",
+        "fr": "Os",
+        "de": "Knochen"
       }
     },
     {
@@ -2448,7 +3129,10 @@
       "translations": {
         "hy": "Մազ",
         "en": "Hair",
-        "ru": "Волосы"
+        "ru": "Волосы",
+        "es": "Pelo",
+        "fr": "Cheveux",
+        "de": "Haare"
       }
     },
     {
@@ -2458,7 +3142,10 @@
       "translations": {
         "hy": "Երեխա",
         "en": "Baby",
-        "ru": "Малыш"
+        "ru": "Малыш",
+        "es": "Bebé",
+        "fr": "Bébé",
+        "de": "Baby"
       }
     },
     {
@@ -2468,7 +3155,10 @@
       "translations": {
         "hy": "Տղա",
         "en": "Boy",
-        "ru": "Мальчик"
+        "ru": "Мальчик",
+        "es": "Niño",
+        "fr": "Garçon",
+        "de": "Junge"
       }
     },
     {
@@ -2478,7 +3168,10 @@
       "translations": {
         "hy": "Աղջիկ",
         "en": "Girl",
-        "ru": "Девочка"
+        "ru": "Девочка",
+        "es": "Niña",
+        "fr": "Fille",
+        "de": "Mädchen"
       }
     },
     {
@@ -2488,7 +3181,10 @@
       "translations": {
         "hy": "Տղամարդ",
         "en": "Man",
-        "ru": "Мужчина"
+        "ru": "Мужчина",
+        "es": "Hombre",
+        "fr": "Homme",
+        "de": "Mann"
       }
     },
     {
@@ -2498,7 +3194,10 @@
       "translations": {
         "hy": "Կին",
         "en": "Woman",
-        "ru": "Женщина"
+        "ru": "Женщина",
+        "es": "Mujer",
+        "fr": "Femme",
+        "de": "Frau"
       }
     },
     {
@@ -2508,7 +3207,10 @@
       "translations": {
         "hy": "Տատիկ",
         "en": "Grandmother",
-        "ru": "Бабушка"
+        "ru": "Бабушка",
+        "es": "Abuela",
+        "fr": "Grand-mère",
+        "de": "Großmutter"
       }
     },
     {
@@ -2518,7 +3220,10 @@
       "translations": {
         "hy": "Պապիկ",
         "en": "Grandfather",
-        "ru": "Дедушка"
+        "ru": "Дедушка",
+        "es": "Abuelo",
+        "fr": "Grand-père",
+        "de": "Großvater"
       }
     },
     {
@@ -2528,7 +3233,10 @@
       "translations": {
         "hy": "Ընտանիք",
         "en": "Family",
-        "ru": "Семья"
+        "ru": "Семья",
+        "es": "Familia",
+        "fr": "Famille",
+        "de": "Familie"
       }
     },
     {
@@ -2538,7 +3246,10 @@
       "translations": {
         "hy": "Իշխան",
         "en": "Prince",
-        "ru": "Принц"
+        "ru": "Принц",
+        "es": "Príncipe",
+        "fr": "Prince",
+        "de": "Prinz"
       }
     },
     {
@@ -2548,7 +3259,10 @@
       "translations": {
         "hy": "Արքայադուստր",
         "en": "Princess",
-        "ru": "Принцесса"
+        "ru": "Принцесса",
+        "es": "Princesa",
+        "fr": "Princesse",
+        "de": "Prinzessin"
       }
     },
     {
@@ -2558,7 +3272,10 @@
       "translations": {
         "hy": "Սուպերհերոս",
         "en": "Superhero",
-        "ru": "Супергерой"
+        "ru": "Супергерой",
+        "es": "Superhéroe",
+        "fr": "Super-héros",
+        "de": "Superheld"
       }
     },
     {
@@ -2568,7 +3285,10 @@
       "translations": {
         "hy": "Հրեշտակ",
         "en": "Angel",
-        "ru": "Ангел"
+        "ru": "Ангел",
+        "es": "Ángel",
+        "fr": "Ange",
+        "de": "Engel"
       }
     },
     {
@@ -2578,7 +3298,10 @@
       "translations": {
         "hy": "Ջրահարս",
         "en": "Mermaid",
-        "ru": "Русалка"
+        "ru": "Русалка",
+        "es": "Sirena",
+        "fr": "Sirène",
+        "de": "Meerjungfrau"
       }
     },
     {
@@ -2588,7 +3311,10 @@
       "translations": {
         "hy": "Փերի",
         "en": "Fairy",
-        "ru": "Фея"
+        "ru": "Фея",
+        "es": "Hada",
+        "fr": "Fée",
+        "de": "Fee"
       }
     },
     {
@@ -2598,7 +3324,10 @@
       "translations": {
         "hy": "Էլֆ",
         "en": "Elf",
-        "ru": "Эльф"
+        "ru": "Эльф",
+        "es": "Elfo",
+        "fr": "Elfe",
+        "de": "Elf"
       }
     },
     {
@@ -2608,7 +3337,10 @@
       "translations": {
         "hy": "Ջին",
         "en": "Genie",
-        "ru": "Джинн"
+        "ru": "Джинн",
+        "es": "Genio",
+        "fr": "Génie",
+        "de": "Flaschengeist"
       }
     },
     {
@@ -2618,7 +3350,10 @@
       "translations": {
         "hy": "Նինձյա",
         "en": "Ninja",
-        "ru": "Ниндзя"
+        "ru": "Ниндзя",
+        "es": "Ninja",
+        "fr": "Ninja",
+        "de": "Ninja"
       }
     },
     {
@@ -2628,7 +3363,10 @@
       "translations": {
         "hy": "Դիմակ",
         "en": "Disguise",
-        "ru": "Маскировка"
+        "ru": "Маскировка",
+        "es": "Disfraz",
+        "fr": "Déguisement",
+        "de": "Verkleidung"
       }
     },
     {
@@ -2638,7 +3376,10 @@
       "translations": {
         "hy": "Բժիշկ",
         "en": "Doctor",
-        "ru": "Врач"
+        "ru": "Врач",
+        "es": "Médico",
+        "fr": "Médecin",
+        "de": "Arzt"
       }
     },
     {
@@ -2648,7 +3389,10 @@
       "translations": {
         "hy": "Ուսուցիչ",
         "en": "Teacher",
-        "ru": "Учитель"
+        "ru": "Учитель",
+        "es": "Maestro",
+        "fr": "Enseignant",
+        "de": "Lehrer"
       }
     },
     {
@@ -2658,7 +3402,10 @@
       "translations": {
         "hy": "Ֆերմեր",
         "en": "Farmer",
-        "ru": "Фермер"
+        "ru": "Фермер",
+        "es": "Granjero",
+        "fr": "Fermier",
+        "de": "Bauer"
       }
     },
     {
@@ -2668,7 +3415,10 @@
       "translations": {
         "hy": "Խոհարար",
         "en": "Cook",
-        "ru": "Повар"
+        "ru": "Повар",
+        "es": "Cocinero",
+        "fr": "Cuisinier",
+        "de": "Koch"
       }
     },
     {
@@ -2678,7 +3428,10 @@
       "translations": {
         "hy": "Ոստիկան",
         "en": "Police officer",
-        "ru": "Полицейский"
+        "ru": "Полицейский",
+        "es": "Policía",
+        "fr": "Policier",
+        "de": "Polizist"
       }
     },
     {
@@ -2688,7 +3441,10 @@
       "translations": {
         "hy": "Հրշեջ",
         "en": "Firefighter",
-        "ru": "Пожарный"
+        "ru": "Пожарный",
+        "es": "Bombero",
+        "fr": "Pompier",
+        "de": "Feuerwehrmann"
       }
     },
     {
@@ -2698,7 +3454,10 @@
       "translations": {
         "hy": "Տիեզերագնաց",
         "en": "Astronaut",
-        "ru": "Космонавт"
+        "ru": "Космонавт",
+        "es": "Astronauta",
+        "fr": "Astronaute",
+        "de": "Astronaut"
       }
     },
     {
@@ -2708,7 +3467,10 @@
       "translations": {
         "hy": "Օդաչու",
         "en": "Pilot",
-        "ru": "Пилот"
+        "ru": "Пилот",
+        "es": "Piloto",
+        "fr": "Pilote",
+        "de": "Pilot"
       }
     },
     {
@@ -2718,7 +3480,10 @@
       "translations": {
         "hy": "Նկարիչ",
         "en": "Artist",
-        "ru": "Художник"
+        "ru": "Художник",
+        "es": "Artista",
+        "fr": "Artiste",
+        "de": "Künstler"
       }
     },
     {
@@ -2728,7 +3493,10 @@
       "translations": {
         "hy": "Գիտնական",
         "en": "Scientist",
-        "ru": "Учёный"
+        "ru": "Учёный",
+        "es": "Científico",
+        "fr": "Scientifique",
+        "de": "Wissenschaftler"
       }
     },
     {
@@ -2738,7 +3506,10 @@
       "translations": {
         "hy": "Երգիչ",
         "en": "Singer",
-        "ru": "Певец"
+        "ru": "Певец",
+        "es": "Cantante",
+        "fr": "Chanteur",
+        "de": "Sänger"
       }
     },
     {
@@ -2748,7 +3519,10 @@
       "translations": {
         "hy": "Մեխանիկ",
         "en": "Mechanic",
-        "ru": "Механик"
+        "ru": "Механик",
+        "es": "Mecánico",
+        "fr": "Mécanicien",
+        "de": "Mechaniker"
       }
     },
     {
@@ -2758,7 +3532,10 @@
       "translations": {
         "hy": "Շինարար",
         "en": "Builder",
-        "ru": "Строитель"
+        "ru": "Строитель",
+        "es": "Constructor",
+        "fr": "Ouvrier",
+        "de": "Bauarbeiter"
       }
     },
     {
@@ -2768,7 +3545,10 @@
       "translations": {
         "hy": "Պահակ",
         "en": "Guard",
-        "ru": "Охранник"
+        "ru": "Охранник",
+        "es": "Guardia",
+        "fr": "Garde",
+        "de": "Wache"
       }
     },
     {
@@ -2778,7 +3558,10 @@
       "translations": {
         "hy": "Դետեկտիվ",
         "en": "Detective",
-        "ru": "Детектив"
+        "ru": "Детектив",
+        "es": "Detective",
+        "fr": "Détective",
+        "de": "Detektiv"
       }
     },
     {
@@ -2788,7 +3571,10 @@
       "translations": {
         "hy": "Վերնաշապիկ",
         "en": "Shirt",
-        "ru": "Рубашка"
+        "ru": "Рубашка",
+        "es": "Camisa",
+        "fr": "Chemise",
+        "de": "Hemd"
       }
     },
     {
@@ -2798,7 +3584,10 @@
       "translations": {
         "hy": "Տաբատ",
         "en": "Pants",
-        "ru": "Штаны"
+        "ru": "Штаны",
+        "es": "Pantalones",
+        "fr": "Pantalon",
+        "de": "Hose"
       }
     },
     {
@@ -2808,7 +3597,10 @@
       "translations": {
         "hy": "Զգեստ",
         "en": "Dress",
-        "ru": "Платье"
+        "ru": "Платье",
+        "es": "Vestido",
+        "fr": "Robe",
+        "de": "Kleid"
       }
     },
     {
@@ -2818,7 +3610,10 @@
       "translations": {
         "hy": "Շորտեր",
         "en": "Shorts",
-        "ru": "Шорты"
+        "ru": "Шорты",
+        "es": "Pantalones cortos",
+        "fr": "Short",
+        "de": "Shorts"
       }
     },
     {
@@ -2828,7 +3623,10 @@
       "translations": {
         "hy": "Գուլպա",
         "en": "Socks",
-        "ru": "Носки"
+        "ru": "Носки",
+        "es": "Calcetines",
+        "fr": "Chaussettes",
+        "de": "Socken"
       }
     },
     {
@@ -2838,7 +3636,10 @@
       "translations": {
         "hy": "Ձեռնոց",
         "en": "Gloves",
-        "ru": "Перчатки"
+        "ru": "Перчатки",
+        "es": "Guantes",
+        "fr": "Gants",
+        "de": "Handschuhe"
       }
     },
     {
@@ -2848,7 +3649,10 @@
       "translations": {
         "hy": "Շարֆ",
         "en": "Scarf",
-        "ru": "Шарф"
+        "ru": "Шарф",
+        "es": "Bufanda",
+        "fr": "Écharpe",
+        "de": "Schal"
       }
     },
     {
@@ -2858,7 +3662,10 @@
       "translations": {
         "hy": "Վերարկու",
         "en": "Coat",
-        "ru": "Пальто"
+        "ru": "Пальто",
+        "es": "Abrigo",
+        "fr": "Manteau",
+        "de": "Mantel"
       }
     },
     {
@@ -2868,7 +3675,10 @@
       "translations": {
         "hy": "Գլխարկ",
         "en": "Hat",
-        "ru": "Шляпа"
+        "ru": "Шляпа",
+        "es": "Sombrero",
+        "fr": "Chapeau",
+        "de": "Hut"
       }
     },
     {
@@ -2878,7 +3688,10 @@
       "translations": {
         "hy": "Գլխարկ",
         "en": "Cap",
-        "ru": "Кепка"
+        "ru": "Кепка",
+        "es": "Gorra",
+        "fr": "Casquette",
+        "de": "Mütze"
       }
     },
     {
@@ -2888,7 +3701,10 @@
       "translations": {
         "hy": "Թագ",
         "en": "Crown",
-        "ru": "Корона"
+        "ru": "Корона",
+        "es": "Corona",
+        "fr": "Couronne",
+        "de": "Krone"
       }
     },
     {
@@ -2898,7 +3714,10 @@
       "translations": {
         "hy": "Կոշիկ",
         "en": "Shoe",
-        "ru": "Ботинок"
+        "ru": "Ботинок",
+        "es": "Zapato",
+        "fr": "Chaussure",
+        "de": "Schuh"
       }
     },
     {
@@ -2908,7 +3727,10 @@
       "translations": {
         "hy": "Սպորտային կոշիկ",
         "en": "Sneaker",
-        "ru": "Кроссовок"
+        "ru": "Кроссовок",
+        "es": "Zapatilla",
+        "fr": "Basket",
+        "de": "Turnschuh"
       }
     },
     {
@@ -2918,7 +3740,10 @@
       "translations": {
         "hy": "Երկարաճիտ կոշիկ",
         "en": "Boot",
-        "ru": "Сапог"
+        "ru": "Сапог",
+        "es": "Bota",
+        "fr": "Botte",
+        "de": "Stiefel"
       }
     },
     {
@@ -2928,7 +3753,10 @@
       "translations": {
         "hy": "Կրունկով կոշիկ",
         "en": "High heel",
-        "ru": "Туфля"
+        "ru": "Туфля",
+        "es": "Tacón",
+        "fr": "Talon",
+        "de": "Stöckelschuh"
       }
     },
     {
@@ -2938,7 +3766,10 @@
       "translations": {
         "hy": "Սանդալ",
         "en": "Sandal",
-        "ru": "Сандалия"
+        "ru": "Сандалия",
+        "es": "Sandalia",
+        "fr": "Sandale",
+        "de": "Sandale"
       }
     },
     {
@@ -2948,7 +3779,10 @@
       "translations": {
         "hy": "Ակնոց",
         "en": "Glasses",
-        "ru": "Очки"
+        "ru": "Очки",
+        "es": "Gafas",
+        "fr": "Lunettes",
+        "de": "Brille"
       }
     },
     {
@@ -2958,7 +3792,10 @@
       "translations": {
         "hy": "Արևային ակնոց",
         "en": "Sunglasses",
-        "ru": "Солнцезащитные очки"
+        "ru": "Солнцезащитные очки",
+        "es": "Gafas de sol",
+        "fr": "Lunettes de soleil",
+        "de": "Sonnenbrille"
       }
     },
     {
@@ -2968,7 +3805,10 @@
       "translations": {
         "hy": "Մատանի",
         "en": "Ring",
-        "ru": "Кольцо"
+        "ru": "Кольцо",
+        "es": "Anillo",
+        "fr": "Bague",
+        "de": "Ring"
       }
     },
     {
@@ -2978,7 +3818,10 @@
       "translations": {
         "hy": "Փողկապ",
         "en": "Tie",
-        "ru": "Галстук"
+        "ru": "Галстук",
+        "es": "Corbata",
+        "fr": "Cravate",
+        "de": "Krawatte"
       }
     },
     {
@@ -2988,7 +3831,10 @@
       "translations": {
         "hy": "Պայուսակ",
         "en": "Handbag",
-        "ru": "Сумка"
+        "ru": "Сумка",
+        "es": "Bolso",
+        "fr": "Sac à main",
+        "de": "Handtasche"
       }
     },
     {
@@ -2998,7 +3844,10 @@
       "translations": {
         "hy": "Դրամապանակ",
         "en": "Purse",
-        "ru": "Кошелёк"
+        "ru": "Кошелёк",
+        "es": "Monedero",
+        "fr": "Porte-monnaie",
+        "de": "Geldbörse"
       }
     },
     {
@@ -3008,7 +3857,10 @@
       "translations": {
         "hy": "Լողազգեստ",
         "en": "Swimsuit",
-        "ru": "Купальник"
+        "ru": "Купальник",
+        "es": "Traje de baño",
+        "fr": "Maillot de bain",
+        "de": "Badeanzug"
       }
     },
     {
@@ -3018,7 +3870,10 @@
       "translations": {
         "hy": "Կիմոնո",
         "en": "Kimono",
-        "ru": "Кимоно"
+        "ru": "Кимоно",
+        "es": "Kimono",
+        "fr": "Kimono",
+        "de": "Kimono"
       }
     },
     {
@@ -3028,7 +3883,10 @@
       "translations": {
         "hy": "Տուն",
         "en": "House",
-        "ru": "Дом"
+        "ru": "Дом",
+        "es": "Casa",
+        "fr": "Maison",
+        "de": "Haus"
       }
     },
     {
@@ -3038,7 +3896,10 @@
       "translations": {
         "hy": "Մահճակալ",
         "en": "Bed",
-        "ru": "Кровать"
+        "ru": "Кровать",
+        "es": "Cama",
+        "fr": "Lit",
+        "de": "Bett"
       }
     },
     {
@@ -3048,7 +3909,10 @@
       "translations": {
         "hy": "Բազմոց",
         "en": "Couch",
-        "ru": "Диван"
+        "ru": "Диван",
+        "es": "Sofá",
+        "fr": "Canapé",
+        "de": "Sofa"
       }
     },
     {
@@ -3058,7 +3922,10 @@
       "translations": {
         "hy": "Աթոռ",
         "en": "Chair",
-        "ru": "Стул"
+        "ru": "Стул",
+        "es": "Silla",
+        "fr": "Chaise",
+        "de": "Stuhl"
       }
     },
     {
@@ -3068,7 +3935,10 @@
       "translations": {
         "hy": "Դուռ",
         "en": "Door",
-        "ru": "Дверь"
+        "ru": "Дверь",
+        "es": "Puerta",
+        "fr": "Porte",
+        "de": "Tür"
       }
     },
     {
@@ -3078,7 +3948,10 @@
       "translations": {
         "hy": "Պատուհան",
         "en": "Window",
-        "ru": "Окно"
+        "ru": "Окно",
+        "es": "Ventana",
+        "fr": "Fenêtre",
+        "de": "Fenster"
       }
     },
     {
@@ -3088,7 +3961,10 @@
       "translations": {
         "hy": "Զուգարան",
         "en": "Toilet",
-        "ru": "Туалет"
+        "ru": "Туалет",
+        "es": "Inodoro",
+        "fr": "Toilettes",
+        "de": "Toilette"
       }
     },
     {
@@ -3098,7 +3974,10 @@
       "translations": {
         "hy": "Լոգարան",
         "en": "Bathtub",
-        "ru": "Ванна"
+        "ru": "Ванна",
+        "es": "Bañera",
+        "fr": "Baignoire",
+        "de": "Badewanne"
       }
     },
     {
@@ -3108,7 +3987,10 @@
       "translations": {
         "hy": "Ցնցուղ",
         "en": "Shower",
-        "ru": "Душ"
+        "ru": "Душ",
+        "es": "Ducha",
+        "fr": "Douche",
+        "de": "Dusche"
       }
     },
     {
@@ -3118,7 +4000,10 @@
       "translations": {
         "hy": "Լամպ",
         "en": "Lamp",
-        "ru": "Лампа"
+        "ru": "Лампа",
+        "es": "Lámpara",
+        "fr": "Lampe",
+        "de": "Lampe"
       }
     },
     {
@@ -3128,7 +4013,10 @@
       "translations": {
         "hy": "Մոմ",
         "en": "Candle",
-        "ru": "Свеча"
+        "ru": "Свеча",
+        "es": "Vela",
+        "fr": "Bougie",
+        "de": "Kerze"
       }
     },
     {
@@ -3138,7 +4026,10 @@
       "translations": {
         "hy": "Ժամացույց",
         "en": "Clock",
-        "ru": "Часы"
+        "ru": "Часы",
+        "es": "Reloj",
+        "fr": "Horloge",
+        "de": "Uhr"
       }
     },
     {
@@ -3148,7 +4039,10 @@
       "translations": {
         "hy": "Բանալի",
         "en": "Key",
-        "ru": "Ключ"
+        "ru": "Ключ",
+        "es": "Llave",
+        "fr": "Clé",
+        "de": "Schlüssel"
       }
     },
     {
@@ -3158,7 +4052,10 @@
       "translations": {
         "hy": "Հայելի",
         "en": "Mirror",
-        "ru": "Зеркало"
+        "ru": "Зеркало",
+        "es": "Espejo",
+        "fr": "Miroir",
+        "de": "Spiegel"
       }
     },
     {
@@ -3168,7 +4065,10 @@
       "translations": {
         "hy": "Ավել",
         "en": "Broom",
-        "ru": "Метла"
+        "ru": "Метла",
+        "es": "Escoba",
+        "fr": "Balai",
+        "de": "Besen"
       }
     },
     {
@@ -3178,7 +4078,10 @@
       "translations": {
         "hy": "Դույլ",
         "en": "Bucket",
-        "ru": "Ведро"
+        "ru": "Ведро",
+        "es": "Cubo",
+        "fr": "Seau",
+        "de": "Eimer"
       }
     },
     {
@@ -3188,7 +4091,10 @@
       "translations": {
         "hy": "Օճառ",
         "en": "Soap",
-        "ru": "Мыло"
+        "ru": "Мыло",
+        "es": "Jabón",
+        "fr": "Savon",
+        "de": "Seife"
       }
     },
     {
@@ -3198,7 +4104,10 @@
       "translations": {
         "hy": "Սպունգ",
         "en": "Sponge",
-        "ru": "Губка"
+        "ru": "Губка",
+        "es": "Esponja",
+        "fr": "Éponge",
+        "de": "Schwamm"
       }
     },
     {
@@ -3208,7 +4117,10 @@
       "translations": {
         "hy": "Հեռուստացույց",
         "en": "Television",
-        "ru": "Телевизор"
+        "ru": "Телевизор",
+        "es": "Televisión",
+        "fr": "Télévision",
+        "de": "Fernseher"
       }
     },
     {
@@ -3218,7 +4130,10 @@
       "translations": {
         "hy": "Ռադիո",
         "en": "Radio",
-        "ru": "Радио"
+        "ru": "Радио",
+        "es": "Radio",
+        "fr": "Radio",
+        "de": "Radio"
       }
     },
     {
@@ -3228,7 +4143,10 @@
       "translations": {
         "hy": "Հեռախոս",
         "en": "Telephone",
-        "ru": "Телефон"
+        "ru": "Телефон",
+        "es": "Teléfono",
+        "fr": "Téléphone",
+        "de": "Telefon"
       }
     },
     {
@@ -3238,7 +4156,10 @@
       "translations": {
         "hy": "Մարտկոց",
         "en": "Battery",
-        "ru": "Батарея"
+        "ru": "Батарея",
+        "es": "Batería",
+        "fr": "Batterie",
+        "de": "Batterie"
       }
     },
     {
@@ -3248,7 +4169,10 @@
       "translations": {
         "hy": "Հովանոց",
         "en": "Umbrella",
-        "ru": "Зонт"
+        "ru": "Зонт",
+        "es": "Paraguas",
+        "fr": "Parapluie",
+        "de": "Regenschirm"
       }
     },
     {
@@ -3258,7 +4182,10 @@
       "translations": {
         "hy": "Նվեր",
         "en": "Gift",
-        "ru": "Подарок"
+        "ru": "Подарок",
+        "es": "Regalo",
+        "fr": "Cadeau",
+        "de": "Geschenk"
       }
     },
     {
@@ -3268,7 +4195,10 @@
       "translations": {
         "hy": "Զամբյուղ",
         "en": "Basket",
-        "ru": "Корзина"
+        "ru": "Корзина",
+        "es": "Cesta",
+        "fr": "Panier",
+        "de": "Korb"
       }
     },
     {
@@ -3278,7 +4208,10 @@
       "translations": {
         "hy": "Նկար",
         "en": "Picture",
-        "ru": "Картина"
+        "ru": "Картина",
+        "es": "Cuadro",
+        "fr": "Tableau",
+        "de": "Bild"
       }
     },
     {
@@ -3288,7 +4221,10 @@
       "translations": {
         "hy": "Օրացույց",
         "en": "Calendar",
-        "ru": "Календарь"
+        "ru": "Календарь",
+        "es": "Calendario",
+        "fr": "Calendrier",
+        "de": "Kalender"
       }
     },
     {
@@ -3298,7 +4234,10 @@
       "translations": {
         "hy": "Զուգարանի թուղթ",
         "en": "Toilet paper",
-        "ru": "Туалетная бумага"
+        "ru": "Туалетная бумага",
+        "es": "Papel higiénico",
+        "fr": "Papier toilette",
+        "de": "Toilettenpapier"
       }
     },
     {
@@ -3308,7 +4247,10 @@
       "translations": {
         "hy": "Թել",
         "en": "Thread",
-        "ru": "Нитка"
+        "ru": "Нитка",
+        "es": "Hilo",
+        "fr": "Fil",
+        "de": "Faden"
       }
     },
     {
@@ -3318,7 +4260,10 @@
       "translations": {
         "hy": "Բրդաթել",
         "en": "Yarn",
-        "ru": "Пряжа"
+        "ru": "Пряжа",
+        "es": "Lana",
+        "fr": "Laine",
+        "de": "Wolle"
       }
     },
     {
@@ -3328,7 +4273,10 @@
       "translations": {
         "hy": "Անգլիական քորոց",
         "en": "Safety pin",
-        "ru": "Булавка"
+        "ru": "Булавка",
+        "es": "Imperdible",
+        "fr": "Épingle à nourrice",
+        "de": "Sicherheitsnadel"
       }
     },
     {
@@ -3338,7 +4286,10 @@
       "translations": {
         "hy": "Ատամի խոզանակ",
         "en": "Toothbrush",
-        "ru": "Зубная щётка"
+        "ru": "Зубная щётка",
+        "es": "Cepillo de dientes",
+        "fr": "Brosse à dents",
+        "de": "Zahnbürste"
       }
     },
     {
@@ -3348,7 +4299,10 @@
       "translations": {
         "hy": "Ածելի",
         "en": "Razor",
-        "ru": "Бритва"
+        "ru": "Бритва",
+        "es": "Maquinilla",
+        "fr": "Rasoir",
+        "de": "Rasierer"
       }
     },
     {
@@ -3358,7 +4312,10 @@
       "translations": {
         "hy": "Մխոց",
         "en": "Plunger",
-        "ru": "Вантуз"
+        "ru": "Вантуз",
+        "es": "Desatascador",
+        "fr": "Ventouse",
+        "de": "Saugglocke"
       }
     },
     {
@@ -3368,7 +4325,10 @@
       "translations": {
         "hy": "Զանգ",
         "en": "Service bell",
-        "ru": "Звонок"
+        "ru": "Звонок",
+        "es": "Timbre",
+        "fr": "Sonnette",
+        "de": "Klingel"
       }
     },
     {
@@ -3378,7 +4338,10 @@
       "translations": {
         "hy": "Պղպջակներ",
         "en": "Bubbles",
-        "ru": "Пузыри"
+        "ru": "Пузыри",
+        "es": "Burbujas",
+        "fr": "Bulles",
+        "de": "Seifenblasen"
       }
     },
     {
@@ -3388,7 +4351,10 @@
       "translations": {
         "hy": "Կարթ",
         "en": "Hook",
-        "ru": "Крючок"
+        "ru": "Крючок",
+        "es": "Gancho",
+        "fr": "Crochet",
+        "de": "Haken"
       }
     },
     {
@@ -3398,7 +4364,10 @@
       "translations": {
         "hy": "Ափսե",
         "en": "Plate",
-        "ru": "Тарелка"
+        "ru": "Тарелка",
+        "es": "Plato",
+        "fr": "Assiette",
+        "de": "Teller"
       }
     },
     {
@@ -3408,7 +4377,10 @@
       "translations": {
         "hy": "Գդալ",
         "en": "Spoon",
-        "ru": "Ложка"
+        "ru": "Ложка",
+        "es": "Cuchara",
+        "fr": "Cuillère",
+        "de": "Löffel"
       }
     },
     {
@@ -3418,7 +4390,10 @@
       "translations": {
         "hy": "Պատառաքաղ և դանակ",
         "en": "Fork and knife",
-        "ru": "Вилка и нож"
+        "ru": "Вилка и нож",
+        "es": "Tenedor y cuchillo",
+        "fr": "Fourchette et couteau",
+        "de": "Messer und Gabel"
       }
     },
     {
@@ -3428,7 +4403,10 @@
       "translations": {
         "hy": "Դանակ",
         "en": "Knife",
-        "ru": "Нож"
+        "ru": "Нож",
+        "es": "Cuchillo",
+        "fr": "Couteau",
+        "de": "Messer"
       }
     },
     {
@@ -3438,7 +4416,10 @@
       "translations": {
         "hy": "Թեյնիկ",
         "en": "Teapot",
-        "ru": "Чайник"
+        "ru": "Чайник",
+        "es": "Tetera",
+        "fr": "Théière",
+        "de": "Teekanne"
       }
     },
     {
@@ -3448,7 +4429,10 @@
       "translations": {
         "hy": "Կաթսա",
         "en": "Pot",
-        "ru": "Кастрюля"
+        "ru": "Кастрюля",
+        "es": "Olla",
+        "fr": "Casserole",
+        "de": "Topf"
       }
     },
     {
@@ -3458,7 +4442,10 @@
       "translations": {
         "hy": "Աման",
         "en": "Bowl",
-        "ru": "Миска"
+        "ru": "Миска",
+        "es": "Cuenco",
+        "fr": "Bol",
+        "de": "Schüssel"
       }
     },
     {
@@ -3468,7 +4455,10 @@
       "translations": {
         "hy": "Յուղ",
         "en": "Oil",
-        "ru": "Масло"
+        "ru": "Масло",
+        "es": "Aceite",
+        "fr": "Huile",
+        "de": "Öl"
       }
     },
     {
@@ -3478,7 +4468,10 @@
       "translations": {
         "hy": "Բանկա",
         "en": "Jar",
-        "ru": "Банка"
+        "ru": "Банка",
+        "es": "Tarro",
+        "fr": "Bocal",
+        "de": "Glas"
       }
     },
     {
@@ -3488,7 +4481,10 @@
       "translations": {
         "hy": "Աղ",
         "en": "Salt",
-        "ru": "Соль"
+        "ru": "Соль",
+        "es": "Sal",
+        "fr": "Sel",
+        "de": "Salz"
       }
     },
     {
@@ -3498,7 +4494,10 @@
       "translations": {
         "hy": "Փայտիկներ",
         "en": "Chopsticks",
-        "ru": "Палочки"
+        "ru": "Палочки",
+        "es": "Palillos",
+        "fr": "Baguettes",
+        "de": "Stäbchen"
       }
     },
     {
@@ -3508,7 +4507,10 @@
       "translations": {
         "hy": "Ուտեստի տուփ",
         "en": "Takeout box",
-        "ru": "Коробка еды"
+        "ru": "Коробка еды",
+        "es": "Comida para llevar",
+        "fr": "Plat à emporter",
+        "de": "Essen zum Mitnehmen"
       }
     },
     {
@@ -3518,7 +4520,10 @@
       "translations": {
         "hy": "Գրքեր",
         "en": "Books",
-        "ru": "Книги"
+        "ru": "Книги",
+        "es": "Libros",
+        "fr": "Livres",
+        "de": "Bücher"
       }
     },
     {
@@ -3528,7 +4533,10 @@
       "translations": {
         "hy": "Գիրք",
         "en": "Book",
-        "ru": "Книга"
+        "ru": "Книга",
+        "es": "Libro",
+        "fr": "Livre",
+        "de": "Buch"
       }
     },
     {
@@ -3538,7 +4546,10 @@
       "translations": {
         "hy": "Մատիտ",
         "en": "Pencil",
-        "ru": "Карандаш"
+        "ru": "Карандаш",
+        "es": "Lápiz",
+        "fr": "Crayon",
+        "de": "Bleistift"
       }
     },
     {
@@ -3548,7 +4559,10 @@
       "translations": {
         "hy": "Գրիչ",
         "en": "Pen",
-        "ru": "Ручка"
+        "ru": "Ручка",
+        "es": "Bolígrafo",
+        "fr": "Stylo",
+        "de": "Kugelschreiber"
       }
     },
     {
@@ -3558,7 +4572,10 @@
       "translations": {
         "hy": "Մոմամատիտ",
         "en": "Crayon",
-        "ru": "Мелок"
+        "ru": "Мелок",
+        "es": "Crayón",
+        "fr": "Crayon de couleur",
+        "de": "Buntstift"
       }
     },
     {
@@ -3568,7 +4585,10 @@
       "translations": {
         "hy": "Վրձին",
         "en": "Paintbrush",
-        "ru": "Кисточка"
+        "ru": "Кисточка",
+        "es": "Pincel",
+        "fr": "Pinceau",
+        "de": "Pinsel"
       }
     },
     {
@@ -3578,7 +4598,10 @@
       "translations": {
         "hy": "Քանոն",
         "en": "Ruler",
-        "ru": "Линейка"
+        "ru": "Линейка",
+        "es": "Regla",
+        "fr": "Règle",
+        "de": "Lineal"
       }
     },
     {
@@ -3588,7 +4611,10 @@
       "translations": {
         "hy": "Մկրատ",
         "en": "Scissors",
-        "ru": "Ножницы"
+        "ru": "Ножницы",
+        "es": "Tijeras",
+        "fr": "Ciseaux",
+        "de": "Schere"
       }
     },
     {
@@ -3598,7 +4624,10 @@
       "translations": {
         "hy": "Ուսապարկ",
         "en": "Backpack",
-        "ru": "Рюкзак"
+        "ru": "Рюкзак",
+        "es": "Mochila",
+        "fr": "Sac à dos",
+        "de": "Rucksack"
       }
     },
     {
@@ -3608,7 +4637,10 @@
       "translations": {
         "hy": "Տետր",
         "en": "Notebook",
-        "ru": "Тетрадь"
+        "ru": "Тетрадь",
+        "es": "Cuaderno",
+        "fr": "Cahier",
+        "de": "Heft"
       }
     },
     {
@@ -3618,7 +4650,10 @@
       "translations": {
         "hy": "Սեղմիչ",
         "en": "Paperclip",
-        "ru": "Скрепка"
+        "ru": "Скрепка",
+        "es": "Clip",
+        "fr": "Trombone",
+        "de": "Büroklammer"
       }
     },
     {
@@ -3628,7 +4663,10 @@
       "translations": {
         "hy": "Գլոբուս",
         "en": "Globe",
-        "ru": "Глобус"
+        "ru": "Глобус",
+        "es": "Globo terráqueo",
+        "fr": "Globe",
+        "de": "Globus"
       }
     },
     {
@@ -3638,7 +4676,10 @@
       "translations": {
         "hy": "Հաշվեսարք",
         "en": "Abacus",
-        "ru": "Счёты"
+        "ru": "Счёты",
+        "es": "Ábaco",
+        "fr": "Boulier",
+        "de": "Abakus"
       }
     },
     {
@@ -3648,7 +4689,10 @@
       "translations": {
         "hy": "Մանրադիտակ",
         "en": "Microscope",
-        "ru": "Микроскоп"
+        "ru": "Микроскоп",
+        "es": "Microscopio",
+        "fr": "Microscope",
+        "de": "Mikroskop"
       }
     },
     {
@@ -3658,7 +4702,10 @@
       "translations": {
         "hy": "Աստղադիտակ",
         "en": "Telescope",
-        "ru": "Телескоп"
+        "ru": "Телескоп",
+        "es": "Telescopio",
+        "fr": "Télescope",
+        "de": "Teleskop"
       }
     },
     {
@@ -3668,7 +4715,10 @@
       "translations": {
         "hy": "Մագնիս",
         "en": "Magnet",
-        "ru": "Магнит"
+        "ru": "Магнит",
+        "es": "Imán",
+        "fr": "Aimant",
+        "de": "Magnet"
       }
     },
     {
@@ -3678,7 +4728,10 @@
       "translations": {
         "hy": "Անկյունաքանոն",
         "en": "Triangle ruler",
-        "ru": "Угольник"
+        "ru": "Угольник",
+        "es": "Escuadra",
+        "fr": "Équerre",
+        "de": "Geodreieck"
       }
     },
     {
@@ -3688,7 +4741,10 @@
       "translations": {
         "hy": "Ներկապնակ",
         "en": "Paint palette",
-        "ru": "Палитра"
+        "ru": "Палитра",
+        "es": "Paleta de pintura",
+        "fr": "Palette de peinture",
+        "de": "Farbpalette"
       }
     },
     {
@@ -3698,7 +4754,10 @@
       "translations": {
         "hy": "Մեկ",
         "en": "One",
-        "ru": "Один"
+        "ru": "Один",
+        "es": "Uno",
+        "fr": "Un",
+        "de": "Eins"
       }
     },
     {
@@ -3708,7 +4767,10 @@
       "translations": {
         "hy": "Երկու",
         "en": "Two",
-        "ru": "Два"
+        "ru": "Два",
+        "es": "Dos",
+        "fr": "Deux",
+        "de": "Zwei"
       }
     },
     {
@@ -3718,7 +4780,10 @@
       "translations": {
         "hy": "Երեք",
         "en": "Three",
-        "ru": "Три"
+        "ru": "Три",
+        "es": "Tres",
+        "fr": "Trois",
+        "de": "Drei"
       }
     },
     {
@@ -3728,7 +4793,10 @@
       "translations": {
         "hy": "Չորս",
         "en": "Four",
-        "ru": "Четыре"
+        "ru": "Четыре",
+        "es": "Cuatro",
+        "fr": "Quatre",
+        "de": "Vier"
       }
     },
     {
@@ -3738,7 +4806,10 @@
       "translations": {
         "hy": "Հինգ",
         "en": "Five",
-        "ru": "Пять"
+        "ru": "Пять",
+        "es": "Cinco",
+        "fr": "Cinq",
+        "de": "Fünf"
       }
     },
     {
@@ -3748,7 +4819,10 @@
       "translations": {
         "hy": "Վեց",
         "en": "Six",
-        "ru": "Шесть"
+        "ru": "Шесть",
+        "es": "Seis",
+        "fr": "Six",
+        "de": "Sechs"
       }
     },
     {
@@ -3758,7 +4832,10 @@
       "translations": {
         "hy": "Յոթ",
         "en": "Seven",
-        "ru": "Семь"
+        "ru": "Семь",
+        "es": "Siete",
+        "fr": "Sept",
+        "de": "Sieben"
       }
     },
     {
@@ -3768,7 +4845,10 @@
       "translations": {
         "hy": "Ութ",
         "en": "Eight",
-        "ru": "Восемь"
+        "ru": "Восемь",
+        "es": "Ocho",
+        "fr": "Huit",
+        "de": "Acht"
       }
     },
     {
@@ -3778,7 +4858,10 @@
       "translations": {
         "hy": "Ինը",
         "en": "Nine",
-        "ru": "Девять"
+        "ru": "Девять",
+        "es": "Nueve",
+        "fr": "Neuf",
+        "de": "Neun"
       }
     },
     {
@@ -3788,7 +4871,10 @@
       "translations": {
         "hy": "Տասը",
         "en": "Ten",
-        "ru": "Десять"
+        "ru": "Десять",
+        "es": "Diez",
+        "fr": "Dix",
+        "de": "Zehn"
       }
     },
     {
@@ -3798,7 +4884,10 @@
       "translations": {
         "hy": "Զրո",
         "en": "Zero",
-        "ru": "Ноль"
+        "ru": "Ноль",
+        "es": "Cero",
+        "fr": "Zéro",
+        "de": "Null"
       }
     },
     {
@@ -3808,7 +4897,10 @@
       "translations": {
         "hy": "Ֆուտբոլի գնդակ",
         "en": "Soccer ball",
-        "ru": "Футбольный мяч"
+        "ru": "Футбольный мяч",
+        "es": "Balón de fútbol",
+        "fr": "Ballon de foot",
+        "de": "Fußball"
       }
     },
     {
@@ -3818,7 +4910,10 @@
       "translations": {
         "hy": "Բասկետբոլ",
         "en": "Basketball",
-        "ru": "Баскетбол"
+        "ru": "Баскетбол",
+        "es": "Baloncesto",
+        "fr": "Basketball",
+        "de": "Basketball"
       }
     },
     {
@@ -3828,7 +4923,10 @@
       "translations": {
         "hy": "Ամերիկյան ֆուտբոլ",
         "en": "Football",
-        "ru": "Американский футбол"
+        "ru": "Американский футбол",
+        "es": "Fútbol americano",
+        "fr": "Football américain",
+        "de": "Football"
       }
     },
     {
@@ -3838,7 +4936,10 @@
       "translations": {
         "hy": "Բեյսբոլ",
         "en": "Baseball",
-        "ru": "Бейсбол"
+        "ru": "Бейсбол",
+        "es": "Béisbol",
+        "fr": "Baseball",
+        "de": "Baseball"
       }
     },
     {
@@ -3848,7 +4949,10 @@
       "translations": {
         "hy": "Թենիս",
         "en": "Tennis",
-        "ru": "Теннис"
+        "ru": "Теннис",
+        "es": "Tenis",
+        "fr": "Tennis",
+        "de": "Tennis"
       }
     },
     {
@@ -3858,7 +4962,10 @@
       "translations": {
         "hy": "Վոլեյբոլ",
         "en": "Volleyball",
-        "ru": "Волейбол"
+        "ru": "Волейбол",
+        "es": "Voleibol",
+        "fr": "Volley-ball",
+        "de": "Volleyball"
       }
     },
     {
@@ -3868,7 +4975,10 @@
       "translations": {
         "hy": "Ռեգբի",
         "en": "Rugby",
-        "ru": "Регби"
+        "ru": "Регби",
+        "es": "Rugby",
+        "fr": "Rugby",
+        "de": "Rugby"
       }
     },
     {
@@ -3878,7 +4988,10 @@
       "translations": {
         "hy": "Սեղանի թենիս",
         "en": "Ping pong",
-        "ru": "Пинг-понг"
+        "ru": "Пинг-понг",
+        "es": "Ping-pong",
+        "fr": "Ping-pong",
+        "de": "Tischtennis"
       }
     },
     {
@@ -3888,7 +5001,10 @@
       "translations": {
         "hy": "Բադմինտոն",
         "en": "Badminton",
-        "ru": "Бадминтон"
+        "ru": "Бадминтон",
+        "es": "Bádminton",
+        "fr": "Badminton",
+        "de": "Badminton"
       }
     },
     {
@@ -3898,7 +5014,10 @@
       "translations": {
         "hy": "Բոուլինգ",
         "en": "Bowling",
-        "ru": "Боулинг"
+        "ru": "Боулинг",
+        "es": "Bolos",
+        "fr": "Bowling",
+        "de": "Bowling"
       }
     },
     {
@@ -3908,7 +5027,10 @@
       "translations": {
         "hy": "Հոկեյ",
         "en": "Hockey",
-        "ru": "Хоккей"
+        "ru": "Хоккей",
+        "es": "Hockey",
+        "fr": "Hockey",
+        "de": "Hockey"
       }
     },
     {
@@ -3918,7 +5040,10 @@
       "translations": {
         "hy": "Բռնցքամարտ",
         "en": "Boxing",
-        "ru": "Бокс"
+        "ru": "Бокс",
+        "es": "Boxeo",
+        "fr": "Boxe",
+        "de": "Boxen"
       }
     },
     {
@@ -3928,7 +5053,10 @@
       "translations": {
         "hy": "Դահուկներ",
         "en": "Skis",
-        "ru": "Лыжи"
+        "ru": "Лыжи",
+        "es": "Esquís",
+        "fr": "Skis",
+        "de": "Ski"
       }
     },
     {
@@ -3938,7 +5066,10 @@
       "translations": {
         "hy": "Չմուշկ",
         "en": "Ice skate",
-        "ru": "Коньки"
+        "ru": "Коньки",
+        "es": "Patín",
+        "fr": "Patin à glace",
+        "de": "Schlittschuh"
       }
     },
     {
@@ -3948,7 +5079,10 @@
       "translations": {
         "hy": " Դարտս",
         "en": "Darts",
-        "ru": "Дартс"
+        "ru": "Дартс",
+        "es": "Dardos",
+        "fr": "Fléchettes",
+        "de": "Darts"
       }
     },
     {
@@ -3958,7 +5092,10 @@
       "translations": {
         "hy": "Ձկնորսություն",
         "en": "Fishing",
-        "ru": "Рыбалка"
+        "ru": "Рыбалка",
+        "es": "Pesca",
+        "fr": "Pêche",
+        "de": "Angeln"
       }
     },
     {
@@ -3968,7 +5105,10 @@
       "translations": {
         "hy": "Օդապարիկ",
         "en": "Kite",
-        "ru": "Воздушный змей"
+        "ru": "Воздушный змей",
+        "es": "Cometa",
+        "fr": "Cerf-volant",
+        "de": "Drachen"
       }
     },
     {
@@ -3978,7 +5118,10 @@
       "translations": {
         "hy": "Մեդալ",
         "en": "Medal",
-        "ru": "Медаль"
+        "ru": "Медаль",
+        "es": "Medalla",
+        "fr": "Médaille",
+        "de": "Medaille"
       }
     },
     {
@@ -3988,7 +5131,10 @@
       "translations": {
         "hy": "Գավաթ",
         "en": "Trophy",
-        "ru": "Кубок"
+        "ru": "Кубок",
+        "es": "Trofeo",
+        "fr": "Trophée",
+        "de": "Pokal"
       }
     },
     {
@@ -3998,7 +5144,10 @@
       "translations": {
         "hy": "Ծանրամարտ",
         "en": "Weightlifting",
-        "ru": "Тяжёлая атлетика"
+        "ru": "Тяжёлая атлетика",
+        "es": "Levantamiento de pesas",
+        "fr": "Haltérophilie",
+        "de": "Gewichtheben"
       }
     },
     {
@@ -4008,7 +5157,10 @@
       "translations": {
         "hy": "Մարզաշապիկ",
         "en": "Jersey",
-        "ru": "Майка"
+        "ru": "Майка",
+        "es": "Camiseta",
+        "fr": "Maillot",
+        "de": "Trikot"
       }
     },
     {
@@ -4018,7 +5170,10 @@
       "translations": {
         "hy": "Կёрлինգի քար",
         "en": "Curling stone",
-        "ru": "Камень для кёрлинга"
+        "ru": "Камень для кёрлинга",
+        "es": "Piedra de curling",
+        "fr": "Pierre de curling",
+        "de": "Curlingstein"
       }
     },
     {
@@ -4028,7 +5183,10 @@
       "translations": {
         "hy": "Ջրասուզման դիմակ",
         "en": "Diving mask",
-        "ru": "Маска для дайвинга"
+        "ru": "Маска для дайвинга",
+        "es": "Máscara de buceo",
+        "fr": "Masque de plongée",
+        "de": "Tauchmaske"
       }
     },
     {
@@ -4038,7 +5196,10 @@
       "translations": {
         "hy": "Թռչող սկավառակ",
         "en": "Flying disc",
-        "ru": "Фрисби"
+        "ru": "Фрисби",
+        "es": "Disco volador",
+        "fr": "Frisbee",
+        "de": "Frisbee"
       }
     },
     {
@@ -4048,7 +5209,10 @@
       "translations": {
         "hy": "Լակրոս",
         "en": "Lacrosse",
-        "ru": "Лакросс"
+        "ru": "Лакросс",
+        "es": "Lacrosse",
+        "fr": "Crosse",
+        "de": "Lacrosse"
       }
     },
     {
@@ -4058,7 +5222,10 @@
       "translations": {
         "hy": "Մարտարվեստ",
         "en": "Martial arts",
-        "ru": "Единоборства"
+        "ru": "Единоборства",
+        "es": "Artes marciales",
+        "fr": "Arts martiaux",
+        "de": "Kampfsport"
       }
     },
     {
@@ -4068,7 +5235,10 @@
       "translations": {
         "hy": "Սահնակ",
         "en": "Sled",
-        "ru": "Санки"
+        "ru": "Санки",
+        "es": "Trineo",
+        "fr": "Luge",
+        "de": "Schlitten"
       }
     },
     {
@@ -4078,7 +5248,10 @@
       "translations": {
         "hy": "Վազք",
         "en": "Running",
-        "ru": "Бег"
+        "ru": "Бег",
+        "es": "Correr",
+        "fr": "Course",
+        "de": "Laufen"
       }
     },
     {
@@ -4088,7 +5261,10 @@
       "translations": {
         "hy": "Նոտա",
         "en": "Music note",
-        "ru": "Нота"
+        "ru": "Нота",
+        "es": "Nota musical",
+        "fr": "Note de musique",
+        "de": "Musiknote"
       }
     },
     {
@@ -4098,7 +5274,10 @@
       "translations": {
         "hy": "Կիթառ",
         "en": "Guitar",
-        "ru": "Гитара"
+        "ru": "Гитара",
+        "es": "Guitarra",
+        "fr": "Guitare",
+        "de": "Gitarre"
       }
     },
     {
@@ -4108,7 +5287,10 @@
       "translations": {
         "hy": "Դաշնամուր",
         "en": "Piano",
-        "ru": "Пианино"
+        "ru": "Пианино",
+        "es": "Piano",
+        "fr": "Piano",
+        "de": "Klavier"
       }
     },
     {
@@ -4118,7 +5300,10 @@
       "translations": {
         "hy": "Շեփոր",
         "en": "Trumpet",
-        "ru": "Труба"
+        "ru": "Труба",
+        "es": "Trompeta",
+        "fr": "Trompette",
+        "de": "Trompete"
       }
     },
     {
@@ -4128,7 +5313,10 @@
       "translations": {
         "hy": "Սաքսոֆոն",
         "en": "Saxophone",
-        "ru": "Саксофон"
+        "ru": "Саксофон",
+        "es": "Saxofón",
+        "fr": "Saxophone",
+        "de": "Saxofon"
       }
     },
     {
@@ -4138,7 +5326,10 @@
       "translations": {
         "hy": "Ջութակ",
         "en": "Violin",
-        "ru": "Скрипка"
+        "ru": "Скрипка",
+        "es": "Violín",
+        "fr": "Violon",
+        "de": "Geige"
       }
     },
     {
@@ -4148,7 +5339,10 @@
       "translations": {
         "hy": "Թմբուկ",
         "en": "Drum",
-        "ru": "Барабан"
+        "ru": "Барабан",
+        "es": "Tambor",
+        "fr": "Tambour",
+        "de": "Trommel"
       }
     },
     {
@@ -4158,7 +5352,10 @@
       "translations": {
         "hy": "Խոսափող",
         "en": "Microphone",
-        "ru": "Микрофон"
+        "ru": "Микрофон",
+        "es": "Micrófono",
+        "fr": "Microphone",
+        "de": "Mikrofon"
       }
     },
     {
@@ -4168,7 +5365,10 @@
       "translations": {
         "hy": "Ականջակալ",
         "en": "Headphones",
-        "ru": "Наушники"
+        "ru": "Наушники",
+        "es": "Auriculares",
+        "fr": "Casque",
+        "de": "Kopfhörer"
       }
     },
     {
@@ -4178,7 +5378,10 @@
       "translations": {
         "hy": "Զանգ",
         "en": "Bell",
-        "ru": "Колокол"
+        "ru": "Колокол",
+        "es": "Campana",
+        "fr": "Cloche",
+        "de": "Glocke"
       }
     },
     {
@@ -4188,7 +5391,10 @@
       "translations": {
         "hy": "Մարակաս",
         "en": "Maracas",
-        "ru": "Маракасы"
+        "ru": "Маракасы",
+        "es": "Maracas",
+        "fr": "Maracas",
+        "de": "Maracas"
       }
     },
     {
@@ -4198,7 +5404,10 @@
       "translations": {
         "hy": "Ֆլեյտա",
         "en": "Flute",
-        "ru": "Флейта"
+        "ru": "Флейта",
+        "es": "Flauta",
+        "fr": "Flûte",
+        "de": "Flöte"
       }
     },
     {
@@ -4208,7 +5417,10 @@
       "translations": {
         "hy": "Ակորդեոն",
         "en": "Accordion",
-        "ru": "Аккордеон"
+        "ru": "Аккордеон",
+        "es": "Acordeón",
+        "fr": "Accordéon",
+        "de": "Akkordeon"
       }
     },
     {
@@ -4218,7 +5430,10 @@
       "translations": {
         "hy": "Բանջո",
         "en": "Banjo",
-        "ru": "Банджо"
+        "ru": "Банджо",
+        "es": "Banjo",
+        "fr": "Banjo",
+        "de": "Banjo"
       }
     },
     {
@@ -4228,7 +5443,10 @@
       "translations": {
         "hy": "Դպրոց",
         "en": "School",
-        "ru": "Школа"
+        "ru": "Школа",
+        "es": "Escuela",
+        "fr": "École",
+        "de": "Schule"
       }
     },
     {
@@ -4238,7 +5456,10 @@
       "translations": {
         "hy": "Հիվանդանոց",
         "en": "Hospital",
-        "ru": "Больница"
+        "ru": "Больница",
+        "es": "Hospital",
+        "fr": "Hôpital",
+        "de": "Krankenhaus"
       }
     },
     {
@@ -4248,7 +5469,10 @@
       "translations": {
         "hy": "Բանկ",
         "en": "Bank",
-        "ru": "Банк"
+        "ru": "Банк",
+        "es": "Banco",
+        "fr": "Banque",
+        "de": "Bank"
       }
     },
     {
@@ -4258,7 +5482,10 @@
       "translations": {
         "hy": "Հյուրանոց",
         "en": "Hotel",
-        "ru": "Отель"
+        "ru": "Отель",
+        "es": "Hotel",
+        "fr": "Hôtel",
+        "de": "Hotel"
       }
     },
     {
@@ -4268,7 +5495,10 @@
       "translations": {
         "hy": "Խանութ",
         "en": "Shop",
-        "ru": "Магазин"
+        "ru": "Магазин",
+        "es": "Tienda",
+        "fr": "Magasin",
+        "de": "Geschäft"
       }
     },
     {
@@ -4278,7 +5508,10 @@
       "translations": {
         "hy": "Գործարան",
         "en": "Factory",
-        "ru": "Завод"
+        "ru": "Завод",
+        "es": "Fábrica",
+        "fr": "Usine",
+        "de": "Fabrik"
       }
     },
     {
@@ -4288,7 +5521,10 @@
       "translations": {
         "hy": "Ամրոց",
         "en": "Castle",
-        "ru": "Замок"
+        "ru": "Замок",
+        "es": "Castillo",
+        "fr": "Château",
+        "de": "Schloss"
       }
     },
     {
@@ -4298,7 +5534,10 @@
       "translations": {
         "hy": "Եկեղեցի",
         "en": "Church",
-        "ru": "Церковь"
+        "ru": "Церковь",
+        "es": "Iglesia",
+        "fr": "Église",
+        "de": "Kirche"
       }
     },
     {
@@ -4308,7 +5547,10 @@
       "translations": {
         "hy": "Մզկիթ",
         "en": "Mosque",
-        "ru": "Мечеть"
+        "ru": "Мечеть",
+        "es": "Mezquita",
+        "fr": "Mosquée",
+        "de": "Moschee"
       }
     },
     {
@@ -4318,7 +5560,10 @@
       "translations": {
         "hy": "Գրասենյակ",
         "en": "Office",
-        "ru": "Офис"
+        "ru": "Офис",
+        "es": "Oficina",
+        "fr": "Bureau",
+        "de": "Büro"
       }
     },
     {
@@ -4328,7 +5573,10 @@
       "translations": {
         "hy": "Այգով տուն",
         "en": "House with garden",
-        "ru": "Дом с садом"
+        "ru": "Дом с садом",
+        "es": "Casa con jardín",
+        "fr": "Maison avec jardin",
+        "de": "Haus mit Garten"
       }
     },
     {
@@ -4338,7 +5586,10 @@
       "translations": {
         "hy": "Վրան",
         "en": "Tent",
-        "ru": "Палатка"
+        "ru": "Палатка",
+        "es": "Tienda de campaña",
+        "fr": "Tente",
+        "de": "Zelt"
       }
     },
     {
@@ -4348,7 +5599,10 @@
       "translations": {
         "hy": "Մարզադաշտ",
         "en": "Stadium",
-        "ru": "Стадион"
+        "ru": "Стадион",
+        "es": "Estadio",
+        "fr": "Stade",
+        "de": "Stadion"
       }
     },
     {
@@ -4358,7 +5612,10 @@
       "translations": {
         "hy": "Կամուրջ",
         "en": "Bridge",
-        "ru": "Мост"
+        "ru": "Мост",
+        "es": "Puente",
+        "fr": "Pont",
+        "de": "Brücke"
       }
     },
     {
@@ -4368,7 +5625,10 @@
       "translations": {
         "hy": "Շատրվան",
         "en": "Fountain",
-        "ru": "Фонтан"
+        "ru": "Фонтан",
+        "es": "Fuente",
+        "fr": "Fontaine",
+        "de": "Brunnen"
       }
     },
     {
@@ -4378,7 +5638,10 @@
       "translations": {
         "hy": "Կրկես",
         "en": "Circus",
-        "ru": "Цирк"
+        "ru": "Цирк",
+        "es": "Circo",
+        "fr": "Cirque",
+        "de": "Zirkus"
       }
     },
     {
@@ -4388,7 +5651,10 @@
       "translations": {
         "hy": "Փարոս",
         "en": "Lighthouse",
-        "ru": "Маяк"
+        "ru": "Маяк",
+        "es": "Faro",
+        "fr": "Phare",
+        "de": "Leuchtturm"
       }
     },
     {
@@ -4398,7 +5664,10 @@
       "translations": {
         "hy": "Արձան",
         "en": "Statue",
-        "ru": "Статуя"
+        "ru": "Статуя",
+        "es": "Estatua",
+        "fr": "Statue",
+        "de": "Statue"
       }
     },
     {
@@ -4408,7 +5677,10 @@
       "translations": {
         "hy": "Ամպ",
         "en": "Cloud",
-        "ru": "Облако"
+        "ru": "Облако",
+        "es": "Nube",
+        "fr": "Nuage",
+        "de": "Wolke"
       }
     },
     {
@@ -4418,7 +5690,10 @@
       "translations": {
         "hy": "Մասամբ ամպամած",
         "en": "Partly cloudy",
-        "ru": "Переменная облачность"
+        "ru": "Переменная облачность",
+        "es": "Parcialmente nublado",
+        "fr": "Partiellement nuageux",
+        "de": "Teils bewölkt"
       }
     },
     {
@@ -4428,7 +5703,10 @@
       "translations": {
         "hy": "Ձյան փաթիլ",
         "en": "Snowflake",
-        "ru": "Снежинка"
+        "ru": "Снежинка",
+        "es": "Copo de nieve",
+        "fr": "Flocon de neige",
+        "de": "Schneeflocke"
       }
     },
     {
@@ -4438,7 +5716,10 @@
       "translations": {
         "hy": "Ձնեմարդ",
         "en": "Snowman",
-        "ru": "Снеговик"
+        "ru": "Снеговик",
+        "es": "Muñeco de nieve",
+        "fr": "Bonhomme de neige",
+        "de": "Schneemann"
       }
     },
     {
@@ -4448,7 +5729,10 @@
       "translations": {
         "hy": "Ամպրոպ",
         "en": "Thunderstorm",
-        "ru": "Гроза"
+        "ru": "Гроза",
+        "es": "Tormenta",
+        "fr": "Orage",
+        "de": "Gewitter"
       }
     },
     {
@@ -4458,7 +5742,10 @@
       "translations": {
         "hy": "Կայծակ",
         "en": "Lightning",
-        "ru": "Молния"
+        "ru": "Молния",
+        "es": "Rayo",
+        "fr": "Éclair",
+        "de": "Blitz"
       }
     },
     {
@@ -4468,7 +5755,10 @@
       "translations": {
         "hy": "Պտտահողմ",
         "en": "Tornado",
-        "ru": "Торнадо"
+        "ru": "Торнадо",
+        "es": "Tornado",
+        "fr": "Tornade",
+        "de": "Tornado"
       }
     },
     {
@@ -4478,7 +5768,10 @@
       "translations": {
         "hy": "Մառախուղ",
         "en": "Fog",
-        "ru": "Туман"
+        "ru": "Туман",
+        "es": "Niebla",
+        "fr": "Brouillard",
+        "de": "Nebel"
       }
     },
     {
@@ -4488,7 +5781,10 @@
       "translations": {
         "hy": "Ծիածան",
         "en": "Rainbow",
-        "ru": "Радуга"
+        "ru": "Радуга",
+        "es": "Arcoíris",
+        "fr": "Arc-en-ciel",
+        "de": "Regenbogen"
       }
     },
     {
@@ -4498,7 +5794,10 @@
       "translations": {
         "hy": "Ջերմաչափ",
         "en": "Thermometer",
-        "ru": "Термометр"
+        "ru": "Термометр",
+        "es": "Termómetro",
+        "fr": "Thermomètre",
+        "de": "Thermometer"
       }
     },
     {
@@ -4508,7 +5807,10 @@
       "translations": {
         "hy": "Քամի",
         "en": "Wind",
-        "ru": "Ветер"
+        "ru": "Ветер",
+        "es": "Viento",
+        "fr": "Vent",
+        "de": "Wind"
       }
     },
     {
@@ -4518,7 +5820,10 @@
       "translations": {
         "hy": "Արևածագ",
         "en": "Sunrise",
-        "ru": "Восход"
+        "ru": "Восход",
+        "es": "Amanecer",
+        "fr": "Lever du soleil",
+        "de": "Sonnenaufgang"
       }
     },
     {
@@ -4528,7 +5833,10 @@
       "translations": {
         "hy": "Ցայտ",
         "en": "Splash",
-        "ru": "Брызги"
+        "ru": "Брызги",
+        "es": "Salpicadura",
+        "fr": "Éclaboussure",
+        "de": "Spritzer"
       }
     },
     {
@@ -4538,7 +5846,10 @@
       "translations": {
         "hy": "Հրթիռ",
         "en": "Rocket",
-        "ru": "Ракета"
+        "ru": "Ракета",
+        "es": "Cohete",
+        "fr": "Fusée",
+        "de": "Rakete"
       }
     },
     {
@@ -4548,7 +5859,10 @@
       "translations": {
         "hy": "Երկիր",
         "en": "Earth",
-        "ru": "Земля"
+        "ru": "Земля",
+        "es": "Tierra",
+        "fr": "Terre",
+        "de": "Erde"
       }
     },
     {
@@ -4558,7 +5872,10 @@
       "translations": {
         "hy": "Մոլորակ",
         "en": "Planet",
-        "ru": "Планета"
+        "ru": "Планета",
+        "es": "Planeta",
+        "fr": "Planète",
+        "de": "Planet"
       }
     },
     {
@@ -4568,7 +5885,10 @@
       "translations": {
         "hy": "Լիալուսին",
         "en": "Full moon",
-        "ru": "Полная луна"
+        "ru": "Полная луна",
+        "es": "Luna llena",
+        "fr": "Pleine lune",
+        "de": "Vollmond"
       }
     },
     {
@@ -4578,7 +5898,10 @@
       "translations": {
         "hy": "Գիսաստղ",
         "en": "Comet",
-        "ru": "Комета"
+        "ru": "Комета",
+        "es": "Cometa",
+        "fr": "Comète",
+        "de": "Komet"
       }
     },
     {
@@ -4588,7 +5911,10 @@
       "translations": {
         "hy": "Գալակտիկա",
         "en": "Galaxy",
-        "ru": "Галактика"
+        "ru": "Галактика",
+        "es": "Galaxia",
+        "fr": "Galaxie",
+        "de": "Galaxie"
       }
     },
     {
@@ -4598,7 +5924,10 @@
       "translations": {
         "hy": "ՉԹՕ",
         "en": "UFO",
-        "ru": "НЛО"
+        "ru": "НЛО",
+        "es": "OVNI",
+        "fr": "OVNI",
+        "de": "UFO"
       }
     },
     {
@@ -4608,7 +5937,10 @@
       "translations": {
         "hy": "Արբանյակ",
         "en": "Satellite",
-        "ru": "Спутник"
+        "ru": "Спутник",
+        "es": "Satélite",
+        "fr": "Satellite",
+        "de": "Satellit"
       }
     },
     {
@@ -4618,7 +5950,10 @@
       "translations": {
         "hy": "Փայլփլուն",
         "en": "Sparkles",
-        "ru": "Блёстки"
+        "ru": "Блёстки",
+        "es": "Destellos",
+        "fr": "Étincelles",
+        "de": "Funkeln"
       }
     },
     {
@@ -4628,7 +5963,10 @@
       "translations": {
         "hy": "Երկնաքար",
         "en": "Shooting star",
-        "ru": "Падающая звезда"
+        "ru": "Падающая звезда",
+        "es": "Estrella fugaz",
+        "fr": "Étoile filante",
+        "de": "Sternschnuppe"
       }
     },
     {
@@ -4638,7 +5976,10 @@
       "translations": {
         "hy": "Տաքսի",
         "en": "Taxi",
-        "ru": "Такси"
+        "ru": "Такси",
+        "es": "Taxi",
+        "fr": "Taxi",
+        "de": "Taxi"
       }
     },
     {
@@ -4648,7 +5989,10 @@
       "translations": {
         "hy": "Ոստիկանական մեքենա",
         "en": "Police car",
-        "ru": "Полицейская машина"
+        "ru": "Полицейская машина",
+        "es": "Coche de policía",
+        "fr": "Voiture de police",
+        "de": "Polizeiauto"
       }
     },
     {
@@ -4658,7 +6002,10 @@
       "translations": {
         "hy": "Հրշեջ մեքենա",
         "en": "Fire truck",
-        "ru": "Пожарная машина"
+        "ru": "Пожарная машина",
+        "es": "Camión de bomberos",
+        "fr": "Camion de pompiers",
+        "de": "Feuerwehrauto"
       }
     },
     {
@@ -4668,7 +6015,10 @@
       "translations": {
         "hy": "Շտապօգնություն",
         "en": "Ambulance",
-        "ru": "Скорая помощь"
+        "ru": "Скорая помощь",
+        "es": "Ambulancia",
+        "fr": "Ambulance",
+        "de": "Krankenwagen"
       }
     },
     {
@@ -4678,7 +6028,10 @@
       "translations": {
         "hy": "Տրակտոր",
         "en": "Tractor",
-        "ru": "Трактор"
+        "ru": "Трактор",
+        "es": "Tractor",
+        "fr": "Tracteur",
+        "de": "Traktor"
       }
     },
     {
@@ -4688,7 +6041,10 @@
       "translations": {
         "hy": "Մոտոցիկլ",
         "en": "Motorcycle",
-        "ru": "Мотоцикл"
+        "ru": "Мотоцикл",
+        "es": "Motocicleta",
+        "fr": "Moto",
+        "de": "Motorrad"
       }
     },
     {
@@ -4698,7 +6054,10 @@
       "translations": {
         "hy": "Մոպեդ",
         "en": "Scooter",
-        "ru": "Мопед"
+        "ru": "Мопед",
+        "es": "Motoneta",
+        "fr": "Scooter",
+        "de": "Motorroller"
       }
     },
     {
@@ -4708,7 +6067,10 @@
       "translations": {
         "hy": "Ինքնագլորիկ",
         "en": "Kick scooter",
-        "ru": "Самокат"
+        "ru": "Самокат",
+        "es": "Patinete",
+        "fr": "Trottinette",
+        "de": "Roller"
       }
     },
     {
@@ -4718,7 +6080,10 @@
       "translations": {
         "hy": "Ուղղաթիռ",
         "en": "Helicopter",
-        "ru": "Вертолёт"
+        "ru": "Вертолёт",
+        "es": "Helicóptero",
+        "fr": "Hélicoptère",
+        "de": "Hubschrauber"
       }
     },
     {
@@ -4728,7 +6093,10 @@
       "translations": {
         "hy": "Նավ",
         "en": "Ship",
-        "ru": "Корабль"
+        "ru": "Корабль",
+        "es": "Barco",
+        "fr": "Navire",
+        "de": "Schiff"
       }
     },
     {
@@ -4738,7 +6106,10 @@
       "translations": {
         "hy": "Առագաստանավ",
         "en": "Sailboat",
-        "ru": "Парусник"
+        "ru": "Парусник",
+        "es": "Velero",
+        "fr": "Voilier",
+        "de": "Segelboot"
       }
     },
     {
@@ -4748,7 +6119,10 @@
       "translations": {
         "hy": "Տրամվայ",
         "en": "Tram",
-        "ru": "Трамвай"
+        "ru": "Трамвай",
+        "es": "Tranvía",
+        "fr": "Tramway",
+        "de": "Straßenbahn"
       }
     },
     {
@@ -4758,7 +6132,10 @@
       "translations": {
         "hy": "Մետրո",
         "en": "Metro",
-        "ru": "Метро"
+        "ru": "Метро",
+        "es": "Metro",
+        "fr": "Métro",
+        "de": "U-Bahn"
       }
     },
     {
@@ -4768,7 +6145,10 @@
       "translations": {
         "hy": "Մոնոռելս",
         "en": "Monorail",
-        "ru": "Монорельс"
+        "ru": "Монорельс",
+        "es": "Monorraíl",
+        "fr": "Monorail",
+        "de": "Einschienenbahn"
       }
     },
     {
@@ -4778,7 +6158,10 @@
       "translations": {
         "hy": "Սքեյթբորդ",
         "en": "Skateboard",
-        "ru": "Скейтборд"
+        "ru": "Скейтборд",
+        "es": "Monopatín",
+        "fr": "Skateboard",
+        "de": "Skateboard"
       }
     },
     {
@@ -4788,7 +6171,10 @@
       "translations": {
         "hy": "Բենզալցակայան",
         "en": "Fuel pump",
-        "ru": "Заправка"
+        "ru": "Заправка",
+        "es": "Surtidor",
+        "fr": "Pompe à essence",
+        "de": "Zapfsäule"
       }
     },
     {
@@ -4798,7 +6184,10 @@
       "translations": {
         "hy": "Լուսացույց",
         "en": "Traffic light",
-        "ru": "Светофор"
+        "ru": "Светофор",
+        "es": "Semáforo",
+        "fr": "Feu de circulation",
+        "de": "Ampel"
       }
     },
     {
@@ -4808,7 +6197,10 @@
       "translations": {
         "hy": "Խարիսխ",
         "en": "Anchor",
-        "ru": "Якорь"
+        "ru": "Якорь",
+        "es": "Ancla",
+        "fr": "Ancre",
+        "de": "Anker"
       }
     },
     {
@@ -4818,7 +6210,10 @@
       "translations": {
         "hy": "Միկրոավտոբուս",
         "en": "Minibus",
-        "ru": "Микроавтобус"
+        "ru": "Микроавтобус",
+        "es": "Furgoneta",
+        "fr": "Minibus",
+        "de": "Kleinbus"
       }
     },
     {
@@ -4828,7 +6223,10 @@
       "translations": {
         "hy": "Բեռնատար",
         "en": "Pickup truck",
-        "ru": "Пикап"
+        "ru": "Пикап",
+        "es": "Camioneta",
+        "fr": "Pick-up",
+        "de": "Pick-up"
       }
     },
     {
@@ -4838,7 +6236,10 @@
       "translations": {
         "hy": "Ռիկշա",
         "en": "Rickshaw",
-        "ru": "Рикша"
+        "ru": "Рикша",
+        "es": "Rickshaw",
+        "fr": "Pousse-pousse",
+        "de": "Rikscha"
       }
     },
     {
@@ -4848,7 +6249,10 @@
       "translations": {
         "hy": "Արագ գնացք",
         "en": "Fast train",
-        "ru": "Скоростной поезд"
+        "ru": "Скоростной поезд",
+        "es": "Tren rápido",
+        "fr": "Train rapide",
+        "de": "Schnellzug"
       }
     },
     {
@@ -4858,7 +6262,10 @@
       "translations": {
         "hy": "Շոգեքարշ",
         "en": "Steam train",
-        "ru": "Паровоз"
+        "ru": "Паровоз",
+        "es": "Tren de vapor",
+        "fr": "Train à vapeur",
+        "de": "Dampflok"
       }
     },
     {
@@ -4868,7 +6275,10 @@
       "translations": {
         "hy": "Ճամպրուկ",
         "en": "Luggage",
-        "ru": "Чемодан"
+        "ru": "Чемодан",
+        "es": "Equipaje",
+        "fr": "Bagage",
+        "de": "Gepäck"
       }
     },
     {
@@ -4878,7 +6288,10 @@
       "translations": {
         "hy": "Նստատեղ",
         "en": "Seat",
-        "ru": "Сиденье"
+        "ru": "Сиденье",
+        "es": "Asiento",
+        "fr": "Siège",
+        "de": "Sitz"
       }
     },
     {
@@ -4888,7 +6301,10 @@
       "translations": {
         "hy": "Կակտուս",
         "en": "Cactus",
-        "ru": "Кактус"
+        "ru": "Кактус",
+        "es": "Cactus",
+        "fr": "Cactus",
+        "de": "Kaktus"
       }
     },
     {
@@ -4898,7 +6314,10 @@
       "translations": {
         "hy": "Արմավենի",
         "en": "Palm tree",
-        "ru": "Пальма"
+        "ru": "Пальма",
+        "es": "Palmera",
+        "fr": "Palmier",
+        "de": "Palme"
       }
     },
     {
@@ -4908,7 +6327,10 @@
       "translations": {
         "hy": "Սոճի",
         "en": "Pine tree",
-        "ru": "Сосна"
+        "ru": "Сосна",
+        "es": "Pino",
+        "fr": "Sapin",
+        "de": "Tanne"
       }
     },
     {
@@ -4918,7 +6340,10 @@
       "translations": {
         "hy": "Տերև",
         "en": "Leaf",
-        "ru": "Лист"
+        "ru": "Лист",
+        "es": "Hoja",
+        "fr": "Feuille",
+        "de": "Blatt"
       }
     },
     {
@@ -4928,7 +6353,10 @@
       "translations": {
         "hy": "Թափված տերևներ",
         "en": "Fallen leaves",
-        "ru": "Опавшие листья"
+        "ru": "Опавшие листья",
+        "es": "Hojas caídas",
+        "fr": "Feuilles mortes",
+        "de": "Laub"
       }
     },
     {
@@ -4938,7 +6366,10 @@
       "translations": {
         "hy": "Երեքնուկ",
         "en": "Clover",
-        "ru": "Клевер"
+        "ru": "Клевер",
+        "es": "Trébol",
+        "fr": "Trèfle",
+        "de": "Klee"
       }
     },
     {
@@ -4948,7 +6379,10 @@
       "translations": {
         "hy": "Ծիլ",
         "en": "Seedling",
-        "ru": "Росток"
+        "ru": "Росток",
+        "es": "Brote",
+        "fr": "Pousse",
+        "de": "Setzling"
       }
     },
     {
@@ -4958,7 +6392,10 @@
       "translations": {
         "hy": "Խոտ",
         "en": "Herb",
-        "ru": "Трава"
+        "ru": "Трава",
+        "es": "Hierba",
+        "fr": "Herbe",
+        "de": "Kraut"
       }
     },
     {
@@ -4968,7 +6405,10 @@
       "translations": {
         "hy": "Կակաչ",
         "en": "Tulip",
-        "ru": "Тюльпан"
+        "ru": "Тюльпан",
+        "es": "Tulipán",
+        "fr": "Tulipe",
+        "de": "Tulpe"
       }
     },
     {
@@ -4978,7 +6418,10 @@
       "translations": {
         "hy": "Վարդ",
         "en": "Rose",
-        "ru": "Роза"
+        "ru": "Роза",
+        "es": "Rosa",
+        "fr": "Rose",
+        "de": "Rose"
       }
     },
     {
@@ -4988,7 +6431,10 @@
       "translations": {
         "hy": "Արևածաղիկ",
         "en": "Sunflower",
-        "ru": "Подсолнух"
+        "ru": "Подсолнух",
+        "es": "Girasol",
+        "fr": "Tournesol",
+        "de": "Sonnenblume"
       }
     },
     {
@@ -4998,7 +6444,10 @@
       "translations": {
         "hy": "Կարմիր վարդ",
         "en": "Hibiscus",
-        "ru": "Гибискус"
+        "ru": "Гибискус",
+        "es": "Hibisco",
+        "fr": "Hibiscus",
+        "de": "Hibiskus"
       }
     },
     {
@@ -5008,7 +6457,10 @@
       "translations": {
         "hy": "Ծաղիկ",
         "en": "Blossom",
-        "ru": "Цветок"
+        "ru": "Цветок",
+        "es": "Flor",
+        "fr": "Fleur",
+        "de": "Blüte"
       }
     },
     {
@@ -5018,7 +6470,10 @@
       "translations": {
         "hy": "Ալիք",
         "en": "Wave",
-        "ru": "Волна"
+        "ru": "Волна",
+        "es": "Ola",
+        "fr": "Vague",
+        "de": "Welle"
       }
     },
     {
@@ -5028,7 +6483,10 @@
       "translations": {
         "hy": "Հրաբուխ",
         "en": "Volcano",
-        "ru": "Вулкан"
+        "ru": "Вулкан",
+        "es": "Volcán",
+        "fr": "Volcan",
+        "de": "Vulkan"
       }
     },
     {
@@ -5038,7 +6496,10 @@
       "translations": {
         "hy": "Անապատ",
         "en": "Desert",
-        "ru": "Пустыня"
+        "ru": "Пустыня",
+        "es": "Desierto",
+        "fr": "Désert",
+        "de": "Wüste"
       }
     },
     {
@@ -5048,7 +6509,10 @@
       "translations": {
         "hy": "Լողափ",
         "en": "Beach",
-        "ru": "Пляж"
+        "ru": "Пляж",
+        "es": "Playa",
+        "fr": "Plage",
+        "de": "Strand"
       }
     },
     {
@@ -5058,7 +6522,10 @@
       "translations": {
         "hy": "Կղզի",
         "en": "Island",
-        "ru": "Остров"
+        "ru": "Остров",
+        "es": "Isla",
+        "fr": "Île",
+        "de": "Insel"
       }
     },
     {
@@ -5068,7 +6535,10 @@
       "translations": {
         "hy": "Կրակ",
         "en": "Fire",
-        "ru": "Огонь"
+        "ru": "Огонь",
+        "es": "Fuego",
+        "fr": "Feu",
+        "de": "Feuer"
       }
     },
     {
@@ -5078,7 +6548,10 @@
       "translations": {
         "hy": "Ծաղկաման",
         "en": "Potted plant",
-        "ru": "Растение в горшке"
+        "ru": "Растение в горшке",
+        "es": "Planta en maceta",
+        "fr": "Plante en pot",
+        "de": "Topfpflanze"
       }
     },
     {
@@ -5088,7 +6561,10 @@
       "translations": {
         "hy": "Ծաղկեփունջ",
         "en": "Bouquet",
-        "ru": "Букет"
+        "ru": "Букет",
+        "es": "Ramo",
+        "fr": "Bouquet",
+        "de": "Blumenstrauß"
       }
     },
     {
@@ -5098,7 +6574,10 @@
       "translations": {
         "hy": "Թխկու տերև",
         "en": "Maple leaf",
-        "ru": "Кленовый лист"
+        "ru": "Кленовый лист",
+        "es": "Hoja de arce",
+        "fr": "Feuille d'érable",
+        "de": "Ahornblatt"
       }
     },
     {
@@ -5108,7 +6587,10 @@
       "translations": {
         "hy": "Արջուկ",
         "en": "Teddy bear",
-        "ru": "Мишка"
+        "ru": "Мишка",
+        "es": "Osito de peluche",
+        "fr": "Ours en peluche",
+        "de": "Teddybär"
       }
     },
     {
@@ -5118,7 +6600,10 @@
       "translations": {
         "hy": "Փուչիկ",
         "en": "Balloon",
-        "ru": "Шарик"
+        "ru": "Шарик",
+        "es": "Globo",
+        "fr": "Ballon",
+        "de": "Luftballon"
       }
     },
     {
@@ -5128,7 +6613,10 @@
       "translations": {
         "hy": "Ռոբոտ",
         "en": "Robot",
-        "ru": "Робот"
+        "ru": "Робот",
+        "es": "Robot",
+        "fr": "Robot",
+        "de": "Roboter"
       }
     },
     {
@@ -5138,7 +6626,10 @@
       "translations": {
         "hy": "Վիդեոխաղ",
         "en": "Video game",
-        "ru": "Видеоигра"
+        "ru": "Видеоигра",
+        "es": "Videojuego",
+        "fr": "Jeu vidéo",
+        "de": "Videospiel"
       }
     },
     {
@@ -5148,7 +6639,10 @@
       "translations": {
         "hy": "Զառ",
         "en": "Dice",
-        "ru": "Кубик"
+        "ru": "Кубик",
+        "es": "Dado",
+        "fr": "Dé",
+        "de": "Würfel"
       }
     },
     {
@@ -5158,7 +6652,10 @@
       "translations": {
         "hy": "Հանելուկ",
         "en": "Puzzle",
-        "ru": "Пазл"
+        "ru": "Пазл",
+        "es": "Rompecabezas",
+        "fr": "Puzzle",
+        "de": "Puzzle"
       }
     },
     {
@@ -5168,7 +6665,10 @@
       "translations": {
         "hy": "Յո-յո",
         "en": "Yo-yo",
-        "ru": "Йо-йо"
+        "ru": "Йо-йо",
+        "es": "Yoyó",
+        "fr": "Yo-yo",
+        "de": "Jojo"
       }
     },
     {
@@ -5178,7 +6678,10 @@
       "translations": {
         "hy": "Մատրյոշկա",
         "en": "Nesting doll",
-        "ru": "Матрёшка"
+        "ru": "Матрёшка",
+        "es": "Matrioska",
+        "fr": "Poupée russe",
+        "de": "Matroschka"
       }
     },
     {
@@ -5188,7 +6691,10 @@
       "translations": {
         "hy": "Խաղարկիչ",
         "en": "Slot machine",
-        "ru": "Автомат"
+        "ru": "Автомат",
+        "es": "Máquina tragamonedas",
+        "fr": "Machine à sous",
+        "de": "Spielautomat"
       }
     },
     {
@@ -5198,7 +6704,10 @@
       "translations": {
         "hy": "Ծաղրածու",
         "en": "Clown",
-        "ru": "Клоун"
+        "ru": "Клоун",
+        "es": "Payaso",
+        "fr": "Clown",
+        "de": "Clown"
       }
     },
     {
@@ -5208,7 +6717,10 @@
       "translations": {
         "hy": "Կախարդական փայտիկ",
         "en": "Magic wand",
-        "ru": "Волшебная палочка"
+        "ru": "Волшебная палочка",
+        "es": "Varita mágica",
+        "fr": "Baguette magique",
+        "de": "Zauberstab"
       }
     },
     {
@@ -5218,7 +6730,10 @@
       "translations": {
         "hy": "Զանգակ",
         "en": "Wind chime",
-        "ru": "Колокольчик"
+        "ru": "Колокольчик",
+        "es": "Campanas de viento",
+        "fr": "Carillon",
+        "de": "Windspiel"
       }
     },
     {
@@ -5228,7 +6743,10 @@
       "translations": {
         "hy": "Մուրճ",
         "en": "Hammer",
-        "ru": "Молоток"
+        "ru": "Молоток",
+        "es": "Martillo",
+        "fr": "Marteau",
+        "de": "Hammer"
       }
     },
     {
@@ -5238,7 +6756,10 @@
       "translations": {
         "hy": "Բանալի",
         "en": "Wrench",
-        "ru": "Гаечный ключ"
+        "ru": "Гаечный ключ",
+        "es": "Llave inglesa",
+        "fr": "Clé",
+        "de": "Schraubenschlüssel"
       }
     },
     {
@@ -5248,7 +6769,10 @@
       "translations": {
         "hy": "Պտուտակահան",
         "en": "Screwdriver",
-        "ru": "Отвёртка"
+        "ru": "Отвёртка",
+        "es": "Destornillador",
+        "fr": "Tournevis",
+        "de": "Schraubenzieher"
       }
     },
     {
@@ -5258,7 +6782,10 @@
       "translations": {
         "hy": "Ընկույզ և պտուտակ",
         "en": "Nut and bolt",
-        "ru": "Гайка и болт"
+        "ru": "Гайка и болт",
+        "es": "Tuerca y tornillo",
+        "fr": "Écrou et boulon",
+        "de": "Schraube und Mutter"
       }
     },
     {
@@ -5268,7 +6795,10 @@
       "translations": {
         "hy": "Ատամնանիվ",
         "en": "Gear",
-        "ru": "Шестерёнка"
+        "ru": "Шестерёнка",
+        "es": "Engranaje",
+        "fr": "Engrenage",
+        "de": "Zahnrad"
       }
     },
     {
@@ -5278,7 +6808,10 @@
       "translations": {
         "hy": "Սղոց",
         "en": "Saw",
-        "ru": "Пила"
+        "ru": "Пила",
+        "es": "Sierra",
+        "fr": "Scie",
+        "de": "Säge"
       }
     },
     {
@@ -5288,7 +6821,10 @@
       "translations": {
         "hy": "Կացին",
         "en": "Axe",
-        "ru": "Топор"
+        "ru": "Топор",
+        "es": "Hacha",
+        "fr": "Hache",
+        "de": "Axt"
       }
     },
     {
@@ -5298,7 +6834,10 @@
       "translations": {
         "hy": "Բրիչ",
         "en": "Pick",
-        "ru": "Кирка"
+        "ru": "Кирка",
+        "es": "Pico",
+        "fr": "Pioche",
+        "de": "Spitzhacke"
       }
     },
     {
@@ -5308,7 +6847,10 @@
       "translations": {
         "hy": "Աղյուս",
         "en": "Brick",
-        "ru": "Кирпич"
+        "ru": "Кирпич",
+        "es": "Ladrillo",
+        "fr": "Brique",
+        "de": "Ziegel"
       }
     },
     {
@@ -5318,7 +6860,10 @@
       "translations": {
         "hy": "Գործիքատուփ",
         "en": "Toolbox",
-        "ru": "Ящик с инструментами"
+        "ru": "Ящик с инструментами",
+        "es": "Caja de herramientas",
+        "fr": "Boîte à outils",
+        "de": "Werkzeugkasten"
       }
     },
     {
@@ -5328,7 +6873,10 @@
       "translations": {
         "hy": "Սանդուղք",
         "en": "Ladder",
-        "ru": "Лестница"
+        "ru": "Лестница",
+        "es": "Escalera",
+        "fr": "Échelle",
+        "de": "Leiter"
       }
     },
     {
@@ -5338,7 +6886,10 @@
       "translations": {
         "hy": "Շղթա",
         "en": "Chains",
-        "ru": "Цепь"
+        "ru": "Цепь",
+        "es": "Cadenas",
+        "fr": "Chaînes",
+        "de": "Ketten"
       }
     }
   ]
