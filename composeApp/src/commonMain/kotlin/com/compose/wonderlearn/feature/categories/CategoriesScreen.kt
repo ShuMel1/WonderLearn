@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +33,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.Category
 import com.compose.wonderlearn.ui.AppStrings
+import com.compose.wonderlearn.ui.LocalLanguage
+import com.compose.wonderlearn.ui.LocalNativeLanguage
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.colorForCategory
@@ -94,12 +97,25 @@ private fun CategoryCard(category: Category, onClick: () -> Unit) {
           modifier = Modifier.size(50.dp),
         )
       }
-      Text(
-        AppStrings.categoryTitles[category.id]?.invoke() ?: category.title,
-        fontSize = 26.sp,
-        fontWeight = FontWeight.Bold,
-        color = onColor,
-      )
+      val localized = AppStrings.categoryTitles[category.id]
+      val learningLanguage = LocalLanguage.current
+      val nativeLanguage = LocalNativeLanguage.current
+      Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(
+          localized?.invoke() ?: category.title,
+          fontSize = 26.sp,
+          fontWeight = FontWeight.Bold,
+          color = onColor,
+        )
+        if (localized != null && learningLanguage != nativeLanguage) {
+          Text(
+            localized.forLanguage(learningLanguage),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium,
+            color = onColor.copy(alpha = 0.85f),
+          )
+        }
+      }
     }
   }
 }
