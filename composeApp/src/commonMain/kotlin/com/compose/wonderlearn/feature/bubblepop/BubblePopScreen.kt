@@ -66,7 +66,7 @@ fun BubblePopScreen(
   }
 
   Scaffold(
-    containerColor = MaterialTheme.colorScheme.background,
+    containerColor = Color.Transparent,
     topBar = { WonderTopBar(title = AppStrings.bubble_title(), onBack = onBack) },
   ) { padding ->
     Column(modifier = Modifier.fillMaxSize().padding(padding)) {

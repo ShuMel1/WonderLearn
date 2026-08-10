@@ -50,7 +50,7 @@ fun OddOneOutScreen(
 
   Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
-      containerColor = MaterialTheme.colorScheme.background,
+      containerColor = Color.Transparent,
       topBar = { WonderTopBar(title = AppStrings.odd_title(), onBack = onBack) },
     ) { padding ->
       Column(

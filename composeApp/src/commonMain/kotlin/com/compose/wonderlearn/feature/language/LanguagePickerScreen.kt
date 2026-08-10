@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,7 +48,7 @@ fun LanguagePickerScreen(
     LanguageRole.TARGET -> Res.string.language_target_title
   }
   Scaffold(
-    containerColor = MaterialTheme.colorScheme.background,
+    containerColor = Color.Transparent,
     topBar = { WonderTopBar(onBack = onBack) },
   ) { padding ->
     Column(

@@ -51,7 +51,7 @@ fun WonderTopBar(
   containerColor: Color = Color.Unspecified,
 ) {
   val accented = containerColor.isSpecified
-  val background = if (accented) containerColor else MaterialTheme.colorScheme.background
+  val background = if (accented) containerColor else Color.Transparent
   val content = if (accented) onColorFor(containerColor) else MaterialTheme.colorScheme.onBackground
 
   TopAppBar(

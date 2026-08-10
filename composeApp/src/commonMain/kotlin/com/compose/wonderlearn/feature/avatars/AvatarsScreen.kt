@@ -48,7 +48,7 @@ fun AvatarsScreen(
   val state by viewModel.state.collectAsStateWithLifecycle()
 
   Scaffold(
-    containerColor = MaterialTheme.colorScheme.background,
+    containerColor = Color.Transparent,
     topBar = { WonderTopBar(title = AppStrings.avatars_title(), onBack = onBack) },
   ) { padding ->
     Column(

@@ -68,7 +68,7 @@ fun QuizScreen(
 
   Box(modifier = Modifier.fillMaxSize()) {
   Scaffold(
-    containerColor = MaterialTheme.colorScheme.background,
+    containerColor = Color.Transparent,
     topBar = {
       WonderTopBar(
         title = when (state.mode) {

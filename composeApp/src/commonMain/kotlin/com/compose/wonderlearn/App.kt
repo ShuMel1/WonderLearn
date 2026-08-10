@@ -1,9 +1,7 @@
 package com.compose.wonderlearn
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -50,6 +48,7 @@ import com.compose.wonderlearn.ui.UnlockBar
 import com.compose.wonderlearn.ui.rememberAppLockController
 import com.compose.wonderlearn.ui.PlatformBackHandler
 import com.compose.wonderlearn.ui.theme.WonderLearnTheme
+import com.compose.wonderlearn.ui.theme.wonderBackground
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -60,8 +59,9 @@ fun App(onExit: () -> Unit = {}) {
     val native = state.nativeLanguage
     val target = state.targetLanguage
 
+    Box(Modifier.fillMaxSize().wonderBackground()) {
     when {
-      state.loading -> Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background))
+      state.loading -> {}
       native == null -> LanguagePickerScreen(role = LanguageRole.NATIVE)
       target == null -> LanguagePickerScreen(role = LanguageRole.TARGET, native = native)
       else -> {
@@ -91,6 +91,7 @@ fun App(onExit: () -> Unit = {}) {
           }
         }
       }
+    }
     }
   }
 }
