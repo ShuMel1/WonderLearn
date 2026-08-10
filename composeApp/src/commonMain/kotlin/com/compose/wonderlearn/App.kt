@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -38,14 +37,6 @@ import com.compose.wonderlearn.domain.Analytics
 import com.compose.wonderlearn.domain.GameId
 import com.compose.wonderlearn.navigation.Destination
 import com.compose.wonderlearn.ui.LocalLanguage
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import com.compose.wonderlearn.ui.LockUi
-import com.compose.wonderlearn.ui.LocalLockUi
-import com.compose.wonderlearn.ui.ParentGate
-import com.compose.wonderlearn.ui.UnlockBar
-import com.compose.wonderlearn.ui.rememberAppLockController
 import com.compose.wonderlearn.ui.PlatformBackHandler
 import com.compose.wonderlearn.ui.theme.WonderLearnTheme
 import com.compose.wonderlearn.ui.theme.wonderBackground
@@ -65,30 +56,11 @@ fun App(onExit: () -> Unit = {}) {
       native == null -> LanguagePickerScreen(role = LanguageRole.NATIVE)
       target == null -> LanguagePickerScreen(role = LanguageRole.TARGET, native = native)
       else -> {
-        val appLock = rememberAppLockController()
-        var locked by remember { mutableStateOf(false) }
-        val lockUi = LockUi(
-          supported = appLock.lockSupported,
-          locked = locked,
-          requestLock = { appLock.lock().also { if (it) locked = true } },
-          requestUnlock = { appLock.unlock(); locked = false },
-        )
         CompositionLocalProvider(
           LocalLanguage provides target,
           LocalNativeLanguage provides native,
-          LocalLockUi provides lockUi,
         ) {
-          var showUnlockGate by remember { mutableStateOf(false) }
-          Box(Modifier.fillMaxSize()) {
-            AppNavHost(onExit = onExit)
-            if (locked) UnlockBar(onUnlock = { showUnlockGate = true })
-            if (showUnlockGate) {
-              ParentGate(
-                onPass = { showUnlockGate = false; lockUi.requestUnlock() },
-                onDismiss = { showUnlockGate = false },
-              )
-            }
-          }
+          AppNavHost(onExit = onExit)
         }
       }
     }
