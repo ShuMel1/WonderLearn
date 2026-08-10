@@ -43,6 +43,7 @@ data class MemoryState(
   val matchedPairs: Int = 0,
   val totalPairs: Int = 0,
   val difficulty: Difficulty = Difficulty.EASY,
+  val muted: Boolean = false,
 ) {
   val won: Boolean get() = totalPairs > 0 && matchedPairs == totalPairs
   val columns: Int get() = difficulty.columns
@@ -78,8 +79,12 @@ class MemoryGameViewModel(
         List(2) { MemoryCard(cardId = nextId++, item = word) }
       }.shuffled()
       _state.value =
-        MemoryState(cards = cards, loading = false, totalPairs = words.size, difficulty = difficulty)
+        MemoryState(cards = cards, loading = false, totalPairs = words.size, difficulty = difficulty, muted = _state.value.muted)
     }
+  }
+
+  fun toggleSound() {
+    _state.value = _state.value.copy(muted = !_state.value.muted)
   }
 
   fun onCardClick(cardId: Int) {
@@ -116,6 +121,7 @@ class MemoryGameViewModel(
   }
 
   private fun pronounce(item: VocabularyItem) {
+    if (_state.value.muted) return
     viewModelScope.launch {
       val lang = language ?: preferences.targetLanguage().filterNotNull().first().also { language = it }
       pronouncer.pronounce(item, lang)

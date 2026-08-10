@@ -1,5 +1,6 @@
 package com.compose.wonderlearn.ui
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +50,7 @@ fun WonderTopBar(
   title: String = "",
   onBack: (() -> Unit)? = null,
   containerColor: Color = Color.Unspecified,
+  actions: @Composable RowScope.() -> Unit = {},
 ) {
   val accented = containerColor.isSpecified
   val background = if (accented) containerColor else Color.Transparent
@@ -78,10 +80,12 @@ fun WonderTopBar(
         Spacer(Modifier.width(16.dp))
       }
     },
+    actions = actions,
     colors = TopAppBarDefaults.topAppBarColors(
       containerColor = background,
       titleContentColor = content,
       navigationIconContentColor = content,
+      actionIconContentColor = content,
     ),
   )
 }
