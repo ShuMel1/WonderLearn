@@ -37,7 +37,7 @@ fun GamesScreen(
   onBubblePop: () -> Unit,
 ) {
   Scaffold(
-    containerColor = MaterialTheme.colorScheme.background,
+    containerColor = Color.Transparent,
     topBar = { WonderTopBar(title = AppStrings.games_title(), onBack = onBack) },
   ) { padding ->
     Column(

@@ -72,7 +72,7 @@ fun WordDetailScreen(
   val onAccent = onColorFor(accent)
 
   Scaffold(
-    containerColor = MaterialTheme.colorScheme.background,
+    containerColor = Color.Transparent,
     topBar = {
       WonderTopBar(
         onBack = onBack,

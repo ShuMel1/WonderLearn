@@ -83,7 +83,7 @@ fun LevelsScreen(
 
   Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
-      containerColor = MaterialTheme.colorScheme.background,
+      containerColor = Color.Transparent,
       topBar = { WonderTopBar(title = AppStrings.levels_title(), onBack = onBack) },
     ) { padding ->
       Column(

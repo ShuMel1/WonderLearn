@@ -1,7 +1,14 @@
 package com.compose.wonderlearn.feature.home
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,12 +36,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.ui.draw.clip
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
@@ -49,7 +54,6 @@ import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
-import com.compose.wonderlearn.ui.theme.wonderBackground
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,7 +124,7 @@ fun HomeScreen(
     if (previous == false && daily.goalReached) celebrateGoal = true
   }
 
-  Box(modifier = Modifier.fillMaxSize().wonderBackground()) {
+  Box(modifier = Modifier.fillMaxSize()) {
   Scaffold(
     containerColor = Color.Transparent,
   ) { padding ->
@@ -149,25 +153,32 @@ fun HomeScreen(
           )
         }
       }
-      DailyGoalCard(
-        wordsToday = daily.wordsToday,
-        dailyGoal = daily.dailyGoal,
-        goalReached = daily.goalReached,
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 8.dp),
-      )
       }
+      val avatar = accountState.activeProfile?.avatarId ?: "🦉"
+      val idle = rememberInfiniteTransition(label = "avatarIdle")
+      val scale by idle.animateFloat(
+        initialValue = 0.94f,
+        targetValue = 1.06f,
+        animationSpec = infiniteRepeatable(
+          animation = tween(1400, easing = FastOutSlowInEasing),
+          repeatMode = RepeatMode.Reverse,
+        ),
+        label = "avatarScale",
+      )
       Column(
         modifier = Modifier.fillMaxWidth().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
       ) {
-        Text("🦉", fontSize = 96.sp)
-        Text(
-          AppStrings.home_tagline(),
-          fontSize = 18.sp,
-          color = MaterialTheme.colorScheme.onSurfaceVariant,
-          textAlign = TextAlign.Center,
-          modifier = Modifier.padding(top = 8.dp),
-        )
+        Box(
+          modifier = Modifier
+            .graphicsLayer { scaleX = scale; scaleY = scale }
+            .clip(CircleShape)
+            .clickable(onClick = onAvatars)
+            .padding(12.dp),
+          contentAlignment = Alignment.Center,
+        ) {
+          Text(avatar, fontSize = 96.sp)
+        }
       }
 
       Column(
@@ -276,49 +287,6 @@ private fun StatChip(icon: String, value: String, onClick: (() -> Unit)? = null)
       fontWeight = FontWeight.Bold,
       color = MaterialTheme.colorScheme.onSurface,
     )
-  }
-}
-
-@Composable
-private fun DailyGoalCard(
-  wordsToday: Int,
-  dailyGoal: Int,
-  goalReached: Boolean,
-  modifier: Modifier = Modifier,
-) {
-  val fraction = if (dailyGoal <= 0) 1f else (wordsToday.toFloat() / dailyGoal).coerceIn(0f, 1f)
-  Card(
-    modifier = modifier,
-    shape = RoundedCornerShape(20.dp),
-    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-  ) {
-    Column(modifier = Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-      Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-      ) {
-        Text(
-          if (goalReached) AppStrings.home_goal_done() else AppStrings.home_daily_goal(),
-          fontSize = 16.sp,
-          fontWeight = FontWeight.Bold,
-          color = MaterialTheme.colorScheme.onSurface,
-        )
-        Text(
-          "$wordsToday / $dailyGoal",
-          fontSize = 16.sp,
-          fontWeight = FontWeight.Bold,
-          color = if (goalReached) Sky else MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-      }
-      LinearProgressIndicator(
-        progress = { fraction },
-        modifier = Modifier.fillMaxWidth().height(10.dp).clip(RoundedCornerShape(50)),
-        color = Sky,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-      )
-    }
   }
 }
 
