@@ -16,10 +16,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-private const val NUMBERS_CATEGORY = "numbers"
-
-private fun numberOf(emoji: String): Int = emoji.firstOrNull()?.digitToIntOrNull() ?: 10
-
 class WordListViewModel(
   val categoryId: String,
   repository: VocabularyRepository,
@@ -27,7 +23,6 @@ class WordListViewModel(
 ) : ViewModel() {
 
   val items: StateFlow<List<VocabularyItem>> = repository.itemsForCategory(categoryId)
-    .map { list -> if (categoryId == NUMBERS_CATEGORY) list.sortedBy { numberOf(it.emoji) } else list }
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
   val categoryTitle: StateFlow<String> = repository.categories()
