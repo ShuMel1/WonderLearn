@@ -26,7 +26,7 @@ class SqlDelightVocabularyRepository(
   override fun itemsForCategory(categoryId: String): Flow<List<VocabularyItem>> =
     queries.selectWordsWithTranslationsByCategory(categoryId, ::TranslationRow)
       .asFlow().mapToList(dispatcher)
-      .map { rows -> rows.toItems() }
+      .map { rows -> rows.toItems().inDisplayOrder(categoryId) }
 
   override suspend fun item(id: String): VocabularyItem? =
     withContext(dispatcher) {
@@ -45,6 +45,13 @@ class SqlDelightVocabularyRepository(
         .take(count)
     }
 }
+
+private const val NUMBERS_CATEGORY = "numbers"
+
+private fun numberOf(emoji: String): Int = emoji.firstOrNull()?.digitToIntOrNull() ?: 10
+
+private fun List<VocabularyItem>.inDisplayOrder(categoryId: String): List<VocabularyItem> =
+  if (categoryId == NUMBERS_CATEGORY) sortedBy { numberOf(it.emoji) } else this
 
 private fun CategoryEntity.toDomain() =
   Category(id = id, title = title, emoji = emoji, imageRef = imageRef)

@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "categories": [
     {
       "id": "fruits",
@@ -1541,7 +1541,7 @@
       "categoryId": "animals",
       "emoji": "🦥",
       "translations": {
-        "hy": "Ծույլ",
+        "hy": "Համրուկ",
         "en": "Sloth",
         "ru": "Ленивец",
         "es": "Perezoso",
