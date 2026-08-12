@@ -12,5 +12,8 @@ enum class GameId(val id: String) {
  * fire-and-forget: analytics can never block, slow or break the experience.
  */
 interface Analytics {
+  /** The app was launched. Fired once per cold start, and once ever as an install. */
+  fun appOpened()
+
   fun gameStarted(game: GameId)
 }

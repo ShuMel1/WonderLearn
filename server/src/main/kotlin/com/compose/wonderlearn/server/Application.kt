@@ -8,7 +8,9 @@ import com.compose.wonderlearn.shared.EventsSummaryRoute
 import com.compose.wonderlearn.shared.HealthRoute
 import com.compose.wonderlearn.shared.PrivacyRoute
 import com.compose.wonderlearn.shared.RootRoute
+import com.compose.wonderlearn.shared.StatsPageRoute
 import com.compose.wonderlearn.shared.SupportRoute
+import com.compose.wonderlearn.shared.UsageStatsRoute
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
@@ -98,6 +100,26 @@ fun Application.module(
         call.respond(HttpStatusCode.NotFound)
       } else {
         call.respond(eventStore.summary())
+      }
+    }
+
+    get<UsageStatsRoute> {
+      val authorized = !summaryToken.isNullOrBlank() &&
+        call.request.headers["Authorization"] == "Bearer $summaryToken"
+      if (!authorized) {
+        call.respond(HttpStatusCode.NotFound)
+      } else {
+        call.respond(eventStore.stats())
+      }
+    }
+
+    get<StatsPageRoute> {
+      val authorized = !summaryToken.isNullOrBlank() &&
+        call.request.queryParameters["token"] == summaryToken
+      if (!authorized) {
+        call.respond(HttpStatusCode.NotFound)
+      } else {
+        call.respondText(renderStatsPage(eventStore.stats()), ContentType.Text.Html)
       }
     }
   }

@@ -81,7 +81,7 @@ val appModule = module {
   single<Pronouncer> { DefaultPronouncer(get(), get()) }
   single { InstallId(get()) }
   single<Analytics> { HttpAnalytics(get(), get()) }
-  viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
+  viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT)), get()) }
   viewModel { AccountViewModel(get(), get(), get()) }
   viewModel { HomeViewModel(get(), get(), get()) }
   viewModel { MemoryGameViewModel(get(), get(), get(), get(), get()) }

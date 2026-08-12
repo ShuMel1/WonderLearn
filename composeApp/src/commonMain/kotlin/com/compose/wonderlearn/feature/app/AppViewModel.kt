@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.data.content.ContentSeeder
 import com.compose.wonderlearn.data.content.ContentSource
+import com.compose.wonderlearn.domain.Analytics
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,11 +25,13 @@ class AppViewModel(
   contentSeeder: ContentSeeder,
   bundledContent: ContentSource,
   remoteContent: ContentSource,
+  analytics: Analytics,
 ) : ViewModel() {
 
   private val contentReady = MutableStateFlow(false)
 
   init {
+    analytics.appOpened()
     viewModelScope.launch {
       contentSeeder.sync(bundledContent)
       contentReady.value = true

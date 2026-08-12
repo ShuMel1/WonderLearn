@@ -10,6 +10,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 private const val KEY_INSTALL_ID = "analyticsInstallId"
+private const val KEY_INSTALL_REPORTED = "analyticsInstallReported"
 
 /**
  * A random id generated once per install so usage events can be grouped without identifying the
@@ -29,6 +30,18 @@ class InstallId(
       val id = queries.selectSetting(KEY_INSTALL_ID).executeAsOneOrNull()
         ?: Uuid.random().toString().also { queries.upsertSetting(KEY_INSTALL_ID, it) }
       id.also { cached = it }
+    }
+  }
+
+  /** True exactly once per install, so an install event is reported a single time. */
+  suspend fun firstReport(): Boolean = mutex.withLock {
+    withContext(dispatcher) {
+      if (queries.selectSetting(KEY_INSTALL_REPORTED).executeAsOneOrNull() != null) {
+        false
+      } else {
+        queries.upsertSetting(KEY_INSTALL_REPORTED, "1")
+        true
+      }
     }
   }
 }

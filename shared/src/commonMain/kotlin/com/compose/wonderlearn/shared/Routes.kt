@@ -26,3 +26,9 @@ class EventsRoute
 
 @Resource("/v1/events/summary")
 class EventsSummaryRoute
+
+@Resource("/v1/stats")
+class UsageStatsRoute
+
+@Resource("/stats")
+class StatsPageRoute

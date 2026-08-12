@@ -29,27 +29,40 @@ class HttpAnalytics(
   private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + ioDispatcher),
 ) : Analytics {
 
+  override fun appOpened() {
+    if (isDebugBuild) platformLog(LOG_TAG, "app_open")
+    scope.launch {
+      postEvent(name = "app_open")
+      if (installId.firstReport()) {
+        if (isDebugBuild) platformLog(LOG_TAG, "install")
+        postEvent(name = "install")
+      }
+    }
+  }
+
   override fun gameStarted(game: GameId) = send(name = "game_start", gameId = game.id)
 
-  @OptIn(ExperimentalTime::class)
   private fun send(name: String, gameId: String? = null) {
     if (isDebugBuild) platformLog(LOG_TAG, listOfNotNull(name, gameId).joinToString(" "))
-    scope.launch {
-      try {
-        val event = AnalyticsEvent(
-          name = name,
-          gameId = gameId,
-          platform = platformName,
-          appVersion = appVersionName,
-          installId = installId.value(),
-          timestamp = Clock.System.now().toEpochMilliseconds(),
-        )
-        client.post(EventsRoute()) {
-          contentType(ContentType.Application.Json)
-          setBody(event)
-        }
-      } catch (_: Exception) {
+    scope.launch { postEvent(name, gameId) }
+  }
+
+  @OptIn(ExperimentalTime::class)
+  private suspend fun postEvent(name: String, gameId: String? = null) {
+    try {
+      val event = AnalyticsEvent(
+        name = name,
+        gameId = gameId,
+        platform = platformName,
+        appVersion = appVersionName,
+        installId = installId.value(),
+        timestamp = Clock.System.now().toEpochMilliseconds(),
+      )
+      client.post(EventsRoute()) {
+        contentType(ContentType.Application.Json)
+        setBody(event)
       }
+    } catch (_: Exception) {
     }
   }
 }

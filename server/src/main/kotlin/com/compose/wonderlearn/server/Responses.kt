@@ -25,3 +25,30 @@ data class GameCount(
   val gameId: String,
   val starts: Int,
 )
+
+@Serializable
+data class NameCount(
+  val name: String,
+  val count: Int,
+)
+
+@Serializable
+data class DayCount(
+  val day: String,
+  val count: Int,
+)
+
+@Serializable
+data class UsageStats(
+  val distinctInstalls: Int,
+  val newInstalls: Int,
+  val totalOpens: Int,
+  val opensToday: Int,
+  val activeToday: Int,
+  val activeLast7Days: Int,
+  val byPlatform: List<NameCount>,
+  val byVersion: List<NameCount>,
+  val opensPerDay: List<DayCount>,
+  val newInstallsPerDay: List<DayCount>,
+  val games: List<GameCount>,
+)
