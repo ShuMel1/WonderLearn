@@ -64,6 +64,8 @@ actual class AudioPlayer {
     }
   }
 
+  actual fun stop() = releaseCurrent()
+
   private fun releaseCurrent() {
     player?.let { current ->
       current.setOnPreparedListener(null)

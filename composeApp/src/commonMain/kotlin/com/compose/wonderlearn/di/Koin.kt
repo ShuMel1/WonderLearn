@@ -47,6 +47,7 @@ import com.compose.wonderlearn.feature.language.LanguagePickerViewModel
 import com.compose.wonderlearn.feature.learned.LearnedViewModel
 import com.compose.wonderlearn.feature.levels.LevelsViewModel
 import com.compose.wonderlearn.feature.quiz.QuizViewModel
+import com.compose.wonderlearn.feature.speak.SpeakGameViewModel
 import com.compose.wonderlearn.feature.words.WordListViewModel
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
@@ -87,6 +88,7 @@ val appModule = module {
   viewModel { MemoryGameViewModel(get(), get(), get(), get(), get()) }
   viewModel { OddOneOutViewModel(get(), get(), get()) }
   viewModel { BubblePopViewModel(get(), get(), get(), get(), get()) }
+  viewModel { SpeakGameViewModel(get(), get(), get(), get(), get(), get()) }
   viewModel { AvatarsViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }

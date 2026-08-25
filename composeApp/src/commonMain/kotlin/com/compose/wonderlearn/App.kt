@@ -30,6 +30,7 @@ import org.koin.compose.koinInject
 import com.compose.wonderlearn.feature.memory.MemoryGameScreen
 import com.compose.wonderlearn.feature.bubblepop.BubblePopScreen
 import com.compose.wonderlearn.feature.oddoneout.OddOneOutScreen
+import com.compose.wonderlearn.feature.speak.SpeakGameScreen
 import com.compose.wonderlearn.feature.avatars.AvatarsScreen
 import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
@@ -156,6 +157,7 @@ private fun AppNavHost(onExit: () -> Unit) {
         onMemoryMatch = { navController.navigate(Destination.MemoryGame()) },
         onOddOneOut = { navController.navigate(Destination.OddOneOut) },
         onBubblePop = { navController.navigate(Destination.BubblePop) },
+        onSpeak = { navController.navigate(Destination.SpeakGame) },
         onBack = { navController.popBackStack() },
       )
     }
@@ -175,6 +177,10 @@ private fun AppNavHost(onExit: () -> Unit) {
     composable<Destination.BubblePop> {
       LaunchedEffect(Unit) { analytics.gameStarted(GameId.BUBBLE_POP) }
       BubblePopScreen(onBack = { navController.popBackStack() })
+    }
+    composable<Destination.SpeakGame> {
+      LaunchedEffect(Unit) { analytics.gameStarted(GameId.SAY_THE_WORD) }
+      SpeakGameScreen(onBack = { navController.popBackStack() })
     }
     composable<Destination.Avatars> {
       AvatarsScreen(onBack = { navController.popBackStack() })

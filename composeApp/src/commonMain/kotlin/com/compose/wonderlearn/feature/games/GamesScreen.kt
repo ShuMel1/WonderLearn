@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.WonderTopBar
+import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Teal
@@ -35,6 +36,7 @@ fun GamesScreen(
   onMemoryMatch: () -> Unit,
   onOddOneOut: () -> Unit,
   onBubblePop: () -> Unit,
+  onSpeak: () -> Unit,
 ) {
   Scaffold(
     containerColor = Color.Transparent,
@@ -47,6 +49,7 @@ fun GamesScreen(
       GameCard("🧩", AppStrings.memory_title(), Grape, onMemoryMatch)
       GameCard("🔍", AppStrings.odd_title(), Teal, onOddOneOut)
       GameCard("🫧", AppStrings.bubble_title(), Sky, onBubblePop)
+      GameCard("🎤", AppStrings.speak_title(), Coral, onSpeak)
     }
   }
 }

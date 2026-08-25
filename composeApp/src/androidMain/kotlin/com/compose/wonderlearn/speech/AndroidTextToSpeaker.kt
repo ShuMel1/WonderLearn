@@ -19,4 +19,8 @@ class AndroidTextToSpeaker(context: Context) : TextToSpeaker {
     tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, text)
     return true
   }
+
+  override fun stop() {
+    if (ready) tts.stop()
+  }
 }

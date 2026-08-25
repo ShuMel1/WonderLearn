@@ -39,5 +39,8 @@ sealed interface Destination {
   data object BubblePop : Destination
 
   @Serializable
+  data object SpeakGame : Destination
+
+  @Serializable
   data object Avatars : Destination
 }

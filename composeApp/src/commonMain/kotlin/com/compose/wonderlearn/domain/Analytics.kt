@@ -5,6 +5,7 @@ enum class GameId(val id: String) {
   MEMORY_MATCH("memory_match"),
   ODD_ONE_OUT("odd_one_out"),
   BUBBLE_POP("bubble_pop"),
+  SAY_THE_WORD("say_the_word"),
 }
 
 /**

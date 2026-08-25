@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "categories": [
     {
       "id": "fruits",
@@ -371,7 +371,7 @@
       "categoryId": "animals",
       "emoji": "🐰",
       "translations": {
-        "hy": "Նապաստակ",
+        "hy": "Ճագար",
         "en": "Rabbit",
         "ru": "Кролик",
         "es": "Conejo",
@@ -1127,7 +1127,7 @@
       "translations": {
         "hy": "Հազար",
         "en": "Lettuce",
-        "ru": "Салат",
+        "ru": "Листовой салат",
         "es": "Lechuga",
         "fr": "Laitue",
         "de": "Kopfsalat"
@@ -1167,7 +1167,7 @@
         "hy": "Լոբի",
         "en": "Beans",
         "ru": "Фасоль",
-        "es": "Frijoles",
+        "es": "Judías",
         "fr": "Haricots",
         "de": "Bohnen"
       }
@@ -1528,9 +1528,9 @@
       "categoryId": "animals",
       "emoji": "🐾",
       "translations": {
-        "hy": "Թաթ",
+        "hy": "Թաթի հետքեր",
         "en": "Paw prints",
-        "ru": "Лапки",
+        "ru": "Следы лап",
         "es": "Huellas",
         "fr": "Empreintes",
         "de": "Pfotenabdrücke"
@@ -1897,7 +1897,7 @@
         "ru": "Осьминог",
         "es": "Pulpo",
         "fr": "Pieuvre",
-        "de": "Tintenfisch"
+        "de": "Krake"
       }
     },
     {
@@ -2271,7 +2271,7 @@
       "translations": {
         "hy": "Կարագ",
         "en": "Butter",
-        "ru": "Масло",
+        "ru": "Сливочное масло",
         "es": "Mantequilla",
         "fr": "Beurre",
         "de": "Butter"
@@ -2285,7 +2285,7 @@
         "hy": "Նրբաբլիթ",
         "en": "Pancakes",
         "ru": "Блины",
-        "es": "Panqueques",
+        "es": "Tortitas",
         "fr": "Crêpes",
         "de": "Pfannkuchen"
       }
@@ -2360,7 +2360,7 @@
       "categoryId": "food",
       "emoji": "🥘",
       "translations": {
-        "hy": "Խորտիկ",
+        "hy": "Շոգեխաշ",
         "en": "Stew",
         "ru": "Рагу",
         "es": "Estofado",
@@ -2493,7 +2493,7 @@
         "hy": "Կարտոֆիլ ֆրի",
         "en": "Fries",
         "ru": "Картошка фри",
-        "es": "Papas fritas",
+        "es": "Patatas fritas",
         "fr": "Frites",
         "de": "Pommes"
       }
@@ -2622,7 +2622,7 @@
       "translations": {
         "hy": "Ձկան կոտլետ",
         "en": "Fish cake",
-        "ru": "Рыбный пирог",
+        "ru": "Рыбная котлета",
         "es": "Pastel de pescado",
         "fr": "Gâteau de poisson",
         "de": "Fischkuchen"
@@ -2698,7 +2698,7 @@
       "categoryId": "sweets",
       "emoji": "🍭",
       "translations": {
-        "hy": "Չուպա-չուպս",
+        "hy": "Ձողիկով կոնֆետ",
         "en": "Lollipop",
         "ru": "Леденец",
         "es": "Piruleta",
@@ -2818,7 +2818,7 @@
         "hy": "Հյութ",
         "en": "Juice",
         "ru": "Сок",
-        "es": "Jugo",
+        "es": "Zumo",
         "fr": "Jus",
         "de": "Saft"
       }
@@ -3051,7 +3051,7 @@
       "translations": {
         "hy": "Ձեռք",
         "en": "Hand",
-        "ru": "Рука",
+        "ru": "Кисть",
         "es": "Mano",
         "fr": "Main",
         "de": "Hand"
@@ -3062,7 +3062,7 @@
       "categoryId": "body",
       "emoji": "🦶",
       "translations": {
-        "hy": "Ոտք",
+        "hy": "Ոտնաթաթ",
         "en": "Foot",
         "ru": "Ступня",
         "es": "Pie",
@@ -3127,7 +3127,7 @@
       "categoryId": "body",
       "emoji": "🦰",
       "translations": {
-        "hy": "Մազ",
+        "hy": "Մազեր",
         "en": "Hair",
         "ru": "Волосы",
         "es": "Pelo",
@@ -3140,7 +3140,7 @@
       "categoryId": "people",
       "emoji": "👶",
       "translations": {
-        "hy": "Երեխա",
+        "hy": "Մանուկ",
         "en": "Baby",
         "ru": "Малыш",
         "es": "Bebé",
@@ -3244,7 +3244,7 @@
       "categoryId": "people",
       "emoji": "🤴",
       "translations": {
-        "hy": "Իշխան",
+        "hy": "Արքայազն",
         "en": "Prince",
         "ru": "Принц",
         "es": "Príncipe",
@@ -3621,7 +3621,7 @@
       "categoryId": "clothes",
       "emoji": "🧦",
       "translations": {
-        "hy": "Գուլպա",
+        "hy": "Գուլպաներ",
         "en": "Socks",
         "ru": "Носки",
         "es": "Calcetines",
@@ -3634,7 +3634,7 @@
       "categoryId": "clothes",
       "emoji": "🧤",
       "translations": {
-        "hy": "Ձեռնոց",
+        "hy": "Ձեռնոցներ",
         "en": "Gloves",
         "ru": "Перчатки",
         "es": "Guantes",
@@ -3686,7 +3686,7 @@
       "categoryId": "clothes",
       "emoji": "🧢",
       "translations": {
-        "hy": "Գլխարկ",
+        "hy": "Կեպի",
         "en": "Cap",
         "ru": "Кепка",
         "es": "Gorra",
@@ -3753,7 +3753,7 @@
       "translations": {
         "hy": "Կրունկով կոշիկ",
         "en": "High heel",
-        "ru": "Туфля",
+        "ru": "Туфля на каблуке",
         "es": "Tacón",
         "fr": "Talon",
         "de": "Stöckelschuh"
@@ -3972,7 +3972,7 @@
       "categoryId": "home",
       "emoji": "🛁",
       "translations": {
-        "hy": "Լոգարան",
+        "hy": "Վաննա",
         "en": "Bathtub",
         "ru": "Ванна",
         "es": "Bañera",
@@ -4156,7 +4156,7 @@
       "translations": {
         "hy": "Մարտկոց",
         "en": "Battery",
-        "ru": "Батарея",
+        "ru": "Батарейка",
         "es": "Batería",
         "fr": "Batterie",
         "de": "Batterie"
@@ -4323,7 +4323,7 @@
       "categoryId": "home",
       "emoji": "🛎️",
       "translations": {
-        "hy": "Զանգ",
+        "hy": "Սեղանի զանգ",
         "en": "Service bell",
         "ru": "Звонок",
         "es": "Timbre",
@@ -5077,7 +5077,7 @@
       "categoryId": "sports",
       "emoji": "🎯",
       "translations": {
-        "hy": " Դարտս",
+        "hy": "Դարտս",
         "en": "Darts",
         "ru": "Дартс",
         "es": "Dardos",
@@ -5168,7 +5168,7 @@
       "categoryId": "sports",
       "emoji": "🥌",
       "translations": {
-        "hy": "Կёрлինգի քար",
+        "hy": "Քյորլինգի քար",
         "en": "Curling stone",
         "ru": "Камень для кёрлинга",
         "es": "Piedra de curling",
@@ -5961,7 +5961,7 @@
       "categoryId": "space",
       "emoji": "💫",
       "translations": {
-        "hy": "Երկնաքար",
+        "hy": "Ընկնող աստղ",
         "en": "Shooting star",
         "ru": "Падающая звезда",
         "es": "Estrella fugaz",
@@ -6055,7 +6055,7 @@
         "hy": "Մոպեդ",
         "en": "Scooter",
         "ru": "Мопед",
-        "es": "Motoneta",
+        "es": "Scooter",
         "fr": "Scooter",
         "de": "Motorroller"
       }
@@ -6221,7 +6221,7 @@
       "categoryId": "vehicles",
       "emoji": "🛻",
       "translations": {
-        "hy": "Բեռնատար",
+        "hy": "Փիքափ",
         "en": "Pickup truck",
         "ru": "Пикап",
         "es": "Camioneta",
@@ -6329,8 +6329,8 @@
         "en": "Pine tree",
         "ru": "Сосна",
         "es": "Pino",
-        "fr": "Sapin",
-        "de": "Tanne"
+        "fr": "Pin",
+        "de": "Kiefer"
       }
     },
     {
@@ -6442,7 +6442,7 @@
       "categoryId": "nature",
       "emoji": "🌺",
       "translations": {
-        "hy": "Կարմիր վարդ",
+        "hy": "Հիբիսկուս",
         "en": "Hibiscus",
         "ru": "Гибискус",
         "es": "Hibisco",
@@ -6546,7 +6546,7 @@
       "categoryId": "nature",
       "emoji": "🪴",
       "translations": {
-        "hy": "Ծաղկաման",
+        "hy": "Ծաղկամանի բույս",
         "en": "Potted plant",
         "ru": "Растение в горшке",
         "es": "Planta en maceta",
@@ -6650,7 +6650,7 @@
       "categoryId": "toys",
       "emoji": "🧩",
       "translations": {
-        "hy": "Հանելուկ",
+        "hy": "Փազլ",
         "en": "Puzzle",
         "ru": "Пазл",
         "es": "Rompecabezas",
@@ -6728,9 +6728,9 @@
       "categoryId": "toys",
       "emoji": "🎐",
       "translations": {
-        "hy": "Զանգակ",
+        "hy": "Քամու զանգակներ",
         "en": "Wind chime",
-        "ru": "Колокольчик",
+        "ru": "Музыка ветра",
         "es": "Campanas de viento",
         "fr": "Carillon",
         "de": "Windspiel"
@@ -6754,11 +6754,11 @@
       "categoryId": "tools",
       "emoji": "🔧",
       "translations": {
-        "hy": "Բանալի",
+        "hy": "Մանեկաբանալի",
         "en": "Wrench",
         "ru": "Гаечный ключ",
         "es": "Llave inglesa",
-        "fr": "Clé",
+        "fr": "Clé à molette",
         "de": "Schraubenschlüssel"
       }
     },
@@ -6780,7 +6780,7 @@
       "categoryId": "tools",
       "emoji": "🔩",
       "translations": {
-        "hy": "Ընկույզ և պտուտակ",
+        "hy": "Մանեկ և պտուտակ",
         "en": "Nut and bolt",
         "ru": "Гайка и болт",
         "es": "Tuerca y tornillo",
