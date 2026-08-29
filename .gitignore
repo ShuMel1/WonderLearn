@@ -16,6 +16,11 @@ local.properties
 .idea/navEditor.xml
 .idea/assetWizardSettings.xml
 .idea/deploymentTargetDropDown.xml
+.idea/deploymentTargetSelector.xml
+.idea/artifacts/
+.idea/codeStyles/
+.idea/kotlinc.xml
+.idea/vcs.xml
 .DS_Store
 **/xcuserdata/
 **/DerivedData/
