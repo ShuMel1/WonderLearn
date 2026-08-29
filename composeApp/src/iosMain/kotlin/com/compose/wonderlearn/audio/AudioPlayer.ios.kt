@@ -65,6 +65,8 @@ actual class AudioPlayer {
     if (player === next) stopCurrent()
   }
 
+  actual fun stop() = stopCurrent()
+
   private fun onPlaybackEnded(ended: AVAudioPlayer) {
     ended.setDelegate(null)
     player = null

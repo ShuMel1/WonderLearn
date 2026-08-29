@@ -56,6 +56,7 @@ class MemoryGameTest {
 
   private val pronouncer = object : Pronouncer {
     override suspend fun pronounce(item: VocabularyItem, language: Language): Boolean = true
+    override fun stop() {}
   }
 
   private val preferences = object : LanguagePreferences {

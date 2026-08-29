@@ -28,6 +28,11 @@ class DefaultPronouncer(
     return tts.speak(item.text(language), language.bcp47)
   }
 
+  override fun stop() {
+    tts.stop()
+    audioPlayer.stop()
+  }
+
   private suspend fun loadClip(language: Language, wordId: String): ByteArray? =
     try {
       Res.readBytes("files/audio/${language.code}_$wordId.m4a")

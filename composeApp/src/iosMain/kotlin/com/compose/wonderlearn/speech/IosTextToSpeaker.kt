@@ -5,6 +5,7 @@ package com.compose.wonderlearn.speech
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
+import platform.AVFAudio.AVSpeechBoundary
 import platform.AVFAudio.AVSpeechSynthesisVoice
 import platform.AVFAudio.AVSpeechSynthesizer
 import platform.AVFAudio.AVSpeechUtterance
@@ -26,5 +27,11 @@ class IosTextToSpeaker : TextToSpeaker {
     utterance.voice = voice
     synthesizer.speakUtterance(utterance)
     return true
+  }
+
+  override fun stop() {
+    if (synthesizer.speaking) {
+      synthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.AVSpeechBoundaryImmediate)
+    }
   }
 }
