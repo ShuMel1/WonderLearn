@@ -92,10 +92,11 @@ jobs:
       - name: Smoke test on simulator
         run: |
           set -euo pipefail
-          DEVICE=$(xcrun simctl list devices available | grep 'iPhone' | head -1 | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/')
+          DEVICE=$(xcrun simctl list devices available | grep -m 1 'iPhone' | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/')
           echo "Using simulator: $DEVICE"
           xcrun simctl boot "$DEVICE" || true
-          APP=$(find build/ios/Build/Products -maxdepth 3 -name '*.app' ! -name '*Tests*' | head -1)
+          xcrun simctl bootstatus "$DEVICE" -b
+          APP=$(find build/ios/Build/Products -maxdepth 3 -name '*.app' ! -name '*Tests*' -print -quit)
           echo "App bundle: $APP"
           xcrun simctl install "$DEVICE" "$APP"
           xcrun simctl launch "$DEVICE" com.compose.wonderlearn
