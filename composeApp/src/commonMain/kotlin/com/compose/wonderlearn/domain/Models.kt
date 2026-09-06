@@ -19,7 +19,7 @@ enum class Language(
     ttsSupported = false,
     asrSupported = false,
     hasRecordedAudio = true,
-    canBeTarget = false,
+    canBeTarget = true,
     canBeNative = true,
   ),
   ENGLISH(
