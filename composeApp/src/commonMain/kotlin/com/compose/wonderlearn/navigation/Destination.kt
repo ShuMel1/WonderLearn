@@ -36,7 +36,7 @@ sealed interface Destination {
   data object OddOneOut : Destination
 
   @Serializable
-  data object BubblePop : Destination
+  data class BubblePop(val fromLevel: Boolean = false) : Destination
 
   @Serializable
   data object SpeakGame : Destination

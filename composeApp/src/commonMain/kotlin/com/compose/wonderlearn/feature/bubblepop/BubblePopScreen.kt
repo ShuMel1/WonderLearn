@@ -1,8 +1,14 @@
 package com.compose.wonderlearn.feature.bubblepop
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +36,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -47,11 +58,17 @@ import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
 import com.compose.wonderlearn.ui.theme.Teal
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
-private const val RISE_MS = 5000
+/** Default pace — half the speed of the original 5s round, per the slow-by-default toggle. */
+private const val SLOW_RISE_MS = 10000
 
-/** The last ~1.5s of the 5s rise ([RISE_MS]) is a warning phase, expressed as a fraction of it. */
-private const val WARNING_FRACTION = 0.7f
+/** "Original" pace from before the speed toggle existed; the fast option. */
+private const val FAST_RISE_MS = 5000
+
+/** The warning phase always covers the same ~1.5 real seconds, regardless of the chosen pace. */
+private const val WARNING_MS = 1500
+
 private val BUBBLE_SIZE = 78.dp
 private val bubbleColors = listOf(Sky, Coral, Sunny, Grape, Teal, Bubblegum)
 
@@ -59,18 +76,28 @@ private val bubbleColors = listOf(Sky, Coral, Sunny, Grape, Teal, Bubblegum)
 @Composable
 fun BubblePopScreen(
   onBack: () -> Unit,
-  viewModel: BubblePopViewModel = koinViewModel(),
+  fromLevel: Boolean = false,
+  viewModel: BubblePopViewModel = koinViewModel { parametersOf(fromLevel) },
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
   val rise = remember { Animatable(0f) }
+  val riseMs = if (state.fastMode) FAST_RISE_MS else SLOW_RISE_MS
+  val warningFraction = 1f - (WARNING_MS.toFloat() / riseMs)
 
-  LaunchedEffect(state.roundKey) {
-    if (state.roundKey == 0) return@LaunchedEffect
+  LaunchedEffect(state.roundKey, state.fastMode) {
+    if (state.roundKey == 0 || state.rewardPending) return@LaunchedEffect
     rise.snapTo(0f)
-    rise.animateTo(1f, tween(durationMillis = RISE_MS, easing = LinearEasing))
+    rise.animateTo(1f, tween(durationMillis = riseMs, easing = LinearEasing))
     viewModel.onEscaped()
   }
 
+  // Freezes the bubbles mid-air the moment the coin-streak reward triggers; claimStreakReward()
+  // bumps roundKey again on dismiss, which restarts the LaunchedEffect above from a fresh round.
+  LaunchedEffect(state.rewardPending) {
+    if (state.rewardPending) rise.stop()
+  }
+
+  Box(modifier = Modifier.fillMaxSize()) {
   Scaffold(
     containerColor = Color.Transparent,
     topBar = { WonderTopBar(title = AppStrings.bubble_title(), onBack = onBack) },
@@ -82,20 +109,28 @@ fun BubblePopScreen(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
       ) {
-        Text("⭐ ${state.score}", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
-        Box(
-          modifier = Modifier
-            .clip(RoundedCornerShape(50))
-            .background(MaterialTheme.colorScheme.surface)
-            .clickable { viewModel.replay() }
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        ) {
-          Text("🔊  ${state.targetText}", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface)
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+          Text("⭐ ${state.score}", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+          if (!fromLevel) {
+            CoinStreakMeter(streak = state.streak, modifier = Modifier.size(28.dp))
+          }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+          SpeedToggleButton(fastMode = state.fastMode, onClick = viewModel::toggleSpeed)
+          Box(
+            modifier = Modifier
+              .clip(RoundedCornerShape(50))
+              .background(MaterialTheme.colorScheme.surface)
+              .clickable { viewModel.replay() }
+              .padding(horizontal = 16.dp, vertical = 8.dp),
+          ) {
+            Text("🔊  ${state.targetText}", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface)
+          }
         }
       }
 
       val timeLeft = 1f - rise.value
-      val isWarning = rise.value >= WARNING_FRACTION
+      val isWarning = rise.value >= warningFraction
       LinearProgressIndicator(
         progress = { timeLeft },
         modifier = Modifier
@@ -119,7 +154,7 @@ fun BubblePopScreen(
           // In the warning phase, blend every bubble toward Coral so the impending miss reads
           // as urgency rather than a sudden, unexplained round reset.
           val color = if (isWarning) {
-            val warningStrength = ((rise.value - WARNING_FRACTION) / (1f - WARNING_FRACTION)).coerceIn(0f, 1f)
+            val warningStrength = ((rise.value - warningFraction) / (1f - warningFraction)).coerceIn(0f, 1f)
             lerp(baseColor, Coral, warningStrength)
           } else {
             baseColor
@@ -144,5 +179,83 @@ fun BubblePopScreen(
         }
       }
     }
+  }
+
+    if (!fromLevel) {
+      AnimatedVisibility(
+        visible = state.rewardPending,
+        enter = fadeIn(),
+        exit = fadeOut(),
+        modifier = Modifier.fillMaxSize(),
+      ) {
+        Box(
+          modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.55f))
+            .clickable { viewModel.claimStreakReward() },
+          contentAlignment = Alignment.Center,
+        ) {
+          AnimatedVisibility(
+            visible = state.rewardPending,
+            enter = scaleIn(initialScale = 0.3f),
+            exit = scaleOut(targetScale = 0.3f),
+          ) {
+            CoinStreakMeter(streak = COIN_STREAK_GOAL, modifier = Modifier.size(160.dp))
+          }
+        }
+      }
+    }
+  }
+}
+
+@Composable
+private fun SpeedToggleButton(fastMode: Boolean, onClick: () -> Unit) {
+  Box(
+    modifier = Modifier
+      .clip(RoundedCornerShape(50))
+      .background(MaterialTheme.colorScheme.surface)
+      .clickable(onClick = onClick)
+      .padding(horizontal = 12.dp, vertical = 8.dp),
+  ) {
+    Text(
+      if (fastMode) "🐢" else "x2 ⏩",
+      fontSize = 16.sp,
+      fontWeight = FontWeight.Bold,
+      color = MaterialTheme.colorScheme.onSurface,
+    )
+  }
+}
+
+/**
+ * A coin, its circular face divided into [COIN_STREAK_GOAL] stacked horizontal bands that fill
+ * gold from the bottom up as [streak] rises — drawing everything (fill, dividers) inside a single
+ * clip against the coin's own circle path turns plain full-width rectangles into correctly
+ * chord-shaped bands for free.
+ */
+@Composable
+private fun CoinStreakMeter(streak: Int, modifier: Modifier = Modifier) {
+  val trackColor = MaterialTheme.colorScheme.surfaceVariant
+  val outlineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+  Canvas(modifier = modifier) {
+    val radius = size.minDimension / 2f
+    val center = Offset(size.width / 2f, size.height / 2f)
+    val bandHeight = (radius * 2f) / COIN_STREAK_GOAL
+    val circlePath = Path().apply {
+      addOval(androidx.compose.ui.geometry.Rect(center = center, radius = radius))
+    }
+    clipPath(circlePath) {
+      drawRect(color = trackColor, size = size)
+      for (band in 0 until COIN_STREAK_GOAL) {
+        if (streak > band) {
+          val top = size.height - (band + 1) * bandHeight
+          drawRect(color = Sunny, topLeft = Offset(0f, top), size = Size(size.width, bandHeight))
+        }
+      }
+      for (band in 1 until COIN_STREAK_GOAL) {
+        val y = size.height - band * bandHeight
+        drawLine(color = outlineColor, start = Offset(0f, y), end = Offset(size.width, y), strokeWidth = 1.5f)
+      }
+    }
+    drawCircle(color = outlineColor, radius = radius, center = center, style = Stroke(width = 3f))
   }
 }

@@ -110,7 +110,7 @@ private fun AppNavHost(onExit: () -> Unit) {
           when (level.kind) {
             LevelKind.LEARN -> navController.navigate(Destination.Quiz(revise = false))
             LevelKind.MEMORY -> navController.navigate(Destination.MemoryGame(fromLevel = true, size = (level.size?.ordinal ?: 0)))
-            LevelKind.BUBBLE_POP -> navController.navigate(Destination.BubblePop)
+            LevelKind.BUBBLE_POP -> navController.navigate(Destination.BubblePop(fromLevel = true))
             LevelKind.ODD_ONE_OUT -> navController.navigate(Destination.OddOneOut)
           }
         },
@@ -156,7 +156,7 @@ private fun AppNavHost(onExit: () -> Unit) {
       GamesScreen(
         onMemoryMatch = { navController.navigate(Destination.MemoryGame()) },
         onOddOneOut = { navController.navigate(Destination.OddOneOut) },
-        onBubblePop = { navController.navigate(Destination.BubblePop) },
+        onBubblePop = { navController.navigate(Destination.BubblePop()) },
         onSpeak = { navController.navigate(Destination.SpeakGame) },
         onBack = { navController.popBackStack() },
       )
@@ -174,9 +174,10 @@ private fun AppNavHost(onExit: () -> Unit) {
       LaunchedEffect(Unit) { analytics.gameStarted(GameId.ODD_ONE_OUT) }
       OddOneOutScreen(onBack = { navController.popBackStack() })
     }
-    composable<Destination.BubblePop> {
+    composable<Destination.BubblePop> { entry ->
       LaunchedEffect(Unit) { analytics.gameStarted(GameId.BUBBLE_POP) }
-      BubblePopScreen(onBack = { navController.popBackStack() })
+      val route = entry.toRoute<Destination.BubblePop>()
+      BubblePopScreen(fromLevel = route.fromLevel, onBack = { navController.popBackStack() })
     }
     composable<Destination.SpeakGame> {
       LaunchedEffect(Unit) { analytics.gameStarted(GameId.SAY_THE_WORD) }
