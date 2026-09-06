@@ -24,7 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +35,8 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -105,22 +109,20 @@ fun WordDetailScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(6.dp),
       ) {
-        Text(
-          item.text(language),
-          fontSize = 46.sp,
+        ShrinkToFitText(
+          text = item.text(language),
+          maxFontSize = 46.sp,
+          minFontSize = 24.sp,
           fontWeight = FontWeight.ExtraBold,
-          textAlign = TextAlign.Center,
           color = MaterialTheme.colorScheme.onBackground,
-          modifier = Modifier.fillMaxWidth(),
         )
         if (nativeLanguage != language) {
-          Text(
-            item.text(nativeLanguage),
-            fontSize = 24.sp,
+          ShrinkToFitText(
+            text = item.text(nativeLanguage),
+            maxFontSize = 24.sp,
+            minFontSize = 16.sp,
             fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.fillMaxWidth(),
           )
         }
       }
@@ -164,6 +166,38 @@ fun WordDetailScreen(
       }
     }
   }
+}
+
+/**
+ * A word that's long in one language (German compounds, longer Armenian/French phrases) would
+ * otherwise clip or crowd the circular image above it at a fixed font size, so this steps the
+ * size down until it fits within two lines, with ellipsis as the last-resort floor.
+ */
+@Composable
+private fun ShrinkToFitText(
+  text: String,
+  maxFontSize: TextUnit,
+  minFontSize: TextUnit,
+  fontWeight: FontWeight,
+  color: Color,
+) {
+  var fontSize by remember(text) { mutableStateOf(maxFontSize) }
+  Text(
+    text,
+    fontSize = fontSize,
+    fontWeight = fontWeight,
+    textAlign = TextAlign.Center,
+    color = color,
+    maxLines = 2,
+    overflow = TextOverflow.Ellipsis,
+    softWrap = true,
+    modifier = Modifier.fillMaxWidth(),
+    onTextLayout = { layout ->
+      if (layout.didOverflowHeight && fontSize > minFontSize) {
+        fontSize = (fontSize.value - 2f).coerceAtLeast(minFontSize.value).sp
+      }
+    },
+  )
 }
 
 @Composable
