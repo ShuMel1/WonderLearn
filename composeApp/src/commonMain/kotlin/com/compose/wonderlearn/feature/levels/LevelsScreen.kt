@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -112,16 +113,26 @@ fun LevelsScreen(
           )
         }
         state.nodes.forEachIndexed { index, node ->
+          val isLast = index == state.nodes.lastIndex
           Box(modifier = Modifier.fillMaxWidth()) {
-            LevelNodeButton(
-              node = node,
-              isLast = index == state.nodes.lastIndex,
+            Row(
               modifier = Modifier.align(BiasAlignment(BIAS[node.def.index % BIAS.size], 0f)),
-              onClick = {
-                viewModel.onStart(node.def)
-                onPlay(node.def)
-              },
-            )
+              verticalAlignment = Alignment.CenterVertically,
+              horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+              LevelNodeButton(
+                node = node,
+                onClick = {
+                  viewModel.onStart(node.def)
+                  onPlay(node.def)
+                },
+              )
+              // Marks the final level of today's path — where finishing everything pays out the
+              // reward — sitting beside the node rather than crowding its circle.
+              if (isLast) {
+                Text("🏆", fontSize = 30.sp)
+              }
+            }
           }
         }
       }
@@ -144,7 +155,6 @@ fun LevelsScreen(
 @Composable
 private fun LevelNodeButton(
   node: LevelNode,
-  isLast: Boolean = false,
   modifier: Modifier = Modifier,
   onClick: () -> Unit,
 ) {
@@ -185,14 +195,6 @@ private fun LevelNodeButton(
         ) {
           Text("⭐", fontSize = 16.sp)
         }
-      }
-      // Marks the final level of today's path — where finishing everything pays out the reward.
-      if (isLast) {
-        Text(
-          "🏆",
-          fontSize = 26.sp,
-          modifier = Modifier.align(Alignment.BottomStart),
-        )
       }
     }
     Text(
