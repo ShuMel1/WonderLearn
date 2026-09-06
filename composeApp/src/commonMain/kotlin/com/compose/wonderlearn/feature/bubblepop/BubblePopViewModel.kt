@@ -25,6 +25,9 @@ data class Bubble(
   val x: Float,
 )
 
+/** Consecutive correct, in-time answers needed to fill the coin-streak meter and trigger a reward. */
+const val COIN_STREAK_GOAL = 5
+
 data class BubblePopState(
   val bubbles: List<Bubble> = emptyList(),
   val targetId: String = "",
@@ -33,6 +36,10 @@ data class BubblePopState(
   val score: Int = 0,
   val roundKey: Int = 0,
   val loading: Boolean = true,
+  /** Standalone play only (see [BubblePopViewModel.fromLevel]) — always false/unused inside a level. */
+  val fastMode: Boolean = false,
+  val streak: Int = 0,
+  val rewardPending: Boolean = false,
 )
 
 class BubblePopViewModel(
@@ -41,6 +48,8 @@ class BubblePopViewModel(
   private val pronouncer: Pronouncer,
   private val preferences: LanguagePreferences,
   private val answerBus: AnswerBus,
+  /** True when reached from a level inside Today's Adventure — disables the coin-streak reward. */
+  private val fromLevel: Boolean = false,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(BubblePopState())
@@ -80,19 +89,43 @@ class BubblePopViewModel(
     val current = _state.value
     if (bubble.id in current.poppedWrong) return
     if (bubble.item.id == current.targetId) {
-      _state.value = current.copy(score = current.score + 1)
       answerBus.report(true)
       viewModelScope.launch { progress.recordCorrectAnswer() }
-      newRound()
+      val streak = if (fromLevel) 0 else current.streak + 1
+      if (!fromLevel && streak >= COIN_STREAK_GOAL) {
+        // Pause here rather than starting a new round — claimStreakReward() resumes play once
+        // the child dismisses the reward. The Screen freezes the rise animation on this flag.
+        _state.value = current.copy(score = current.score + 1, streak = streak, rewardPending = true)
+      } else {
+        _state.value = current.copy(score = current.score + 1, streak = streak)
+        newRound()
+      }
     } else {
-      _state.value = current.copy(poppedWrong = current.poppedWrong + bubble.id)
+      _state.value = current.copy(poppedWrong = current.poppedWrong + bubble.id, streak = 0)
       answerBus.report(false)
     }
   }
 
   fun onEscaped() {
     answerBus.report(false)
+    _state.value = _state.value.copy(streak = 0)
     newRound()
+  }
+
+  fun toggleSpeed() {
+    _state.value = _state.value.copy(fastMode = !_state.value.fastMode)
+  }
+
+  /**
+   * Called once the child dismisses the five-in-a-row coin reward and resumes play. Mirrors
+   * DailyAdventureRepository.claimReward(): returns true so future currency work can credit Gold
+   * only when this returns true — there's no currency system to award from yet, so this just
+   * clears the streak and resumes; it does not pay anything out itself.
+   */
+  fun claimStreakReward(): Boolean {
+    _state.value = _state.value.copy(streak = 0, rewardPending = false)
+    newRound()
+    return true
   }
 
   fun replay() {
