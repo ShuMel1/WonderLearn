@@ -36,18 +36,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.feature.levels.LevelProgressBar
+import com.compose.wonderlearn.resources.Res
+import com.compose.wonderlearn.resources.owl_coin
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
@@ -57,6 +55,7 @@ import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
 import com.compose.wonderlearn.ui.theme.Teal
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -227,35 +226,27 @@ private fun SpeedToggleButton(fastMode: Boolean, onClick: () -> Unit) {
 }
 
 /**
- * A coin, its circular face divided into [COIN_STREAK_GOAL] stacked horizontal bands that fill
- * gold from the bottom up as [streak] rises — drawing everything (fill, dividers) inside a single
- * clip against the coin's own circle path turns plain full-width rectangles into correctly
- * chord-shaped bands for free.
+ * The owl-coin artwork, revealed in [COIN_STREAK_GOAL] stacked horizontal bands from the bottom up
+ * as [streak] rises: a dim ghost of the coin sits underneath at all times, and each earned band
+ * draws the same image again at full color clipped to just that band — real coin art with none of
+ * the earlier hand-drawn circle math, since the image's own transparent background already gives
+ * it its shape.
  */
 @Composable
 private fun CoinStreakMeter(streak: Int, modifier: Modifier = Modifier) {
-  val trackColor = MaterialTheme.colorScheme.surfaceVariant
-  val outlineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+  val coinPainter = painterResource(Res.drawable.owl_coin)
   Canvas(modifier = modifier) {
-    val radius = size.minDimension / 2f
-    val center = Offset(size.width / 2f, size.height / 2f)
-    val bandHeight = (radius * 2f) / COIN_STREAK_GOAL
-    val circlePath = Path().apply {
-      addOval(androidx.compose.ui.geometry.Rect(center = center, radius = radius))
-    }
-    clipPath(circlePath) {
-      drawRect(color = trackColor, size = size)
+    val bandHeight = size.height / COIN_STREAK_GOAL
+    with(coinPainter) {
+      draw(size = size, alpha = 0.28f)
       for (band in 0 until COIN_STREAK_GOAL) {
         if (streak > band) {
           val top = size.height - (band + 1) * bandHeight
-          drawRect(color = Sunny, topLeft = Offset(0f, top), size = Size(size.width, bandHeight))
+          clipRect(left = 0f, top = top, right = size.width, bottom = top + bandHeight) {
+            draw(size = size)
+          }
         }
       }
-      for (band in 1 until COIN_STREAK_GOAL) {
-        val y = size.height - band * bandHeight
-        drawLine(color = outlineColor, start = Offset(0f, y), end = Offset(size.width, y), strokeWidth = 1.5f)
-      }
     }
-    drawCircle(color = outlineColor, radius = radius, center = center, style = Stroke(width = 3f))
   }
 }
