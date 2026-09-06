@@ -3,7 +3,7 @@ package com.compose.wonderlearn.feature.levels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.domain.AnswerBus
-import com.compose.wonderlearn.domain.LEVELS
+import com.compose.wonderlearn.domain.DailyAdventureRepository
 import com.compose.wonderlearn.domain.LevelDef
 import com.compose.wonderlearn.domain.LevelKind
 import com.compose.wonderlearn.domain.LevelRunController
@@ -27,9 +27,12 @@ data class LevelsUiState(
 
 class LevelsViewModel(
   private val levels: LevelsRepository,
+  private val dailyAdventure: DailyAdventureRepository,
   private val answerBus: AnswerBus,
   private val runController: LevelRunController,
 ) : ViewModel() {
+
+  private val todaysLevels = dailyAdventure.todaysLevels()
 
   private val _state = MutableStateFlow(LevelsUiState())
   val state: StateFlow<LevelsUiState> = _state.asStateFlow()
@@ -37,9 +40,13 @@ class LevelsViewModel(
   private val _justCompleted = MutableStateFlow<String?>(null)
   val justCompleted: StateFlow<String?> = _justCompleted.asStateFlow()
 
+  /** Fires once, the moment today's path is fully cleared and its reward is claimed. */
+  private val _rewardEarned = MutableStateFlow(false)
+  val rewardEarned: StateFlow<Boolean> = _rewardEarned.asStateFlow()
+
   init {
     viewModelScope.launch {
-      levels.completedLevels().collect { completed ->
+      dailyAdventure.completedToday().collect { completed ->
         _state.value = LevelsUiState(nodes = buildNodes(completed), loading = false)
       }
     }
@@ -68,20 +75,22 @@ class LevelsViewModel(
 
   private fun activeLevel(): LevelDef? {
     val activeId = runController.activeLevelId ?: return null
-    return LEVELS.firstOrNull { it.id == activeId }
+    return todaysLevels.firstOrNull { it.id == activeId }
   }
 
   private suspend fun complete(def: LevelDef) {
     levels.markComplete(def.id)
+    dailyAdventure.markLevelDone(def.id)
     runController.markCompleted(def.id)
     _justCompleted.value = def.id
+    if (dailyAdventure.claimReward()) _rewardEarned.value = true
   }
 
   private fun buildNodes(completed: Set<String>): List<LevelNode> =
-    LEVELS.map { def ->
+    todaysLevels.mapIndexed { position, def ->
       val status = when {
         def.id in completed -> LevelStatus.DONE
-        def.index == 1 || LEVELS.firstOrNull { it.index == def.index - 1 }?.id in completed -> LevelStatus.CURRENT
+        position == 0 || todaysLevels[position - 1].id in completed -> LevelStatus.CURRENT
         else -> LevelStatus.LOCKED
       }
       LevelNode(def, status)
@@ -94,5 +103,9 @@ class LevelsViewModel(
   fun clearCompleted() {
     _justCompleted.value = null
     runController.consumeCompleted()
+  }
+
+  fun clearRewardEarned() {
+    _rewardEarned.value = false
   }
 }

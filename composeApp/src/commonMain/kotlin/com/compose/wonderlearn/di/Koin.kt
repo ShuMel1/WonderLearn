@@ -12,6 +12,7 @@ import com.compose.wonderlearn.data.content.RemoteContentSource
 import com.compose.wonderlearn.data.content.httpClient
 import com.compose.wonderlearn.data.analytics.HttpAnalytics
 import com.compose.wonderlearn.data.analytics.InstallId
+import com.compose.wonderlearn.data.SqlDelightDailyAdventureRepository
 import com.compose.wonderlearn.data.SqlDelightLanguagePreferences
 import com.compose.wonderlearn.data.SqlDelightLearningRepository
 import com.compose.wonderlearn.data.SqlDelightLevelsRepository
@@ -23,6 +24,7 @@ import com.compose.wonderlearn.db.WonderLearnDatabase
 import com.compose.wonderlearn.domain.Analytics
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.AnswerBus
+import com.compose.wonderlearn.domain.DailyAdventureRepository
 import com.compose.wonderlearn.domain.LearningRepository
 import com.compose.wonderlearn.domain.LevelRunController
 import com.compose.wonderlearn.domain.LevelsRepository
@@ -75,6 +77,7 @@ val appModule = module {
   single<RewardsRepository> { SqlDelightRewardsRepository(get(), get()) }
   single<LearningRepository> { SqlDelightLearningRepository(get(), get()) }
   single<LevelsRepository> { SqlDelightLevelsRepository(get(), get()) }
+  single<DailyAdventureRepository> { SqlDelightDailyAdventureRepository(get(), get(), get()) }
   single { LevelRunController() }
   single { AnswerBus() }
   single<LanguagePreferences> { SqlDelightLanguagePreferences(get()) }
@@ -96,7 +99,7 @@ val appModule = module {
   viewModel { params -> WordDetailViewModel(params.get(), get(), get()) }
   viewModel { (mode: QuizMode) -> QuizViewModel(get(), get(), get(), get(), get(), mode) }
   viewModel { LearnedViewModel(get(), get()) }
-  viewModel { LevelsViewModel(get(), get(), get()) }
+  viewModel { LevelsViewModel(get(), get(), get(), get()) }
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {

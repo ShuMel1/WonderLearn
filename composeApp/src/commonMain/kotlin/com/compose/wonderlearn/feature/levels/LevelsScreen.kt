@@ -79,12 +79,13 @@ fun LevelsScreen(
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
   val justCompleted by viewModel.justCompleted.collectAsStateWithLifecycle()
+  val rewardEarned by viewModel.rewardEarned.collectAsStateWithLifecycle()
   val doneCount = state.nodes.count { it.status == LevelStatus.DONE }
 
   Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
       containerColor = Color.Transparent,
-      topBar = { WonderTopBar(title = AppStrings.levels_title(), onBack = onBack) },
+      topBar = { WonderTopBar(title = AppStrings.today_adventure_title(), onBack = onBack) },
     ) { padding ->
       Column(
         modifier = Modifier
@@ -101,6 +102,15 @@ fun LevelsScreen(
           color = MaterialTheme.colorScheme.onSurfaceVariant,
           modifier = Modifier.align(Alignment.CenterHorizontally),
         )
+        if (rewardEarned) {
+          Text(
+            AppStrings.today_adventure_complete(),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+          )
+        }
         state.nodes.forEach { node ->
           Box(modifier = Modifier.fillMaxWidth()) {
             LevelNodeButton(
