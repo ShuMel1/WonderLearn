@@ -46,7 +46,6 @@ import com.compose.wonderlearn.feature.app.AppViewModel
 import com.compose.wonderlearn.feature.categories.CategoriesViewModel
 import com.compose.wonderlearn.feature.detail.WordDetailViewModel
 import com.compose.wonderlearn.feature.language.LanguagePickerViewModel
-import com.compose.wonderlearn.feature.learned.LearnedViewModel
 import com.compose.wonderlearn.feature.levels.LevelsViewModel
 import com.compose.wonderlearn.feature.quiz.QuizViewModel
 import com.compose.wonderlearn.feature.speak.SpeakGameViewModel
@@ -98,7 +97,6 @@ val appModule = module {
   viewModel { params -> WordListViewModel(params.get(), get(), get()) }
   viewModel { params -> WordDetailViewModel(params.get(), get(), get()) }
   viewModel { (mode: QuizMode) -> QuizViewModel(get(), get(), get(), get(), get(), mode) }
-  viewModel { LearnedViewModel(get(), get()) }
   viewModel { LevelsViewModel(get(), get(), get(), get()) }
 }
 

@@ -21,9 +21,6 @@ sealed interface Destination {
   data class Quiz(val revise: Boolean = false) : Destination
 
   @Serializable
-  data object Learned : Destination
-
-  @Serializable
   data object Levels : Destination
 
   @Serializable
