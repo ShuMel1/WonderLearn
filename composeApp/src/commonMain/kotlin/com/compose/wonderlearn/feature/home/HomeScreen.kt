@@ -197,7 +197,6 @@ private fun AdventureBanner(onClick: () -> Unit) {
         )
       }
       Text("🏆", fontSize = 22.sp)
-      Text("▶", fontSize = 24.sp, color = Color.White)
     }
   }
 }
