@@ -49,11 +49,12 @@ interface LevelsRepository {
 }
 
 /**
- * Today's 5-level slice of the level pool, deterministic for the day: seeding the shuffle with
- * the day itself means every device, on every platform, lands on the same 5 levels with no
- * backend and no stored selection — the day number *is* the selection.
+ * Today's slice of the level pool, deterministic for the day: seeding the shuffle with the day
+ * itself means every device, on every platform, lands on the same selection with no backend and
+ * no stored selection — the day number *is* the selection. Defaults to the whole current pool
+ * (all 12 today) — [count] only matters once the pool grows past what should be shown per day.
  */
-fun dailyAdventureLevels(day: Long, pool: List<LevelDef> = LEVELS, count: Int = 5): List<LevelDef> =
+fun dailyAdventureLevels(day: Long, pool: List<LevelDef> = LEVELS, count: Int = pool.size): List<LevelDef> =
   pool.shuffled(Random(day)).take(count).sortedBy { it.index }
 
 interface DailyAdventureRepository {

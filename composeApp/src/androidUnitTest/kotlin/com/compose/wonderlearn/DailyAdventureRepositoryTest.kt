@@ -26,15 +26,18 @@ class DailyAdventureRepositoryTest {
     assertEquals(a, b, "same day must be deterministic across calls, devices and platforms")
   }
 
-  @Test fun theSliceIsFiveLevelsSortedByIndex() {
+  @Test fun theDefaultSliceIsTheWholeCurrentPoolSortedByIndex() {
     val levels = dailyAdventureLevels(day = 1)
-    assertEquals(5, levels.size)
+    assertEquals(LEVELS.size, levels.size, "with only 12 templates today, every one of them plays each day")
     assertEquals(levels.sortedBy { it.index }, levels, "presented in ascending difficulty order")
     assertEquals(levels.map { it.id }.toSet().size, levels.size, "no duplicates")
   }
 
-  @Test fun differentDaysCanPickDifferentLevels() {
-    val days = (1L..30L).map { dailyAdventureLevels(day = it).map { def -> def.id } }
+  @Test fun theUnderlyingShuffleStillVariesByDayOnceCountIsSmallerThanThePool() {
+    // The default (whole pool) can't vary day to day — there's nothing left to choose between.
+    // This exercises the day-seeded shuffle itself, which still matters the moment the pool grows
+    // past what should be shown per day and an explicit smaller `count` is passed again.
+    val days = (1L..30L).map { dailyAdventureLevels(day = it, count = 5).map { def -> def.id } }
     assertTrue(days.toSet().size > 1, "30 different days shouldn't all land on the exact same 5 levels")
   }
 
