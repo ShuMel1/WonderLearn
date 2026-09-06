@@ -1,5 +1,6 @@
 package com.compose.wonderlearn.domain
 
+import kotlin.random.Random
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -45,6 +46,35 @@ interface LevelsRepository {
   fun completedLevels(): Flow<Set<String>>
 
   suspend fun markComplete(levelId: String)
+}
+
+/**
+ * Today's slice of the level pool, deterministic for the day: seeding the shuffle with the day
+ * itself means every device, on every platform, lands on the same selection with no backend and
+ * no stored selection — the day number *is* the selection. Defaults to the whole current pool
+ * (all 12 today) — [count] only matters once the pool grows past what should be shown per day.
+ */
+fun dailyAdventureLevels(day: Long, pool: List<LevelDef> = LEVELS, count: Int = pool.size): List<LevelDef> =
+  pool.shuffled(Random(day)).take(count).sortedBy { it.index }
+
+interface DailyAdventureRepository {
+  /** Today's levels, in the order they should be played. */
+  fun todaysLevels(): List<LevelDef>
+
+  /** Which of today's levels have been completed today. Resets on its own once the day rolls over. */
+  fun completedToday(): Flow<Set<String>>
+
+  suspend fun markLevelDone(levelId: String)
+
+  /** Whether today's completion reward has already been claimed. */
+  fun rewardClaimed(): Flow<Boolean>
+
+  /**
+   * Claims today's reward if (and only if) every level in [todaysLevels] is done and it hasn't
+   * been claimed yet. Returns `true` exactly once per day — this is the integration point for the
+   * currency work to award Gems from; call it and credit Gems only when it returns `true`.
+   */
+  suspend fun claimReward(): Boolean
 }
 
 data class LevelRun(

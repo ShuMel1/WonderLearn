@@ -25,9 +25,12 @@ object AppStrings {
   val pronunciation_unavailable = LocalizedString(mapOf(Language.ARMENIAN to "Այս լեզվի արտասանությունը շուտով կլինի 🔊", Language.ENGLISH to "Pronunciation for this language is coming soon 🔊", Language.RUSSIAN to "Произношение для этого языка скоро появится 🔊"))
   val home_tagline = LocalizedString(mapOf(Language.ARMENIAN to "Ի՞նչ ես ուզում անել", Language.ENGLISH to "What do you want to do?", Language.RUSSIAN to "Что хочешь сделать?"))
   val home_learn = LocalizedString(mapOf(Language.ARMENIAN to "Սովորել", Language.ENGLISH to "Learn", Language.RUSSIAN to "Учить"))
-  val home_adventure = LocalizedString(mapOf(Language.ARMENIAN to "Արկած", Language.ENGLISH to "Adventure", Language.RUSSIAN to "Приключение"))
-  val home_adventure_sub = LocalizedString(mapOf(Language.ARMENIAN to "Անցիր մակարդակները", Language.ENGLISH to "Play through the levels", Language.RUSSIAN to "Пройди уровни"))
-  val levels_title = LocalizedString(mapOf(Language.ARMENIAN to "Ճանապարհ", Language.ENGLISH to "Adventure", Language.RUSSIAN to "Путь"))
+  // hy/ru are compositional translations, not natively verified — same caution as
+  // today_adventure_title/today_adventure_complete below.
+  val home_adventure = LocalizedString(mapOf(Language.ARMENIAN to "Օրվա արկածը", Language.ENGLISH to "Daily Adventure", Language.RUSSIAN to "Ежедневное приключение"))
+  val home_adventure_sub = LocalizedString(mapOf(Language.ARMENIAN to "Խաղա մինչև վերջ՝ մրցանակ ստանալու համար", Language.ENGLISH to "Play to the end to earn a reward", Language.RUSSIAN to "Играй до конца, чтобы получить награду"))
+  val today_adventure_title = LocalizedString(mapOf(Language.ARMENIAN to "Այսօրվա ճանապարհը", Language.ENGLISH to "Today's Adventure", Language.RUSSIAN to "Сегодняшний путь"))
+  val today_adventure_complete = LocalizedString(mapOf(Language.ARMENIAN to "Այսօրվա արկածն ավարտված է։ 🎉", Language.ENGLISH to "Today's Adventure complete! 🎉", Language.RUSSIAN to "Сегодняшнее приключение завершено! 🎉"))
   val home_review = LocalizedString(mapOf(Language.ARMENIAN to "Կրկնել", Language.ENGLISH to "Review", Language.RUSSIAN to "Повторить"))
   val home_progress = LocalizedString(mapOf(Language.ARMENIAN to "Առաջընթաց", Language.ENGLISH to "Progress", Language.RUSSIAN to "Прогресс"))
   val home_stories = LocalizedString(mapOf(Language.ARMENIAN to "Հեքիաթներ", Language.ENGLISH to "Stories", Language.RUSSIAN to "Сказки"))

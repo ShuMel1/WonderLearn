@@ -1,7 +1,9 @@
 package com.compose.wonderlearn
 
 import com.compose.wonderlearn.domain.AnswerBus
+import com.compose.wonderlearn.domain.DailyAdventureRepository
 import com.compose.wonderlearn.domain.LEVELS
+import com.compose.wonderlearn.domain.LevelDef
 import com.compose.wonderlearn.domain.LevelKind
 import com.compose.wonderlearn.domain.LevelRunController
 import com.compose.wonderlearn.domain.LevelsRepository
@@ -21,7 +23,15 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
+/**
+ * These tests exercise LevelsViewModel wired to the full LEVELS pool as "today's levels" (via
+ * the fake DailyAdventureRepository below), so the pre-existing progression assertions (level 1
+ * unlocked first, etc.) stay meaningful. Day-scoped selection itself (dailyAdventureLevels) and
+ * the SqlDelight-backed persistence/claim guarding are covered separately in
+ * DailyAdventureRepositoryTest.
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
 class LevelsTest {
 
@@ -32,6 +42,7 @@ class LevelsTest {
   @AfterTest fun tearDown() = Dispatchers.resetMain()
 
   private val completed = MutableStateFlow<Set<String>>(emptySet())
+  private val doneToday = MutableStateFlow<Set<String>>(emptySet())
   private val answerBus = AnswerBus()
   private val controller = LevelRunController()
 
@@ -40,7 +51,21 @@ class LevelsTest {
     override suspend fun markComplete(levelId: String) { completed.value = completed.value + levelId }
   }
 
-  private fun vm() = LevelsViewModel(levels, answerBus, controller)
+  private var rewardClaims = 0
+
+  private val dailyAdventure = object : DailyAdventureRepository {
+    override fun todaysLevels(): List<LevelDef> = LEVELS
+    override fun completedToday(): Flow<Set<String>> = doneToday
+    override suspend fun markLevelDone(levelId: String) { doneToday.value = doneToday.value + levelId }
+    override fun rewardClaimed(): Flow<Boolean> = MutableStateFlow(rewardClaims > 0)
+    override suspend fun claimReward(): Boolean {
+      if (rewardClaims > 0 || doneToday.value.size < LEVELS.size) return false
+      rewardClaims++
+      return true
+    }
+  }
+
+  private fun vm() = LevelsViewModel(levels, dailyAdventure, answerBus, controller)
 
   private fun statusOf(vm: LevelsViewModel, index: Int) =
     vm.state.value.nodes.first { it.def.index == index }.status
@@ -132,5 +157,38 @@ class LevelsTest {
 
     assertEquals(LevelStatus.CURRENT, statusOf(vm, 1))
     assertNull(vm.justCompleted.value)
+  }
+
+  @Test
+  fun completingEveryLevelForTodayClaimsTheRewardExactlyOnce() = runTest(dispatcher) {
+    val vm = vm()
+    advanceUntilIdle()
+
+    LEVELS.forEach { def ->
+      vm.onStart(def)
+      if (def.kind == LevelKind.MEMORY) {
+        answerBus.reportFinished()
+      } else {
+        repeat(def.answersToWin) { answerBus.report(true) }
+      }
+      advanceUntilIdle()
+    }
+
+    assertTrue(vm.rewardEarned.value, "reward is claimed once every level for today is done")
+    assertEquals(1, rewardClaims, "claimed exactly once, not once per level")
+  }
+
+  @Test
+  fun rewardIsNotClaimedWhileLevelsRemain() = runTest(dispatcher) {
+    val vm = vm()
+    advanceUntilIdle()
+    val first = LEVELS.first()
+
+    vm.onStart(first)
+    repeat(first.answersToWin) { answerBus.report(true) }
+    advanceUntilIdle()
+
+    assertEquals(false, vm.rewardEarned.value)
+    assertEquals(0, rewardClaims)
   }
 }
