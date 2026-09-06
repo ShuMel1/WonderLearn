@@ -52,8 +52,10 @@ import org.koin.compose.viewmodel.koinViewModel
 private val NODE_SIZE = 78.dp
 private val BIAS = listOf(0f, 0.62f, 0f, -0.62f)
 
-// Purely decorative — fills the empty margin the zigzag path leaves on alternating sides.
-private val PATH_CRITTERS = listOf("🦋", "🐿️", "🦊")
+// Purely decorative — turns the path into a little jungle. Critters are sparse (every 4th node)
+// so spotting one still feels like something; foliage is dense (every node) to fill the margins.
+private val PATH_CRITTERS = listOf("🐒", "🦜", "🐍")
+private val PATH_FOLIAGE = listOf("🌴", "🌿", "🍃")
 
 private fun emojiFor(kind: LevelKind): String = when (kind) {
   LevelKind.LEARN -> "📚"
@@ -108,6 +110,11 @@ fun LevelsScreen(
         verticalArrangement = Arrangement.spacedBy(18.dp),
       ) {
         Text(
+          "🌴 🌳 🌿 🌳 🌴",
+          fontSize = 26.sp,
+          modifier = Modifier.align(Alignment.CenterHorizontally).alpha(0.6f),
+        )
+        Text(
           "⭐ $doneCount / ${state.nodes.size}",
           fontSize = 18.sp,
           fontWeight = FontWeight.Bold,
@@ -125,9 +132,13 @@ fun LevelsScreen(
         }
         state.nodes.forEachIndexed { index, node ->
           val isLast = index == state.nodes.lastIndex
+          val nodeBias = BIAS[node.def.index % BIAS.size]
+          // Foliage on the side opposite the node — its own zigzag bias when there is one,
+          // otherwise a fixed gentle offset so center-biased nodes still get some greenery.
+          val foliageBias = if (nodeBias != 0f) -nodeBias else if (node.def.index % 4 == 0) 0.4f else -0.4f
           Box(modifier = Modifier.fillMaxWidth()) {
             Row(
-              modifier = Modifier.align(BiasAlignment(BIAS[node.def.index % BIAS.size], 0f)),
+              modifier = Modifier.align(BiasAlignment(nodeBias, 0f)),
               verticalAlignment = Alignment.CenterVertically,
               horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
@@ -144,6 +155,11 @@ fun LevelsScreen(
                 Text("🏆", fontSize = 30.sp)
               }
             }
+            Text(
+              PATH_FOLIAGE[node.def.index % PATH_FOLIAGE.size],
+              fontSize = 24.sp,
+              modifier = Modifier.align(BiasAlignment(foliageBias, 0f)).alpha(0.55f),
+            )
           }
           // A critter in the gap the path's zigzag leaves opposite a left-biased node, sparse
           // enough (only after nodes 3, 7, 11) to read as background flavor, not clutter.
