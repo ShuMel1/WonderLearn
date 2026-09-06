@@ -2,12 +2,13 @@ package com.compose.wonderlearn.feature.bubblepop
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,17 +33,28 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.boundsInRoot
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.audio.AudioPlayer
 import com.compose.wonderlearn.feature.levels.LevelProgressBar
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.owl_coin
@@ -55,9 +67,12 @@ import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
 import com.compose.wonderlearn.ui.theme.Teal
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+
+private const val COIN_SOUND = "files/sounds/coin.wav"
 
 /** Default pace — half the speed of the original 5s round, per the slow-by-default toggle. */
 private const val SLOW_RISE_MS = 10000
@@ -82,6 +97,10 @@ fun BubblePopScreen(
   val rise = remember { Animatable(0f) }
   val riseMs = if (state.fastMode) FAST_RISE_MS else SLOW_RISE_MS
   val warningFraction = 1f - (WARNING_MS.toFloat() / riseMs)
+
+  // Where the small meter sits on screen right now, in root coordinates — captured continuously
+  // so the reward overlay knows where to fly the coin in from, however the layout is sized.
+  var meterCenterInRoot by remember { mutableStateOf(Offset.Zero) }
 
   LaunchedEffect(state.roundKey, state.fastMode) {
     if (state.roundKey == 0 || state.rewardPending) return@LaunchedEffect
@@ -111,7 +130,12 @@ fun BubblePopScreen(
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
           Text("⭐ ${state.score}", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
           if (!fromLevel) {
-            CoinStreakMeter(streak = state.streak, modifier = Modifier.size(28.dp))
+            CoinStreakMeter(
+              streak = state.streak,
+              modifier = Modifier
+                .size(28.dp)
+                .onGloballyPositioned { meterCenterInRoot = it.boundsInRoot().center },
+            )
           }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -187,19 +211,64 @@ fun BubblePopScreen(
         exit = fadeOut(),
         modifier = Modifier.fillMaxSize(),
       ) {
+        var scrimCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
         Box(
           modifier = Modifier
             .fillMaxSize()
             .background(Color.Black.copy(alpha = 0.55f))
-            .clickable { viewModel.claimStreakReward() },
-          contentAlignment = Alignment.Center,
+            .clickable { viewModel.claimStreakReward() }
+            .onGloballyPositioned { scrimCoordinates = it },
         ) {
-          AnimatedVisibility(
-            visible = state.rewardPending,
-            enter = scaleIn(initialScale = 0.3f),
-            exit = scaleOut(targetScale = 0.3f),
-          ) {
-            CoinStreakMeter(streak = COIN_STREAK_GOAL, modifier = Modifier.size(160.dp))
+          val coords = scrimCoordinates
+          if (coords != null) {
+            val density = LocalDensity.current
+            val smallPx = with(density) { 28.dp.toPx() }
+            val largePx = with(density) { 160.dp.toPx() }
+            val startCenter = meterCenterInRoot - coords.positionInRoot()
+            val bounds = coords.boundsInRoot()
+            val endCenter = Offset(bounds.width / 2f, bounds.height / 2f)
+
+            val flight = remember { Animatable(0f) }
+            val spin = remember { Animatable(0f) }
+            val coinSound = remember { AudioPlayer() }
+
+            LaunchedEffect(state.rewardPending) {
+              if (!state.rewardPending) return@LaunchedEffect
+              launch { runCatching { coinSound.play(Res.readBytes(COIN_SOUND)) } }
+              flight.snapTo(0f)
+              spin.snapTo(0f)
+              // Fly from the small meter to the center, growing as it goes …
+              flight.animateTo(
+                1f,
+                animationSpec = spring(
+                  dampingRatio = Spring.DampingRatioMediumBouncy,
+                  stiffness = Spring.StiffnessLow,
+                ),
+              )
+              // … then spin around its own axis and settle back facing forward (720° = 2 full
+              // turns, landing exactly on the front face) with a decelerating "coming to rest" feel.
+              spin.animateTo(
+                720f,
+                animationSpec = tween(durationMillis = 850, easing = CubicBezierEasing(0.05f, 0.6f, 0.15f, 1f)),
+              )
+            }
+
+            val t = flight.value.coerceIn(0f, 1f)
+            val cx = startCenter.x + (endCenter.x - startCenter.x) * t
+            val cy = startCenter.y + (endCenter.y - startCenter.y) * t
+            val coinSizePx = smallPx + (largePx - smallPx) * t
+
+            Box(
+              modifier = Modifier
+                .offset { IntOffset((cx - coinSizePx / 2f).toInt(), (cy - coinSizePx / 2f).toInt()) }
+                .size(with(density) { coinSizePx.toDp() })
+                .graphicsLayer {
+                  rotationY = spin.value
+                  cameraDistance = 8f * density.density
+                },
+            ) {
+              CoinStreakMeter(streak = COIN_STREAK_GOAL, modifier = Modifier.fillMaxSize())
+            }
           }
         }
       }
