@@ -12,12 +12,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,6 +49,9 @@ import com.compose.wonderlearn.ui.theme.Teal
 import org.koin.compose.viewmodel.koinViewModel
 
 private const val RISE_MS = 5000
+
+/** The last ~1.5s of the 5s rise ([RISE_MS]) is a warning phase, expressed as a fraction of it. */
+private const val WARNING_FRACTION = 0.7f
 private val BUBBLE_SIZE = 78.dp
 private val bubbleColors = listOf(Sky, Coral, Sunny, Grape, Teal, Bubblegum)
 
@@ -88,7 +94,20 @@ fun BubblePopScreen(
         }
       }
 
-      BoxWithConstraints(modifier = Modifier.fillMaxWidth().weight(1f)) {
+      val timeLeft = 1f - rise.value
+      val isWarning = rise.value >= WARNING_FRACTION
+      LinearProgressIndicator(
+        progress = { timeLeft },
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 20.dp)
+          .height(8.dp)
+          .clip(RoundedCornerShape(50)),
+        color = if (isWarning) Coral else Sky,
+        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+      )
+
+      BoxWithConstraints(modifier = Modifier.fillMaxWidth().weight(1f).padding(top = 8.dp)) {
         val fieldWidth = maxWidth
         val fieldHeight = maxHeight
         state.bubbles.forEach { bubble ->
@@ -96,7 +115,15 @@ fun BubblePopScreen(
           val x = (fieldWidth * bubble.x - BUBBLE_SIZE / 2)
             .coerceIn(0.dp, fieldWidth - BUBBLE_SIZE)
           val y = (fieldHeight - BUBBLE_SIZE) - fieldHeight * rise.value
-          val color = bubbleColors[(bubble.id) % bubbleColors.size]
+          val baseColor = bubbleColors[(bubble.id) % bubbleColors.size]
+          // In the warning phase, blend every bubble toward Coral so the impending miss reads
+          // as urgency rather than a sudden, unexplained round reset.
+          val color = if (isWarning) {
+            val warningStrength = ((rise.value - WARNING_FRACTION) / (1f - WARNING_FRACTION)).coerceIn(0f, 1f)
+            lerp(baseColor, Coral, warningStrength)
+          } else {
+            baseColor
+          }
           Box(
             modifier = Modifier
               .offset(x = x, y = y)
