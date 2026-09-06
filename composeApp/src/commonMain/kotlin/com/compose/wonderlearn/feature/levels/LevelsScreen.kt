@@ -111,10 +111,11 @@ fun LevelsScreen(
             modifier = Modifier.align(Alignment.CenterHorizontally),
           )
         }
-        state.nodes.forEach { node ->
+        state.nodes.forEachIndexed { index, node ->
           Box(modifier = Modifier.fillMaxWidth()) {
             LevelNodeButton(
               node = node,
+              isLast = index == state.nodes.lastIndex,
               modifier = Modifier.align(BiasAlignment(BIAS[node.def.index % BIAS.size], 0f)),
               onClick = {
                 viewModel.onStart(node.def)
@@ -143,6 +144,7 @@ fun LevelsScreen(
 @Composable
 private fun LevelNodeButton(
   node: LevelNode,
+  isLast: Boolean = false,
   modifier: Modifier = Modifier,
   onClick: () -> Unit,
 ) {
@@ -183,6 +185,14 @@ private fun LevelNodeButton(
         ) {
           Text("⭐", fontSize = 16.sp)
         }
+      }
+      // Marks the final level of today's path — where finishing everything pays out the reward.
+      if (isLast) {
+        Text(
+          "🏆",
+          fontSize = 26.sp,
+          modifier = Modifier.align(Alignment.BottomStart),
+        )
       }
     }
     Text(
