@@ -1,5 +1,11 @@
 package com.compose.wonderlearn.feature.levels
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +29,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,6 +51,9 @@ import org.koin.compose.viewmodel.koinViewModel
 
 private val NODE_SIZE = 78.dp
 private val BIAS = listOf(0f, 0.62f, 0f, -0.62f)
+
+// Purely decorative — fills the empty margin the zigzag path leaves on alternating sides.
+private val PATH_CRITTERS = listOf("🦋", "🐿️", "🦊")
 
 private fun emojiFor(kind: LevelKind): String = when (kind) {
   LevelKind.LEARN -> "📚"
@@ -134,6 +145,17 @@ fun LevelsScreen(
               }
             }
           }
+          // A critter in the gap the path's zigzag leaves opposite a left-biased node, sparse
+          // enough (only after nodes 3, 7, 11) to read as background flavor, not clutter.
+          if (!isLast && node.def.index % 4 == 3) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+              PathCritter(
+                emoji = PATH_CRITTERS[(node.def.index / 4) % PATH_CRITTERS.size],
+                bobMillis = 1500 + (node.def.index % 3) * 250,
+                modifier = Modifier.align(BiasAlignment(0.75f, 0f)),
+              )
+            }
+          }
         }
       }
     }
@@ -150,6 +172,29 @@ fun LevelsScreen(
       viewModel.clearCompleted()
     }
   }
+}
+
+/** A small decorative animal that gently bobs up and down, same idle-animation style as the home
+ * screen's avatar. [bobMillis] varies per instance so a row of critters doesn't bob in lockstep. */
+@Composable
+private fun PathCritter(emoji: String, bobMillis: Int, modifier: Modifier = Modifier) {
+  val idle = rememberInfiniteTransition(label = "critterIdle")
+  val offsetY by idle.animateFloat(
+    initialValue = -8f,
+    targetValue = 8f,
+    animationSpec = infiniteRepeatable(
+      animation = tween(bobMillis, easing = FastOutSlowInEasing),
+      repeatMode = RepeatMode.Reverse,
+    ),
+    label = "critterBob",
+  )
+  Text(
+    emoji,
+    fontSize = 30.sp,
+    modifier = modifier
+      .graphicsLayer { translationY = offsetY }
+      .alpha(0.7f),
+  )
 }
 
 @Composable
