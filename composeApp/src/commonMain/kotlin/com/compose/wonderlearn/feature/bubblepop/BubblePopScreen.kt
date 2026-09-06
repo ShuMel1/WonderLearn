@@ -59,6 +59,7 @@ import com.compose.wonderlearn.feature.levels.LevelProgressBar
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.owl_coin
 import com.compose.wonderlearn.ui.AppStrings
+import com.compose.wonderlearn.ui.ConfettiBurst
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.theme.Bubblegum
@@ -219,6 +220,11 @@ fun BubblePopScreen(
             .clickable { viewModel.claimStreakReward() }
             .onGloballyPositioned { scrimCoordinates = it },
         ) {
+          ConfettiBurst(
+            visible = state.rewardPending,
+            playSound = false,
+            modifier = Modifier.fillMaxSize(),
+          )
           val coords = scrimCoordinates
           if (coords != null) {
             val density = LocalDensity.current

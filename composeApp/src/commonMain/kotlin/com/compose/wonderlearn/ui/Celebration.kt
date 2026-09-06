@@ -42,6 +42,10 @@ private val confettiColors = listOf(
 /**
  * A one-shot burst of confetti that plays whenever [visible] becomes true, then clears itself.
  * Purely decorative and non-interactive, so it can be laid over any screen.
+ *
+ * @param playSound Plays the bundled "tada" jingle alongside the confetti. Turn this off when the
+ * caller already has its own sound for the moment (e.g. Bubble Pop's coin-reward chime) so the two
+ * don't play on top of each other.
  */
 @Composable
 fun ConfettiBurst(
@@ -49,6 +53,7 @@ fun ConfettiBurst(
   modifier: Modifier = Modifier,
   particleCount: Int = 44,
   durationMillis: Int = 1500,
+  playSound: Boolean = true,
 ) {
   var playing by remember { mutableStateOf(false) }
   val progress = remember { Animatable(0f) }
@@ -57,7 +62,7 @@ fun ConfettiBurst(
   LaunchedEffect(visible) {
     if (visible) {
       playing = true
-      launch { runCatching { tada.play(Res.readBytes(TADA_SOUND)) } }
+      if (playSound) launch { runCatching { tada.play(Res.readBytes(TADA_SOUND)) } }
       try {
         progress.snapTo(0f)
         progress.animateTo(1f, tween(durationMillis, easing = LinearEasing))
