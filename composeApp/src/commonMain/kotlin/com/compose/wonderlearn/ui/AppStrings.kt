@@ -29,6 +29,8 @@ object AppStrings {
   // today_adventure_title/today_adventure_complete below.
   val home_adventure = LocalizedString(mapOf(Language.ARMENIAN to "Օրվա արկածը", Language.ENGLISH to "Daily Adventure", Language.RUSSIAN to "Ежедневное приключение"))
   val home_adventure_sub = LocalizedString(mapOf(Language.ARMENIAN to "Խաղա մինչև վերջ՝ մրցանակ ստանալու համար", Language.ENGLISH to "Play to the end to earn a reward", Language.RUSSIAN to "Играй до конца, чтобы получить награду"))
+  // hy/ru compositional, not natively verified — same caution as above.
+  val home_adventure_done_sub = LocalizedString(mapOf(Language.ARMENIAN to "Այսօրվա համար ավարտված է Վաղը արի ավելի շատ մրցանակների համար", Language.ENGLISH to "Done for today! Come back tomorrow for more rewards", Language.RUSSIAN to "Готово на сегодня Приходи завтра за новыми наградами"))
   val today_adventure_title = LocalizedString(mapOf(Language.ARMENIAN to "Այսօրվա ճանապարհը", Language.ENGLISH to "Today's Adventure", Language.RUSSIAN to "Сегодняшний путь"))
   val today_adventure_complete = LocalizedString(mapOf(Language.ARMENIAN to "Այսօրվա արկածն ավարտված է։ 🎉", Language.ENGLISH to "Today's Adventure complete! 🎉", Language.RUSSIAN to "Сегодняшнее приключение завершено! 🎉"))
   // hy/ru compositional, not natively verified — same caution as above.

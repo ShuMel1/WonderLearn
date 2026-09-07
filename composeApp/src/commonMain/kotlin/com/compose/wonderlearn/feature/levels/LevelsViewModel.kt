@@ -10,6 +10,7 @@ import com.compose.wonderlearn.domain.LevelKind
 import com.compose.wonderlearn.domain.LevelRunController
 import com.compose.wonderlearn.domain.LevelsRepository
 import com.compose.wonderlearn.domain.RewardsRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -86,6 +87,14 @@ class LevelsViewModel(
     dailyAdventure.markLevelDone(def.id)
     runController.markCompleted(def.id)
     _justCompleted.value = def.id
+    // Owned by the ViewModel, not a Composable's LaunchedEffect: LevelsScreen stays on the back
+    // stack while a game is played on top of it, so a screen-scoped timer would get cancelled by
+    // leaving composition and never clear the flag — replaying confetti for an old completion the
+    // next time the screen recomposes. Running independently in viewModelScope survives that.
+    viewModelScope.launch {
+      delay(1800)
+      clearCompleted()
+    }
     if (dailyAdventure.claimReward()) {
       rewards.earnGems(GEMS_PER_DAILY_ADVENTURE)
       _rewardEarned.value = true

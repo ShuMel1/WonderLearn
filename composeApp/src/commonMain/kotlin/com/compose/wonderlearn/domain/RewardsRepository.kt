@@ -41,7 +41,7 @@ fun checkInRewardForPosition(position: Int): Int =
   if (position >= CHECKIN_LADDER_SIZE) CHECKIN_JACKPOT_GOLD else position + 1
 
 /** Gems earned once per day for clearing the full Daily Adventure path. */
-const val GEMS_PER_DAILY_ADVENTURE = 3
+const val GEMS_PER_DAILY_ADVENTURE = 1
 
 /** How much Gold one Gold→Gems exchange costs, and how many Gems it yields. */
 const val GOLD_PER_EXCHANGE = 10

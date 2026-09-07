@@ -74,6 +74,7 @@ import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.ConfettiBurst
 import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
+import com.compose.wonderlearn.ui.theme.GrapeMuted
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
 import kotlinx.coroutines.delay
@@ -100,6 +101,7 @@ fun HomeScreen(
   val checkedInToday by homeViewModel.checkedInToday.collectAsStateWithLifecycle()
   val checkInPosition by homeViewModel.checkInLadderPosition.collectAsStateWithLifecycle()
   val checkInReward by homeViewModel.checkInRewardToday.collectAsStateWithLifecycle()
+  val adventureDoneToday by homeViewModel.adventureDoneToday.collectAsStateWithLifecycle()
   var showCheckIn by remember { mutableStateOf(false) }
 
   LaunchedEffect(checkedInToday) {
@@ -174,7 +176,7 @@ fun HomeScreen(
         modifier = Modifier.fillMaxWidth().padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
       ) {
-        AdventureBanner(onClick = onAdventure)
+        AdventureBanner(doneToday = adventureDoneToday, onClick = onAdventure)
         Row(
           modifier = Modifier.fillMaxWidth(),
           horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -209,19 +211,19 @@ fun HomeScreen(
 }
 
 @Composable
-private fun AdventureBanner(onClick: () -> Unit) {
+private fun AdventureBanner(doneToday: Boolean, onClick: () -> Unit) {
   Card(
-    modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+    modifier = Modifier.fillMaxWidth().let { if (doneToday) it else it.clickable(onClick = onClick) },
     shape = RoundedCornerShape(28.dp),
-    colors = CardDefaults.cardColors(containerColor = Grape),
-    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+    colors = CardDefaults.cardColors(containerColor = if (doneToday) GrapeMuted else Grape),
+    elevation = CardDefaults.cardElevation(defaultElevation = if (doneToday) 0.dp else 6.dp),
   ) {
     Row(
       modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp),
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-      Text("🗺️", fontSize = 40.sp)
+      if (!doneToday) Text("🗺️", fontSize = 40.sp)
       Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
         Text(
           AppStrings.home_adventure(),
@@ -230,12 +232,12 @@ private fun AdventureBanner(onClick: () -> Unit) {
           color = Color.White,
         )
         Text(
-          AppStrings.home_adventure_sub(),
+          if (doneToday) AppStrings.home_adventure_done_sub() else AppStrings.home_adventure_sub(),
           fontSize = 14.sp,
-          color = Color.White.copy(alpha = 0.9f),
+          color = if (doneToday) Color(0xFFEDEAF7) else Color.White.copy(alpha = 0.9f),
         )
       }
-      Text("🏆", fontSize = 22.sp)
+      if (!doneToday) Text("🏆", fontSize = 22.sp)
     }
   }
 }

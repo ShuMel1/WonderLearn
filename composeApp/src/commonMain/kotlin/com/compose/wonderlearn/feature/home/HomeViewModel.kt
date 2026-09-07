@@ -2,6 +2,7 @@ package com.compose.wonderlearn.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.compose.wonderlearn.domain.DailyAdventureRepository
 import com.compose.wonderlearn.domain.DailyProgress
 import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.RewardsRepository
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
   progress: ProgressRepository,
   private val rewards: RewardsRepository,
+  dailyAdventure: DailyAdventureRepository,
 ) : ViewModel() {
 
   val dailyProgress: StateFlow<DailyProgress> =
@@ -38,6 +40,9 @@ class HomeViewModel(
   // real data arrives — worst case it appears a beat late, never falsely early.
   val checkedInToday: StateFlow<Boolean> =
     rewards.checkedInToday().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), true)
+
+  val adventureDoneToday: StateFlow<Boolean> =
+    dailyAdventure.rewardClaimed().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
 
   fun claimCheckIn() {
     viewModelScope.launch { rewards.claimDailyCheckIn() }

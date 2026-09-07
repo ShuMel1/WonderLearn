@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlin.test.AfterTest
@@ -89,7 +90,7 @@ class LevelsTest {
   @Test
   fun onlyTheFirstLevelStartsUnlocked() = runTest(dispatcher) {
     val vm = vm()
-    advanceUntilIdle()
+    runCurrent()
     assertEquals(LevelStatus.CURRENT, statusOf(vm, 1))
     assertEquals(LevelStatus.LOCKED, statusOf(vm, 2))
   }
@@ -97,13 +98,13 @@ class LevelsTest {
   @Test
   fun answeringEnoughInARowCompletesTheLevelAndUnlocksTheNext() = runTest(dispatcher) {
     val vm = vm()
-    advanceUntilIdle()
+    runCurrent()
     val first = LEVELS.first()
 
     vm.onStart(first)
     repeat(first.answersToWin) {
       answerBus.report(true)
-      advanceUntilIdle()
+      runCurrent()
     }
 
     assertEquals(LevelStatus.DONE, statusOf(vm, 1))
@@ -114,9 +115,28 @@ class LevelsTest {
   }
 
   @Test
+  fun justCompletedAutoClearsShortlyAfterCompletionEvenWithoutTheScreenObservingIt() = runTest(dispatcher) {
+    // Regression test: this used to be a Composable-side LaunchedEffect timer, which got
+    // cancelled if the user navigated away (into a game) before it fired, leaving justCompleted
+    // stuck and replaying confetti for an old completion once the screen recomposed. Owning the
+    // timer in the ViewModel means it fires on its own, with nothing observing LevelsScreen.
+    val vm = vm()
+    runCurrent()
+    val first = LEVELS.first()
+
+    vm.onStart(first)
+    repeat(first.answersToWin) { answerBus.report(true) }
+    runCurrent()
+    assertEquals(first.id, vm.justCompleted.value)
+
+    advanceUntilIdle()
+    assertNull(vm.justCompleted.value)
+  }
+
+  @Test
   fun aWrongAnswerResetsTheStreakSoAllMustBeRightInARow() = runTest(dispatcher) {
     val vm = vm()
-    advanceUntilIdle()
+    runCurrent()
     val first = LEVELS.first()
     assertEquals(3, first.answersToWin)
 
@@ -124,21 +144,21 @@ class LevelsTest {
 
     answerBus.report(true)
     answerBus.report(true)
-    advanceUntilIdle()
+    runCurrent()
     assertEquals(2, controller.streak.value)
 
     answerBus.report(false)
-    advanceUntilIdle()
+    runCurrent()
     assertEquals(0, controller.streak.value)
     assertEquals(LevelStatus.CURRENT, statusOf(vm, 1))
 
     answerBus.report(true)
     answerBus.report(true)
-    advanceUntilIdle()
+    runCurrent()
     assertEquals(LevelStatus.CURRENT, statusOf(vm, 1))
 
     answerBus.report(true)
-    advanceUntilIdle()
+    runCurrent()
     assertEquals(LevelStatus.DONE, statusOf(vm, 1))
     assertEquals(first.id, vm.justCompleted.value)
   }
@@ -146,18 +166,18 @@ class LevelsTest {
   @Test
   fun aMemoryLevelCompletesByFinishingTheBoardNotByStreak() = runTest(dispatcher) {
     val vm = vm()
-    advanceUntilIdle()
+    runCurrent()
     val memory = LEVELS.first { it.kind == LevelKind.MEMORY }
 
     vm.onStart(memory)
 
     repeat(5) { answerBus.report(true) }
-    advanceUntilIdle()
+    runCurrent()
     assertNull(vm.justCompleted.value)
     assertNull(controller.completed.value)
 
     answerBus.reportFinished()
-    advanceUntilIdle()
+    runCurrent()
     assertEquals(LevelStatus.DONE, statusOf(vm, memory.index))
     assertEquals(memory.id, vm.justCompleted.value)
     assertEquals(memory.id, controller.completed.value)
@@ -166,10 +186,10 @@ class LevelsTest {
   @Test
   fun answersWithoutStartingALevelCompleteNothing() = runTest(dispatcher) {
     val vm = vm()
-    advanceUntilIdle()
+    runCurrent()
 
     repeat(10) { answerBus.report(true) }
-    advanceUntilIdle()
+    runCurrent()
 
     assertEquals(LevelStatus.CURRENT, statusOf(vm, 1))
     assertNull(vm.justCompleted.value)
@@ -178,7 +198,7 @@ class LevelsTest {
   @Test
   fun completingEveryLevelForTodayClaimsTheRewardExactlyOnce() = runTest(dispatcher) {
     val vm = vm()
-    advanceUntilIdle()
+    runCurrent()
 
     LEVELS.forEach { def ->
       vm.onStart(def)
@@ -187,7 +207,7 @@ class LevelsTest {
       } else {
         repeat(def.answersToWin) { answerBus.report(true) }
       }
-      advanceUntilIdle()
+      runCurrent()
     }
 
     assertTrue(vm.rewardEarned.value, "reward is claimed once every level for today is done")
@@ -198,12 +218,12 @@ class LevelsTest {
   @Test
   fun rewardIsNotClaimedWhileLevelsRemain() = runTest(dispatcher) {
     val vm = vm()
-    advanceUntilIdle()
+    runCurrent()
     val first = LEVELS.first()
 
     vm.onStart(first)
     repeat(first.answersToWin) { answerBus.report(true) }
-    advanceUntilIdle()
+    runCurrent()
 
     assertEquals(false, vm.rewardEarned.value)
     assertEquals(0, rewardClaims)
