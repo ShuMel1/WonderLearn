@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.DEFAULT_AVATAR
 import com.compose.wonderlearn.ui.AppStrings
@@ -89,6 +90,12 @@ fun ManageProfilesScreen(
       verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
       SectionLabel(AppStrings.account_who_is_learning())
+      Text(
+        AppStrings.account_profiles_explainer(),
+        fontSize = 13.sp,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(bottom = 12.dp),
+      )
       state.profiles.forEach { profile ->
         if (editingId == profile.id) {
           Row(

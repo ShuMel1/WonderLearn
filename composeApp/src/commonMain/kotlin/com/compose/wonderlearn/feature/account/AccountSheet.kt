@@ -1,5 +1,13 @@
 package com.compose.wonderlearn.feature.account
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.compose.wonderlearn.domain.DEFAULT_AVATAR
 import com.compose.wonderlearn.ui.AppStrings
+import com.compose.wonderlearn.ui.pressScale
 import com.compose.wonderlearn.ui.theme.Sky
 
 /** The avatar button on Home that opens [Destination.AccountMenu][com.compose.wonderlearn.navigation.Destination.AccountMenu]. */
@@ -78,14 +88,18 @@ internal fun AccountRow(
   onEdit: (() -> Unit)? = null,
   trailingChevron: Boolean = false,
 ) {
-  val background =
-    if (selected) Sky.copy(alpha = 0.20f) else Color.Transparent
+  // Animated rather than an instant snap, so picking a different kid actually reads as a
+  // switch happening, not just a re-render.
+  val background by animateColorAsState(
+    targetValue = if (selected) Sky.copy(alpha = 0.20f) else Color.Transparent,
+    label = "accountRowBackground",
+  )
   Row(
     modifier = Modifier
       .fillMaxWidth()
       .clip(RoundedCornerShape(20.dp))
       .background(background)
-      .clickable(onClick = onClick)
+      .pressScale(onClick = onClick)
       .padding(horizontal = 12.dp, vertical = 12.dp),
     verticalAlignment = Alignment.CenterVertically,
     horizontalArrangement = Arrangement.spacedBy(14.dp),
@@ -104,7 +118,11 @@ internal fun AccountRow(
       color = MaterialTheme.colorScheme.onSurface,
       modifier = Modifier.weight(1f),
     )
-    if (selected) {
+    AnimatedVisibility(
+      visible = selected,
+      enter = scaleIn(spring(dampingRatio = Spring.DampingRatioMediumBouncy)) + fadeIn(),
+      exit = scaleOut() + fadeOut(),
+    ) {
       Text("✓", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Sky)
     }
     if (trailingChevron) {
