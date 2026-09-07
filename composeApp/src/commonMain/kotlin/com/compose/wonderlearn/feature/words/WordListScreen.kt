@@ -133,14 +133,19 @@ private fun WordCard(
       Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
         Text(
           item.text(language),
-          fontSize = 22.sp,
+          fontSize = 19.sp,
+          // See WordDetailScreen's ShrinkToFitText — a line box sized to exactly the font's
+          // ascent+descent clips descenders on some platforms' text renderers; extra headroom
+          // per line avoids that regardless of font size.
+          lineHeight = 24.sp,
           fontWeight = FontWeight.Bold,
           color = MaterialTheme.colorScheme.onSurface,
         )
         if (nativeLanguage != language) {
           Text(
             item.text(nativeLanguage),
-            fontSize = 15.sp,
+            fontSize = 14.sp,
+            lineHeight = 18.sp,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
           )
