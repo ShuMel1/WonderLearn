@@ -311,7 +311,12 @@ private fun CheckInDialog(
       }
     },
     confirmButton = {
-      TextButton(onClick = onClaim) { Text(AppStrings.checkin_claim(), fontWeight = FontWeight.Bold) }
+      TextButton(onClick = onClaim) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+          Text(AppStrings.checkin_claim(), fontWeight = FontWeight.Bold)
+          Image(painterResource(Res.drawable.owl_coin), contentDescription = null, modifier = Modifier.size(16.dp))
+        }
+      }
     },
   )
 }
