@@ -60,6 +60,7 @@ import com.compose.wonderlearn.resources.adventure_map_bg
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.ConfettiBurst
 import com.compose.wonderlearn.ui.WonderTopBar
+import com.compose.wonderlearn.ui.pressScale
 import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
@@ -387,7 +388,7 @@ private fun LevelNodeButton(
         .size(size)
         .clip(CircleShape)
         .background(if (locked) MaterialTheme.colorScheme.surfaceVariant else fill.copy(alpha = if (done) 1f else 0.95f))
-        .then(if (locked) Modifier else Modifier.clickable(onClick = onClick)),
+        .then(if (locked) Modifier else Modifier.pressScale(onClick = onClick)),
       contentAlignment = Alignment.Center,
     ) {
       Text(

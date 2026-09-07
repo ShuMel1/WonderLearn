@@ -118,6 +118,7 @@ object AppStrings {
   // hy/ru compositional, not natively verified — same caution as above.
   val avatars_buy_confirm_title = LocalizedString(mapOf(Language.ARMENIAN to "Գնե՞լ այս կերպարը", Language.ENGLISH to "Buy this avatar?", Language.RUSSIAN to "Купить этот аватар?"))
   val avatars_buy_confirm_body = LocalizedString(mapOf(Language.ARMENIAN to "Սա կծախսի ադամանդներ", Language.ENGLISH to "This will spend your Gems", Language.RUSSIAN to "Это потратит твои алмазы"))
+  val avatars_unlocked = LocalizedString(mapOf(Language.ARMENIAN to "Բացվեց՜", Language.ENGLISH to "Unlocked!", Language.RUSSIAN to "Разблокировано!"))
   val odd_title = LocalizedString(mapOf(Language.ARMENIAN to "Գտիր ավելորդը", Language.ENGLISH to "Odd One Out", Language.RUSSIAN to "Найди лишнее"))
   val odd_prompt = LocalizedString(mapOf(Language.ARMENIAN to "Ո՞րն է ավելորդը", Language.ENGLISH to "Which one is different?", Language.RUSSIAN to "Что здесь лишнее?"))
   val bubble_title = LocalizedString(mapOf(Language.ARMENIAN to "Փուչիկներ", Language.ENGLISH to "Bubble Pop", Language.RUSSIAN to "Пузырьки"))

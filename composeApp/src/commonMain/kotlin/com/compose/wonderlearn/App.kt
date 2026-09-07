@@ -1,5 +1,10 @@
 package com.compose.wonderlearn
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -93,9 +98,17 @@ private fun AppNavHost(onExit: () -> Unit) {
       levelRun.clear()
     }
   }
+  val transitionSpec = tween<androidx.compose.ui.unit.IntOffset>(220)
+  val fadeSpec = tween<Float>(220)
   NavHost(
     navController = navController,
     startDestination = Destination.Home,
+    // The one screen-transition language for every destination — a light push/pop slide+fade
+    // rather than the previous instant cut, without touching each of the composable<> entries below.
+    enterTransition = { slideInHorizontally(transitionSpec) { it / 3 } + fadeIn(fadeSpec) },
+    exitTransition = { slideOutHorizontally(transitionSpec) { -it / 3 } + fadeOut(fadeSpec) },
+    popEnterTransition = { slideInHorizontally(transitionSpec) { -it / 3 } + fadeIn(fadeSpec) },
+    popExitTransition = { slideOutHorizontally(transitionSpec) { it / 3 } + fadeOut(fadeSpec) },
   ) {
     composable<Destination.Home> {
       HomeScreen(
