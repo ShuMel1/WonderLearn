@@ -136,7 +136,7 @@ fun HomeScreen(
       ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
           StatChip(icon = "🎁", onClick = { showCheckIn = true })
-          StatChip(icon = "💎", value = gems.toString(), onClick = onAdventure)
+          StatChip(icon = "💎", value = gems.toString(), onClick = onAvatars)
           StatChip(iconPainter = painterResource(Res.drawable.owl_coin), value = gold.toString(), onClick = onAvatars)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
