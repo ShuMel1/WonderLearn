@@ -6,6 +6,7 @@ import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.Pronouncer
+import com.compose.wonderlearn.domain.RewardsRepository
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.domain.VocabularyRepository
 import com.compose.wonderlearn.feature.memory.Difficulty
@@ -66,7 +67,22 @@ class MemoryGameTest {
     override suspend fun setTargetLanguage(language: Language) = Unit
   }
 
-  private fun game() = MemoryGameViewModel(vocabulary, progress, pronouncer, preferences, com.compose.wonderlearn.domain.AnswerBus())
+  private var goldEarned = 0
+  private val rewards = object : RewardsRepository {
+    override fun gold(): Flow<Int> = flowOf(0)
+    override fun gems(): Flow<Int> = flowOf(0)
+    override suspend fun earnGold(amount: Int) { goldEarned += amount }
+    override suspend fun earnGems(amount: Int) = Unit
+    override fun unlockedAvatars(): Flow<Set<String>> = flowOf(emptySet())
+    override suspend fun unlockAvatar(emoji: String, priceGems: Int) = false
+    override suspend fun exchangeGoldForGems() = false
+    override suspend fun claimDailyCheckIn() = false
+    override fun checkInThisWeek(): Flow<Set<Long>> = flowOf(emptySet())
+  }
+
+  private fun game(fromLevel: Boolean = false) = MemoryGameViewModel(
+    vocabulary, progress, pronouncer, preferences, com.compose.wonderlearn.domain.AnswerBus(), rewards, fromLevel,
+  )
 
   @Test
   fun newGameDealsEachWordAsExactlyTwoCards() = runTest(dispatcher) {
@@ -137,5 +153,20 @@ class MemoryGameTest {
     }
     assertTrue(vm.state.value.won)
     assertEquals(6, vm.state.value.matchedPairs)
+    assertTrue(goldEarned > 0, "winning a standalone game should credit Gold")
+  }
+
+  @Test
+  fun goldIsNotCreditedWhenPlayedFromALevel() = runTest(dispatcher) {
+    val vm = game(fromLevel = true)
+    advanceUntilIdle()
+    val byWord = vm.state.value.cards.groupBy { it.wordId }
+    byWord.values.forEach { pair ->
+      vm.onCardClick(pair[0].cardId)
+      vm.onCardClick(pair[1].cardId)
+      advanceUntilIdle()
+    }
+    assertTrue(vm.state.value.won)
+    assertEquals(0, goldEarned, "Adventure already pays its own Gems reward for the whole path")
   }
 }

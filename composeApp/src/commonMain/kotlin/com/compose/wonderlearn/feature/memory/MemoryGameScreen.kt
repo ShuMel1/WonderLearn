@@ -48,6 +48,7 @@ import com.compose.wonderlearn.ui.WordImage
 import com.compose.wonderlearn.ui.theme.BrandPrimary
 import com.compose.wonderlearn.ui.theme.Sky
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +56,7 @@ fun MemoryGameScreen(
   onBack: () -> Unit,
   fromLevel: Boolean = false,
   size: Int = -1,
-  viewModel: MemoryGameViewModel = koinViewModel(),
+  viewModel: MemoryGameViewModel = koinViewModel { parametersOf(fromLevel) },
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
 

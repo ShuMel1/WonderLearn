@@ -3,10 +3,12 @@ package com.compose.wonderlearn.feature.memory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.domain.AnswerBus
+import com.compose.wonderlearn.domain.GOLD_PER_ACTIVITY
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.Pronouncer
+import com.compose.wonderlearn.domain.RewardsRepository
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.domain.VocabularyRepository
 import kotlinx.coroutines.delay
@@ -55,6 +57,10 @@ class MemoryGameViewModel(
   private val pronouncer: Pronouncer,
   private val preferences: LanguagePreferences,
   private val answerBus: AnswerBus,
+  private val rewards: RewardsRepository,
+  /** True when reached from a level inside Today's Adventure — Adventure pays its own Gems
+   * reward on the whole path, so a standalone-play Gold credit here would double-dip. */
+  private val fromLevel: Boolean = false,
 ) : ViewModel() {
 
   private val _state = MutableStateFlow(MemoryState())
@@ -107,7 +113,10 @@ class MemoryGameViewModel(
       firstPick = null
       _state.value = _state.value.copy(matchedPairs = _state.value.matchedPairs + 1)
       viewModelScope.launch { progress.recordCorrectAnswer() }
-      if (_state.value.won) answerBus.reportFinished()
+      if (_state.value.won) {
+        answerBus.reportFinished()
+        if (!fromLevel) viewModelScope.launch { rewards.earnGold(GOLD_PER_ACTIVITY) }
+      }
     } else {
       busy = true
       viewModelScope.launch {

@@ -6,9 +6,11 @@ import com.compose.wonderlearn.domain.AnswerBus
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.LearningRepository
+import com.compose.wonderlearn.domain.GOLD_PER_ACTIVITY
 import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.Pronouncer
 import com.compose.wonderlearn.domain.QuizMode
+import com.compose.wonderlearn.domain.RewardsRepository
 import com.compose.wonderlearn.domain.VocabularyItem
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -39,6 +41,7 @@ class QuizViewModel(
   private val pronouncer: Pronouncer,
   private val preferences: LanguagePreferences,
   private val answerBus: AnswerBus,
+  private val rewards: RewardsRepository,
   private val mode: QuizMode = QuizMode.LEARN,
 ) : ViewModel() {
 
@@ -62,7 +65,11 @@ class QuizViewModel(
       val language = awaitLanguage()
       val round = learning.nextRound(language, mode)
       if (round == null) {
+        // Credit Gold only on the transition into "set exhausted" — a retry that lands here
+        // again while already allLearned must not pay out a second time.
+        val alreadyAllLearned = _state.value.allLearned
         _state.value = _state.value.copy(target = null, allLearned = true, loading = false)
+        if (!alreadyAllLearned) rewards.earnGold(GOLD_PER_ACTIVITY)
         return@launch
       }
       _state.value = _state.value.copy(

@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.CircleShape
@@ -16,17 +17,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,12 +49,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.feature.account.AccountButton
 import com.compose.wonderlearn.feature.account.AccountSheet
 import com.compose.wonderlearn.feature.account.AccountViewModel
+import com.compose.wonderlearn.resources.Res
+import com.compose.wonderlearn.resources.owl_coin
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.ConfettiBurst
 import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,12 +73,31 @@ fun HomeScreen(
   val accountState by accountViewModel.state.collectAsStateWithLifecycle()
   val homeViewModel: HomeViewModel = koinViewModel()
   val daily by homeViewModel.dailyProgress.collectAsStateWithLifecycle()
-  val coins by homeViewModel.coins.collectAsStateWithLifecycle()
-  val stars by homeViewModel.stars.collectAsStateWithLifecycle()
+  val gold by homeViewModel.gold.collectAsStateWithLifecycle()
+  val gems by homeViewModel.gems.collectAsStateWithLifecycle()
+  val checkedInToday by homeViewModel.checkedInToday.collectAsStateWithLifecycle()
+  val checkInDays by homeViewModel.checkInDaysThisWeek.collectAsStateWithLifecycle()
   var showAccount by remember { mutableStateOf(false) }
+  var showCheckIn by remember { mutableStateOf(false) }
+
+  LaunchedEffect(checkedInToday) {
+    if (!checkedInToday) showCheckIn = true
+  }
 
   if (showAccount) {
     AccountSheet(onDismiss = { showAccount = false }, viewModel = accountViewModel)
+  }
+
+  if (showCheckIn) {
+    CheckInDialog(
+      today = homeViewModel.todayEpochDay,
+      daysThisWeek = checkInDays,
+      onClaim = {
+        homeViewModel.claimCheckIn()
+        showCheckIn = false
+      },
+      onDismiss = { showCheckIn = false },
+    )
   }
 
   var celebrateGoal by remember { mutableStateOf(false) }
@@ -98,9 +124,9 @@ fun HomeScreen(
         verticalAlignment = Alignment.CenterVertically,
       ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-          StatChip("🔥", daily.streakDays.toString())
-          StatChip("⭐", stars.toString(), onClick = onAdventure)
-          StatChip("🪙", coins.toString(), onClick = onAvatars)
+          StatChip(icon = "🔥", value = daily.streakDays.toString())
+          StatChip(icon = "💎", value = gems.toString(), onClick = onAdventure)
+          StatChip(iconPainter = painterResource(Res.drawable.owl_coin), value = gold.toString(), onClick = onAvatars)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
           AccountButton(
@@ -221,7 +247,12 @@ private fun HomeTile(
 }
 
 @Composable
-private fun StatChip(icon: String, value: String, onClick: (() -> Unit)? = null) {
+private fun StatChip(
+  value: String,
+  icon: String? = null,
+  iconPainter: androidx.compose.ui.graphics.painter.Painter? = null,
+  onClick: (() -> Unit)? = null,
+) {
   Row(
     modifier = Modifier
       .clip(RoundedCornerShape(50))
@@ -231,7 +262,11 @@ private fun StatChip(icon: String, value: String, onClick: (() -> Unit)? = null)
     verticalAlignment = Alignment.CenterVertically,
     horizontalArrangement = Arrangement.spacedBy(4.dp),
   ) {
-    Text(icon, fontSize = 16.sp)
+    if (iconPainter != null) {
+      Image(iconPainter, contentDescription = null, modifier = Modifier.size(18.dp))
+    } else if (icon != null) {
+      Text(icon, fontSize = 16.sp)
+    }
     Text(
       value,
       fontSize = 16.sp,
@@ -239,4 +274,44 @@ private fun StatChip(icon: String, value: String, onClick: (() -> Unit)? = null)
       color = MaterialTheme.colorScheme.onSurface,
     )
   }
+}
+
+/**
+ * Shown once per day on Home if today's check-in hasn't been claimed yet. Deliberately simple —
+ * no animation polish here, that's Improvement #5's job once the currency moments are all in.
+ */
+@Composable
+private fun CheckInDialog(
+  today: Long,
+  daysThisWeek: Set<Long>,
+  onClaim: () -> Unit,
+  onDismiss: () -> Unit,
+) {
+  AlertDialog(
+    onDismissRequest = onDismiss,
+    title = { Text(AppStrings.checkin_title(), fontWeight = FontWeight.ExtraBold) },
+    text = {
+      Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Text(AppStrings.checkin_subtitle())
+        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+          repeat(7) { i ->
+            val day = today - (6 - i)
+            val filled = day in daysThisWeek
+            Box(
+              modifier = Modifier
+                .size(28.dp)
+                .clip(CircleShape)
+                .background(
+                  if (filled) MaterialTheme.colorScheme.primary
+                  else MaterialTheme.colorScheme.surfaceVariant,
+                ),
+            )
+          }
+        }
+      }
+    },
+    confirmButton = {
+      TextButton(onClick = onClaim) { Text(AppStrings.checkin_claim(), fontWeight = FontWeight.Bold) }
+    },
+  )
 }

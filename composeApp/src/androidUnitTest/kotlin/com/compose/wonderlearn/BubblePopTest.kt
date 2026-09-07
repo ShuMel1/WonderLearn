@@ -7,6 +7,7 @@ import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.Pronouncer
 import com.compose.wonderlearn.domain.ProgressRepository
+import com.compose.wonderlearn.domain.RewardsRepository
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.domain.VocabularyRepository
 import com.compose.wonderlearn.feature.bubblepop.Bubble
@@ -69,8 +70,21 @@ class BubblePopTest {
     override suspend fun setTargetLanguage(language: Language) = Unit
   }
 
+  private var goldEarned = 0
+  private val rewards = object : RewardsRepository {
+    override fun gold(): Flow<Int> = flowOf(0)
+    override fun gems(): Flow<Int> = flowOf(0)
+    override suspend fun earnGold(amount: Int) { goldEarned += amount }
+    override suspend fun earnGems(amount: Int) = Unit
+    override fun unlockedAvatars(): Flow<Set<String>> = flowOf(emptySet())
+    override suspend fun unlockAvatar(emoji: String, priceGems: Int) = false
+    override suspend fun exchangeGoldForGems() = false
+    override suspend fun claimDailyCheckIn() = false
+    override fun checkInThisWeek(): Flow<Set<Long>> = flowOf(emptySet())
+  }
+
   private fun game(fromLevel: Boolean = false) =
-    BubblePopViewModel(vocabulary, progress, pronouncer, preferences, AnswerBus(), fromLevel)
+    BubblePopViewModel(vocabulary, progress, pronouncer, preferences, AnswerBus(), rewards, fromLevel)
 
   private fun correctBubble(vm: BubblePopViewModel): Bubble =
     vm.state.value.bubbles.first { it.item.id == vm.state.value.targetId }
@@ -149,6 +163,7 @@ class BubblePopTest {
     assertEquals(0, vm.state.value.streak)
     assertFalse(vm.state.value.rewardPending)
     assertTrue(vm.state.value.roundKey > roundKeyAtReward, "a fresh round should have started")
+    assertTrue(goldEarned > 0, "claiming the streak reward should credit Gold")
   }
 
   @Test

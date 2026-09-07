@@ -1,6 +1,7 @@
 package com.compose.wonderlearn.feature.avatars
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,9 +35,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.domain.AVATARS
 import com.compose.wonderlearn.domain.AvatarItem
+import com.compose.wonderlearn.domain.GEMS_PER_EXCHANGE
+import com.compose.wonderlearn.domain.GOLD_PER_EXCHANGE
+import com.compose.wonderlearn.resources.Res
+import com.compose.wonderlearn.resources.owl_coin
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.theme.Sunny
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 private val WornGreen = Color(0xFF35C46A)
@@ -46,6 +54,11 @@ fun AvatarsScreen(
   viewModel: AvatarsViewModel = koinViewModel(),
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
+  val exchangeFailed by viewModel.exchangeFailed.collectAsStateWithLifecycle()
+
+  LaunchedEffect(exchangeFailed) {
+    if (exchangeFailed) viewModel.consumeExchangeFailed()
+  }
 
   Scaffold(
     containerColor = Color.Transparent,
@@ -60,7 +73,19 @@ fun AvatarsScreen(
         fontSize = 88.sp,
         modifier = Modifier.padding(top = 12.dp),
       )
-      CoinChip(state.coins, modifier = Modifier.padding(vertical = 12.dp))
+      Row(
+        modifier = Modifier.padding(vertical = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+      ) {
+        GoldChip(state.gold)
+        GemsChip(state.gems)
+      }
+      ExchangeButton(
+        enabled = state.gold >= GOLD_PER_EXCHANGE,
+        failed = exchangeFailed,
+        onClick = viewModel::onExchangeClick,
+      )
 
       AVATARS.chunked(4).forEach { rowAvatars ->
         Row(
@@ -73,7 +98,7 @@ fun AvatarsScreen(
               avatar = avatar,
               available = available,
               worn = avatar.emoji == state.current,
-              affordable = state.coins >= avatar.price,
+              affordable = state.gems >= avatar.price,
               onClick = { viewModel.onAvatarClick(avatar) },
               modifier = Modifier.weight(1f),
             )
@@ -87,7 +112,7 @@ fun AvatarsScreen(
 }
 
 @Composable
-private fun CoinChip(coins: Int, modifier: Modifier = Modifier) {
+private fun GoldChip(gold: Int, modifier: Modifier = Modifier) {
   Row(
     modifier = modifier
       .clip(RoundedCornerShape(50))
@@ -96,8 +121,46 @@ private fun CoinChip(coins: Int, modifier: Modifier = Modifier) {
     verticalAlignment = Alignment.CenterVertically,
     horizontalArrangement = Arrangement.spacedBy(6.dp),
   ) {
-    Text("🪙", fontSize = 20.sp)
-    Text(coins.toString(), fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface)
+    Image(painterResource(Res.drawable.owl_coin), contentDescription = null, modifier = Modifier.size(22.dp))
+    Text(gold.toString(), fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface)
+  }
+}
+
+@Composable
+private fun GemsChip(gems: Int, modifier: Modifier = Modifier) {
+  Row(
+    modifier = modifier
+      .clip(RoundedCornerShape(50))
+      .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.18f))
+      .padding(horizontal = 16.dp, vertical = 8.dp),
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.spacedBy(6.dp),
+  ) {
+    Text("💎", fontSize = 20.sp)
+    Text(gems.toString(), fontSize = 20.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface)
+  }
+}
+
+/** Trades [GOLD_PER_EXCHANGE] Gold for [GEMS_PER_EXCHANGE] Gem — the only way Gold buys anything
+ * on its own; unlocking avatars themselves spends Gems. */
+@Composable
+private fun ExchangeButton(enabled: Boolean, failed: Boolean, onClick: () -> Unit) {
+  Row(
+    modifier = Modifier
+      .padding(bottom = 8.dp)
+      .clip(RoundedCornerShape(50))
+      .background(MaterialTheme.colorScheme.surfaceVariant)
+      .then(if (enabled) Modifier.clickable(onClick = onClick) else Modifier)
+      .alpha(if (enabled) 1f else 0.5f)
+      .padding(horizontal = 14.dp, vertical = 8.dp),
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.spacedBy(6.dp),
+  ) {
+    Text("$GOLD_PER_EXCHANGE", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+    Image(painterResource(Res.drawable.owl_coin), contentDescription = null, modifier = Modifier.size(16.dp))
+    Text("→", fontSize = 14.sp)
+    Text("$GEMS_PER_EXCHANGE", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+    Text("💎", fontSize = 14.sp)
   }
 }
 
@@ -131,7 +194,7 @@ private fun AvatarTile(
           horizontalArrangement = Arrangement.spacedBy(2.dp),
           modifier = Modifier.alpha(if (affordable) 1f else 0.5f),
         ) {
-          Text("🪙", fontSize = 11.sp)
+          Text("💎", fontSize = 11.sp)
           Text(avatar.price.toString(), fontSize = 13.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
       }

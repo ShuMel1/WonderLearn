@@ -7,12 +7,14 @@ import com.compose.wonderlearn.domain.LevelDef
 import com.compose.wonderlearn.domain.LevelKind
 import com.compose.wonderlearn.domain.LevelRunController
 import com.compose.wonderlearn.domain.LevelsRepository
+import com.compose.wonderlearn.domain.RewardsRepository
 import com.compose.wonderlearn.feature.levels.LevelStatus
 import com.compose.wonderlearn.feature.levels.LevelsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -65,7 +67,20 @@ class LevelsTest {
     }
   }
 
-  private fun vm() = LevelsViewModel(levels, dailyAdventure, answerBus, controller)
+  private var gemsEarned = 0
+  private val rewards = object : RewardsRepository {
+    override fun gold(): Flow<Int> = flowOf(0)
+    override fun gems(): Flow<Int> = flowOf(0)
+    override suspend fun earnGold(amount: Int) = Unit
+    override suspend fun earnGems(amount: Int) { gemsEarned += amount }
+    override fun unlockedAvatars(): Flow<Set<String>> = flowOf(emptySet())
+    override suspend fun unlockAvatar(emoji: String, priceGems: Int) = false
+    override suspend fun exchangeGoldForGems() = false
+    override suspend fun claimDailyCheckIn() = false
+    override fun checkInThisWeek(): Flow<Set<Long>> = flowOf(emptySet())
+  }
+
+  private fun vm() = LevelsViewModel(levels, dailyAdventure, answerBus, controller, rewards)
 
   private fun statusOf(vm: LevelsViewModel, index: Int) =
     vm.state.value.nodes.first { it.def.index == index }.status
@@ -176,6 +191,7 @@ class LevelsTest {
 
     assertTrue(vm.rewardEarned.value, "reward is claimed once every level for today is done")
     assertEquals(1, rewardClaims, "claimed exactly once, not once per level")
+    assertTrue(gemsEarned > 0, "clearing the day should credit Gems")
   }
 
   @Test
