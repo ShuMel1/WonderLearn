@@ -34,7 +34,8 @@ object AppStrings {
   // hy/ru compositional, not natively verified — same caution as above.
   val checkin_title = LocalizedString(mapOf(Language.ARMENIAN to "Օրվա այցելություն", Language.ENGLISH to "Daily Check-In", Language.RUSSIAN to "Ежедневный визит"))
   val checkin_subtitle = LocalizedString(mapOf(Language.ARMENIAN to "Դու բացեցիր հավելվածը այսօր", Language.ENGLISH to "You opened the app today!", Language.RUSSIAN to "Ты открыл приложение сегодня!"))
-  val checkin_claim = LocalizedString(mapOf(Language.ARMENIAN to "Ստացիր", Language.ENGLISH to "Claim", Language.RUSSIAN to "Забрать"))
+  val checkin_tap_hint = LocalizedString(mapOf(Language.ARMENIAN to "Հպիր կրակին՝ մրցանակը ստանալու համար", Language.ENGLISH to "Tap the fire to claim your reward!", Language.RUSSIAN to "Нажми на огонь, чтобы получить награду!"))
+  val checkin_earned_today = LocalizedString(mapOf(Language.ARMENIAN to "ստացար այսօր", Language.ENGLISH to "earned today", Language.RUSSIAN to "получено сегодня"))
   val checkin_already_claimed = LocalizedString(mapOf(Language.ARMENIAN to "Այսօրվա մրցանակն արդեն ստացված է։ Վաղը կրկին արի՛։", Language.ENGLISH to "Already claimed today — come back tomorrow!", Language.RUSSIAN to "Уже получено сегодня — возвращайся завтра!"))
   val checkin_got_it = LocalizedString(mapOf(Language.ARMENIAN to "Հասկացա", Language.ENGLISH to "Got it", Language.RUSSIAN to "Понятно"))
   val home_review = LocalizedString(mapOf(Language.ARMENIAN to "Կրկնել", Language.ENGLISH to "Review", Language.RUSSIAN to "Повторить"))

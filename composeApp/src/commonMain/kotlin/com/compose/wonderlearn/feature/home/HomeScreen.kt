@@ -1,15 +1,19 @@
 package com.compose.wonderlearn.feature.home
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -24,7 +29,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,14 +44,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.boundsInRoot
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.audio.AudioPlayer
 import com.compose.wonderlearn.domain.GOLD_PER_CHECKIN
 import com.compose.wonderlearn.feature.account.AccountButton
 import com.compose.wonderlearn.feature.account.AccountSheet
@@ -60,6 +73,7 @@ import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -92,7 +106,7 @@ fun HomeScreen(
   }
 
   if (showCheckIn) {
-    CheckInDialog(
+    CheckInOverlay(
       today = homeViewModel.todayEpochDay,
       daysThisWeek = checkInDays,
       claimedToday = checkedInToday,
@@ -286,56 +300,178 @@ private fun StatChip(
  */
 /**
  * Opens two ways: automatically once per day (first Home composition, if not yet claimed) and
- * anytime after via tapping the 🔥 streak chip — [claimedToday] switches it between the claimable
- * state and a read-only "come back tomorrow" state so reopening after claiming can't double-pay.
+ * anytime after via tapping the 🔥 streak chip. The week strip shows past claimed days as a dim
+ * flame, an unclaimed/missed day as a plain dot, and today — while still unclaimed — as a bright,
+ * gently pulsing flame that's the actual claim button: tapping it flies the reward coin from that
+ * exact spot to center, grows and spins it (same technique as Bubble Pop's streak reward), then
+ * settles into the dimmed "done for today" flame. Reopening after claiming shows a read-only
+ * "come back tomorrow" state instead, so it can't double-pay.
  */
 @Composable
-private fun CheckInDialog(
+private fun CheckInOverlay(
   today: Long,
   daysThisWeek: Set<Long>,
   claimedToday: Boolean,
   onClaim: () -> Unit,
   onDismiss: () -> Unit,
 ) {
-  AlertDialog(
-    onDismissRequest = onDismiss,
-    title = { Text(AppStrings.checkin_title(), fontWeight = FontWeight.ExtraBold) },
-    text = {
-      Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+  var todayFireCenter by remember { mutableStateOf(Offset.Zero) }
+  var scrimCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
+  var claiming by remember { mutableStateOf(false) }
+  var settled by remember { mutableStateOf(false) }
+
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(Color.Black.copy(alpha = 0.55f))
+      .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {
+        when {
+          settled -> { onClaim(); onDismiss() }
+          !claiming -> onDismiss()
+        }
+      }
+      .onGloballyPositioned { scrimCoordinates = it },
+    contentAlignment = Alignment.Center,
+  ) {
+    ConfettiBurst(visible = claiming, playSound = false, modifier = Modifier.fillMaxSize())
+
+    Card(
+      modifier = Modifier
+        .padding(32.dp)
+        .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {},
+      shape = RoundedCornerShape(28.dp),
+    ) {
+      Column(
+        modifier = Modifier.padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+      ) {
+        Text(AppStrings.checkin_title(), fontSize = 22.sp, fontWeight = FontWeight.ExtraBold)
         Text(
           if (claimedToday) AppStrings.checkin_already_claimed() else AppStrings.checkin_subtitle(),
           textAlign = TextAlign.Center,
         )
-        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+
+        val pulse = rememberInfiniteTransition(label = "fireHintPulse")
+        val pulseScale by pulse.animateFloat(
+          initialValue = 0.9f,
+          targetValue = 1.15f,
+          animationSpec = infiniteRepeatable(tween(700, easing = FastOutSlowInEasing), RepeatMode.Reverse),
+          label = "fireHintScale",
+        )
+
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
           repeat(7) { i ->
             val day = today - (6 - i)
-            val filled = day in daysThisWeek
+            val isToday = day == today
+            val alreadyLit = day in daysThisWeek || (isToday && claimedToday)
+            val isClaimable = isToday && !claimedToday && !claiming
             Box(
               modifier = Modifier
-                .size(28.dp)
-                .clip(CircleShape)
-                .background(if (filled) Sunny else MaterialTheme.colorScheme.surfaceVariant)
+                .size(34.dp)
+                .then(if (isToday) Modifier.onGloballyPositioned { todayFireCenter = it.boundsInRoot().center } else Modifier)
                 .then(
-                  if (day == today) Modifier.border(2.dp, Sunny, CircleShape) else Modifier,
+                  if (isClaimable) {
+                    Modifier.clip(CircleShape).clickable(
+                      interactionSource = remember { MutableInteractionSource() },
+                      indication = null,
+                    ) { claiming = true }
+                  } else {
+                    Modifier
+                  },
                 ),
+              contentAlignment = Alignment.Center,
+            ) {
+              if (alreadyLit || isClaimable) {
+                Text(
+                  "🔥",
+                  fontSize = 22.sp,
+                  modifier = Modifier
+                    .alpha(if (isClaimable) 1f else 0.35f)
+                    .graphicsLayer {
+                      if (isClaimable) {
+                        scaleX = pulseScale
+                        scaleY = pulseScale
+                      }
+                    },
+                )
+              } else {
+                Box(
+                  modifier = Modifier
+                    .size(12.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                )
+              }
+            }
+          }
+        }
+
+        if (isClaimableHint(claimedToday, claiming)) {
+          Text(AppStrings.checkin_tap_hint(), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+
+        if (claimedToday) {
+          Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            Image(painterResource(Res.drawable.owl_coin), contentDescription = null, modifier = Modifier.size(22.dp))
+            Text(
+              "+$GOLD_PER_CHECKIN " + AppStrings.checkin_earned_today(),
+              fontSize = 14.sp,
+              fontWeight = FontWeight.Bold,
+              color = Sunny,
             )
           }
-        }
-        if (!claimedToday) {
-          Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Image(painterResource(Res.drawable.owl_coin), contentDescription = null, modifier = Modifier.size(44.dp))
-            Text("+$GOLD_PER_CHECKIN", fontSize = 30.sp, fontWeight = FontWeight.ExtraBold, color = Sunny)
-          }
+          TextButton(onClick = onDismiss) { Text(AppStrings.checkin_got_it(), fontWeight = FontWeight.Bold) }
         }
       }
-    },
-    confirmButton = {
-      TextButton(onClick = if (claimedToday) onDismiss else onClaim) {
-        Text(
-          if (claimedToday) AppStrings.checkin_got_it() else AppStrings.checkin_claim(),
-          fontWeight = FontWeight.Bold,
+    }
+
+    val coords = scrimCoordinates
+    if (claiming && coords != null) {
+      val density = LocalDensity.current
+      val smallPx = with(density) { 34.dp.toPx() }
+      val largePx = with(density) { 140.dp.toPx() }
+      val startCenter = todayFireCenter - coords.positionInRoot()
+      val bounds = coords.boundsInRoot()
+      val endCenter = Offset(bounds.width / 2f, bounds.height / 2f)
+
+      val flight = remember { Animatable(0f) }
+      val spin = remember { Animatable(0f) }
+      val coinSound = remember { AudioPlayer() }
+
+      LaunchedEffect(Unit) {
+        launch { runCatching { coinSound.play(Res.readBytes(COIN_SOUND)) } }
+        flight.animateTo(
+          1f,
+          animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow),
         )
+        spin.animateTo(
+          720f,
+          animationSpec = tween(durationMillis = 850, easing = CubicBezierEasing(0.05f, 0.6f, 0.15f, 1f)),
+        )
+        settled = true
       }
-    },
-  )
+
+      val t = flight.value.coerceIn(0f, 1f)
+      val cx = startCenter.x + (endCenter.x - startCenter.x) * t
+      val cy = startCenter.y + (endCenter.y - startCenter.y) * t
+      val coinSizePx = smallPx + (largePx - smallPx) * t
+
+      Image(
+        painter = painterResource(Res.drawable.owl_coin),
+        contentDescription = null,
+        modifier = Modifier
+          .offset { IntOffset((cx - coinSizePx / 2f).toInt(), (cy - coinSizePx / 2f).toInt()) }
+          .size(with(density) { coinSizePx.toDp() })
+          .graphicsLayer {
+            rotationY = spin.value
+            cameraDistance = 8f * density.density
+          },
+      )
+    }
+  }
 }
+
+private fun isClaimableHint(claimedToday: Boolean, claiming: Boolean) = !claimedToday && !claiming
+
+private const val COIN_SOUND = "files/sounds/coin.wav"
