@@ -134,7 +134,7 @@ fun HomeScreen(
         verticalAlignment = Alignment.CenterVertically,
       ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-          StatChip(icon = "🔥", value = daily.streakDays.toString(), onClick = { showCheckIn = true })
+          StatChip(icon = "🎁", onClick = { showCheckIn = true })
           StatChip(icon = "💎", value = gems.toString(), onClick = onAdventure)
           StatChip(iconPainter = painterResource(Res.drawable.owl_coin), value = gold.toString(), onClick = onAvatars)
         }
@@ -272,7 +272,7 @@ private fun HomeTile(
 
 @Composable
 private fun StatChip(
-  value: String,
+  value: String? = null,
   icon: String? = null,
   iconPainter: androidx.compose.ui.graphics.painter.Painter? = null,
   onClick: (() -> Unit)? = null,
@@ -291,12 +291,14 @@ private fun StatChip(
     } else if (icon != null) {
       Text(icon, fontSize = 16.sp)
     }
-    Text(
-      value,
-      fontSize = 16.sp,
-      fontWeight = FontWeight.Bold,
-      color = MaterialTheme.colorScheme.onSurface,
-    )
+    if (value != null) {
+      Text(
+        value,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onSurface,
+      )
+    }
   }
 }
 
@@ -391,18 +393,28 @@ private fun CheckInOverlay(
                 ),
               contentAlignment = Alignment.Center,
             ) {
-              PresentIcon(
-                tint = if (alreadyDone || isClaimable) Sunny else MaterialTheme.colorScheme.surfaceVariant,
-                modifier = Modifier
-                  .size(baseSize)
-                  .alpha(if (alreadyDone || isClaimable) 1f else 0.5f)
-                  .graphicsLayer {
-                    if (isClaimable) {
-                      scaleX = pulseScale
-                      scaleY = pulseScale
-                    }
-                  },
-              )
+              if (alreadyDone || isClaimable) {
+                // A real gift box — bright and pulsing for today's unclaimed slot (the actual tap
+                // target), dimmed to read as "already opened" once it's done.
+                Text(
+                  "🎁",
+                  fontSize = (baseSize.value * 0.8f).sp,
+                  modifier = Modifier
+                    .alpha(if (isClaimable) 1f else 0.5f)
+                    .graphicsLayer {
+                      if (isClaimable) {
+                        scaleX = pulseScale
+                        scaleY = pulseScale
+                      }
+                    },
+                )
+              } else {
+                // Slots still ahead stay a plain minimal outline — a preview, not a real reward yet.
+                PresentIcon(
+                  tint = MaterialTheme.colorScheme.surfaceVariant,
+                  modifier = Modifier.size(baseSize).alpha(0.6f),
+                )
+              }
             }
           }
         }
