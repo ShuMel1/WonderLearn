@@ -73,7 +73,7 @@ val appModule = module {
   single<ProfileRepository> { SqlDelightProfileRepository(get()) }
   single<TimeProvider> { SystemTimeProvider() }
   single<ProgressRepository> { SqlDelightProgressRepository(get(), get(), get()) }
-  single<RewardsRepository> { SqlDelightRewardsRepository(get(), get()) }
+  single<RewardsRepository> { SqlDelightRewardsRepository(get(), get(), get()) }
   single<LearningRepository> { SqlDelightLearningRepository(get(), get()) }
   single<LevelsRepository> { SqlDelightLevelsRepository(get(), get()) }
   single<DailyAdventureRepository> { SqlDelightDailyAdventureRepository(get(), get(), get()) }
@@ -86,18 +86,18 @@ val appModule = module {
   single<Analytics> { HttpAnalytics(get(), get()) }
   viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
   viewModel { AccountViewModel(get(), get(), get()) }
-  viewModel { HomeViewModel(get(), get(), get()) }
-  viewModel { MemoryGameViewModel(get(), get(), get(), get(), get()) }
+  viewModel { HomeViewModel(get(), get()) }
+  viewModel { (fromLevel: Boolean) -> MemoryGameViewModel(get(), get(), get(), get(), get(), get(), fromLevel) }
   viewModel { OddOneOutViewModel(get(), get(), get()) }
-  viewModel { (fromLevel: Boolean) -> BubblePopViewModel(get(), get(), get(), get(), get(), fromLevel) }
+  viewModel { (fromLevel: Boolean) -> BubblePopViewModel(get(), get(), get(), get(), get(), get(), fromLevel) }
   viewModel { SpeakGameViewModel(get(), get(), get(), get(), get(), get()) }
   viewModel { AvatarsViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
   viewModel { CategoriesViewModel(get()) }
   viewModel { params -> WordListViewModel(params.get(), get(), get()) }
   viewModel { params -> WordDetailViewModel(params.get(), get(), get()) }
-  viewModel { (mode: QuizMode) -> QuizViewModel(get(), get(), get(), get(), get(), mode) }
-  viewModel { LevelsViewModel(get(), get(), get(), get()) }
+  viewModel { (mode: QuizMode) -> QuizViewModel(get(), get(), get(), get(), get(), get(), mode) }
+  viewModel { LevelsViewModel(get(), get(), get(), get(), get()) }
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {

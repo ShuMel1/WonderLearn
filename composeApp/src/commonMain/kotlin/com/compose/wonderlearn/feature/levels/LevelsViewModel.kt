@@ -4,10 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.domain.AnswerBus
 import com.compose.wonderlearn.domain.DailyAdventureRepository
+import com.compose.wonderlearn.domain.GEMS_PER_DAILY_ADVENTURE
 import com.compose.wonderlearn.domain.LevelDef
 import com.compose.wonderlearn.domain.LevelKind
 import com.compose.wonderlearn.domain.LevelRunController
 import com.compose.wonderlearn.domain.LevelsRepository
+import com.compose.wonderlearn.domain.RewardsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,6 +32,7 @@ class LevelsViewModel(
   private val dailyAdventure: DailyAdventureRepository,
   private val answerBus: AnswerBus,
   private val runController: LevelRunController,
+  private val rewards: RewardsRepository,
 ) : ViewModel() {
 
   private val todaysLevels = dailyAdventure.todaysLevels()
@@ -83,7 +86,10 @@ class LevelsViewModel(
     dailyAdventure.markLevelDone(def.id)
     runController.markCompleted(def.id)
     _justCompleted.value = def.id
-    if (dailyAdventure.claimReward()) _rewardEarned.value = true
+    if (dailyAdventure.claimReward()) {
+      rewards.earnGems(GEMS_PER_DAILY_ADVENTURE)
+      _rewardEarned.value = true
+    }
   }
 
   private fun buildNodes(completed: Set<String>): List<LevelNode> =

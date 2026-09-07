@@ -3,10 +3,12 @@ package com.compose.wonderlearn.feature.bubblepop
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.wonderlearn.domain.AnswerBus
+import com.compose.wonderlearn.domain.GOLD_PER_ACTIVITY
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
 import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.Pronouncer
+import com.compose.wonderlearn.domain.RewardsRepository
 import com.compose.wonderlearn.domain.VocabularyItem
 import com.compose.wonderlearn.domain.VocabularyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,6 +50,7 @@ class BubblePopViewModel(
   private val pronouncer: Pronouncer,
   private val preferences: LanguagePreferences,
   private val answerBus: AnswerBus,
+  private val rewards: RewardsRepository,
   /** True when reached from a level inside Today's Adventure — disables the coin-streak reward. */
   private val fromLevel: Boolean = false,
 ) : ViewModel() {
@@ -117,13 +120,13 @@ class BubblePopViewModel(
   }
 
   /**
-   * Called once the child dismisses the five-in-a-row coin reward and resumes play. Mirrors
-   * DailyAdventureRepository.claimReward(): returns true so future currency work can credit Gold
-   * only when this returns true — there's no currency system to award from yet, so this just
-   * clears the streak and resumes; it does not pay anything out itself.
+   * Called once the child dismisses the five-in-a-row coin reward and resumes play. Credits Gold
+   * — this is the "finished activity" moment for standalone Bubble Pop (the reward flow only ever
+   * triggers when `!fromLevel`, so no gating needed here).
    */
   fun claimStreakReward(): Boolean {
     _state.value = _state.value.copy(streak = 0, rewardPending = false)
+    viewModelScope.launch { rewards.earnGold(GOLD_PER_ACTIVITY) }
     newRound()
     return true
   }
