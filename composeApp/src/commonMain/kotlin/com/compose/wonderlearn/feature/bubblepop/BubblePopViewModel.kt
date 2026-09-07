@@ -6,7 +6,6 @@ import com.compose.wonderlearn.domain.AnswerBus
 import com.compose.wonderlearn.domain.GOLD_PER_ACTIVITY
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
-import com.compose.wonderlearn.domain.LevelRunController
 import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.Pronouncer
 import com.compose.wonderlearn.domain.RewardsRepository
@@ -52,7 +51,6 @@ class BubblePopViewModel(
   private val preferences: LanguagePreferences,
   private val answerBus: AnswerBus,
   private val rewards: RewardsRepository,
-  private val runController: LevelRunController,
   /** True when reached from a level inside Today's Adventure — disables the coin-streak reward. */
   private val fromLevel: Boolean = false,
 ) : ViewModel() {
@@ -62,11 +60,6 @@ class BubblePopViewModel(
 
   private var language: Language? = null
   private var nextId = 0
-
-  // Mirrors LevelRunController's own streak semantics (increments on correct, resets on wrong)
-  // but tracked locally so detecting "this pop finishes the level" never depends on waiting for
-  // LevelsViewModel's own AnswerBus collector to have processed earlier pops first.
-  private var consecutiveCorrect = 0
 
   init {
     newRound()
@@ -99,30 +92,18 @@ class BubblePopViewModel(
     val current = _state.value
     if (bubble.id in current.poppedWrong) return
     if (bubble.item.id == current.targetId) {
-      consecutiveCorrect++
-      // This level's goal, if we're inside one — read once here rather than relying on
-      // LevelsViewModel's own AnswerBus collector (which reaches the same conclusion, but
-      // asynchronously) to avoid a race between the two: this pop is about to satisfy it, so the
-      // screen is about to be popped by App.kt's completedLevel effect. Starting (and pronouncing)
-      // another round here would be for a bubble set the child never gets to play.
-      val goal = if (fromLevel) runController.active.value?.goal else null
-      val finishesLevel = goal != null && consecutiveCorrect >= goal
       answerBus.report(true)
       viewModelScope.launch { progress.recordCorrectAnswer() }
       val streak = if (fromLevel) 0 else current.streak + 1
-      when {
-        finishesLevel -> _state.value = current.copy(score = current.score + 1, streak = streak)
-        !fromLevel && streak >= COIN_STREAK_GOAL ->
-          // Pause here rather than starting a new round — claimStreakReward() resumes play once
-          // the child dismisses the reward. The Screen freezes the rise animation on this flag.
-          _state.value = current.copy(score = current.score + 1, streak = streak, rewardPending = true)
-        else -> {
-          _state.value = current.copy(score = current.score + 1, streak = streak)
-          newRound()
-        }
+      if (!fromLevel && streak >= COIN_STREAK_GOAL) {
+        // Pause here rather than starting a new round — claimStreakReward() resumes play once
+        // the child dismisses the reward. The Screen freezes the rise animation on this flag.
+        _state.value = current.copy(score = current.score + 1, streak = streak, rewardPending = true)
+      } else {
+        _state.value = current.copy(score = current.score + 1, streak = streak)
+        newRound()
       }
     } else {
-      consecutiveCorrect = 0
       _state.value = current.copy(poppedWrong = current.poppedWrong + bubble.id, streak = 0)
       answerBus.report(false)
     }
