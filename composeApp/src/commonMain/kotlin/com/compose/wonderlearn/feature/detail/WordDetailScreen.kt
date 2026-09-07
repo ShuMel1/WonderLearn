@@ -111,16 +111,16 @@ fun WordDetailScreen(
       ) {
         ShrinkToFitText(
           text = item.text(language),
-          maxFontSize = 46.sp,
-          minFontSize = 24.sp,
+          maxFontSize = 34.sp,
+          minFontSize = 18.sp,
           fontWeight = FontWeight.ExtraBold,
           color = MaterialTheme.colorScheme.onBackground,
         )
         if (nativeLanguage != language) {
           ShrinkToFitText(
             text = item.text(nativeLanguage),
-            maxFontSize = 24.sp,
-            minFontSize = 16.sp,
+            maxFontSize = 18.sp,
+            minFontSize = 13.sp,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
           )
@@ -185,6 +185,10 @@ private fun ShrinkToFitText(
   Text(
     text,
     fontSize = fontSize,
+    // A line box sized to exactly the font's ascent+descent clips descenders (g, y, p, and several
+    // Armenian/Cyrillic/accented letterforms) on some platforms' text renderers — extra headroom
+    // per line fixes that regardless of font size, on top of shrinking the size itself below.
+    lineHeight = (fontSize.value * 1.25f).sp,
     fontWeight = fontWeight,
     textAlign = TextAlign.Center,
     color = color,
