@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.domain.DEFAULT_AVATAR
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.WonderTopBar
 import org.koin.compose.viewmodel.koinViewModel
@@ -125,7 +126,7 @@ fun ManageProfilesScreen(
           }
         } else {
           AccountRow(
-            leading = profile.avatarId ?: profile.displayName.initial(),
+            leading = profile.avatarId ?: DEFAULT_AVATAR,
             label = profile.displayName,
             selected = profile.id == state.activeProfileId,
             onClick = { viewModel.switchProfile(profile.id) },

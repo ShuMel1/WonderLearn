@@ -81,6 +81,9 @@ val AVATARS: List<AvatarItem> = listOf(
 /** The avatars a child can wear without spending anything. */
 val FREE_AVATARS: List<String> = AVATARS.filter { it.price == 0 }.map { it.emoji }
 
+/** Shown for a profile with no avatarId set yet, in place of a first-initial letter. */
+const val DEFAULT_AVATAR = "🦉"
+
 interface RewardsRepository {
   /** The active child's current spendable Gold balance (earned minus spent). Earned through
    * everyday play — finishing an activity, opening the daily check-in. */

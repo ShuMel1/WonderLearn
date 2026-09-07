@@ -66,6 +66,7 @@ import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.audio.AudioPlayer
 import com.compose.wonderlearn.domain.CHECKIN_LADDER_SIZE
+import com.compose.wonderlearn.domain.DEFAULT_AVATAR
 import com.compose.wonderlearn.feature.account.AccountButton
 import com.compose.wonderlearn.feature.account.AccountViewModel
 import com.compose.wonderlearn.resources.Res
@@ -138,14 +139,13 @@ fun HomeScreen(
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
           AccountButton(
-            displayName = accountState.activeProfile?.displayName,
             avatar = accountState.activeProfile?.avatarId,
             onClick = onAccount,
           )
         }
       }
       }
-      val avatar = accountState.activeProfile?.avatarId ?: "🦉"
+      val avatar = accountState.activeProfile?.avatarId ?: DEFAULT_AVATAR
       val idle = rememberInfiniteTransition(label = "avatarIdle")
       val scale by idle.animateFloat(
         initialValue = 0.94f,

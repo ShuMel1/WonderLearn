@@ -101,6 +101,7 @@ object AppStrings {
   )
   val action_save = LocalizedString(mapOf(Language.ARMENIAN to "Պահպանել", Language.ENGLISH to "Save", Language.RUSSIAN to "Сохранить"))
   val action_cancel = LocalizedString(mapOf(Language.ARMENIAN to "Չեղարկել", Language.ENGLISH to "Cancel", Language.RUSSIAN to "Отмена"))
+  val action_buy = LocalizedString(mapOf(Language.ARMENIAN to "Գնել", Language.ENGLISH to "Buy", Language.RUSSIAN to "Купить"))
   val language_native_title = LocalizedString(mapOf(Language.ARMENIAN to "Ո՞ր լեզվով ես խոսում", Language.ENGLISH to "Which language do you speak?", Language.RUSSIAN to "На каком языке ты говоришь?"))
   val language_target_title = LocalizedString(mapOf(Language.ARMENIAN to "Ի՞նչ ես ուզում սովորել", Language.ENGLISH to "What do you want to learn?", Language.RUSSIAN to "Что хочешь выучить?"))
   val account_my_language = LocalizedString(mapOf(Language.ARMENIAN to "Ես խոսում եմ", Language.ENGLISH to "I speak", Language.RUSSIAN to "Я говорю"))
@@ -114,6 +115,9 @@ object AppStrings {
   val memory_won = LocalizedString(mapOf(Language.ARMENIAN to "Դու գտար բոլոր զույգերը! 🎉", Language.ENGLISH to "You found every pair! 🎉", Language.RUSSIAN to "Ты нашёл все пары! 🎉"))
   val games_title = LocalizedString(mapOf(Language.ARMENIAN to "Խաղեր", Language.ENGLISH to "Games", Language.RUSSIAN to "Игры"))
   val avatars_title = LocalizedString(mapOf(Language.ARMENIAN to "Կերպարներ", Language.ENGLISH to "My Avatars", Language.RUSSIAN to "Аватары"))
+  // hy/ru compositional, not natively verified — same caution as above.
+  val avatars_buy_confirm_title = LocalizedString(mapOf(Language.ARMENIAN to "Գնե՞լ այս կերպարը", Language.ENGLISH to "Buy this avatar?", Language.RUSSIAN to "Купить этот аватар?"))
+  val avatars_buy_confirm_body = LocalizedString(mapOf(Language.ARMENIAN to "Սա կծախսի ադամանդներ", Language.ENGLISH to "This will spend your Gems", Language.RUSSIAN to "Это потратит твои алмазы"))
   val odd_title = LocalizedString(mapOf(Language.ARMENIAN to "Գտիր ավելորդը", Language.ENGLISH to "Odd One Out", Language.RUSSIAN to "Найди лишнее"))
   val odd_prompt = LocalizedString(mapOf(Language.ARMENIAN to "Ո՞րն է ավելորդը", Language.ENGLISH to "Which one is different?", Language.RUSSIAN to "Что здесь лишнее?"))
   val bubble_title = LocalizedString(mapOf(Language.ARMENIAN to "Փուչիկներ", Language.ENGLISH to "Bubble Pop", Language.RUSSIAN to "Пузырьки"))

@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.domain.DEFAULT_AVATAR
 import com.compose.wonderlearn.domain.Profile
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.WonderTopBar
@@ -128,7 +129,7 @@ private fun ProfileChip(profile: Profile, selected: Boolean, onClick: () -> Unit
         .background(if (selected) Sky.copy(alpha = 0.20f) else MaterialTheme.colorScheme.surfaceVariant),
       contentAlignment = Alignment.Center,
     ) {
-      Text(profile.avatarId ?: profile.displayName.initial(), fontSize = 22.sp, fontWeight = FontWeight.Bold)
+      Text(profile.avatarId ?: DEFAULT_AVATAR, fontSize = 22.sp, fontWeight = FontWeight.Bold)
     }
     Text(
       profile.displayName,
