@@ -479,7 +479,20 @@ private fun CheckInOverlay(
           .graphicsLayer {
             rotationY = spin.value
             cameraDistance = 8f * density.density
-          },
+          }
+          // Once settled, the coin visually sits on top of the Card underneath (both centered in
+          // the same Box) — without its own handler, a tap here would fall through to the Card's
+          // no-op swallow-clickable instead of dismissing, which read as the popup "freezing".
+          .then(
+            if (settled) {
+              Modifier.clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+              ) { onClaim(); onDismiss() }
+            } else {
+              Modifier
+            },
+          ),
       )
     }
   }
