@@ -8,6 +8,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.Arrangement
@@ -42,10 +43,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.domain.GOLD_PER_CHECKIN
 import com.compose.wonderlearn.feature.account.AccountButton
 import com.compose.wonderlearn.feature.account.AccountSheet
 import com.compose.wonderlearn.feature.account.AccountViewModel
@@ -92,6 +95,7 @@ fun HomeScreen(
     CheckInDialog(
       today = homeViewModel.todayEpochDay,
       daysThisWeek = checkInDays,
+      claimedToday = checkedInToday,
       onClaim = {
         homeViewModel.claimCheckIn()
         showCheckIn = false
@@ -124,7 +128,7 @@ fun HomeScreen(
         verticalAlignment = Alignment.CenterVertically,
       ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-          StatChip(icon = "🔥", value = daily.streakDays.toString())
+          StatChip(icon = "🔥", value = daily.streakDays.toString(), onClick = { showCheckIn = true })
           StatChip(icon = "💎", value = gems.toString(), onClick = onAdventure)
           StatChip(iconPainter = painterResource(Res.drawable.owl_coin), value = gold.toString(), onClick = onAvatars)
         }
@@ -280,10 +284,16 @@ private fun StatChip(
  * Shown once per day on Home if today's check-in hasn't been claimed yet. Deliberately simple —
  * no animation polish here, that's Improvement #5's job once the currency moments are all in.
  */
+/**
+ * Opens two ways: automatically once per day (first Home composition, if not yet claimed) and
+ * anytime after via tapping the 🔥 streak chip — [claimedToday] switches it between the claimable
+ * state and a read-only "come back tomorrow" state so reopening after claiming can't double-pay.
+ */
 @Composable
 private fun CheckInDialog(
   today: Long,
   daysThisWeek: Set<Long>,
+  claimedToday: Boolean,
   onClaim: () -> Unit,
   onDismiss: () -> Unit,
 ) {
@@ -291,8 +301,11 @@ private fun CheckInDialog(
     onDismissRequest = onDismiss,
     title = { Text(AppStrings.checkin_title(), fontWeight = FontWeight.ExtraBold) },
     text = {
-      Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(AppStrings.checkin_subtitle())
+      Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Text(
+          if (claimedToday) AppStrings.checkin_already_claimed() else AppStrings.checkin_subtitle(),
+          textAlign = TextAlign.Center,
+        )
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
           repeat(7) { i ->
             val day = today - (6 - i)
@@ -301,21 +314,27 @@ private fun CheckInDialog(
               modifier = Modifier
                 .size(28.dp)
                 .clip(CircleShape)
-                .background(
-                  if (filled) MaterialTheme.colorScheme.primary
-                  else MaterialTheme.colorScheme.surfaceVariant,
+                .background(if (filled) Sunny else MaterialTheme.colorScheme.surfaceVariant)
+                .then(
+                  if (day == today) Modifier.border(2.dp, Sunny, CircleShape) else Modifier,
                 ),
             )
+          }
+        }
+        if (!claimedToday) {
+          Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Image(painterResource(Res.drawable.owl_coin), contentDescription = null, modifier = Modifier.size(44.dp))
+            Text("+$GOLD_PER_CHECKIN", fontSize = 30.sp, fontWeight = FontWeight.ExtraBold, color = Sunny)
           }
         }
       }
     },
     confirmButton = {
-      TextButton(onClick = onClaim) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-          Text(AppStrings.checkin_claim(), fontWeight = FontWeight.Bold)
-          Image(painterResource(Res.drawable.owl_coin), contentDescription = null, modifier = Modifier.size(16.dp))
-        }
+      TextButton(onClick = if (claimedToday) onDismiss else onClaim) {
+        Text(
+          if (claimedToday) AppStrings.checkin_got_it() else AppStrings.checkin_claim(),
+          fontWeight = FontWeight.Bold,
+        )
       }
     },
   )
