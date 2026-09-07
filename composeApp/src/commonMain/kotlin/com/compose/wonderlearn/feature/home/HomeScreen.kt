@@ -105,19 +105,6 @@ fun HomeScreen(
     AccountSheet(onDismiss = { showAccount = false }, viewModel = accountViewModel)
   }
 
-  if (showCheckIn) {
-    CheckInOverlay(
-      today = homeViewModel.todayEpochDay,
-      daysThisWeek = checkInDays,
-      claimedToday = checkedInToday,
-      onClaim = {
-        homeViewModel.claimCheckIn()
-        showCheckIn = false
-      },
-      onDismiss = { showCheckIn = false },
-    )
-  }
-
   var celebrateGoal by remember { mutableStateOf(false) }
   var seenGoalReached by remember { mutableStateOf<Boolean?>(null) }
   LaunchedEffect(daily.goalReached) {
@@ -203,6 +190,20 @@ fun HomeScreen(
       visible = celebrateGoal,
       modifier = Modifier.fillMaxSize(),
     )
+
+    // Composed last within this Box so it draws on top of the tiles/buttons above, not under them.
+    if (showCheckIn) {
+      CheckInOverlay(
+        today = homeViewModel.todayEpochDay,
+        daysThisWeek = checkInDays,
+        claimedToday = checkedInToday,
+        onClaim = {
+          homeViewModel.claimCheckIn()
+          showCheckIn = false
+        },
+        onDismiss = { showCheckIn = false },
+      )
+    }
   }
 }
 
