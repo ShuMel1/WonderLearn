@@ -59,6 +59,8 @@ object AppStrings {
   val account_title = LocalizedString(mapOf(Language.ARMENIAN to "Կարգավորումներ", Language.ENGLISH to "Settings", Language.RUSSIAN to "Настройки"))
   val account_open = LocalizedString(mapOf(Language.ARMENIAN to "Հաշիվ", Language.ENGLISH to "Account", Language.RUSSIAN to "Аккаунт"))
   val account_who_is_learning = LocalizedString(mapOf(Language.ARMENIAN to "Ո՞վ է սովորում", Language.ENGLISH to "Who is learning?", Language.RUSSIAN to "Кто учится?"))
+  // hy/ru compositional, not natively verified — same caution as elsewhere in this file.
+  val account_profiles_explainer = LocalizedString(mapOf(Language.ARMENIAN to "Յուրաքանչյուր երեխա ունի իր սեփական առաջընթացը։ Կարող եք ցանկացած պահի փոխել երեխաներին՝ ոչինչ չկորցնելով", Language.ENGLISH to "Each kid keeps their own progress. Switch between them any time — nothing is ever lost", Language.RUSSIAN to "У каждого ребёнка свой собственный прогресс. Переключайтесь между детьми в любое время — ничего не потеряется"))
   val account_add_child = LocalizedString(mapOf(Language.ARMENIAN to "Ավելացնել երեխա", Language.ENGLISH to "Add child", Language.RUSSIAN to "Добавить ребёнка"))
   val account_child_name = LocalizedString(mapOf(Language.ARMENIAN to "Անուն", Language.ENGLISH to "Name", Language.RUSSIAN to "Имя"))
   val account_learning_language = LocalizedString(mapOf(Language.ARMENIAN to "Սովորելու լեզուն", Language.ENGLISH to "Learning language", Language.RUSSIAN to "Язык изучения"))
