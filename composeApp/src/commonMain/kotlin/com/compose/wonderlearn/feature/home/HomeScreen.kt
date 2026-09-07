@@ -2,6 +2,7 @@ package com.compose.wonderlearn.feature.home
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
@@ -73,6 +74,7 @@ import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.owl_coin
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.ConfettiBurst
+import com.compose.wonderlearn.ui.pressScale
 import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.GrapeMuted
@@ -134,8 +136,8 @@ fun HomeScreen(
       ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
           StatChip(icon = "🎁", onClick = { showCheckIn = true })
-          StatChip(icon = "💎", value = gems.toString(), onClick = onAvatars)
-          StatChip(iconPainter = painterResource(Res.drawable.owl_coin), value = gold.toString(), onClick = onAvatars)
+          StatChip(icon = "💎", value = gems, onClick = onAvatars)
+          StatChip(iconPainter = painterResource(Res.drawable.owl_coin), value = gold, onClick = onAvatars)
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
           AccountButton(
@@ -164,7 +166,7 @@ fun HomeScreen(
           modifier = Modifier
             .graphicsLayer { scaleX = scale; scaleY = scale }
             .clip(CircleShape)
-            .clickable(onClick = onAvatars)
+            .pressScale(onClick = onAvatars)
             .padding(12.dp),
           contentAlignment = Alignment.Center,
         ) {
@@ -213,7 +215,7 @@ fun HomeScreen(
 @Composable
 private fun AdventureBanner(doneToday: Boolean, onClick: () -> Unit) {
   Card(
-    modifier = Modifier.fillMaxWidth().let { if (doneToday) it else it.clickable(onClick = onClick) },
+    modifier = Modifier.fillMaxWidth().let { if (doneToday) it else it.pressScale(onClick = onClick) },
     shape = RoundedCornerShape(28.dp),
     colors = CardDefaults.cardColors(containerColor = if (doneToday) GrapeMuted else Grape),
     elevation = CardDefaults.cardElevation(defaultElevation = if (doneToday) 0.dp else 6.dp),
@@ -252,7 +254,7 @@ private fun HomeTile(
 ) {
   val onColor = if (color == Sunny) Color(0xFF33304A) else Color.White
   Card(
-    modifier = modifier.clickable(onClick = onClick),
+    modifier = modifier.pressScale(onClick = onClick),
     shape = RoundedCornerShape(28.dp),
     colors = CardDefaults.cardColors(containerColor = color),
     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -270,16 +272,31 @@ private fun HomeTile(
 
 @Composable
 private fun StatChip(
-  value: String? = null,
+  value: Int? = null,
   icon: String? = null,
   iconPainter: androidx.compose.ui.graphics.painter.Painter? = null,
   onClick: (() -> Unit)? = null,
 ) {
+  var previous by remember { mutableStateOf(value) }
+  val bump = remember { Animatable(1f) }
+  LaunchedEffect(value) {
+    if (value != null && previous != null && value != previous) {
+      bump.snapTo(1.35f)
+      bump.animateTo(1f, animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy))
+    }
+    previous = value
+  }
+  val animatedValue by animateIntAsState(
+    targetValue = value ?: 0,
+    animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
+    label = "statChipCountUp",
+  )
+
   Row(
     modifier = Modifier
       .clip(RoundedCornerShape(50))
       .background(MaterialTheme.colorScheme.surface)
-      .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
+      .then(if (onClick != null) Modifier.pressScale(onClick = onClick) else Modifier)
       .padding(horizontal = 12.dp, vertical = 6.dp),
     verticalAlignment = Alignment.CenterVertically,
     horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -291,10 +308,11 @@ private fun StatChip(
     }
     if (value != null) {
       Text(
-        value,
+        animatedValue.toString(),
         fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.graphicsLayer { scaleX = bump.value; scaleY = bump.value },
       )
     }
   }

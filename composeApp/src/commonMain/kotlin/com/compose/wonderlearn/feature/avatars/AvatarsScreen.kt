@@ -1,10 +1,16 @@
 package com.compose.wonderlearn.feature.avatars
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +40,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,8 +53,11 @@ import com.compose.wonderlearn.domain.GOLD_PER_EXCHANGE
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.owl_coin
 import com.compose.wonderlearn.ui.AppStrings
+import com.compose.wonderlearn.ui.ConfettiBurst
 import com.compose.wonderlearn.ui.WonderTopBar
+import com.compose.wonderlearn.ui.pressScale
 import com.compose.wonderlearn.ui.theme.Sunny
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -60,6 +71,7 @@ fun AvatarsScreen(
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
   val exchangeFailed by viewModel.exchangeFailed.collectAsStateWithLifecycle()
+  val justUnlocked by viewModel.justUnlocked.collectAsStateWithLifecycle()
   var pendingPurchase by remember { mutableStateOf<AvatarItem?>(null) }
 
   LaunchedEffect(exchangeFailed) {
@@ -91,6 +103,7 @@ fun AvatarsScreen(
     )
   }
 
+  Box(Modifier.fillMaxSize()) {
   Scaffold(
     containerColor = Color.Transparent,
     topBar = { WonderTopBar(title = AppStrings.avatars_title(), onBack = onBack) },
@@ -146,6 +159,11 @@ fun AvatarsScreen(
       Box(Modifier.padding(bottom = 16.dp))
     }
   }
+
+  justUnlocked?.let { emoji ->
+    UnlockCelebrationOverlay(emoji = emoji, onDismiss = { viewModel.consumeJustUnlocked() })
+  }
+  }
 }
 
 @Composable
@@ -187,7 +205,7 @@ private fun ExchangeButton(enabled: Boolean, failed: Boolean, onClick: () -> Uni
       .padding(bottom = 8.dp)
       .clip(RoundedCornerShape(50))
       .background(MaterialTheme.colorScheme.surfaceVariant)
-      .then(if (enabled) Modifier.clickable(onClick = onClick) else Modifier)
+      .then(if (enabled) Modifier.pressScale(onClick = onClick) else Modifier)
       .alpha(if (enabled) 1f else 0.5f)
       .padding(horizontal = 14.dp, vertical = 8.dp),
     verticalAlignment = Alignment.CenterVertically,
@@ -217,7 +235,7 @@ private fun AvatarTile(
       .background(if (worn) WornGreen.copy(alpha = 0.18f) else MaterialTheme.colorScheme.surface)
       .then(if (worn) Modifier.border(BorderStroke(3.dp, WornGreen), RoundedCornerShape(18.dp)) else Modifier)
       .clip(RoundedCornerShape(18.dp))
-      .clickable(onClick = onClick)
+      .pressScale(onClick = onClick)
       .padding(6.dp),
     contentAlignment = Alignment.Center,
   ) {
@@ -234,6 +252,57 @@ private fun AvatarTile(
           Text("💎", fontSize = 11.sp)
           Text(avatar.price.toString(), fontSize = 13.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+      }
+    }
+  }
+}
+
+/**
+ * Celebrates a fresh purchase: the newly-unlocked avatar grows in from nothing, spins to a stop,
+ * settles, then fades out on its own — same fly/grow/spin `Animatable` language as the check-in
+ * coin and Adventure diamond flourishes, just without a flight (there's no single "source" tile
+ * this one should fly from — every row could hold the one just bought). Tap dismisses early.
+ */
+@Composable
+private fun UnlockCelebrationOverlay(emoji: String, onDismiss: () -> Unit) {
+  val grow = remember { Animatable(0f) }
+  val spin = remember { Animatable(0f) }
+  var settled by remember { mutableStateOf(false) }
+
+  LaunchedEffect(emoji) {
+    grow.animateTo(1f, animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow))
+    spin.animateTo(360f, animationSpec = tween(durationMillis = 700, easing = CubicBezierEasing(0.05f, 0.6f, 0.15f, 1f)))
+    settled = true
+    delay(1500)
+    onDismiss()
+  }
+
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(Color.Black.copy(alpha = 0.45f))
+      .clickable(
+        interactionSource = remember { MutableInteractionSource() },
+        indication = null,
+        onClick = onDismiss,
+      ),
+    contentAlignment = Alignment.Center,
+  ) {
+    ConfettiBurst(visible = true, modifier = Modifier.fillMaxSize(), playSound = false)
+    val density = LocalDensity.current
+    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+      Text(
+        emoji,
+        fontSize = (140 * grow.value).sp,
+        modifier = Modifier.graphicsLayer { rotationY = spin.value; cameraDistance = 8f * density.density },
+      )
+      if (settled) {
+        Text(
+          AppStrings.avatars_unlocked(),
+          fontSize = 24.sp,
+          fontWeight = FontWeight.ExtraBold,
+          color = Color.White,
+        )
       }
     }
   }
