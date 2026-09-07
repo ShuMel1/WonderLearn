@@ -89,7 +89,7 @@ val appModule = module {
   viewModel { HomeViewModel(get(), get()) }
   viewModel { (fromLevel: Boolean) -> MemoryGameViewModel(get(), get(), get(), get(), get(), get(), fromLevel) }
   viewModel { OddOneOutViewModel(get(), get(), get()) }
-  viewModel { (fromLevel: Boolean) -> BubblePopViewModel(get(), get(), get(), get(), get(), get(), fromLevel) }
+  viewModel { (fromLevel: Boolean) -> BubblePopViewModel(get(), get(), get(), get(), get(), get(), get(), fromLevel) }
   viewModel { SpeakGameViewModel(get(), get(), get(), get(), get(), get()) }
   viewModel { AvatarsViewModel(get(), get()) }
   viewModel { LanguagePickerViewModel(get()) }
