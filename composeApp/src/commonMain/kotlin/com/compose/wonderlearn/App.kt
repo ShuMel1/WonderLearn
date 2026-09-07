@@ -21,7 +21,6 @@ import com.compose.wonderlearn.feature.home.HomeScreen
 import com.compose.wonderlearn.feature.language.LanguagePickerScreen
 import com.compose.wonderlearn.feature.language.LanguageRole
 import com.compose.wonderlearn.ui.LocalNativeLanguage
-import com.compose.wonderlearn.feature.learned.LearnedScreen
 import com.compose.wonderlearn.feature.levels.LevelsScreen
 import com.compose.wonderlearn.feature.games.GamesScreen
 import com.compose.wonderlearn.domain.LevelKind
@@ -98,7 +97,6 @@ private fun AppNavHost(onExit: () -> Unit) {
       HomeScreen(
         onLearn = { navController.navigate(Destination.Categories) },
         onReview = { navController.navigate(Destination.Quiz()) },
-        onLearned = { navController.navigate(Destination.Learned) },
         onGames = { navController.navigate(Destination.Games) },
         onAvatars = { navController.navigate(Destination.Avatars) },
         onAdventure = { navController.navigate(Destination.Levels) },
@@ -142,12 +140,6 @@ private fun AppNavHost(onExit: () -> Unit) {
       val route = entry.toRoute<Destination.Quiz>()
       QuizScreen(
         mode = if (route.revise) QuizMode.REVISE else QuizMode.LEARN,
-        onRevise = { navController.navigate(Destination.Quiz(revise = true)) },
-        onBack = { navController.popBackStack() },
-      )
-    }
-    composable<Destination.Learned> {
-      LearnedScreen(
         onRevise = { navController.navigate(Destination.Quiz(revise = true)) },
         onBack = { navController.popBackStack() },
       )

@@ -58,7 +58,6 @@ import org.koin.compose.viewmodel.koinViewModel
 fun HomeScreen(
   onLearn: () -> Unit,
   onReview: () -> Unit,
-  onLearned: () -> Unit,
   onGames: () -> Unit,
   onAvatars: () -> Unit,
   onAdventure: () -> Unit,
@@ -151,13 +150,7 @@ fun HomeScreen(
           HomeTile(Modifier.weight(1f), "📚", AppStrings.home_learn(), Sky, onLearn)
           HomeTile(Modifier.weight(1f), "🎯", AppStrings.home_review(), Coral, onReview)
         }
-        Row(
-          modifier = Modifier.fillMaxWidth(),
-          horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-          HomeTile(Modifier.weight(1f), "🎓", AppStrings.home_learned(), Sunny, onLearned)
-          HomeTile(Modifier.weight(1f), "🎮", AppStrings.games_title(), Grape, onGames)
-        }
+        HomeTile(Modifier.fillMaxWidth(), "🎮", AppStrings.games_title(), Grape, onGames)
       }
     }
     }
