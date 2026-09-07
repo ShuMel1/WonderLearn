@@ -80,7 +80,8 @@ class BubblePopTest {
     override suspend fun unlockAvatar(emoji: String, priceGems: Int) = false
     override suspend fun exchangeGoldForGems() = false
     override suspend fun claimDailyCheckIn() = false
-    override fun checkInThisWeek(): Flow<Set<Long>> = flowOf(emptySet())
+    override fun checkedInToday(): Flow<Boolean> = flowOf(false)
+    override fun checkInLadderPosition(): Flow<Int> = flowOf(1)
   }
 
   private fun game(fromLevel: Boolean = false) =

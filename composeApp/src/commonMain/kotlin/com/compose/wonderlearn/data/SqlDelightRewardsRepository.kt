@@ -3,13 +3,15 @@ package com.compose.wonderlearn.data
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.compose.wonderlearn.db.WonderLearnDatabase
+import com.compose.wonderlearn.domain.CHECKIN_LADDER_SIZE
 import com.compose.wonderlearn.domain.GEMS_PER_EXCHANGE
-import com.compose.wonderlearn.domain.GOLD_PER_CHECKIN
 import com.compose.wonderlearn.domain.GOLD_PER_EXCHANGE
 import com.compose.wonderlearn.domain.ProfileRepository
 import com.compose.wonderlearn.domain.RewardsRepository
 import com.compose.wonderlearn.domain.STARTING_GOLD
 import com.compose.wonderlearn.domain.TimeProvider
+import com.compose.wonderlearn.domain.checkInLadderPosition
+import com.compose.wonderlearn.domain.checkInRewardForPosition
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -103,29 +105,45 @@ class SqlDelightRewardsRepository(
     true
   }
 
+  /** Which of the [CHECKIN_LADDER_SIZE] days strictly before [day] were claimed — exactly the
+   * window [checkInLadderPosition] needs to detect an unbroken run, no more, no less. */
+  private fun claimedDaysBefore(profileId: String, day: Long): Set<Long> =
+    (1..CHECKIN_LADDER_SIZE)
+      .map { day - it }
+      .filter { queries.selectSetting(checkinKey(profileId, it)).executeAsOneOrNull() == "true" }
+      .toSet()
+
   override suspend fun claimDailyCheckIn(): Boolean = withContext(dispatcher) {
     val profileId = profiles.currentProfileId()
     val day = time.todayEpochDay()
     val key = checkinKey(profileId, day)
     val alreadyClaimed = queries.selectSetting(key).executeAsOneOrNull() == "true"
     if (alreadyClaimed) return@withContext false
+    val position = checkInLadderPosition(day, claimedDaysBefore(profileId, day))
+    val reward = checkInRewardForPosition(position)
     val goldEarned = settingInt(goldEarnedKey(profileId))
     queries.transaction {
       queries.upsertSetting(key, "true")
-      queries.upsertSetting(goldEarnedKey(profileId), (goldEarned + GOLD_PER_CHECKIN).toString())
+      queries.upsertSetting(goldEarnedKey(profileId), (goldEarned + reward).toString())
     }
     true
   }
 
+  override fun checkedInToday(): Flow<Boolean> =
+    perActiveProfile { settingFlow(checkinKey(it, time.todayEpochDay())) }.map { it == "true" }
+
   @OptIn(ExperimentalCoroutinesApi::class)
-  override fun checkInThisWeek(): Flow<Set<Long>> =
+  override fun checkInLadderPosition(): Flow<Int> =
     profiles.activeProfileId().flatMapLatest { profileId ->
       val today = time.todayEpochDay()
-      val days = (0..6).map { today - it }
-      val dayFlows = days.map { day ->
+      val dayFlows = (1..CHECKIN_LADDER_SIZE).map { back ->
+        val day = today - back
         settingFlow(checkinKey(profileId, day)).map { day to (it == "true") }
       }
-      combine(dayFlows) { pairs -> pairs.filter { it.second }.map { it.first }.toSet() }
+      combine(dayFlows) { pairs ->
+        val claimedBefore = pairs.filter { it.second }.map { it.first }.toSet()
+        checkInLadderPosition(today, claimedBefore)
+      }
     }
 }
 

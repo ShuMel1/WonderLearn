@@ -10,6 +10,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,8 +45,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.boundsInRoot
@@ -61,7 +65,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.audio.AudioPlayer
-import com.compose.wonderlearn.domain.GOLD_PER_CHECKIN
+import com.compose.wonderlearn.domain.CHECKIN_LADDER_SIZE
 import com.compose.wonderlearn.feature.account.AccountButton
 import com.compose.wonderlearn.feature.account.AccountSheet
 import com.compose.wonderlearn.feature.account.AccountViewModel
@@ -93,7 +97,8 @@ fun HomeScreen(
   val gold by homeViewModel.gold.collectAsStateWithLifecycle()
   val gems by homeViewModel.gems.collectAsStateWithLifecycle()
   val checkedInToday by homeViewModel.checkedInToday.collectAsStateWithLifecycle()
-  val checkInDays by homeViewModel.checkInDaysThisWeek.collectAsStateWithLifecycle()
+  val checkInPosition by homeViewModel.checkInLadderPosition.collectAsStateWithLifecycle()
+  val checkInReward by homeViewModel.checkInRewardToday.collectAsStateWithLifecycle()
   var showAccount by remember { mutableStateOf(false) }
   var showCheckIn by remember { mutableStateOf(false) }
 
@@ -194,8 +199,8 @@ fun HomeScreen(
     // Composed last within this Box so it draws on top of the tiles/buttons above, not under them.
     if (showCheckIn) {
       CheckInOverlay(
-        today = homeViewModel.todayEpochDay,
-        daysThisWeek = checkInDays,
+        position = checkInPosition,
+        rewardToday = checkInReward,
         claimedToday = checkedInToday,
         onClaim = {
           homeViewModel.claimCheckIn()
@@ -300,23 +305,25 @@ private fun StatChip(
  * no animation polish here, that's Improvement #5's job once the currency moments are all in.
  */
 /**
- * Opens two ways: automatically once per day (first Home composition, if not yet claimed) and
- * anytime after via tapping the 🔥 streak chip. The week strip shows past claimed days as a dim
- * flame, an unclaimed/missed day as a plain dot, and today — while still unclaimed — as a bright,
- * gently pulsing flame that's the actual claim button: tapping it flies the reward coin from that
- * exact spot to center, grows and spins it (same technique as Bubble Pop's streak reward), then
- * settles into the dimmed "done for today" flame. Reopening after claiming shows a read-only
- * "come back tomorrow" state instead, so it can't double-pay.
+ * A 7-slot reward ladder, not a calendar of the past week: slot 1 pays 2 Gold, climbing by 1 each
+ * consecutive day, with slot 7 a deliberately bigger jackpot (and a bigger icon) for a full week
+ * in a row — a missed day resets back to slot 1. Opens two ways: automatically once per day (first
+ * Home composition, if not yet claimed) and anytime after via tapping the 🔥 streak chip. Slots
+ * before [position] are dim "already claimed" presents, [position] itself is a bright, pulsing
+ * present that's the actual claim button (tapping it flies the reward coin from that exact spot to
+ * center, grows and spins it, then settles into a dimmed "done for today" present), and slots
+ * after [position] are faint "disabled" presents previewing what's still ahead. Reopening after
+ * claiming shows a read-only "come back tomorrow" state instead, so it can't double-pay.
  */
 @Composable
 private fun CheckInOverlay(
-  today: Long,
-  daysThisWeek: Set<Long>,
+  position: Int,
+  rewardToday: Int,
   claimedToday: Boolean,
   onClaim: () -> Unit,
   onDismiss: () -> Unit,
 ) {
-  var todayFireCenter by remember { mutableStateOf(Offset.Zero) }
+  var claimIconCenter by remember { mutableStateOf(Offset.Zero) }
   var scrimCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
   var claiming by remember { mutableStateOf(false) }
   var settled by remember { mutableStateOf(false) }
@@ -353,24 +360,25 @@ private fun CheckInOverlay(
           textAlign = TextAlign.Center,
         )
 
-        val pulse = rememberInfiniteTransition(label = "fireHintPulse")
+        val pulse = rememberInfiniteTransition(label = "presentHintPulse")
         val pulseScale by pulse.animateFloat(
           initialValue = 0.9f,
           targetValue = 1.15f,
           animationSpec = infiniteRepeatable(tween(700, easing = FastOutSlowInEasing), RepeatMode.Reverse),
-          label = "fireHintScale",
+          label = "presentHintScale",
         )
 
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-          repeat(7) { i ->
-            val day = today - i
-            val isToday = day == today
-            val alreadyLit = day in daysThisWeek || (isToday && claimedToday)
-            val isClaimable = isToday && !claimedToday && !claiming
+        Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+          for (slot in 1..CHECKIN_LADDER_SIZE) {
+            val isBigSlot = slot == CHECKIN_LADDER_SIZE
+            val baseSize = if (isBigSlot) 40.dp else 28.dp
+            val isTodaySlot = slot == position
+            val isClaimable = isTodaySlot && !claimedToday && !claiming
+            val alreadyDone = slot < position || (isTodaySlot && claimedToday)
             Box(
               modifier = Modifier
-                .size(34.dp)
-                .then(if (isToday) Modifier.onGloballyPositioned { todayFireCenter = it.boundsInRoot().center } else Modifier)
+                .size(baseSize)
+                .then(if (isTodaySlot) Modifier.onGloballyPositioned { claimIconCenter = it.boundsInRoot().center } else Modifier)
                 .then(
                   if (isClaimable) {
                     Modifier.clip(CircleShape).clickable(
@@ -383,27 +391,18 @@ private fun CheckInOverlay(
                 ),
               contentAlignment = Alignment.Center,
             ) {
-              if (alreadyLit || isClaimable) {
-                Text(
-                  "🔥",
-                  fontSize = 22.sp,
-                  modifier = Modifier
-                    .alpha(if (isClaimable) 1f else 0.35f)
-                    .graphicsLayer {
-                      if (isClaimable) {
-                        scaleX = pulseScale
-                        scaleY = pulseScale
-                      }
-                    },
-                )
-              } else {
-                Box(
-                  modifier = Modifier
-                    .size(12.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-                )
-              }
+              PresentIcon(
+                tint = if (alreadyDone || isClaimable) Sunny else MaterialTheme.colorScheme.surfaceVariant,
+                modifier = Modifier
+                  .size(baseSize)
+                  .alpha(if (alreadyDone || isClaimable) 1f else 0.5f)
+                  .graphicsLayer {
+                    if (isClaimable) {
+                      scaleX = pulseScale
+                      scaleY = pulseScale
+                    }
+                  },
+              )
             }
           }
         }
@@ -416,7 +415,7 @@ private fun CheckInOverlay(
           Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             Image(painterResource(Res.drawable.owl_coin), contentDescription = null, modifier = Modifier.size(22.dp))
             Text(
-              "+$GOLD_PER_CHECKIN " + AppStrings.checkin_earned_today(),
+              "+$rewardToday " + AppStrings.checkin_earned_today(),
               fontSize = 14.sp,
               fontWeight = FontWeight.Bold,
               color = Sunny,
@@ -432,7 +431,7 @@ private fun CheckInOverlay(
       val density = LocalDensity.current
       val smallPx = with(density) { 34.dp.toPx() }
       val largePx = with(density) { 140.dp.toPx() }
-      val startCenter = todayFireCenter - coords.positionInRoot()
+      val startCenter = claimIconCenter - coords.positionInRoot()
       val bounds = coords.boundsInRoot()
       val endCenter = Offset(bounds.width / 2f, bounds.height / 2f)
 
@@ -475,5 +474,42 @@ private fun CheckInOverlay(
 }
 
 private fun isClaimableHint(claimedToday: Boolean, claiming: Boolean) = !claimedToday && !claiming
+
+/** A minimal line-art gift box — box, lid, ribbon, and a small bow — so ladder slots read as
+ * "a present" rather than a plain dot, without pulling in a whole icon/asset dependency for it. */
+@Composable
+private fun PresentIcon(tint: Color, modifier: Modifier = Modifier) {
+  Canvas(modifier = modifier) {
+    val w = size.width
+    val h = size.height
+    val stroke = w * 0.09f
+    val lidTop = h * 0.30f
+    val lidBottom = h * 0.42f
+    val boxLeft = w * 0.08f
+    val boxRight = w * 0.92f
+
+    // lid
+    drawRoundRect(
+      color = tint,
+      topLeft = Offset(boxLeft, lidTop),
+      size = Size(boxRight - boxLeft, lidBottom - lidTop),
+      cornerRadius = CornerRadius(w * 0.1f),
+      style = Stroke(width = stroke),
+    )
+    // box body
+    drawRoundRect(
+      color = tint,
+      topLeft = Offset(boxLeft + w * 0.04f, lidBottom),
+      size = Size(boxRight - boxLeft - w * 0.08f, h - lidBottom - h * 0.04f),
+      cornerRadius = CornerRadius(w * 0.06f),
+      style = Stroke(width = stroke),
+    )
+    // vertical ribbon
+    drawLine(color = tint, start = Offset(w / 2f, lidTop), end = Offset(w / 2f, h - h * 0.04f), strokeWidth = stroke)
+    // bow
+    drawLine(color = tint, start = Offset(w / 2f, lidTop), end = Offset(w * 0.28f, lidTop - h * 0.18f), strokeWidth = stroke)
+    drawLine(color = tint, start = Offset(w / 2f, lidTop), end = Offset(w * 0.72f, lidTop - h * 0.18f), strokeWidth = stroke)
+  }
+}
 
 private const val COIN_SOUND = "files/sounds/coin.wav"

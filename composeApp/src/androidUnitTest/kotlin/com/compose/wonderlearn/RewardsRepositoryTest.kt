@@ -4,12 +4,15 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.compose.wonderlearn.data.SqlDelightProfileRepository
 import com.compose.wonderlearn.data.SqlDelightRewardsRepository
 import com.compose.wonderlearn.db.WonderLearnDatabase
+import com.compose.wonderlearn.domain.CHECKIN_JACKPOT_GOLD
+import com.compose.wonderlearn.domain.CHECKIN_LADDER_SIZE
 import com.compose.wonderlearn.domain.GEMS_PER_EXCHANGE
-import com.compose.wonderlearn.domain.GOLD_PER_CHECKIN
 import com.compose.wonderlearn.domain.GOLD_PER_EXCHANGE
 import com.compose.wonderlearn.domain.RewardsRepository
 import com.compose.wonderlearn.domain.STARTING_GOLD
 import com.compose.wonderlearn.domain.TimeProvider
+import com.compose.wonderlearn.domain.checkInLadderPosition
+import com.compose.wonderlearn.domain.checkInRewardForPosition
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -25,13 +28,18 @@ class RewardsRepositoryTest {
     val profiles: SqlDelightProfileRepository,
   )
 
-  private fun newFixture(today: Long = 500): Fixture {
+  private class FakeClock(var today: Long) : TimeProvider {
+    override fun todayEpochDay() = today
+  }
+
+  private fun newFixture(today: Long = 500): Fixture = newFixture(FakeClock(today))
+
+  private fun newFixture(clock: FakeClock): Fixture {
     val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
     WonderLearnDatabase.Schema.create(driver)
     val db = WonderLearnDatabase(driver)
     val dispatcher = UnconfinedTestDispatcher()
     val profiles = SqlDelightProfileRepository(db, dispatcher)
-    val clock = object : TimeProvider { override fun todayEpochDay() = today }
     return Fixture(
       SqlDelightRewardsRepository(db, profiles, clock, dispatcher),
       profiles,
@@ -122,23 +130,86 @@ class RewardsRepositoryTest {
     assertEquals(2, f.rewards.gems().first(), "the failed exchange must not have paid out anyway")
   }
 
-  // ---- Daily check-in ----
+  // ---- Daily check-in — pure ladder rules ----
 
   @Test
-  fun checkInPaysOutOnceADayAndTracksTheWeek() = runTest {
-    val f = newFixture(today = 500)
-    assertTrue(f.rewards.claimDailyCheckIn())
-    assertEquals(STARTING_GOLD + GOLD_PER_CHECKIN, f.rewards.gold().first())
-    assertFalse(f.rewards.claimDailyCheckIn(), "already claimed today")
-    assertEquals(STARTING_GOLD + GOLD_PER_CHECKIN, f.rewards.gold().first(), "a repeat claim must not pay out again")
-    assertEquals(setOf(500L), f.rewards.checkInThisWeek().first())
+  fun ladderPositionStartsAtOneWithNoHistory() {
+    assertEquals(1, checkInLadderPosition(day = 500, claimedDaysBefore = emptySet()))
   }
 
   @Test
-  fun checkInStripOnlyCountsClaimedDays() = runTest {
+  fun ladderPositionClimbsWithAnUnbrokenRun() {
+    // Days 497, 498, 499 claimed, consecutively ending the day before day 500.
+    val claimed = setOf(497L, 498L, 499L)
+    assertEquals(4, checkInLadderPosition(day = 500, claimedDaysBefore = claimed))
+  }
+
+  @Test
+  fun ladderPositionWrapsAfterAFullWeek() {
+    val sixDaysBack = (494L..499L).toSet()
+    assertEquals(CHECKIN_LADDER_SIZE, checkInLadderPosition(day = 500, claimedDaysBefore = sixDaysBack))
+    val sevenDaysBack = (493L..499L).toSet()
+    assertEquals(1, checkInLadderPosition(day = 500, claimedDaysBefore = sevenDaysBack), "a full week wraps back to slot 1")
+  }
+
+  @Test
+  fun ladderPositionResetsOnAGap() {
+    // 498 claimed, but 499 (yesterday) wasn't — the run is broken regardless of older history.
+    val claimed = setOf(495L, 496L, 497L, 498L)
+    assertEquals(1, checkInLadderPosition(day = 500, claimedDaysBefore = claimed))
+  }
+
+  @Test
+  fun rewardClimbsByOneThenJackpotsOnTheLastSlot() {
+    assertEquals(2, checkInRewardForPosition(1))
+    assertEquals(3, checkInRewardForPosition(2))
+    assertEquals(7, checkInRewardForPosition(CHECKIN_LADDER_SIZE - 1))
+    assertEquals(CHECKIN_JACKPOT_GOLD, checkInRewardForPosition(CHECKIN_LADDER_SIZE))
+  }
+
+  // ---- Daily check-in — repository behavior ----
+
+  @Test
+  fun checkInPaysOutOnceADay() = runTest {
     val f = newFixture(today = 500)
-    assertTrue(f.rewards.checkInThisWeek().first().isEmpty(), "nothing claimed yet")
+    assertTrue(f.rewards.claimDailyCheckIn())
+    assertEquals(STARTING_GOLD + 2, f.rewards.gold().first(), "day 1 of a fresh ladder pays 2")
+    assertFalse(f.rewards.claimDailyCheckIn(), "already claimed today")
+    assertEquals(STARTING_GOLD + 2, f.rewards.gold().first(), "a repeat claim must not pay out again")
+  }
+
+  @Test
+  fun ladderPositionIsStableBeforeAndAfterClaiming() = runTest {
+    val f = newFixture(today = 500)
+    val before = f.rewards.checkInLadderPosition().first()
     f.rewards.claimDailyCheckIn()
-    assertEquals(setOf(500L), f.rewards.checkInThisWeek().first())
+    val after = f.rewards.checkInLadderPosition().first()
+    assertEquals(before, after, "claiming today shouldn't change what slot today itself reads as")
+  }
+
+  @Test
+  fun sevenConsecutiveDaysClimbTheLadderToTheJackpotThenWrap() = runTest {
+    val clock = FakeClock(today = 500)
+    val f = newFixture(clock)
+    val expectedRewards = listOf(2, 3, 4, 5, 6, 7, CHECKIN_JACKPOT_GOLD, 2)
+    var expectedGold = STARTING_GOLD
+    for (reward in expectedRewards) {
+      assertTrue(f.rewards.claimDailyCheckIn(), "day ${clock.today} should be claimable")
+      expectedGold += reward
+      assertEquals(expectedGold, f.rewards.gold().first(), "day ${clock.today}'s payout")
+      clock.today += 1
+    }
+  }
+
+  @Test
+  fun missingADayResetsTheLadderToTheStart() = runTest {
+    val clock = FakeClock(today = 500)
+    val f = newFixture(clock)
+    f.rewards.claimDailyCheckIn() // day 500: slot 1, +2
+    clock.today += 1
+    f.rewards.claimDailyCheckIn() // day 501: slot 2, +3
+    clock.today += 2 // day 502 skipped entirely — the streak breaks
+    assertTrue(f.rewards.claimDailyCheckIn())
+    assertEquals(STARTING_GOLD + 2 + 3 + 2, f.rewards.gold().first(), "back to slot 1 after the missed day")
   }
 }
