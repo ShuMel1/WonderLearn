@@ -86,7 +86,7 @@ val appModule = module {
   single<Analytics> { HttpAnalytics(get(), get()) }
   viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
   viewModel { AccountViewModel(get(), get()) }
-  viewModel { HomeViewModel(get(), get()) }
+  viewModel { HomeViewModel(get(), get(), get()) }
   viewModel { (fromLevel: Boolean) -> MemoryGameViewModel(get(), get(), get(), get(), get(), get(), fromLevel) }
   viewModel { OddOneOutViewModel(get(), get(), get()) }
   viewModel { (fromLevel: Boolean) -> BubblePopViewModel(get(), get(), get(), get(), get(), get(), fromLevel) }

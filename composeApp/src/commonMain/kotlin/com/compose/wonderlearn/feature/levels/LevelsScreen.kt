@@ -188,9 +188,11 @@ fun LevelsScreen(
     )
 
     if (showDiamondFlourish) {
+      // Today's path is fully cleared and claimed — leave the map open on that state rather than
+      // an empty "come back tomorrow" screen; back out to Home once the flourish settles.
       DiamondFlourishOverlay(
         startPosition = diamondPosition,
-        onDismiss = { showDiamondFlourish = false },
+        onDismiss = { showDiamondFlourish = false; onBack() },
       )
     }
   }
