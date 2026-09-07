@@ -23,6 +23,16 @@ class SqlDelightProfileRepository(
 
   private val queries = database.wonderLearnQueries
 
+  init {
+    // One-time, cheap (a handful of profiles at most): a profile created before avatarId got a
+    // real default (the seed "Me" profile, or any child added before this) has avatarId = NULL.
+    // The UI already falls back to the owl for a null avatarId, but backfilling it here keeps the
+    // stored value consistent with what every screen actually shows, and with the avatarsScreen's
+    // own "is this one worn" check. Running this again once it's already backfilled is a no-op —
+    // there's nothing left matching `avatarId IS NULL`.
+    queries.backfillMissingAvatars()
+  }
+
   override fun profiles(): Flow<List<Profile>> =
     queries.selectAllProfiles().asFlow().mapToList(dispatcher)
       .map { rows -> rows.map { it.toDomain() } }

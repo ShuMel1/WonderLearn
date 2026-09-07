@@ -29,6 +29,39 @@ class SqlDelightRewardsRepository(
 
   private val queries = database.wonderLearnQueries
 
+  init {
+    migrateLegacyCoinsIfNeeded()
+  }
+
+  /**
+   * One-time, per profile: before the Gold/Gems split, a child's spendable balance ("coins") was
+   * derived live from total XP (`coins = totalXp / LEGACY_XP_PER_COIN + STARTING_COINS - spent`,
+   * `STARTING_COINS` being the same value as today's [STARTING_GOLD]) rather than stored as its
+   * own running total. That XP is still sitting in `DailyActivity` — nothing here deletes it, this
+   * only makes sure a balance built from it before the split isn't invisible after — so credit the
+   * amount above what [STARTING_GOLD] already grants once as Gold, snapshotting it now rather than
+   * recomputing (and re-crediting) it from ever-growing XP on every future launch. A profile with
+   * no history here has nothing above its own starting bonus to credit, so this is a true no-op for
+   * one created after the split, not just a harmless one.
+   */
+  private fun migrateLegacyCoinsIfNeeded() {
+    for (profileId in queries.selectAllProfiles().executeAsList().map { it.id }) {
+      val migratedKey = legacyCoinsMigratedKey(profileId)
+      if (queries.selectSetting(migratedKey).executeAsOneOrNull() == "true") continue
+      val totalXp = queries.selectTotalXp(profileId).executeAsOne()
+      val legacySpent = queries.selectSetting(legacyCoinsSpentKey(profileId)).executeAsOneOrNull()?.toIntOrNull() ?: 0
+      val legacyBalance = ((totalXp / LEGACY_XP_PER_COIN).toInt() + STARTING_GOLD - legacySpent).coerceAtLeast(0)
+      val credit = (legacyBalance - STARTING_GOLD).coerceAtLeast(0)
+      queries.transaction {
+        if (credit > 0) {
+          val key = goldEarnedKey(profileId)
+          queries.upsertSetting(key, (settingInt(key) + credit).toString())
+        }
+        queries.upsertSetting(migratedKey, "true")
+      }
+    }
+  }
+
   @OptIn(ExperimentalCoroutinesApi::class)
   private fun <T> perActiveProfile(select: (String) -> Flow<T>): Flow<T> =
     profiles.activeProfileId().flatMapLatest { select(it) }
@@ -149,6 +182,10 @@ class SqlDelightRewardsRepository(
 
 private const val SEPARATOR = "|"
 
+/** The pre-split coin formula's XP-to-coin rate — needed only to reproduce that old balance once
+ * for [SqlDelightRewardsRepository.migrateLegacyCoinsIfNeeded], not part of the current system. */
+private const val LEGACY_XP_PER_COIN = 10
+
 private fun String?.parseIds(): Set<String> =
   this?.split(SEPARATOR)?.map { it.trim() }?.filter { it.isNotEmpty() }?.toSet() ?: emptySet()
 
@@ -158,3 +195,5 @@ private fun gemsEarnedKey(profileId: String) = "gems_earned:$profileId"
 private fun gemsSpentKey(profileId: String) = "gems_spent:$profileId"
 private fun unlockedKey(profileId: String) = "unlocked_avatars:$profileId"
 private fun checkinKey(profileId: String, day: Long) = "checkin_claimed:$profileId:$day"
+private fun legacyCoinsSpentKey(profileId: String) = "coins_spent:$profileId"
+private fun legacyCoinsMigratedKey(profileId: String) = "legacy_coins_migrated:$profileId"

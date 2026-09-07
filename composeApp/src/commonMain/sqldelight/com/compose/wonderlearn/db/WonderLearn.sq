@@ -143,6 +143,9 @@ VALUES (?, ?, '🦉', 0);
 renameProfile:
 UPDATE Profile SET displayName = ? WHERE id = ?;
 
+backfillMissingAvatars:
+UPDATE Profile SET avatarId = '🦉' WHERE avatarId IS NULL;
+
 setProfileAvatar:
 UPDATE Profile SET avatarId = ? WHERE id = ?;
 
