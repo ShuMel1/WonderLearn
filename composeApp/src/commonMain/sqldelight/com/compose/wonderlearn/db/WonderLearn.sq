@@ -138,7 +138,7 @@ VALUES (?, ?, ?, ?);
 
 ensureDefaultProfile:
 INSERT OR IGNORE INTO Profile(id, displayName, avatarId, sortIndex)
-VALUES (?, ?, NULL, 0);
+VALUES (?, ?, '🦉', 0);
 
 renameProfile:
 UPDATE Profile SET displayName = ? WHERE id = ?;

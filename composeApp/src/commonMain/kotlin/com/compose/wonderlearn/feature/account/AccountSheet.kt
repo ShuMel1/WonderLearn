@@ -24,13 +24,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.compose.wonderlearn.domain.DEFAULT_AVATAR
 import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.theme.Sky
 
-/** The avatar/initial button on Home that opens [Destination.AccountMenu][com.compose.wonderlearn.navigation.Destination.AccountMenu]. */
+/** The avatar button on Home that opens [Destination.AccountMenu][com.compose.wonderlearn.navigation.Destination.AccountMenu]. */
 @Composable
 fun AccountButton(
-  displayName: String?,
   avatar: String?,
   onClick: () -> Unit,
   modifier: Modifier = Modifier,
@@ -48,8 +48,8 @@ fun AccountButton(
       contentAlignment = Alignment.Center,
     ) {
       Text(
-        avatar ?: displayName.initial(),
-        fontSize = if (avatar != null) 22.sp else 18.sp,
+        avatar ?: DEFAULT_AVATAR,
+        fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurface,
       )
@@ -124,6 +124,3 @@ internal fun AccountRow(
     }
   }
 }
-
-internal fun String?.initial(): String =
-  this?.trim()?.firstOrNull()?.uppercase() ?: "?"
