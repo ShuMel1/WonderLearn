@@ -74,6 +74,7 @@ import com.compose.wonderlearn.ui.AppStrings
 import com.compose.wonderlearn.ui.ConfettiBurst
 import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
+import com.compose.wonderlearn.ui.theme.GrapeMuted
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
 import kotlinx.coroutines.delay
@@ -214,7 +215,7 @@ private fun AdventureBanner(doneToday: Boolean, onClick: () -> Unit) {
   Card(
     modifier = Modifier.fillMaxWidth().let { if (doneToday) it else it.clickable(onClick = onClick) },
     shape = RoundedCornerShape(28.dp),
-    colors = CardDefaults.cardColors(containerColor = if (doneToday) Grape.copy(alpha = 0.45f) else Grape),
+    colors = CardDefaults.cardColors(containerColor = if (doneToday) GrapeMuted else Grape),
     elevation = CardDefaults.cardElevation(defaultElevation = if (doneToday) 0.dp else 6.dp),
   ) {
     Row(
@@ -222,7 +223,7 @@ private fun AdventureBanner(doneToday: Boolean, onClick: () -> Unit) {
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-      Text(if (doneToday) "✅" else "🗺️", fontSize = 40.sp)
+      if (!doneToday) Text("🗺️", fontSize = 40.sp)
       Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
         Text(
           AppStrings.home_adventure(),
@@ -233,7 +234,7 @@ private fun AdventureBanner(doneToday: Boolean, onClick: () -> Unit) {
         Text(
           if (doneToday) AppStrings.home_adventure_done_sub() else AppStrings.home_adventure_sub(),
           fontSize = 14.sp,
-          color = Color.White.copy(alpha = 0.9f),
+          color = if (doneToday) Color(0xFFEDEAF7) else Color.White.copy(alpha = 0.9f),
         )
       }
       if (!doneToday) Text("🏆", fontSize = 22.sp)
