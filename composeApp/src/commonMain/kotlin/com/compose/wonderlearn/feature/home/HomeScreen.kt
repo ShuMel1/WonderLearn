@@ -77,6 +77,7 @@ import com.compose.wonderlearn.ui.theme.Coral
 import com.compose.wonderlearn.ui.theme.Grape
 import com.compose.wonderlearn.ui.theme.Sky
 import com.compose.wonderlearn.ui.theme.Sunny
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -462,6 +463,11 @@ private fun CheckInOverlay(
           animationSpec = tween(durationMillis = 850, easing = CubicBezierEasing(0.05f, 0.6f, 0.15f, 1f)),
         )
         settled = true
+        // Auto-dismiss shortly after settling, so claiming the reward doesn't require knowing you
+        // have to tap it — tapping the settled coin still dismisses immediately if they do.
+        delay(2000)
+        onClaim()
+        onDismiss()
       }
 
       val t = flight.value.coerceIn(0f, 1f)
