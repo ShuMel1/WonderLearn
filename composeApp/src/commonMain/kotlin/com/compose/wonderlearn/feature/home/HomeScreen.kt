@@ -363,7 +363,7 @@ private fun CheckInOverlay(
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
           repeat(7) { i ->
-            val day = today - (6 - i)
+            val day = today - i
             val isToday = day == today
             val alreadyLit = day in daysThisWeek || (isToday && claimedToday)
             val isClaimable = isToday && !claimedToday && !claiming
@@ -462,6 +462,7 @@ private fun CheckInOverlay(
         painter = painterResource(Res.drawable.owl_coin),
         contentDescription = null,
         modifier = Modifier
+          .align(Alignment.TopStart)
           .offset { IntOffset((cx - coinSizePx / 2f).toInt(), (cy - coinSizePx / 2f).toInt()) }
           .size(with(density) { coinSizePx.toDp() })
           .graphicsLayer {
