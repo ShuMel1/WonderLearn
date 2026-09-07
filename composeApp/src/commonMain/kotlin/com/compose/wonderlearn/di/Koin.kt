@@ -79,13 +79,13 @@ val appModule = module {
   single<DailyAdventureRepository> { SqlDelightDailyAdventureRepository(get(), get(), get()) }
   single { LevelRunController() }
   single { AnswerBus() }
-  single<LanguagePreferences> { SqlDelightLanguagePreferences(get()) }
+  single<LanguagePreferences> { SqlDelightLanguagePreferences(get(), get()) }
   single { AudioPlayer() }
   single<Pronouncer> { DefaultPronouncer(get(), get()) }
   single { InstallId(get()) }
   single<Analytics> { HttpAnalytics(get(), get()) }
   viewModel { AppViewModel(get(), get(), get(named(BUNDLED_CONTENT)), get(named(REMOTE_CONTENT))) }
-  viewModel { AccountViewModel(get(), get(), get()) }
+  viewModel { AccountViewModel(get(), get()) }
   viewModel { HomeViewModel(get(), get()) }
   viewModel { (fromLevel: Boolean) -> MemoryGameViewModel(get(), get(), get(), get(), get(), get(), fromLevel) }
   viewModel { OddOneOutViewModel(get(), get(), get()) }

@@ -62,6 +62,10 @@ object AppStrings {
   val account_learning_language = LocalizedString(mapOf(Language.ARMENIAN to "Սովորելու լեզուն", Language.ENGLISH to "Learning language", Language.RUSSIAN to "Язык изучения"))
   val account_about = LocalizedString(mapOf(Language.ARMENIAN to "Հավելվածի մասին", Language.ENGLISH to "About", Language.RUSSIAN to "О приложении"))
   val account_version = LocalizedString(mapOf(Language.ARMENIAN to "Տարբերակ", Language.ENGLISH to "Version", Language.RUSSIAN to "Версия"))
+  // hy/ru compositional, not natively verified — same caution as above.
+  val account_menu_native_language = LocalizedString(mapOf(Language.ARMENIAN to "Մայրենի լեզու", Language.ENGLISH to "Native Language", Language.RUSSIAN to "Родной язык"))
+  val account_menu_avatar = LocalizedString(mapOf(Language.ARMENIAN to "Ավատար", Language.ENGLISH to "Avatar", Language.RUSSIAN to "Аватар"))
+  val account_menu_manage_kids = LocalizedString(mapOf(Language.ARMENIAN to "Կառավարել երեխաներին", Language.ENGLISH to "Manage Kids", Language.RUSSIAN to "Управление детьми"))
 
   val categoryTitles: Map<String, LocalizedString> = mapOf(
     "fruits" to LocalizedString(mapOf(Language.ARMENIAN to "Մրգեր", Language.ENGLISH to "Fruits", Language.RUSSIAN to "Фрукты", Language.SPANISH to "Frutas", Language.FRENCH to "Fruits", Language.GERMAN to "Obst")),
