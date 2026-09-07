@@ -67,7 +67,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.compose.wonderlearn.audio.AudioPlayer
 import com.compose.wonderlearn.domain.CHECKIN_LADDER_SIZE
 import com.compose.wonderlearn.feature.account.AccountButton
-import com.compose.wonderlearn.feature.account.AccountSheet
 import com.compose.wonderlearn.feature.account.AccountViewModel
 import com.compose.wonderlearn.resources.Res
 import com.compose.wonderlearn.resources.owl_coin
@@ -90,6 +89,7 @@ fun HomeScreen(
   onGames: () -> Unit,
   onAvatars: () -> Unit,
   onAdventure: () -> Unit,
+  onAccount: () -> Unit,
 ) {
   val accountViewModel: AccountViewModel = koinViewModel()
   val accountState by accountViewModel.state.collectAsStateWithLifecycle()
@@ -100,15 +100,10 @@ fun HomeScreen(
   val checkedInToday by homeViewModel.checkedInToday.collectAsStateWithLifecycle()
   val checkInPosition by homeViewModel.checkInLadderPosition.collectAsStateWithLifecycle()
   val checkInReward by homeViewModel.checkInRewardToday.collectAsStateWithLifecycle()
-  var showAccount by remember { mutableStateOf(false) }
   var showCheckIn by remember { mutableStateOf(false) }
 
   LaunchedEffect(checkedInToday) {
     if (!checkedInToday) showCheckIn = true
-  }
-
-  if (showAccount) {
-    AccountSheet(onDismiss = { showAccount = false }, viewModel = accountViewModel)
   }
 
   var celebrateGoal by remember { mutableStateOf(false) }
@@ -143,7 +138,7 @@ fun HomeScreen(
           AccountButton(
             displayName = accountState.activeProfile?.displayName,
             avatar = accountState.activeProfile?.avatarId,
-            onClick = { showAccount = true },
+            onClick = onAccount,
           )
         }
       }

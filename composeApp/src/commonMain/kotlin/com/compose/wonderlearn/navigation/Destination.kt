@@ -40,4 +40,16 @@ sealed interface Destination {
 
   @Serializable
   data object Avatars : Destination
+
+  @Serializable
+  data object AccountMenu : Destination
+
+  @Serializable
+  data object NativeLanguageSettings : Destination
+
+  @Serializable
+  data object LearningLanguageSettings : Destination
+
+  @Serializable
+  data object ManageProfiles : Destination
 }

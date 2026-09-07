@@ -31,6 +31,10 @@ import com.compose.wonderlearn.feature.bubblepop.BubblePopScreen
 import com.compose.wonderlearn.feature.oddoneout.OddOneOutScreen
 import com.compose.wonderlearn.feature.speak.SpeakGameScreen
 import com.compose.wonderlearn.feature.avatars.AvatarsScreen
+import com.compose.wonderlearn.feature.account.AccountMenuScreen
+import com.compose.wonderlearn.feature.account.NativeLanguageScreen
+import com.compose.wonderlearn.feature.account.LearningLanguageScreen
+import com.compose.wonderlearn.feature.account.ManageProfilesScreen
 import com.compose.wonderlearn.feature.quiz.QuizScreen
 import com.compose.wonderlearn.feature.words.WordListScreen
 import com.compose.wonderlearn.domain.Analytics
@@ -100,6 +104,7 @@ private fun AppNavHost(onExit: () -> Unit) {
         onGames = { navController.navigate(Destination.Games) },
         onAvatars = { navController.navigate(Destination.Avatars) },
         onAdventure = { navController.navigate(Destination.Levels) },
+        onAccount = { navController.navigate(Destination.AccountMenu) },
       )
     }
     composable<Destination.Levels> {
@@ -177,6 +182,24 @@ private fun AppNavHost(onExit: () -> Unit) {
     }
     composable<Destination.Avatars> {
       AvatarsScreen(onBack = { navController.popBackStack() })
+    }
+    composable<Destination.AccountMenu> {
+      AccountMenuScreen(
+        onBack = { navController.popBackStack() },
+        onNativeLanguage = { navController.navigate(Destination.NativeLanguageSettings) },
+        onLearningLanguage = { navController.navigate(Destination.LearningLanguageSettings) },
+        onAvatar = { navController.navigate(Destination.Avatars) },
+        onManageKids = { navController.navigate(Destination.ManageProfiles) },
+      )
+    }
+    composable<Destination.NativeLanguageSettings> {
+      NativeLanguageScreen(onBack = { navController.popBackStack() })
+    }
+    composable<Destination.LearningLanguageSettings> {
+      LearningLanguageScreen(onBack = { navController.popBackStack() })
+    }
+    composable<Destination.ManageProfiles> {
+      ManageProfilesScreen(onBack = { navController.popBackStack() })
     }
   }
 }
