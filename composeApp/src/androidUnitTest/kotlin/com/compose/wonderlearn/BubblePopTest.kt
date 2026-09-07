@@ -5,6 +5,7 @@ import com.compose.wonderlearn.domain.Category
 import com.compose.wonderlearn.domain.DailyProgress
 import com.compose.wonderlearn.domain.Language
 import com.compose.wonderlearn.domain.LanguagePreferences
+import com.compose.wonderlearn.domain.LevelRunController
 import com.compose.wonderlearn.domain.Pronouncer
 import com.compose.wonderlearn.domain.ProgressRepository
 import com.compose.wonderlearn.domain.RewardsRepository
@@ -84,8 +85,8 @@ class BubblePopTest {
     override fun checkInLadderPosition(): Flow<Int> = flowOf(1)
   }
 
-  private fun game(fromLevel: Boolean = false) =
-    BubblePopViewModel(vocabulary, progress, pronouncer, preferences, AnswerBus(), rewards, fromLevel)
+  private fun game(fromLevel: Boolean = false, runController: LevelRunController = LevelRunController()) =
+    BubblePopViewModel(vocabulary, progress, pronouncer, preferences, AnswerBus(), rewards, runController, fromLevel)
 
   private fun correctBubble(vm: BubblePopViewModel): Bubble =
     vm.state.value.bubbles.first { it.item.id == vm.state.value.targetId }
@@ -177,6 +178,27 @@ class BubblePopTest {
     }
     assertEquals(0, vm.state.value.streak)
     assertFalse(vm.state.value.rewardPending)
+  }
+
+  @Test
+  fun theLastCorrectPopThatFinishesALevelDoesNotStartAnotherRound() = runTest(dispatcher) {
+    // Regression test: BubblePop used to unconditionally call newRound() (and pronounce its new
+    // target word) on every correct pop, including the one that satisfies the level's goal — the
+    // level then popped the screen before the child ever saw that extra round, but the word still
+    // got pronounced. newRound() must not run once this pop reaches the level's goal.
+    val runController = LevelRunController()
+    runController.begin("level-1", goal = 2)
+    val vm = game(fromLevel = true, runController = runController)
+    advanceUntilIdle()
+
+    vm.onPop(correctBubble(vm))
+    advanceUntilIdle()
+    val roundKeyAfterFirst = vm.state.value.roundKey
+
+    vm.onPop(correctBubble(vm))
+    advanceUntilIdle()
+
+    assertEquals(roundKeyAfterFirst, vm.state.value.roundKey, "no new round once the level's goal is reached")
   }
 
   @Test
