@@ -46,6 +46,51 @@ class RewardsRepositoryTest {
     )
   }
 
+  // ---- Legacy coins -> Gold migration (pre-split users must not appear to lose their balance) ----
+
+  @Test
+  fun legacyCoinsAboveTheStartingBonusAreMigratedIntoGoldOnce() = runTest {
+    val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+    WonderLearnDatabase.Schema.create(driver)
+    val db = WonderLearnDatabase(driver)
+    val dispatcher = UnconfinedTestDispatcher()
+    val profiles = SqlDelightProfileRepository(db, dispatcher)
+    val profile = profiles.createProfile("Legacy Kid")
+    profiles.setActiveProfile(profile.id)
+
+    // Seed pre-split history exactly as the old coin formula read it: 500 XP (= 50 legacy coins
+    // at the old rate of 10 XP/coin) and 15 already spent — both untouched by the split itself.
+    db.wonderLearnQueries.ensureDailyActivity(profile.id, 1)
+    db.wonderLearnQueries.addDailyActivity(0, 500, profile.id, 1)
+    db.wonderLearnQueries.upsertSetting("coins_spent:${profile.id}", "15")
+    // Legacy balance = 500/10 + STARTING_GOLD(20) - 15 = 55; credited once as (55 - 20) = 35 Gold.
+
+    val rewards = SqlDelightRewardsRepository(db, profiles, FakeClock(500), dispatcher)
+    assertEquals(
+      STARTING_GOLD + 35,
+      rewards.gold().first(),
+      "legacy balance above the starting bonus is credited once as Gold",
+    )
+
+    // A fresh repository instance, as happens on every app launch, must not re-credit it.
+    val rewardsAgain = SqlDelightRewardsRepository(db, profiles, FakeClock(500), dispatcher)
+    assertEquals(STARTING_GOLD + 35, rewardsAgain.gold().first(), "the migration must not run twice")
+  }
+
+  @Test
+  fun aProfileWithNoLegacyActivityGetsNoExtraCredit() = runTest {
+    val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+    WonderLearnDatabase.Schema.create(driver)
+    val db = WonderLearnDatabase(driver)
+    val dispatcher = UnconfinedTestDispatcher()
+    val profiles = SqlDelightProfileRepository(db, dispatcher)
+    val profile = profiles.createProfile("Fresh Kid")
+    profiles.setActiveProfile(profile.id)
+
+    val rewards = SqlDelightRewardsRepository(db, profiles, FakeClock(500), dispatcher)
+    assertEquals(STARTING_GOLD, rewards.gold().first(), "no pre-split history means nothing above the starting bonus")
+  }
+
   // ---- Gold ----
 
   @Test
