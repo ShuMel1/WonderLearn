@@ -59,7 +59,6 @@ import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.pressScale
 import com.compose.wonderlearn.ui.theme.Sunny
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -85,7 +84,7 @@ fun AvatarsScreen(
 
   LaunchedEffect(exchangeSucceeded) {
     if (exchangeSucceeded) {
-      launch { runCatching { coinSound.play(Res.readBytes(COIN_SOUND)) } }
+      runCatching { coinSound.play(Res.readBytes(COIN_SOUND)) }
       viewModel.consumeExchangeSucceeded()
     }
   }
