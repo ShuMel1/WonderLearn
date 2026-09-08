@@ -106,6 +106,16 @@ android {
     versionName = "2.0.0"
   }
 
+  // Play rejects any versionCode it has already seen. Track the highest one it has
+  // accepted here, and bump it to match right after each successful Play Console upload —
+  // this then fails loudly, at build time, the next time versionCode above isn't bumped too.
+  val lastPlayVersionCode = 3
+  check(defaultConfig.versionCode!! > lastPlayVersionCode) {
+    "versionCode (${defaultConfig.versionCode}) must be greater than lastPlayVersionCode " +
+      "($lastPlayVersionCode) in composeApp/build.gradle.kts — bump versionCode before " +
+      "building a release AAB for Play."
+  }
+
   buildFeatures {
     buildConfig = true
   }
