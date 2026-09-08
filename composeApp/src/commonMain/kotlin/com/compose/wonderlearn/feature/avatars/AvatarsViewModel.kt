@@ -38,6 +38,9 @@ class AvatarsViewModel(
   private val _exchangeFailed = MutableStateFlow(false)
   val exchangeFailed: StateFlow<Boolean> = _exchangeFailed.asStateFlow()
 
+  private val _exchangeSucceeded = MutableStateFlow(false)
+  val exchangeSucceeded: StateFlow<Boolean> = _exchangeSucceeded.asStateFlow()
+
   // Fires once a newly-*purchased* unlock lands (not one merely switched to, and not a purchase
   // that failed) — the Screen celebrates this, then calls consumeJustUnlocked().
   private val _justUnlocked = MutableStateFlow<String?>(null)
@@ -61,11 +64,19 @@ class AvatarsViewModel(
 
   fun onExchangeClick() {
     viewModelScope.launch {
-      _exchangeFailed.value = !rewards.exchangeGoldForGems()
+      if (rewards.exchangeGoldForGems()) {
+        _exchangeSucceeded.value = true
+      } else {
+        _exchangeFailed.value = true
+      }
     }
   }
 
   fun consumeExchangeFailed() {
     _exchangeFailed.value = false
+  }
+
+  fun consumeExchangeSucceeded() {
+    _exchangeSucceeded.value = false
   }
 }

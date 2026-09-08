@@ -46,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.compose.wonderlearn.audio.AudioPlayer
 import com.compose.wonderlearn.domain.AVATARS
 import com.compose.wonderlearn.domain.AvatarItem
 import com.compose.wonderlearn.domain.GEMS_PER_EXCHANGE
@@ -58,10 +59,12 @@ import com.compose.wonderlearn.ui.WonderTopBar
 import com.compose.wonderlearn.ui.pressScale
 import com.compose.wonderlearn.ui.theme.Sunny
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 private val WornGreen = Color(0xFF35C46A)
+private const val COIN_SOUND = "files/sounds/coin.wav"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,11 +74,20 @@ fun AvatarsScreen(
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
   val exchangeFailed by viewModel.exchangeFailed.collectAsStateWithLifecycle()
+  val exchangeSucceeded by viewModel.exchangeSucceeded.collectAsStateWithLifecycle()
   val justUnlocked by viewModel.justUnlocked.collectAsStateWithLifecycle()
   var pendingPurchase by remember { mutableStateOf<AvatarItem?>(null) }
+  val coinSound = remember { AudioPlayer() }
 
   LaunchedEffect(exchangeFailed) {
     if (exchangeFailed) viewModel.consumeExchangeFailed()
+  }
+
+  LaunchedEffect(exchangeSucceeded) {
+    if (exchangeSucceeded) {
+      launch { runCatching { coinSound.play(Res.readBytes(COIN_SOUND)) } }
+      viewModel.consumeExchangeSucceeded()
+    }
   }
 
   pendingPurchase?.let { avatar ->
